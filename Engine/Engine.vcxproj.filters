@@ -81,13 +81,13 @@
     <ClInclude Include="ButtonState.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="IBoardUpdate.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="IGui.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
@@ -128,10 +128,10 @@
     <ClCompile Include="ButtonState.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="IBoardUpdate.cpp">
+    <ClCompile Include="Menu.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Menu.cpp">
+    <ClCompile Include="Board.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>

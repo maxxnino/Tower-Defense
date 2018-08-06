@@ -25,7 +25,6 @@
 #include "Graphics.h"
 #include "Menu.h"
 #include "Button.h"
-#include "Board.h"
 #include "FrameTimer.h"
 class Game
 {
@@ -46,8 +45,7 @@ private:
 	/********************************/
 	/*  User Variables              */
 	FrameTimer ft;
-	std::shared_ptr<Menu> menu;
-	Board board;
+	std::vector<std::unique_ptr<Menu>> menus;
 	int trackingID = 0;
 	/********************************/
 };

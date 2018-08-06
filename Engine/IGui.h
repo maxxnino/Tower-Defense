@@ -6,17 +6,14 @@
 #include <assert.h>
 #include "Graphics.h"
 #include "Rect.h"
+#include "Mouse.h"
 class IGui
 {
 public:
 	virtual void Draw(Graphics& gfx) const = 0;
-	virtual void Update(float dt) = 0;
+	virtual void Update(float dt, Mouse& mouse) = 0;
 	virtual void AddItem(std::shared_ptr<IGui> item) = 0;
 	virtual void OnNotify() = 0;
-	int GetID()
-	{
-		return ID;
-	}
 	RectF GetRect()
 	{
 		return RectF(pos, width, height);
@@ -25,10 +22,17 @@ public:
 	{
 		return pos;
 	}
+	float GetWidth()
+	{
+		return width;
+	}
+	float GetHeight()
+	{
+		return height;
+	}
 protected:
-	IGui(int id, VecF pos, float width, float height, Color color)
+	IGui(VecF pos, float width, float height, Color color)
 		:
-		ID(id),
 		pos(pos),
 		width(width),
 		height(height),
@@ -39,5 +43,4 @@ protected:
 	float height;
 	Color color;
 private:
-	int ID = -1;
 };

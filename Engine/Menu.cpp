@@ -3,17 +3,34 @@
 void Menu::Draw(Graphics & gfx) const
 {
 	gfx.DrawRectDim((VecI)pos, (int)width,(int)height , color);
-	std::for_each(items.begin(), items.end(), [&gfx](auto& i) { i.second->Draw(gfx); });
+	for (auto i : items)
+	{
+		i->Draw(gfx);
+	}
+	board.Draw(gfx);
 }
 
-void Menu::Update(float dt)
+void Menu::Update(float dt, Mouse& mouse)
 {
-	std::for_each(items.begin(), items.end(), [&dt](auto& i) { i.second->Update(dt); });
+	if (GetRect().isContaint(mouse.GetPos()))
+	{
+		board.ProcessComand(mouse);
+		board.Update();
+	}
+	else
+	{
+		board.Sleep();
+	}
+	for (auto i : items)
+	{
+		i->Update(dt, mouse);
+	}
 }
 
 void Menu::AddItem(std::shared_ptr<IGui> item)
 {
-	items.insert({ item->GetID(), item });
+	items.emplace_back(item);
+	board.Subcribe(item);
 }
 
 void Menu::OnNotify()

@@ -37,7 +37,7 @@ public:
 
 	bool isContaint(Vec2_<T> pos)
 	{
-		return pos.x >= left && pos.x <= right && pos.y >= top && pos.y <= bottom;
+		return pos.x > left && pos.x < right && pos.y > top && pos.y < bottom;
 	}
 	bool isOverLap(const Rect_<T> & rect) const
 	{

@@ -5,7 +5,7 @@ void Button::Draw(Graphics & gfx) const
 	gfx.DrawRectDim((VecI)pos, (int)width, (int)height, color);
 }
 
-void Button::Update(float dt)
+void Button::Update(float dt, Mouse& mouse)
 {
 	btnState->Update(dt, this);
 }

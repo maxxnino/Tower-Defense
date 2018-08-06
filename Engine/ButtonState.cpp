@@ -1,6 +1,6 @@
 #include "ButtonState.h"
 #include "Button.h"
-void OnClickState::Update(float dt, Button * btn)
+void BtnClickState::Update(float dt, Button * btn)
 {
 	btn->color = Colors::Green;
 	btn->timer += dt;
@@ -12,15 +12,15 @@ void OnClickState::Update(float dt, Button * btn)
 	}
 }
 
-void OnClickState::WakeUp(Button * btn)
+void BtnClickState::WakeUp(Button * btn)
 {
 }
 
-void SleepState::Update(float dt, Button * btn)
+void BtnSleepState::Update(float dt, Button * btn)
 {
 }
 
-void SleepState::WakeUp(Button * btn)
+void BtnSleepState::WakeUp(Button * btn)
 {
 	btn->WakeUp();
 }

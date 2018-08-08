@@ -90,6 +90,9 @@
     <ClInclude Include="Tile.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="MenuManager.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">

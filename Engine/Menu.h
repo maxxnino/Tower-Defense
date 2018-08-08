@@ -10,7 +10,8 @@ public:
 		board(pos, width, height)
 	{}
 	void Draw(Graphics& gfx) const override;
-	void Update(float dt, Mouse& mouse) override;
+	void Update(float dt) override;
+	void ProccessCommand(Mouse& mouse) override;
 	void AddItem(std::shared_ptr<IGui> item) override;
 	void OnNotify() override;
 	

@@ -23,9 +23,8 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
-#include "Menu.h"
-#include "Button.h"
 #include "FrameTimer.h"
+#include "MenuManager.h"
 class Game
 {
 public:
@@ -45,7 +44,6 @@ private:
 	/********************************/
 	/*  User Variables              */
 	FrameTimer ft;
-	std::vector<std::unique_ptr<Menu>> menus;
-	int trackingID = 0;
+	MenuManager gui;
 	/********************************/
 };

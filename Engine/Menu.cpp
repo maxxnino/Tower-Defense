@@ -7,24 +7,21 @@ void Menu::Draw(Graphics & gfx) const
 	{
 		i->Draw(gfx);
 	}
-	board.Draw(gfx);
+	//board.Draw(gfx);
 }
 
-void Menu::Update(float dt, Mouse& mouse)
+void Menu::Update(float dt)
 {
-	if (GetRect().isContaint(mouse.GetPos()))
-	{
-		board.ProcessComand(mouse);
-		board.Update();
-	}
-	else
-	{
-		board.Sleep();
-	}
 	for (auto i : items)
 	{
-		i->Update(dt, mouse);
+		i->Update(dt);
 	}
+}
+
+void Menu::ProccessCommand(Mouse & mouse)
+{
+	board.ProcessComand(mouse);
+	//board.Update();
 }
 
 void Menu::AddItem(std::shared_ptr<IGui> item)
@@ -35,5 +32,4 @@ void Menu::AddItem(std::shared_ptr<IGui> item)
 
 void Menu::OnNotify()
 {
-	
 }

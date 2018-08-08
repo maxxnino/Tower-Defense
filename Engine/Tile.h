@@ -3,7 +3,8 @@
 #include "Rect.h"
 #include "Graphics.h"
 #include "IGui.h"
-class Tile
+template <typename T>
+class _Tile
 {
 public:
 	void NotifyAll(VecI mousePos)
@@ -16,11 +17,11 @@ public:
 			}
 		}
 	}
-	void Subcribe(std::shared_ptr<IGui> sub)
+	void Subcribe(std::shared_ptr<T> sub)
 	{
 		observers.insert(sub);
 	}
-	void UnSubcribe(std::shared_ptr<IGui> sub)
+	void UnSubcribe(std::shared_ptr<T> sub)
 	{
 		observers.erase(sub);
 	}
@@ -37,6 +38,8 @@ public:
 		gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, c);
 	}
 private:
-	std::unordered_set<std::shared_ptr<IGui>> observers;
+	std::unordered_set<std::shared_ptr<T>> observers;
 	Color c = Colors::Blue;
 };
+
+typedef _Tile<IGui> Tile;

@@ -78,10 +78,9 @@ public:
 	{
 		auto menu = std::make_shared<Menu>(Menu(menuPos, menuW, menuH, Colors::Cyan));
 		menus.emplace_back(menu);
-		rects.emplace(++tracker, menu->GetRect());
+		rects.emplace((int)menus.size() - 1, menu->GetRect());
 	}
 private:
 	std::vector<std::shared_ptr<Menu>> menus;
 	std::unordered_map<int, RectF> rects;
-	int tracker = -1;
 };

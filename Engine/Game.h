@@ -45,5 +45,6 @@ private:
 	/*  User Variables              */
 	FrameTimer ft;
 	MenuManager gui;
+	Board brdGame;
 	/********************************/
 };

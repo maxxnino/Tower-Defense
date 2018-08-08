@@ -162,7 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\menu\Engine\FrameTimer.cpp" />
-    <ClCompile Include="Board.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonState.cpp" />
     <ClCompile Include="COMInitializer.cpp" />

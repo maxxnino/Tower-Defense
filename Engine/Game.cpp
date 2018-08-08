@@ -24,7 +24,8 @@
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd )
+	gfx( wnd ),
+	brdGame({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight)
 {
 	
 }
@@ -41,9 +42,13 @@ void Game::UpdateModel()
 {
 	const float dt = ft.Mark();
 	gui.Update(dt, wnd.mouse);
+	brdGame.ProcessComand(wnd.mouse);
+	brdGame.Update();
 }
 
 void Game::ComposeFrame()
 {
+	brdGame.Draw(gfx);
 	gui.Draw(gfx);
+
 }

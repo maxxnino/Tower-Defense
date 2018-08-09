@@ -9,25 +9,18 @@ public:
 		IGui(pos, width, height, color)
 	{}
 	void Draw(Graphics& gfx) const override;
-	void ProccessCommand(Mouse& mouse) override;
-	void Update(float dt) override;
+	void Update(float dt, Mouse& mouse) override;
 	void AddItem(std::shared_ptr<IGui> item) override {}
-	void OnNotify() override;
-private:
-	void WakeUp()
-	{
-		btnState = &clickedState;
-	}
-	void Sleep()
-	{
-		btnState = &sleepState;
-	}
+	void MouseClick() override;
+	void MouseLeave() override;
+	void MouseIn() override;
 private:
 	friend BtnClickState;
 	friend BtnSleepState;
+	friend BtnMouseHoverState;
 	BtnClickState clickedState;
 	BtnSleepState sleepState;
+	BtnMouseHoverState hoverState;
 	ButtonState* btnState = &sleepState;
-	bool isClicked = false;
 	float timer = 0.0f;
 };

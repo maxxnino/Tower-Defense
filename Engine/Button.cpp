@@ -5,16 +5,22 @@ void Button::Draw(Graphics & gfx) const
 	gfx.DrawRectDim((VecI)pos, (int)width, (int)height, color);
 }
 
-void Button::ProccessCommand(Mouse & mouse)
+void Button::Update(float dt, Mouse& mouse)
 {
+	btnState->Update(dt, this, mouse);
 }
 
-void Button::Update(float dt)
+void Button::MouseClick()
 {
-	btnState->Update(dt, this);
+	btnState->MouseClick(this);
 }
 
-void Button::OnNotify()
+void Button::MouseLeave()
 {
-	btnState->WakeUp(this);
+	btnState->MouseLeave(this);
+}
+
+void Button::MouseIn()
+{
+	btnState->MouseIn(this);
 }

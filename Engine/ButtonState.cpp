@@ -1,26 +1,39 @@
 #include "ButtonState.h"
 #include "Button.h"
-void BtnClickState::Update(float dt, Button * btn)
+
+void BtnClickState::Update(float dt, Button * btn, Mouse& mouse)
 {
-	btn->color = Colors::Green;
 	btn->timer += dt;
 	if (btn->timer >= 1.0f)
 	{
 		btn->timer = 0.0f;
-		btn->color = Colors::Red;
-		btn->Sleep();	
+		if (btn->GetRect().isContaint(mouse.GetPos()))
+		{
+			btn->color = Colors::Yellow;
+			btn->btnState = &btn->hoverState;
+		}
+		else
+		{
+			btn->color = Colors::Red;
+			btn->btnState = &btn->sleepState;
+		}
 	}
 }
 
-void BtnClickState::WakeUp(Button * btn)
+void BtnSleepState::MouseIn(Button * btn)
 {
+	btn->color = Colors::Yellow;
+	btn->btnState = &btn->hoverState;
 }
 
-void BtnSleepState::Update(float dt, Button * btn)
+void BtnMouseHoverState::MouseClick(Button * btn)
 {
+	btn->color = Colors::Green;
+	btn->btnState = &btn->clickedState;
 }
 
-void BtnSleepState::WakeUp(Button * btn)
+void BtnMouseHoverState::MouseLeave(Button * btn)
 {
-	btn->WakeUp();
+	btn->color = Colors::Red;
+	btn->btnState = &btn->sleepState;
 }

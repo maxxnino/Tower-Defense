@@ -3,27 +3,38 @@
 #include "Rect.h"
 #include "Graphics.h"
 #include "IGui.h"
-template <typename T>
+#include "Mouse.h"
+template <typename Entity>
 class _Tile
 {
 public:
-	void NotifyAll(VecI mousePos)
+	void MouseClick(const VecI& mousePos)
 	{
-		for (auto o : observers)
+		for (auto i : items)
 		{
-			if (o->GetRect().isContaint(mousePos))
+			if (i->GetRect().isContaint(mousePos))
 			{
-				o->OnNotify();
+				i->MouseClick();
 			}
 		}
 	}
-	void Subcribe(std::shared_ptr<T> sub)
+	void MouseMove(const VecI& mousePos)
 	{
-		observers.insert(sub);
+		for (auto i : items)
+		{
+			if (i->GetRect().isContaint(mousePos))
+			{
+				i->MouseIn();
+			}
+			else
+			{
+				i->MouseLeave();
+			}
+		}
 	}
-	void UnSubcribe(std::shared_ptr<T> sub)
+	void AddItem(std::shared_ptr<Entity> sub)
 	{
-		observers.erase(sub);
+		items.emplace_back(sub);
 	}
 	void Awake()
 	{
@@ -38,8 +49,6 @@ public:
 		gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, c);
 	}
 private:
-	std::unordered_set<std::shared_ptr<T>> observers;
+	std::vector<std::shared_ptr<Entity>> items;
 	Color c = Colors::Blue;
 };
-
-typedef _Tile<IGui> Tile;

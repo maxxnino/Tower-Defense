@@ -7,29 +7,17 @@ void Menu::Draw(Graphics & gfx) const
 	{
 		i->Draw(gfx);
 	}
-	//board.Draw(gfx);
 }
 
-void Menu::Update(float dt)
+void Menu::Update(float dt, Mouse& mouse)
 {
 	for (auto i : items)
 	{
-		i->Update(dt);
+		i->Update(dt, mouse);
 	}
-}
-
-void Menu::ProccessCommand(Mouse & mouse)
-{
-	board.ProcessComand(mouse);
-	//board.Update();
 }
 
 void Menu::AddItem(std::shared_ptr<IGui> item)
 {
 	items.emplace_back(item);
-	board.Subcribe(item);
-}
-
-void Menu::OnNotify()
-{
 }

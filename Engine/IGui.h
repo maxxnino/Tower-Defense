@@ -11,10 +11,11 @@ class IGui
 {
 public:
 	virtual void Draw(Graphics& gfx) const = 0;
-	virtual void ProccessCommand(Mouse& mouse) = 0;
-	virtual void Update(float dt) = 0;
+	virtual void Update(float dt, Mouse& mouse) = 0;
 	virtual void AddItem(std::shared_ptr<IGui> item) = 0;
-	virtual void OnNotify() = 0;
+	virtual void MouseClick() = 0;
+	virtual void MouseLeave() = 0;
+	virtual void MouseIn() = 0;
 	RectF GetRect()
 	{
 		return RectF(pos, width, height);

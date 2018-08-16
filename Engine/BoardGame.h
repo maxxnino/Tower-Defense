@@ -3,7 +3,7 @@
 #include <memory>
 #include "WalkableTile.h"
 #include "BuildableTile.h"
-#include "Mouse.h"
+#include "MouseGame.h"
 #include "Tower.h"
 #include "ContactListener.h"
 class BoardGame
@@ -52,13 +52,13 @@ public:
 	{
 		
 	}
-	void ProcessComand(Mouse& mouse)
+	void ProcessComand(MouseGame& mouse)
 	{
-		const VecI mousePos = mouse.GetPos();
+		const VecI mousePos = mouse.getPos();
 		curTile = (mousePos.x - (int)pos.x) / width + ((mousePos.y - (int)pos.y) / height) * nWidth;
-		while (!mouse.IsEmpty())
+		while (!mouse.isEmpty())
 		{
-			const auto e = mouse.Read().GetType();
+			const auto e = mouse.getMouseEventForGame();
 			switch (e)
 			{
 			case Mouse::Event::Type::LPress:

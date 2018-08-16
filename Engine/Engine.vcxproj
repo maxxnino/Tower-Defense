@@ -143,6 +143,7 @@
     <ClInclude Include="BoardGame.h" />
     <ClInclude Include="BuildableTile.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonListener.h" />
     <ClInclude Include="ButtonState.h" />
     <ClInclude Include="ChiliException.h" />
     <ClInclude Include="ChiliWin.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="MenuManager.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="MouseCommand.h" />
+    <ClInclude Include="MouseGame.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundEffect.h" />

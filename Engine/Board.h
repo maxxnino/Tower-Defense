@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Mouse.h"
+#include "MouseGame.h"
 #include "Tile.h"
 class Board
 {
@@ -44,20 +44,20 @@ public:
 			}
 		}
 	}
-	void ProcessComand(Mouse& mouse)
+	void ProcessComand(MouseGame& mouse)
 	{
-		const VecI mousePos = mouse.GetPos();
+		const VecI mousePos = mouse.getPos();
 		curTile = (mousePos.x - (int)pos.x) / width + ((mousePos.y - (int)pos.y) / height) * nWidth;
-		while (!mouse.IsEmpty())
+		while (!mouse.GetPassOver())
 		{
-			const auto e = mouse.Read().GetType();
+			const auto e = mouse.getMouseEventForGUI();
 			switch (e)
 			{
 			case Mouse::Event::Type::LPress:
-				MouseClick(mousePos);
+				MouseClick(mousePos, mouse);
 				break;
 			case Mouse::Event::Type::Move:
-				MouseMove(mousePos);
+				MouseMove(mousePos, mouse);
 				break;
 			default:
 				break;
@@ -73,33 +73,51 @@ public:
 		return tiles[w + h * nWidth];
 	}
 private:
-	inline void MouseMove(const VecI& mousePos) noexcept
+	inline void MouseMove(const VecI& mousePos, MouseGame& mouse) noexcept
 	{
+		bool passOver = true;
 		if (prevTile != -1)
 		{
 			if (curTile != prevTile)
 			{
-				tiles.at(curTile).MouseMove(mousePos);
-				tiles.at(prevTile).MouseMove(mousePos);
+				tiles.at(prevTile).MouseMove(mousePos, mouse, passOver);
+				tiles.at(curTile).MouseMove(mousePos, mouse, passOver);
 				tiles[curTile].Awake();
 				tiles[prevTile].Sleep();
 				prevTile = curTile;
 			}
 			else
 			{
-				tiles.at(curTile).MouseMove(mousePos);
+				tiles.at(curTile).MouseMove(mousePos, mouse, passOver);
 			}
 		}
 		else
 		{
-			tiles.at(curTile).MouseMove(mousePos);
+			tiles.at(curTile).MouseMove(mousePos, mouse, passOver);
 			prevTile = curTile;
 			tiles[curTile].Awake();
 		}
+		if (passOver)
+		{
+			mouse.PassOver();
+		}
+		else
+		{
+			mouse.EatLastComand();
+		}
 	}
-	inline void MouseClick(const VecI& mousePos) noexcept
+	inline void MouseClick(const VecI& mousePos, MouseGame& mouse) noexcept
 	{
-		tiles.at(curTile).MouseClick(mousePos);
+		bool passOver = true;
+		tiles.at(curTile).MouseClick(mousePos, mouse, passOver);
+		if (passOver)
+		{
+			mouse.PassOver();
+		}
+		else
+		{
+			mouse.EatLastComand();
+		}
 	}
 private:
 	static constexpr int width = 40;

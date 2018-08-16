@@ -3,33 +3,34 @@
 #include "Rect.h"
 #include "Graphics.h"
 #include "IGui.h"
-#include "Mouse.h"
+#include "MouseGame.h"
 class Tile
 {
 public:
-	void MouseClick(const VecI& mousePos)
+	void MouseClick(const VecI& mousePos, MouseGame& mouse, bool& passOver)
 	{
-		bool isPassOver = true;
 		for (auto i : items)
 		{
 			if (i->GetRect().isContaint(mousePos))
 			{
 				i->MouseClick();
-				isPassOver = false;
+				passOver = false;
 			}
 		}
 	}
-	void MouseMove(const VecI& mousePos)
+	void MouseMove(const VecI& mousePos, MouseGame& mouse, bool& passOver)
 	{
 		for (auto i : items)
 		{
 			if (i->GetRect().isContaint(mousePos))
 			{
 				i->MouseIn();
+				passOver = false;
 			}
 			else
 			{
 				i->MouseLeave();
+				passOver = true;
 			}
 		}
 	}

@@ -2,39 +2,30 @@
 #include "Menu.h"
 #include "Button.h"
 #include "Board.h"
+#include "MouseCommand.h"
+#include "MouseGame.h"
 #include <algorithm>
 class MenuManager
 {
 public:
-	MenuManager()
+	MenuManager(MouseCommand* newMc)
 		:
+		mc(newMc),
 		brdGUI({ 0.0f,0.0f }, (float)Graphics::ScreenWidth, (float)Graphics::ScreenHeight)
 	{
 		//bottom menu
 		{
 			const VecF menuPos = { 100.0f,500.0f };
 			MakeMenu(menuPos, 600.0f, 75.0f);
-			AddVerticalButton(menuPos, 5, 70.0f, 7.0f, 100.0f, 60.0f, 60.0f);
-		}
-		//left menu
-		{
-			const VecF menuPos = { 100.0f,50.0f };
-			MakeMenu(menuPos, 75.0f, 400.0f);
-			AddHorizontalButton(menuPos, 3, 7.0f, 70.0f, 100.0f, 60.0f, 60.0f);
-		}
-		//right menu
-		{
-			const VecF menuPos = { 650.0f,50.0f };
-			MakeMenu(menuPos, 75.0f, 400.0f);
-			AddHorizontalButton(menuPos, 3, 7.0f, 70.0f, 100.0f, 60.0f, 60.0f);
+			AddVerticalButton(menuPos, 3, 70.0f, 7.0f, 100.0f, 60.0f, 60.0f);
 		}
 	}
-	void Update(float dt, Mouse& mouse)
+	void Update(float dt, MouseGame& mouse)
 	{
 		brdGUI.ProcessComand(mouse);
 		for (auto& m : menus)
 		{
-			m->Update(dt,mouse);
+			m->Update(dt,mouse.getMouse());
 		}
 	}
 	void Draw(Graphics& gfx) const
@@ -56,6 +47,8 @@ private:
 		for (int i = 0; i < nBtn; i++)
 		{
 			auto b = std::make_shared<Button>(menuPos + VecF(paddingLeft + (float)i * spaceBetweenBtn, paddingTop), btwWidth, btnHeight, Colors::Red);
+			b->addDataButton(i + 1);
+			b->addBtnListener(mc);
 			menus.back()->AddItem(b);
 			brdGUI.AddItem(b);
 		}
@@ -72,4 +65,5 @@ private:
 private:
 	std::vector<std::shared_ptr<Menu>> menus;
 	Board brdGUI;
+	MouseCommand* mc;
 };

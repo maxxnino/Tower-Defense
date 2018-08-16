@@ -28,6 +28,9 @@
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{33cb91dc-4910-4faa-ab87-f1dc68777e48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Control">
+      <UniqueIdentifier>{ac4846d5-447e-4494-91b0-3ee005e072f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChiliWin.h">
@@ -120,6 +123,12 @@
     <ClInclude Include="MouseCommand.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="ButtonListener.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseGame.h">
+      <Filter>Header Files\Control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">
@@ -162,10 +171,10 @@
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="ContactListener.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Tower.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

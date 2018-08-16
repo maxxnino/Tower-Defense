@@ -7,6 +7,7 @@
 #include "Graphics.h"
 #include "Rect.h"
 #include "Mouse.h"
+#include "MouseCommand.h"
 class IGui
 {
 public:
@@ -32,6 +33,8 @@ public:
 	{
 		return height;
 	}
+	void addBtnListener(MouseCommand* newBtnListener) { btnListener = newBtnListener;}
+	void addDataButton(int newDataBtn) { dataBtn = newDataBtn; }
 protected:
 	IGui(VecF pos, float width, float height, Color color)
 		:
@@ -44,5 +47,7 @@ protected:
 	float width;
 	float height;
 	Color color;
+	int dataBtn = 0;
+	MouseCommand* btnListener = nullptr;
 private:
 };

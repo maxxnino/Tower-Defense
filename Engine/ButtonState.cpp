@@ -29,6 +29,7 @@ void BtnSleepState::MouseIn(Button * btn)
 void BtnMouseHoverState::MouseClick(Button * btn)
 {
 	btn->color = Colors::Green;
+	btn->btnListener->SetType(btn->dataBtn);
 	btn->btnState = &btn->clickedState;
 }
 

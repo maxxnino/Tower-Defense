@@ -25,6 +25,11 @@
 #include "Graphics.h"
 #include "FrameTimer.h"
 #include "MenuManager.h"
+#include "BoardGame.h"
+#include "Tower.h"
+#include "ContactListener.h"
+#include "MouseCommand.h"
+#include <random>
 class Game
 {
 public:
@@ -45,5 +50,10 @@ private:
 	/*  User Variables              */
 	FrameTimer ft;
 	MenuManager gui;
+	BoardGame brd;
+	std::vector<std::shared_ptr<Tower>> towerManager;
+	ContactListener myListener;
+	MouseCommand mc;
+	std::mt19937 rng = std::mt19937(std::random_device{}());
 	/********************************/
 };

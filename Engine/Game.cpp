@@ -24,9 +24,11 @@
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd )
+	gfx( wnd ),
+	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight)
 {
-	
+	myListener.AddMouseCommand(&mc);
+	brd.AddListener(&myListener);
 }
 
 void Game::Go()
@@ -40,11 +42,14 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	const float dt = ft.Mark();
-	gui.Update(dt, wnd.mouse);
+	//gui.Update(dt, wnd.mouse);
+	std::uniform_int_distribution<int> tower(1, 3);
+	mc.SetType(tower(rng));
+	brd.ProcessComand(wnd.mouse);
 }
 
 void Game::ComposeFrame()
 {
-	gui.Draw(gfx);
-
+	//gui.Draw(gfx);
+	brd.Draw(gfx);
 }

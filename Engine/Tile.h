@@ -4,17 +4,18 @@
 #include "Graphics.h"
 #include "IGui.h"
 #include "Mouse.h"
-template <typename Entity>
-class _Tile
+class Tile
 {
 public:
 	void MouseClick(const VecI& mousePos)
 	{
+		bool isPassOver = true;
 		for (auto i : items)
 		{
 			if (i->GetRect().isContaint(mousePos))
 			{
 				i->MouseClick();
+				isPassOver = false;
 			}
 		}
 	}
@@ -32,7 +33,7 @@ public:
 			}
 		}
 	}
-	void AddItem(std::shared_ptr<Entity> sub)
+	void AddItem(std::shared_ptr<IGui> sub)
 	{
 		items.emplace_back(sub);
 	}
@@ -49,6 +50,6 @@ public:
 		gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, c);
 	}
 private:
-	std::vector<std::shared_ptr<Entity>> items;
+	std::vector<std::shared_ptr<IGui>> items;
 	Color c = Colors::Blue;
 };

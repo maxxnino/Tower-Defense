@@ -44,6 +44,7 @@ public:
 			m->Draw(gfx);
 		}
 	}
+private:
 	void MakeMenu(VecF menuPos, float menuW, float menuH)
 	{
 		auto menu = std::make_shared<Menu>(Menu(menuPos, menuW, menuH, Colors::Cyan));
@@ -70,5 +71,5 @@ public:
 	}
 private:
 	std::vector<std::shared_ptr<Menu>> menus;
-	BoardGUI brdGUI;
+	Board brdGUI;
 };

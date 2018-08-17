@@ -11,17 +11,6 @@ public:
 	virtual void MouseClick(const VecI& mousePos, Listener* listener) = 0;
 	void MouseMove(const VecI& mousePos)
 	{
-		/*for (auto i : items)
-		{
-			if (i->GetRect().isContaint(mousePos))
-			{
-				i->MouseIn();
-			}
-			else
-			{
-				i->MouseLeave();
-			}
-		}*/
 	}
 	virtual void AddEntity(std::shared_ptr<Tower>) = 0;
 	void Awake()

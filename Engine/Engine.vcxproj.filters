@@ -28,9 +28,6 @@
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{33cb91dc-4910-4faa-ab87-f1dc68777e48}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Control">
-      <UniqueIdentifier>{ac4846d5-447e-4494-91b0-3ee005e072f9}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChiliWin.h">
@@ -118,7 +115,7 @@
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="Listener.h">
-      <Filter>Header Files\Control</Filter>
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,7 +159,7 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Listener.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

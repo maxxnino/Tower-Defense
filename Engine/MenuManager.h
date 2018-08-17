@@ -9,14 +9,19 @@ class MenuManager
 public:
 	MenuManager(ButtonListener* btnListener)
 		:
-		btnListener(btnListener)
+		btnListener(btnListener),
+		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::Cyan),
+		mainMenuBtn01(VecF(100.0f + 150.0f , 500.0f + 7.0f), 60.0f, 60.0f, Colors::Red),
+		mainMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::Red),
+		mainMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::Red)
 	{
-		//bottom menu
-		{
-			const VecF menuPos = { 100.0f,500.0f };
-			MakeMenu(menuPos, 600.0f, 75.0f);
-			AddVerticalButton(menuPos, 3, 150.0f, 7.0f, 100.0f, 60.0f, 60.0f);
-		}
+		mainMenu.AddItem(&mainMenuBtn01,1, btnListener);
+
+		mainMenu.AddItem(&mainMenuBtn02, 2, btnListener);
+
+		mainMenu.AddItem(&mainMenuBtn03, 3, btnListener);
+
+		menus.emplace_back(&mainMenu);
 	}
 	void Update(float dt, Mouse& mouse)
 	{
@@ -51,7 +56,7 @@ public:
 		return btnListener->getData();
 	}
 private:
-	void MakeMenu(VecF menuPos, float menuW, float menuH)
+	/*void MakeMenu(VecF menuPos, float menuW, float menuH)
 	{
 		auto menu = std::make_shared<Menu>(Menu(menuPos, menuW, menuH, Colors::Cyan));
 		menus.emplace_back(menu);
@@ -73,8 +78,13 @@ private:
 			auto b = std::make_shared<Button>(menuPos + VecF(paddingLeft, paddingTop + (float)i * spaceBetweenBtn), btwWidth, btnHeight, Colors::Red);
 			menus.back()->AddItem(b);
 		}
-	}
+	}*/
 private:
-	std::vector<std::shared_ptr<Menu>> menus;
+	std::vector<Menu*> menus;
 	ButtonListener* btnListener;
+	//Make main menu and button
+	Menu mainMenu;
+	Button mainMenuBtn01;
+	Button mainMenuBtn02;
+	Button mainMenuBtn03;
 };

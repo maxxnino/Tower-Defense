@@ -52,7 +52,12 @@ public:
 			mouse.Read();
 		}
 	}
-	void AddItem(std::shared_ptr<MenuItem> item) { items.emplace_back(item); }
+	void AddItem(MenuItem* item, int data, Listener* listener) 
+	{ 
+		items.emplace_back(item);
+		item->setData(data);
+		item->addListener(listener);
+	}
 	RectF GetRect() { return RectF(pos, width, height); }
 	VecF GetPos() { return pos; }
 	float GetWidth() { return width; }
@@ -62,5 +67,5 @@ private:
 	float width;
 	float height;
 	Color color;
-	std::vector<std::shared_ptr<MenuItem>> items;
+	std::vector<MenuItem*> items;
 };

@@ -1,22 +1,17 @@
 #pragma once
-#include <vector>
-#include <unordered_map>
-#include <algorithm>
 #include <memory>
 #include <assert.h>
 #include "Graphics.h"
 #include "Rect.h"
 #include "Mouse.h"
-#include "MouseCommand.h"
-class IGui
+#include "Listener.h"
+class MenuItem
 {
 public:
 	virtual void Draw(Graphics& gfx) const = 0;
 	virtual void Update(float dt, Mouse& mouse) = 0;
-	virtual void AddItem(std::shared_ptr<IGui> item) = 0;
-	virtual void MouseClick() = 0;
 	virtual void MouseLeave() = 0;
-	virtual void MouseIn() = 0;
+	virtual void MouseIn(Mouse& mouse) = 0;
 	RectF GetRect()
 	{
 		return RectF(pos, width, height);
@@ -33,10 +28,11 @@ public:
 	{
 		return height;
 	}
-	void addBtnListener(MouseCommand* newBtnListener) { btnListener = newBtnListener;}
-	void addDataButton(int newDataBtn) { dataBtn = newDataBtn; }
+	int getData() { return data; }
+	void addListener(Listener* newlistener) { listener = newlistener; }
+	void setData(int newdata) { data = newdata; }
 protected:
-	IGui(VecF pos, float width, float height, Color color)
+	MenuItem(VecF pos, float width, float height, Color color)
 		:
 		pos(pos),
 		width(width),
@@ -47,7 +43,7 @@ protected:
 	float width;
 	float height;
 	Color color;
-	int dataBtn = 0;
-	MouseCommand* btnListener = nullptr;
+	int data = 0;
+	Listener* listener = nullptr;
 private:
 };

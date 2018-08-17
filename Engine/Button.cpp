@@ -10,17 +10,12 @@ void Button::Update(float dt, Mouse& mouse)
 	btnState->Update(dt, this, mouse);
 }
 
-void Button::MouseClick()
-{
-	btnState->MouseClick(this);
-}
-
 void Button::MouseLeave()
 {
 	btnState->MouseLeave(this);
 }
 
-void Button::MouseIn()
+void Button::MouseIn(Mouse& mouse)
 {
-	btnState->MouseIn(this);
+	btnState->MouseIn(this, mouse);
 }

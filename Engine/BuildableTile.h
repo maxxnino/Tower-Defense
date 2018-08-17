@@ -28,16 +28,10 @@ public:
 		auto newTower = myTower->Upgrade(typeID);
 		myTower = newTower;
 	}
-	void MouseClick(const VecI& mousePos, ContactListener* listener) override
+	void MouseClick(const VecI& mousePos, Listener* listener) override
 	{
-		if (!myTower)
-		{
-			myTower = std::make_shared<Tower>(Colors::Red);
-		}
-		else
-		{
-			listener->OnClick(this);
-		}
+		auto newTower = myTower->Upgrade(listener->getData());
+		myTower = newTower;
 	}
 	void AddEntity(std::shared_ptr<Tower> tower) override
 	{

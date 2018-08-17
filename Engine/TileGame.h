@@ -4,11 +4,11 @@
 #include "Vec2.h"
 #include "Graphics.h"
 #include "Tower.h"
-#include "ContactListener.h"
+#include "Listener.h"
 class TileGame
 {
 public:
-	virtual void MouseClick(const VecI& mousePos,ContactListener* listener) = 0;
+	virtual void MouseClick(const VecI& mousePos, Listener* listener) = 0;
 	void MouseMove(const VecI& mousePos)
 	{
 		/*for (auto i : items)

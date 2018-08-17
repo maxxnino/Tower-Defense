@@ -3,9 +3,9 @@
 #include <memory>
 #include "WalkableTile.h"
 #include "BuildableTile.h"
-#include "MouseGame.h"
 #include "Tower.h"
-#include "ContactListener.h"
+#include "Listener.h"
+#include <random>
 class BoardGame
 {
 public:
@@ -17,11 +17,12 @@ public:
 		const int b = ((int)menuH % height >= 1) ? 1 : 0;
 		nWidth = r + (int)menuW / width;
 		nHeight = b + (int)menuH / height;
+		std::uniform_int_distribution<int> seed(0, 1);
 		for (size_t y = 0; y < nHeight; y++)
 		{
 			for (size_t x = 0; x < nWidth; x++)
 			{
-				if ((x % 2) == 0)
+				if (seed(rng) == 1)
 				{
 					tiles.emplace_back(std::make_unique<BuildableTile>());
 				}
@@ -29,7 +30,6 @@ public:
 				{
 					tiles.emplace_back(std::make_unique<WalkableTile>());
 				}
-				
 			}
 		}
 	}
@@ -44,7 +44,7 @@ public:
 			}
 		}
 	}
-	void AddListener(ContactListener* newListener)
+	void AddListener(Listener* newListener)
 	{
 		listener = newListener;
 	}
@@ -52,13 +52,13 @@ public:
 	{
 		
 	}
-	void ProcessComand(MouseGame& mouse)
+	void ProcessComand(Mouse& mouse)
 	{
-		const VecI mousePos = mouse.getPos();
+		const VecI mousePos = mouse.GetPos();
 		curTile = (mousePos.x - (int)pos.x) / width + ((mousePos.y - (int)pos.y) / height) * nWidth;
-		while (!mouse.isEmpty())
+		while (!mouse.IsEmpty())
 		{
-			const auto e = mouse.getMouseEventForGame();
+			const auto e = mouse.Read().GetType();
 			switch (e)
 			{
 			case Mouse::Event::Type::LPress:
@@ -115,8 +115,9 @@ private:
 	int nWidth = -1;
 	int nHeight = -1;
 	VecF pos;
+	std::mt19937 rng = std::mt19937(std::random_device{}());
 	std::vector<std::unique_ptr<TileGame>> tiles;
 	int prevTile = -1;
 	int curTile = -1;
-	ContactListener* listener = nullptr;
+	Listener* listener = nullptr;
 };

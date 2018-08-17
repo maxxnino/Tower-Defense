@@ -27,10 +27,7 @@
 #include "MenuManager.h"
 #include "BoardGame.h"
 #include "Tower.h"
-#include "ContactListener.h"
-#include "MouseCommand.h"
-#include "MouseGame.h"
-#include <random>
+#include "Listener.h"
 class Game
 {
 public:
@@ -50,12 +47,9 @@ private:
 	/********************************/
 	/*  User Variables              */
 	FrameTimer ft;
-	MouseGame mouseGame;
-	ContactListener myListener;
-	MouseCommand mc;
 	MenuManager gui;
 	BoardGame brd;
 	std::vector<std::shared_ptr<Tower>> towerManager;
-	
+	ButtonListener btnListener;
 	/********************************/
 };

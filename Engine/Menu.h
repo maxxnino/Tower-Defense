@@ -2,7 +2,9 @@
 #include "Colors.h"
 #include "Board.h"
 #include "MenuItem.h"
-class Menu
+#include "Observer.h"
+#include "MouseState.h"
+class Menu : public Observer, public IObervable
 {
 public:
 	Menu(VecF pos, float width, float height, Color color)
@@ -20,6 +22,7 @@ public:
 			i->Draw(gfx);
 		}
 	}
+	void OnNotify(void* datauser) override {};
 	void Update(float dt, Mouse& mouse)
 	{
 		for (auto i : items)
@@ -34,7 +37,7 @@ public:
 			i->MouseLeave();
 		}
 	}
-	void ProcessCommand(Mouse& mouse)
+	void ProcessCommand(Mouse& mouse, MouseState& mouseTower)
 	{
 		for (auto i : items)
 		{
@@ -49,14 +52,29 @@ public:
 		}
 		while (!mouse.IsEmpty())
 		{
-			mouse.Read();
+			if (mouse.Read().GetType() == Mouse::Event::Type::RPress)
+			{
+				mouseTower.data = 0;
+			}
 		}
 	}
-	void AddItem(MenuItem* item, int data, Listener* listener) 
+	void AddItem(MenuItem* item, int data, IObervable* obs) 
 	{ 
 		items.emplace_back(item);
 		item->setData(data);
-		item->addListener(listener);
+		item->AddObs(obs);
+	}
+	void AddItem(MenuItem* item, int data)
+	{
+		items.emplace_back(item);
+		item->setData(data);
+	}
+	void ResetItem()
+	{
+		for (auto i : items)
+		{
+			i->ResetState();
+		}
 	}
 	RectF GetRect() { return RectF(pos, width, height); }
 	VecF GetPos() { return pos; }

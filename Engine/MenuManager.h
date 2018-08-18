@@ -2,58 +2,79 @@
 #include "Menu.h"
 #include "Button.h"
 #include "Board.h"
-#include "Listener.h"
+#include "Observer.h"
 #include <algorithm>
-class MenuManager
+#include "MouseState.h"
+class MenuManager : public Observer, public IObervable
 {
 public:
-	MenuManager(ButtonListener* btnListener)
+	MenuManager()
 		:
-		btnListener(btnListener),
 		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::Cyan),
-		mainMenuBtn01(VecF(100.0f + 150.0f , 500.0f + 7.0f), 60.0f, 60.0f, Colors::Red),
-		mainMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::Red),
-		mainMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::Red)
+		mainMenuBtn01(VecF(100.0f + 150.0f , 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(255u, 80u, 0u)),
+		mainMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(0u, 200u, 255u)),
+		mainMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(99u, 191u, 97u)),
+		upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::Yellow),
+		upgradeMenuBtn01(VecF(100.0f + 150.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(255u, 80u, 0u)),
+		upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(0u, 200u, 255u)),
+		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(99u, 191u, 97u))
 	{
-		mainMenu.AddItem(&mainMenuBtn01,1, btnListener);
+		activeMenu = &mainMenu;
+		mainMenu.AddItem(&mainMenuBtn01, 1, &mouseTower);
+		mainMenu.AddItem(&mainMenuBtn02, 2, &mouseTower);
+		mainMenu.AddItem(&mainMenuBtn03, 3, &mouseTower);
 
-		mainMenu.AddItem(&mainMenuBtn02, 2, btnListener);
-
-		mainMenu.AddItem(&mainMenuBtn03, 3, btnListener);
-
-		menus.emplace_back(&mainMenu);
+		upgradeMenu.AddItem(&upgradeMenuBtn01, 1);
+		upgradeMenu.AddItem(&upgradeMenuBtn02, 2);
+		upgradeMenu.AddItem(&upgradeMenuBtn03, 3);
+		
 	}
 	void Update(float dt, Mouse& mouse)
 	{
-		for (auto& m : menus)
-		{
-			m->Update(dt,mouse);
-		}
+		activeMenu->Update(dt, mouse);
 	}
 	void ProcessCommand(Mouse& mouse)
 	{
-		for (auto m : menus)
+		if (activeMenu->GetRect().isContaint(mouse.GetPos()))
 		{
-			if (m->GetRect().isContaint(mouse.GetPos()))
-			{
-				m->ProcessCommand(mouse);
-			}
-			else
-			{
-				m->MouseLeave();
-			}
+			activeMenu->ProcessCommand(mouse,mouseTower);
+		}
+		else
+		{
+			activeMenu->MouseLeave();
+		}
+	}
+	void OnNotify(void* datauser) override
+	{
+		if (activeMenu == &mainMenu)
+		{
+			auto obs = static_cast<IObervable*>(datauser);
+			activeMenu = &upgradeMenu;
+			activeMenu->ResetItem();
+			upgradeMenuBtn01.Clear();
+			upgradeMenuBtn02.Clear();
+			upgradeMenuBtn03.Clear();
+			upgradeMenuBtn01.AddObs(obs);
+			upgradeMenuBtn02.AddObs(obs);
+			upgradeMenuBtn03.AddObs(obs);
+		}
+		else
+		{
+			activeMenu = &mainMenu;
+			activeMenu->ResetItem();
 		}
 	}
 	void Draw(Graphics& gfx) const
 	{
-		for (auto& m : menus)
-		{
-			m->Draw(gfx);
-		}
+		activeMenu->Draw(gfx);
 	}
 	int getData()
 	{
-		return btnListener->getData();
+		
+	}
+	IObervable* GetMouseTowerObs()
+	{
+		return &mouseTower;
 	}
 private:
 	/*void MakeMenu(VecF menuPos, float menuW, float menuH)
@@ -80,11 +101,17 @@ private:
 		}
 	}*/
 private:
-	std::vector<Menu*> menus;
-	ButtonListener* btnListener;
+	Menu* activeMenu = nullptr;
 	//Make main menu and button
 	Menu mainMenu;
 	Button mainMenuBtn01;
 	Button mainMenuBtn02;
 	Button mainMenuBtn03;
+
+	//Upgrade Menu
+	Menu upgradeMenu;
+	Button upgradeMenuBtn01;
+	Button upgradeMenuBtn02;
+	Button upgradeMenuBtn03;
+	MouseState mouseTower;
 };

@@ -1,17 +1,19 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include <random>
 #include "WalkableTile.h"
 #include "BuildableTile.h"
 #include "Tower.h"
-#include "Listener.h"
-#include <random>
-class BoardGame
+#include "Observer.h"
+#include "MouseState.h"
+class BoardGame : public Observer, public IObervable
 {
 public:
-	BoardGame(VecF pos, float menuW, float menuH)
+	BoardGame(VecF pos, float menuW, float menuH, IObervable* menuManagerObs, IObervable* mouseTower)
 		:
-		pos(pos)
+		pos(pos),
+		mouseTower(mouseTower)
 	{
 		const int r = ((int)menuW % width >= 1) ? 1 : 0;
 		const int b = ((int)menuH % height >= 1) ? 1 : 0;
@@ -25,6 +27,7 @@ public:
 				if (seed(rng) == 1)
 				{
 					tiles.emplace_back(std::make_unique<BuildableTile>());
+					tiles.back()->AddObs(menuManagerObs);
 				}
 				else
 				{
@@ -33,6 +36,7 @@ public:
 			}
 		}
 	}
+	void OnNotify(void* datauser) override {};
 	void Draw(Graphics& gfx) const
 	{
 		for (int h = 0; h < nHeight; h++)
@@ -43,10 +47,6 @@ public:
 				tileAt(w, h).Draw(gfx, tilePos, width, height);
 			}
 		}
-	}
-	void AddListener(Listener* newListener)
-	{
-		listener = newListener;
 	}
 	void Update()
 	{
@@ -107,7 +107,7 @@ private:
 	}
 	inline void MouseClick(const VecI& mousePos) noexcept
 	{
-		tiles.at(curTile)->MouseClick(mousePos, listener);
+		tiles.at(curTile)->MouseClick(mousePos, mouseTower);
 	}
 private:
 	static constexpr int width = 40;
@@ -119,5 +119,5 @@ private:
 	std::vector<std::unique_ptr<TileGame>> tiles;
 	int prevTile = -1;
 	int curTile = -1;
-	Listener* listener = nullptr;
+	IObervable* mouseTower = nullptr;
 };

@@ -9,15 +9,22 @@ void BtnClickState::Update(float dt, Button * btn, Mouse& mouse)
 		btn->timer = 0.0f;
 		if (btn->GetRect().isContaint(mouse.GetPos()))
 		{
-			btn->color = Colors::Yellow;
+			btn->color = Colors::Green;
 			btn->btnState = &btn->hoverState;
 		}
 		else
 		{
-			btn->color = Colors::Red;
+			btn->color = btn->baseColor;
 			btn->btnState = &btn->sleepState;
 		}
 	}
+}
+
+void BtnClickState::Reset(Button* btn)
+{
+	btn->timer = 0.0f;
+	btn->color = btn->baseColor;
+	btn->btnState = &btn->sleepState;
 }
 
 void BtnSleepState::MouseIn(Button * btn, Mouse& mouse)
@@ -28,22 +35,27 @@ void BtnSleepState::MouseIn(Button * btn, Mouse& mouse)
 		auto e = mouse.Read().GetType();
 		if (e == Mouse::Event::Type::LPress)
 		{
-			btn->listener->OnClick(btn);
 			isclicked = false;
-			btn->color = Colors::Green;
+			btn->Notify(btn);
+			btn->color = Colors::Red;
 			btn->btnState = &btn->clickedState;
 		}
 	}
 	if (isclicked)
 	{
-		btn->color = Colors::Yellow;
+		btn->color = Colors::Green;
 		btn->btnState = &btn->hoverState;
 	}
 }
 
+void BtnMouseHoverState::Reset(Button* btn)
+{
+	MouseLeave(btn);
+}
+
 void BtnMouseHoverState::MouseLeave(Button * btn)
 {
-	btn->color = Colors::Red;
+	btn->color = btn->baseColor;
 	btn->btnState = &btn->sleepState;
 }
 
@@ -55,15 +67,15 @@ void BtnMouseHoverState::MouseIn(Button * btn, Mouse & mouse)
 		auto e = mouse.Read().GetType();
 		if (e == Mouse::Event::Type::LPress)
 		{
-			btn->listener->OnClick(btn);
 			isclicked = false;
-			btn->color = Colors::Green;
+			btn->Notify(btn);
+			btn->color = Colors::Red;
 			btn->btnState = &btn->clickedState;
 		}
 	}
 	if (isclicked)
 	{
-		btn->color = Colors::Yellow;
+		btn->color = Colors::Green;
 		btn->btnState = &btn->hoverState;
 	}
 }

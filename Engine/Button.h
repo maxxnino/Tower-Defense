@@ -12,6 +12,7 @@ public:
 	void Update(float dt, Mouse& mouse) override;
 	void MouseIn(Mouse& mouse) override;
 	void MouseLeave() override;
+	void ResetState() override;
 private:
 	friend BtnClickState;
 	friend BtnSleepState;

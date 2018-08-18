@@ -4,14 +4,16 @@
 #include "Graphics.h"
 #include "Rect.h"
 #include "Mouse.h"
-#include "Listener.h"
-class MenuItem
+#include "Observer.h"
+class MenuItem : public Observer, public IObervable
 {
 public:
 	virtual void Draw(Graphics& gfx) const = 0;
 	virtual void Update(float dt, Mouse& mouse) = 0;
 	virtual void MouseLeave() = 0;
 	virtual void MouseIn(Mouse& mouse) = 0;
+	virtual void ResetState() = 0;
+	void OnNotify(void* datauser) override {};
 	RectF GetRect()
 	{
 		return RectF(pos, width, height);
@@ -29,7 +31,6 @@ public:
 		return height;
 	}
 	int getData() { return data; }
-	void addListener(Listener* newlistener) { listener = newlistener; }
 	void setData(int newdata) { data = newdata; }
 protected:
 	MenuItem(VecF pos, float width, float height, Color color)
@@ -43,7 +44,7 @@ protected:
 	float width;
 	float height;
 	Color color;
+	Color baseColor = color;
 	int data = 0;
-	Listener* listener = nullptr;
 private:
 };

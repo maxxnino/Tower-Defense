@@ -15,6 +15,11 @@ void Button::MouseLeave()
 	btnState->MouseLeave(this);
 }
 
+void Button::ResetState()
+{
+	btnState->Reset(this);
+}
+
 void Button::MouseIn(Mouse& mouse)
 {
 	btnState->MouseIn(this, mouse);

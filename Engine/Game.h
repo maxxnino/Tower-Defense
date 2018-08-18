@@ -27,7 +27,7 @@
 #include "MenuManager.h"
 #include "BoardGame.h"
 #include "Tower.h"
-#include "Listener.h"
+#include "MouseState.h"
 class Game
 {
 public:
@@ -50,6 +50,6 @@ private:
 	MenuManager gui;
 	BoardGame brd;
 	std::vector<std::shared_ptr<Tower>> towerManager;
-	ButtonListener btnListener;
+	MouseState mouseTower;
 	/********************************/
 };

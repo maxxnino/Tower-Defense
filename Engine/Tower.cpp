@@ -14,7 +14,6 @@ std::shared_ptr<Tower> Tower::Upgrade(int typeID)
 		return std::make_shared<NatureTower>();
 		break;
 	default:
-		assert(false);
 		return std::make_shared<Tower>(Colors::Red);
 		break;
 	}

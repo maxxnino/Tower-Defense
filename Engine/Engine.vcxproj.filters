@@ -114,7 +114,13 @@
     <ClInclude Include="MenuItem.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Listener.h">
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IObservable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseState.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
@@ -157,9 +163,6 @@
     </ClCompile>
     <ClCompile Include="Tower.cpp">
       <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Listener.cpp">
-      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

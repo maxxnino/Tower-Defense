@@ -4,7 +4,6 @@
 class BuildableTile : public TileGame
 {
 public:
-
 	void Draw(Graphics& gfx, VecI pos, int width, int height) const override
 	{
 		if (isAwake)
@@ -28,10 +27,22 @@ public:
 		auto newTower = myTower->Upgrade(typeID);
 		myTower = newTower;
 	}
-	void MouseClick(const VecI& mousePos, Listener* listener) override
+	void MouseClick(const VecI& mousePos,IObervable* obs) override
 	{
-		auto newTower = myTower->Upgrade(listener->getData());
-		myTower = newTower;
+		auto data = static_cast<MouseState*>(obs)->data;
+		if (myTower == nullptr && data == 0)
+		{
+			Notify(this);
+		}
+		else
+		{
+			Upgrade(data);
+		}
+	}
+	void OnNotify(void* userData) override
+	{
+		auto data = static_cast<Button*>(userData)->getData();
+		Upgrade(static_cast<Button*>(userData)->getData());
 	}
 	void AddEntity(std::shared_ptr<Tower> tower) override
 	{

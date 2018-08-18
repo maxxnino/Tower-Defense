@@ -4,15 +4,15 @@
 #include "Vec2.h"
 #include "Graphics.h"
 #include "Tower.h"
-#include "Listener.h"
-class TileGame
+class TileGame : public Observer, public IObervable
 {
 public:
-	virtual void MouseClick(const VecI& mousePos, Listener* listener) = 0;
+	virtual void MouseClick(const VecI& mousePos, IObervable* obs) = 0;
 	void MouseMove(const VecI& mousePos)
 	{
 	}
 	virtual void AddEntity(std::shared_ptr<Tower>) = 0;
+	void OnNotify(void* userData) override {};
 	void Awake()
 	{
 		isAwake = true;

@@ -25,10 +25,10 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight),
-	gui(&btnListener)
+	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight,&gui,gui.GetMouseTowerObs())
 {
-	brd.AddListener(&btnListener);
+	gui.AddObs(&brd);
+	brd.AddObs(&gui);
 }
 
 void Game::Go()

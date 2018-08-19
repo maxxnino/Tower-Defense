@@ -28,6 +28,9 @@
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{33cb91dc-4910-4faa-ab87-f1dc68777e48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game\Tower">
+      <UniqueIdentifier>{646d3ede-a3ae-4cc5-a3d9-aef7d27f4ad9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChiliWin.h">
@@ -108,9 +111,6 @@
     <ClInclude Include="BuildableTile.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Tower.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="MenuItem.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
@@ -122,6 +122,12 @@
     </ClInclude>
     <ClInclude Include="MouseState.h">
       <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Tower.h">
+      <Filter>Header Files\Game\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="Type.h">
+      <Filter>Header Files\Game\Tower</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,9 +166,6 @@
     </ClCompile>
     <ClCompile Include="ButtonState.cpp">
       <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Tower.cpp">
-      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

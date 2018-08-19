@@ -7,7 +7,7 @@
 #include "Tower.h"
 #include "Observer.h"
 #include "MouseState.h"
-class BoardGame : public Observer, public IObervable
+class BoardGame : public Observer
 {
 public:
 	BoardGame(VecF pos, float menuW, float menuH, IObervable* menuManagerObs, IObervable* mouseTower)
@@ -36,7 +36,6 @@ public:
 			}
 		}
 	}
-	void OnNotify(void* datauser) override {};
 	void Draw(Graphics& gfx) const
 	{
 		for (int h = 0; h < nHeight; h++)
@@ -66,6 +65,9 @@ public:
 				break;
 			case Mouse::Event::Type::Move:
 				MouseMove(mousePos);
+				break;
+			case Mouse::Event::Type::RPress:
+				static_cast<MouseState*>(mouseTower)->data = 0;
 				break;
 			default:
 				break;

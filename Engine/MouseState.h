@@ -1,7 +1,7 @@
 #pragma once
 #include "Observer.h"
 #include "MenuItem.h"
-class MouseState : public Observer, public IObervable
+class MouseState : public IObervable
 {
 public:
 	void OnNotify(void* datauser) override

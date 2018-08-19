@@ -30,13 +30,20 @@ public:
 	void MouseClick(const VecI& mousePos,IObervable* obs) override
 	{
 		auto data = static_cast<MouseState*>(obs)->data;
-		if (myTower == nullptr && data == 0)
+		if (myTower == nullptr)
 		{
-			Notify(this);
+			Upgrade(data);
 		}
 		else
 		{
-			Upgrade(data);
+			if (data == 0)
+			{
+				Notify(this);
+			}
+			else
+			{
+				Upgrade(data);
+			}
 		}
 	}
 	void OnNotify(void* userData) override

@@ -55,8 +55,11 @@ public:
 			upgradeMenuBtn02.Clear();
 			upgradeMenuBtn03.Clear();
 			upgradeMenuBtn01.AddObs(obs);
+			upgradeMenuBtn01.AddObs(this);
 			upgradeMenuBtn02.AddObs(obs);
+			upgradeMenuBtn02.AddObs(this);
 			upgradeMenuBtn03.AddObs(obs);
+			upgradeMenuBtn03.AddObs(this);
 		}
 		else
 		{

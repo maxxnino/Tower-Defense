@@ -166,6 +166,7 @@
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileGame.h" />
     <ClInclude Include="Tower.h" />
+    <ClInclude Include="Type.h" />
     <ClInclude Include="WalkableTile.h" />
   </ItemGroup>
   <ItemGroup>
@@ -181,7 +182,6 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="Tower.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FramebufferPS.hlsl">

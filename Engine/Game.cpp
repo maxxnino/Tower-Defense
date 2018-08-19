@@ -27,7 +27,6 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight,&gui,gui.GetMouseTowerObs())
 {
-	gui.AddObs(&brd);
 	brd.AddObs(&gui);
 }
 

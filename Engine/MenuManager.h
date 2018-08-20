@@ -124,14 +124,14 @@ private:
 	Menu* activeMenu = nullptr;
 	//Make main menu and button
 	Menu mainMenu;
-	Button<TypeDame> mainMenuBtn01;
-	Button<TypeDame> mainMenuBtn02;
-	Button<TypeDame> mainMenuBtn03;
+	Button mainMenuBtn01;
+	Button mainMenuBtn02;
+	Button mainMenuBtn03;
 
 	//Upgrade Menu
 	Menu upgradeMenu;
-	Button<TypeDame> upgradeMenuBtn01;
-	Button<TypeDame> upgradeMenuBtn02;
-	Button<TypeDame> upgradeMenuBtn03;
+	Button upgradeMenuBtn01;
+	Button upgradeMenuBtn02;
+	Button upgradeMenuBtn03;
 	
 };

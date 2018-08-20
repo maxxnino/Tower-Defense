@@ -5,7 +5,7 @@
 #include "Rect.h"
 #include "Mouse.h"
 #include "Observer.h"
-template <class Data>
+#include "TypeDame.h"
 class MenuItem : public Observer, public IObervable
 {
 public:
@@ -31,8 +31,8 @@ public:
 	{
 		return height;
 	}
-	Data* getData() { return data; }
-	void setData(Data* newdata) { data = newdata; }
+	TypeDame* getData() { return data; }
+	void setData(TypeDame* newdata) { data = newdata; }
 	void setColor(Color c)
 	{
 		color = c;
@@ -50,6 +50,6 @@ protected:
 	float height;
 	Color color;
 	Color baseColor;
-	Data* data;
+	TypeDame* data;
 private:
 };

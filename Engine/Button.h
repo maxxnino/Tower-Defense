@@ -1,8 +1,7 @@
 #pragma once
 #include "MenuItem.h"
 #include "ButtonState.h"
-template <class Data>
-class Button : public MenuItem<Data>
+class Button : public MenuItem
 {
 public:
 	Button(VecF pos, float width, float height)

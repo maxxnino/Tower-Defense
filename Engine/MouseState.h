@@ -7,8 +7,7 @@ class MouseState : public IObervable
 public:
 	void OnNotify(Observer* datauser) override
 	{
-		auto btn = static_cast<MenuItem*>(datauser);
-		typeDame = static_cast<TypeDame*>(btn->getData());
+		typeDame = static_cast<MenuItem*>(datauser)->getData();
 	}
 	TypeDame* typeDame = nullptr;
 	FireDame fire;

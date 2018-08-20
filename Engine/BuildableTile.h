@@ -58,8 +58,7 @@ public:
 	}
 	void OnNotify(Observer* userData) override
 	{
-		auto data = static_cast<Button*>(userData)->getData();
-		myTower->Upgrade(static_cast<TypeDame*>(data));
+		myTower->Upgrade(static_cast<Button*>(userData)->getData());
 	}
 	void AddEntity(std::shared_ptr<Tower> tower) override
 	{

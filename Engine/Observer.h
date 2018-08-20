@@ -13,9 +13,9 @@ public:
 	{
 		observable.erase(obs);
 	}
-	void Notify(void* userData)
+	void Notify(Observer * obs)
 	{
-		std::for_each(observable.begin(), observable.end(), [userData](auto o) {o->OnNotify(userData); });
+		std::for_each(observable.begin(), observable.end(), [obs](auto o) {o->OnNotify(obs); });
 	}
 	void Clear()
 	{

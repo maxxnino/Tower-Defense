@@ -2,9 +2,8 @@
 #include "Colors.h"
 #include "Board.h"
 #include "MenuItem.h"
-#include "Observer.h"
 #include "MouseState.h"
-class Menu : public Observer, public IObervable
+class Menu
 {
 public:
 	Menu(VecF pos, float width, float height, Color color)
@@ -22,7 +21,6 @@ public:
 			i->Draw(gfx);
 		}
 	}
-	void OnNotify(void* datauser) override {};
 	void Update(float dt, Mouse& mouse)
 	{
 		for (auto i : items)

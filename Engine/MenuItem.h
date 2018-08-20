@@ -5,6 +5,7 @@
 #include "Rect.h"
 #include "Mouse.h"
 #include "Observer.h"
+template <class Data>
 class MenuItem : public Observer, public IObervable
 {
 public:
@@ -13,7 +14,7 @@ public:
 	virtual void MouseLeave() = 0;
 	virtual void MouseIn(Mouse& mouse) = 0;
 	virtual void ResetState() = 0;
-	void OnNotify(void* datauser) override {};
+	void OnNotify(Observer* datauser) override {};
 	RectF GetRect()
 	{
 		return RectF(pos, width, height);
@@ -30,8 +31,8 @@ public:
 	{
 		return height;
 	}
-	void* getData() { return data; }
-	void setData(void* newdata) { data = newdata; }
+	Data* getData() { return data; }
+	void setData(Data* newdata) { data = newdata; }
 	void setColor(Color c)
 	{
 		color = c;
@@ -49,6 +50,6 @@ protected:
 	float height;
 	Color color;
 	Color baseColor;
-	void* data;
+	Data* data;
 private:
 };

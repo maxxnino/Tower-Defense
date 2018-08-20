@@ -31,6 +31,9 @@
     <Filter Include="Header Files\Game\Tower">
       <UniqueIdentifier>{646d3ede-a3ae-4cc5-a3d9-aef7d27f4ad9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game\Observer">
+      <UniqueIdentifier>{31e175ba-ac78-452d-90c4-ab9b1a528ffd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChiliWin.h">
@@ -114,12 +117,6 @@
     <ClInclude Include="MenuItem.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IObservable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MouseState.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
@@ -131,6 +128,12 @@
     </ClInclude>
     <ClInclude Include="TypeArmor.h">
       <Filter>Header Files\Game\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="IObservable.h">
+      <Filter>Header Files\Game\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Game\Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

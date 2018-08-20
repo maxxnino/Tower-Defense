@@ -2,5 +2,5 @@
 class IObervable
 {
 public:
-	virtual void OnNotify(void* datauser) = 0;
+	virtual void OnNotify(class Observer* obs) = 0;
 };

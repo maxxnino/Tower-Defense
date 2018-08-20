@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "MouseState.h"
 #include "TypeDame.h"
+#include "BuildableTile.h"
 class MenuManager : public Observer, public IObervable
 {
 public:
@@ -59,11 +60,11 @@ public:
 			activeMenu->MouseLeave();
 		}
 	}
-	void OnNotify(void* datauser) override
+	void OnNotify(Observer* dataUser) override
 	{
 		if (activeMenu == &mainMenu)
 		{
-			auto obs = static_cast<IObervable*>(datauser);
+			auto obs = static_cast<BuildableTile*>(dataUser);
 			activeMenu = &upgradeMenu;
 			activeMenu->ResetItem();
 			upgradeMenuBtn01.Clear();
@@ -123,14 +124,14 @@ private:
 	Menu* activeMenu = nullptr;
 	//Make main menu and button
 	Menu mainMenu;
-	Button mainMenuBtn01;
-	Button mainMenuBtn02;
-	Button mainMenuBtn03;
+	Button<TypeDame> mainMenuBtn01;
+	Button<TypeDame> mainMenuBtn02;
+	Button<TypeDame> mainMenuBtn03;
 
 	//Upgrade Menu
 	Menu upgradeMenu;
-	Button upgradeMenuBtn01;
-	Button upgradeMenuBtn02;
-	Button upgradeMenuBtn03;
+	Button<TypeDame> upgradeMenuBtn01;
+	Button<TypeDame> upgradeMenuBtn02;
+	Button<TypeDame> upgradeMenuBtn03;
 	
 };

@@ -56,7 +56,7 @@ public:
 			}
 		}
 	}
-	void OnNotify(void* userData) override
+	void OnNotify(Observer* userData) override
 	{
 		auto data = static_cast<Button*>(userData)->getData();
 		myTower->Upgrade(static_cast<TypeDame*>(data));

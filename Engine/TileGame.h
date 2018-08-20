@@ -12,7 +12,7 @@ public:
 	{
 	}
 	virtual void AddEntity(std::shared_ptr<Tower>) = 0;
-	void OnNotify(void* userData) override {};
+	void OnNotify(Observer* userData) override {};
 	void Awake()
 	{
 		isAwake = true;

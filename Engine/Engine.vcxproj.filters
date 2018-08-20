@@ -126,7 +126,10 @@
     <ClInclude Include="Tower.h">
       <Filter>Header Files\Game\Tower</Filter>
     </ClInclude>
-    <ClInclude Include="Type.h">
+    <ClInclude Include="TypeDame.h">
+      <Filter>Header Files\Game\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeArmor.h">
       <Filter>Header Files\Game\Tower</Filter>
     </ClInclude>
   </ItemGroup>

@@ -67,7 +67,7 @@ public:
 				MouseMove(mousePos);
 				break;
 			case Mouse::Event::Type::RPress:
-				static_cast<MouseState*>(mouseTower)->data = 0;
+				static_cast<MouseState*>(mouseTower)->typeDame = nullptr;
 				break;
 			default:
 				break;

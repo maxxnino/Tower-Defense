@@ -13,7 +13,6 @@ public:
 	}
 	void MouseClick(const VecI& mousePos, IObervable* obs) override {};
 	void AddEntity(std::shared_ptr<Tower>) override {};
-	void Upgrade(int typeID) override {};
 	void OnNotify(void* userData) override
 	{
 

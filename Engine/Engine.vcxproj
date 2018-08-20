@@ -166,7 +166,8 @@
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileGame.h" />
     <ClInclude Include="Tower.h" />
-    <ClInclude Include="Type.h" />
+    <ClInclude Include="TypeArmor.h" />
+    <ClInclude Include="TypeDame.h" />
     <ClInclude Include="WalkableTile.h" />
   </ItemGroup>
   <ItemGroup>

@@ -30,8 +30,8 @@ public:
 	{
 		return height;
 	}
-	int getData() { return data; }
-	void setData(int newdata) { data = newdata; }
+	void* getData() { return data; }
+	void setData(void* newdata) { data = newdata; }
 protected:
 	MenuItem(VecF pos, float width, float height, Color color)
 		:
@@ -45,6 +45,6 @@ protected:
 	float height;
 	Color color;
 	Color baseColor = color;
-	int data = 0;
+	void* data;
 private:
 };

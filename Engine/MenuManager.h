@@ -5,6 +5,7 @@
 #include "Observer.h"
 #include <algorithm>
 #include "MouseState.h"
+#include "TypeDame.h"
 class MenuManager : public Observer, public IObervable
 {
 public:
@@ -20,13 +21,21 @@ public:
 		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(99u, 191u, 97u))
 	{
 		activeMenu = &mainMenu;
-		mainMenu.AddItem(&mainMenuBtn01, 1, &mouseTower);
-		mainMenu.AddItem(&mainMenuBtn02, 2, &mouseTower);
-		mainMenu.AddItem(&mainMenuBtn03, 3, &mouseTower);
-
-		upgradeMenu.AddItem(&upgradeMenuBtn01, 1);
-		upgradeMenu.AddItem(&upgradeMenuBtn02, 2);
-		upgradeMenu.AddItem(&upgradeMenuBtn03, 3);
+		//main menu
+		mainMenuBtn01.setData(&(mouseTower.fire));
+		mainMenuBtn02.setData(&(mouseTower.ice));
+		mainMenuBtn03.setData(&(mouseTower.lighting));
+		mainMenu.AddItem(&mainMenuBtn01, &mouseTower);
+		mainMenu.AddItem(&mainMenuBtn02, &mouseTower);
+		mainMenu.AddItem(&mainMenuBtn03, &mouseTower);
+		
+		//upgrademenu
+		upgradeMenuBtn01.setData(&(mouseTower.fire));
+		upgradeMenuBtn02.setData(&(mouseTower.ice));
+		upgradeMenuBtn03.setData(&(mouseTower.lighting));
+		upgradeMenu.AddItem(&upgradeMenuBtn01);
+		upgradeMenu.AddItem(&upgradeMenuBtn02);
+		upgradeMenu.AddItem(&upgradeMenuBtn03);
 		
 	}
 	void Update(float dt, Mouse& mouse)

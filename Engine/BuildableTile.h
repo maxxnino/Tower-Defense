@@ -22,34 +22,25 @@ public:
 			}
 		}
 	}
-	void Upgrade(int typeID) override
-	{
-		auto newTower = myTower->Upgrade(typeID);
-		myTower = newTower;
-	}
 	void MouseClick(const VecI& mousePos,IObervable* obs) override
 	{
-		auto data = static_cast<MouseState*>(obs)->data;
+		auto newType = static_cast<MouseState*>(obs)->typeDame;
 		if (myTower == nullptr)
 		{
-			Upgrade(data);
+			myTower = std::make_shared<Tower>(Colors::Red);
 		}
 		else
 		{
-			if (data == 0)
+			if (newType == nullptr)
 			{
 				Notify(this);
-			}
-			else
-			{
-				Upgrade(data);
 			}
 		}
 	}
 	void OnNotify(void* userData) override
 	{
 		auto data = static_cast<Button*>(userData)->getData();
-		Upgrade(static_cast<Button*>(userData)->getData());
+		myTower->Upgrade(static_cast<TypeDame*>(data));
 	}
 	void AddEntity(std::shared_ptr<Tower> tower) override
 	{

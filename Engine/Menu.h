@@ -54,20 +54,18 @@ public:
 		{
 			if (mouse.Read().GetType() == Mouse::Event::Type::RPress)
 			{
-				mouseTower.data = 0;
+				mouseTower.typeDame = nullptr;
 			}
 		}
 	}
-	void AddItem(MenuItem* item, int data, IObervable* obs) 
+	void AddItem(MenuItem* item, IObervable* obs) 
 	{ 
 		items.emplace_back(item);
-		item->setData(data);
 		item->AddObs(obs);
 	}
-	void AddItem(MenuItem* item, int data)
+	void AddItem(MenuItem* item)
 	{
 		items.emplace_back(item);
-		item->setData(data);
 	}
 	void ResetItem()
 	{

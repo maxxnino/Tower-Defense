@@ -43,7 +43,7 @@ public:
 			for (int w = 0; w < nWidth; w++)
 			{
 				const VecI tilePos = (VecI)pos + VecI(w * width, h * height);
-				tileAt(w, h).Draw(gfx, tilePos, width, height);
+				tileAt(w, h).Draw(gfx, tilePos, width, height, mouseTower);
 			}
 		}
 	}

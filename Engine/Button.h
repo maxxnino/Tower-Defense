@@ -4,9 +4,9 @@
 class Button : public MenuItem
 {
 public:
-	Button(VecF pos, float width, float height, Color color)
+	Button(VecF pos, float width, float height)
 		:
-		MenuItem(pos, width, height, color)
+		MenuItem(pos, width, height)
 	{}
 	void Draw(Graphics& gfx) const override;
 	void Update(float dt, Mouse& mouse) override;

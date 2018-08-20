@@ -32,19 +32,23 @@ public:
 	}
 	void* getData() { return data; }
 	void setData(void* newdata) { data = newdata; }
+	void setColor(Color c)
+	{
+		color = c;
+		baseColor = c;
+	}
 protected:
-	MenuItem(VecF pos, float width, float height, Color color)
+	MenuItem(VecF pos, float width, float height)
 		:
 		pos(pos),
 		width(width),
-		height(height),
-		color(color)
+		height(height)
 	{}
 	VecF pos;
 	float width;
 	float height;
 	Color color;
-	Color baseColor = color;
+	Color baseColor;
 	void* data;
 private:
 };

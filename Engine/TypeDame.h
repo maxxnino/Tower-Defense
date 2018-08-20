@@ -3,16 +3,33 @@
 class TypeDame
 {
 public:
+	TypeDame(float attackSpeedMultiply, float dameMultiply, Color c)
+		:
+		attackSpeedMultiply(attackSpeedMultiply),
+		dameMultiply(dameMultiply),
+		c(c)
+	{}
 	virtual float getDame() = 0;
 	virtual float getAttackSpeed() = 0;
 	virtual std::shared_ptr<TypeDame> Clone() = 0;
+	const Color& getColor() const
+	{
+		return c;
+	}
 protected:
 	float baseAttackSpeed = 1.0f;
 	float baseDame = 10.0f;
+	float attackSpeedMultiply;
+	float dameMultiply;
+	Color c;
 };
 class FireDame : public TypeDame
 {
 public:
+	FireDame()
+		:
+		TypeDame(1.0f, 2.0f,Colors::Red)
+	{}
 	float getDame() override
 	{
 		return baseAttackSpeed * dameMultiply;
@@ -25,13 +42,14 @@ public:
 	{
 		return std::make_shared<FireDame>();
 	}
-private:
-	float attackSpeedMultiply = 1.0f;
-	float dameMultiply = 2.0f;
 };
 class IceDame : public TypeDame
 {
 public:
+	IceDame()
+		:
+		TypeDame(1.5f, 1.5f, Colors::Green)
+	{}
 	float getDame() override
 	{
 		return baseAttackSpeed * dameMultiply;
@@ -44,13 +62,14 @@ public:
 	{
 		return std::make_shared<IceDame>();
 	}
-private:
-	float attackSpeedMultiply = 1.5f;
-	float dameMultiply = 1.5f;
 };
 class LightingDame : public TypeDame
 {
 public:
+	LightingDame()
+		:
+		TypeDame(0.5f, 0.75f, Colors::Blue)
+	{}
 	float getDame() override
 	{
 		return baseAttackSpeed * dameMultiply;
@@ -63,7 +82,4 @@ public:
 	{
 		return std::make_shared<LightingDame>();
 	}
-private:
-	float attackSpeedMultiply = 0.5f;
-	float dameMultiply = 0.75f;
 };

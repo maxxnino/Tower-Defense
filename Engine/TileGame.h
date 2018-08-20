@@ -21,7 +21,7 @@ public:
 	{
 		isAwake = false;
 	}
-	virtual void Draw(Graphics& gfx, VecI pos, int width, int height) const = 0;
+	virtual void Draw(Graphics& gfx, VecI pos, int width, int height, IObervable* obs) const = 0;
 	/*{
 		gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, c);
 	}*/

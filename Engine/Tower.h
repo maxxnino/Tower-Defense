@@ -14,24 +14,7 @@ public:
 	{}
 	const Color& GetColor() const
 	{
-		switch (typeDames.size())
-		{
-		case 0:
-			return c;
-			break;
-		case 1:
-			return Colors::Blue;
-			break;
-		case 2:
-			return Colors::Green;
-			break;
-		case 3:
-			return Colors::Magenta;
-			break;
-		default:
-			return c;
-			break;
-		}
+		return c;
 	}
 	bool isAttack(float dt)
 	{
@@ -58,6 +41,33 @@ public:
 		else
 		{
 			typeDames.emplace_back(newType->Clone());
+			switch (typeDames.size())
+			{
+			case 1:
+				c = typeDames.back()->getColor();
+				break;
+			case 2:
+				{
+					const Color& c01 = typeDames[0]->getColor();
+					const Color& c02 = typeDames[1]->getColor();
+					c.SetR((c01.GetR() + c02.GetR()) / 2u);
+					c.SetG((c01.GetG() + c02.GetG()) / 2u);
+					c.SetB((c01.GetB() + c02.GetB()) / 2u);
+				}
+				break;
+			case 3:
+				{
+					const Color& c01 = typeDames[0]->getColor();
+					const Color& c02 = typeDames[1]->getColor();
+					const Color& c03 = typeDames[2]->getColor();
+					c.SetR((c01.GetR() + c02.GetR() + c03.GetR()) / 3u);
+					c.SetG((c01.GetG() + c02.GetG() + c03.GetG()) / 3u);
+					c.SetB((c01.GetB() + c02.GetB() + c03.GetB()) / 3u);
+				}
+				break;
+			default:
+				break;
+			}
 			return true;
 		}
 	}

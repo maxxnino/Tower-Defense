@@ -4,11 +4,26 @@
 class BuildableTile : public TileGame
 {
 public:
-	void Draw(Graphics& gfx, VecI pos, int width, int height) const override
+	void Draw(Graphics& gfx, VecI pos, int width, int height, IObervable* obs) const override
 	{
 		if (isAwake)
 		{
-			gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, Colors::Blue);
+			auto typeDame = static_cast<MouseState*>(obs)->typeDame;
+			if (typeDame == nullptr)
+			{
+				if (myTower != nullptr)
+				{
+					gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, myTower->GetColor());
+				}
+				else
+				{
+					gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, c);
+				}
+			}
+			else
+			{
+				gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, typeDame->getColor());
+			}
 		}
 		else
 		{
@@ -25,15 +40,19 @@ public:
 	void MouseClick(const VecI& mousePos,IObervable* obs) override
 	{
 		auto newType = static_cast<MouseState*>(obs)->typeDame;
-		if (myTower == nullptr)
+		if (newType == nullptr)
 		{
-			myTower = std::make_shared<Tower>(Colors::Red);
+			if (myTower != nullptr)
+			{
+				Notify(this);
+			}
 		}
 		else
 		{
-			if (newType == nullptr)
+			if (myTower == nullptr)
 			{
-				Notify(this);
+				myTower = std::make_shared<Tower>(Colors::Red);
+				myTower->Upgrade(newType);
 			}
 		}
 	}

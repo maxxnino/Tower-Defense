@@ -12,19 +12,22 @@ public:
 	MenuManager()
 		:
 		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::Cyan),
-		mainMenuBtn01(VecF(100.0f + 150.0f , 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(255u, 80u, 0u)),
-		mainMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(0u, 200u, 255u)),
-		mainMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(99u, 191u, 97u)),
+		mainMenuBtn01(VecF(100.0f + 150.0f , 500.0f + 7.0f), 60.0f, 60.0f),
+		mainMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		mainMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
 		upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::Yellow),
-		upgradeMenuBtn01(VecF(100.0f + 150.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(255u, 80u, 0u)),
-		upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(0u, 200u, 255u)),
-		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f, Colors::MakeRGB(99u, 191u, 97u))
+		upgradeMenuBtn01(VecF(100.0f + 150.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f)
 	{
 		activeMenu = &mainMenu;
 		//main menu
 		mainMenuBtn01.setData(&(mouseTower.fire));
 		mainMenuBtn02.setData(&(mouseTower.ice));
 		mainMenuBtn03.setData(&(mouseTower.lighting));
+		mainMenuBtn01.setColor(mouseTower.fire.getColor());
+		mainMenuBtn02.setColor(mouseTower.ice.getColor());
+		mainMenuBtn03.setColor(mouseTower.lighting.getColor());
 		mainMenu.AddItem(&mainMenuBtn01, &mouseTower);
 		mainMenu.AddItem(&mainMenuBtn02, &mouseTower);
 		mainMenu.AddItem(&mainMenuBtn03, &mouseTower);
@@ -33,6 +36,9 @@ public:
 		upgradeMenuBtn01.setData(&(mouseTower.fire));
 		upgradeMenuBtn02.setData(&(mouseTower.ice));
 		upgradeMenuBtn03.setData(&(mouseTower.lighting));
+		upgradeMenuBtn01.setColor(mouseTower.fire.getColor());
+		upgradeMenuBtn02.setColor(mouseTower.ice.getColor());
+		upgradeMenuBtn03.setColor(mouseTower.lighting.getColor());
 		upgradeMenu.AddItem(&upgradeMenuBtn01);
 		upgradeMenu.AddItem(&upgradeMenuBtn02);
 		upgradeMenu.AddItem(&upgradeMenuBtn03);
@@ -113,6 +119,7 @@ private:
 		}
 	}*/
 private:
+	MouseState mouseTower;
 	Menu* activeMenu = nullptr;
 	//Make main menu and button
 	Menu mainMenu;
@@ -125,5 +132,5 @@ private:
 	Button upgradeMenuBtn01;
 	Button upgradeMenuBtn02;
 	Button upgradeMenuBtn03;
-	MouseState mouseTower;
+	
 };

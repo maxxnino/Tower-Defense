@@ -1,5 +1,5 @@
 #pragma once
-#include "Observer.h"
+#include "IObservable.h"
 #include "MenuItem.h"
 #include "Tower.h"
 class MouseState : public IObervable

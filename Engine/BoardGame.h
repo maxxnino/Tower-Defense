@@ -10,10 +10,10 @@
 class BoardGame : public Observer
 {
 public:
-	BoardGame(VecF pos, float menuW, float menuH, IObervable* menuManagerObs, IObervable* mouseTower)
+	BoardGame(VecF pos, float menuW, float menuH, IObervable* menuManagerObs, IObervable* mouseState)
 		:
 		pos(pos),
-		mouseTower(mouseTower)
+		mouseState(mouseState)
 	{
 		const int r = ((int)menuW % width >= 1) ? 1 : 0;
 		const int b = ((int)menuH % height >= 1) ? 1 : 0;
@@ -43,13 +43,9 @@ public:
 			for (int w = 0; w < nWidth; w++)
 			{
 				const VecI tilePos = (VecI)pos + VecI(w * width, h * height);
-				tileAt(w, h).Draw(gfx, tilePos, width, height, mouseTower);
+				tileAt(w, h).Draw(gfx, tilePos, width, height, mouseState);
 			}
 		}
-	}
-	void Update()
-	{
-		
 	}
 	void ProcessComand(Mouse& mouse)
 	{
@@ -67,7 +63,7 @@ public:
 				MouseMove(mousePos);
 				break;
 			case Mouse::Event::Type::RPress:
-				static_cast<MouseState*>(mouseTower)->typeDame = nullptr;
+				static_cast<MouseState*>(mouseState)->typeDame = nullptr;
 				break;
 			default:
 				break;
@@ -109,7 +105,7 @@ private:
 	}
 	inline void MouseClick(const VecI& mousePos) noexcept
 	{
-		tiles.at(curTile)->MouseClick(mousePos, mouseTower);
+		tiles.at(curTile)->MouseClick(mousePos, mouseState);
 	}
 private:
 	static constexpr int width = 40;
@@ -121,5 +117,5 @@ private:
 	std::vector<std::unique_ptr<TileGame>> tiles;
 	int prevTile = -1;
 	int curTile = -1;
-	IObervable* mouseTower = nullptr;
+	IObervable* mouseState = nullptr;
 };

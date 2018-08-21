@@ -49,7 +49,5 @@ private:
 	FrameTimer ft;
 	MenuManager gui;
 	BoardGame brd;
-	std::vector<std::shared_ptr<Tower>> towerManager;
-	MouseState mouseTower;
 	/********************************/
 };

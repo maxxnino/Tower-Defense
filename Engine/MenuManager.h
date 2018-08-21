@@ -11,9 +11,10 @@ public:
 	MenuManager()
 		:
 		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::Cyan),
-		mainMenuBtn01(VecF(100.0f + 150.0f , 500.0f + 7.0f), 60.0f, 60.0f),
-		mainMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		mainMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		mainMenuBtn01(VecF(100.0f + 100.0f , 500.0f + 7.0f), 60.0f, 60.0f),
+		mainMenuBtn02(VecF(100.0f + 100.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		mainMenuBtn03(VecF(100.0f + 100.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		deleteTowerBtn04(VecF(100.0f + 100.0f + 3.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
 		upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::MakeRGB(172u, 115u, 57u)),
 		upgradeMenuBtn01(VecF(100.0f + 150.0f, 500.0f + 7.0f), 60.0f, 60.0f),
 		upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
@@ -23,13 +24,16 @@ public:
 		//main menu
 		mainMenuBtn01.setData(&(mouseState.fire));
 		mainMenuBtn02.setData(&(mouseState.ice));
-		mainMenuBtn03.setData(&(mouseState.deleteTower));
+		mainMenuBtn03.setData(&(mouseState.lighting));
+		deleteTowerBtn04.setData(&(mouseState.deleteTower));
 		mainMenuBtn01.setColor(mouseState.fire.getColor());
 		mainMenuBtn02.setColor(mouseState.ice.getColor());
 		mainMenuBtn03.setColor(mouseState.lighting.getColor());
+		deleteTowerBtn04.setColor(Colors::White);
 		mainMenu.AddItem(&mainMenuBtn01, &mouseState);
 		mainMenu.AddItem(&mainMenuBtn02, &mouseState);
 		mainMenu.AddItem(&mainMenuBtn03, &mouseState);
+		mainMenu.AddItem(&deleteTowerBtn04, &mouseState);
 		
 		//upgrademenu
 		upgradeMenuBtn01.setData(&(mouseState.fire));
@@ -103,6 +107,7 @@ private:
 	Button mainMenuBtn01;
 	Button mainMenuBtn02;
 	Button mainMenuBtn03;
+	Button deleteTowerBtn04;
 
 	//Upgrade Menu
 	Menu upgradeMenu;

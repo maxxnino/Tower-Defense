@@ -1,7 +1,7 @@
 #include "BuildableTile.h"
 #include "Button.h"
 #include "MouseState.h"
-void BuildableTile::Draw(Graphics & gfx, VecI pos, int width, int height, IObervable * obs) const
+void BuildableTile::Draw(Graphics & gfx, VecI pos, int width, int height, IObervable * obs) const noexcept
 {
 	if (isAwake)
 	{
@@ -35,7 +35,7 @@ void BuildableTile::Draw(Graphics & gfx, VecI pos, int width, int height, IOberv
 	}
 }
 
-void BuildableTile::MouseClick(const VecI & mousePos, IObervable * obs)
+void BuildableTile::MouseClick(const VecI & mousePos, IObervable * obs) noexcept
 {
 	auto newType = static_cast<MouseState*>(obs)->typeDame;
 	if (newType == nullptr)

@@ -1,7 +1,8 @@
 #pragma once
 #include <memory>
 #include "Colors.h"
-class TypeDame
+#include "IDataItem.h"
+class TypeDame : public IDataItem
 {
 public:
 	TypeDame(float attackSpeedMultiply, float dameMultiply, Color c)
@@ -13,10 +14,11 @@ public:
 	virtual float getDame() = 0;
 	virtual float getAttackSpeed() = 0;
 	virtual std::shared_ptr<TypeDame> Clone() = 0;
-	inline const Color& getColor() const noexcept
+	Color getColor() override
 	{
 		return c;
 	}
+	void executed(TileGame* tileGame) override;
 protected:
 	float baseAttackSpeed = 1.0f;
 	float baseDame = 10.0f;

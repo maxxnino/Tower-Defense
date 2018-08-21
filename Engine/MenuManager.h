@@ -23,7 +23,7 @@ public:
 		//main menu
 		mainMenuBtn01.setData(&(mouseState.fire));
 		mainMenuBtn02.setData(&(mouseState.ice));
-		mainMenuBtn03.setData(&(mouseState.lighting));
+		mainMenuBtn03.setData(&(mouseState.deleteTower));
 		mainMenuBtn01.setColor(mouseState.fire.getColor());
 		mainMenuBtn02.setColor(mouseState.ice.getColor());
 		mainMenuBtn03.setColor(mouseState.lighting.getColor());

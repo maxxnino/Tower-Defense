@@ -47,20 +47,23 @@ void BuildableTile::MouseClick(const VecI & mousePos, IObervable * obs)
 	}
 	else
 	{
-		if (myTower == nullptr)
-		{
-			myTower = std::make_shared<Tower>(Colors::Red);
-			myTower->Upgrade(newType);
-		}
+		newType->executed(this);
 	}
 }
 
 void BuildableTile::OnNotify(Observer * userData)
 {
-	myTower->Upgrade(static_cast<Button*>(userData)->getData());
+	auto data = static_cast<Button*>(userData)->getData();
+	myTower->Upgrade(static_cast<TypeDame*>(data));
 }
 
 void BuildableTile::AddEntity(std::shared_ptr<Tower> tower)
 {
 	myTower = tower;
+}
+
+void BuildableTile::BuildTower(TypeDame * type)
+{
+	myTower = std::make_shared<Tower>(Colors::Red);
+	myTower->Upgrade(type);
 }

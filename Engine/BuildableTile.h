@@ -8,6 +8,11 @@ public:
 	void MouseClick(const VecI& mousePos, IObervable* obs) override;
 	void OnNotify(Observer* userData) override;
 	void AddEntity(std::shared_ptr<Tower> tower) override;
+	void DeleteTower()
+	{
+		myTower = nullptr;
+	}
+	void BuildTower(TypeDame* type);
 private:
 	static constexpr Color c = Colors::Gray;
 	std::shared_ptr<Tower> myTower;

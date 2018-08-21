@@ -1,10 +1,9 @@
 #pragma once
-#include "Colors.h"
 #include <memory>
-#include <assert.h>
 #include <vector>
 #include <algorithm>
 #include "TypeDame.h"
+#include "Colors.h"
 class Tower
 {
 public:
@@ -12,11 +11,11 @@ public:
 		:
 		c(c)
 	{}
-	const Color& GetColor() const
+	inline const Color& GetColor() const noexcept
 	{
 		return c;
 	}
-	bool isAttack(float dt)
+	bool isAttack(float dt) noexcept
 	{
 		timer += dt;
 		float totalAttackSpeed = 0.0f;

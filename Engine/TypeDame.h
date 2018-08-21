@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "Colors.h"
 class TypeDame
 {
 public:
@@ -12,7 +13,7 @@ public:
 	virtual float getDame() = 0;
 	virtual float getAttackSpeed() = 0;
 	virtual std::shared_ptr<TypeDame> Clone() = 0;
-	const Color& getColor() const
+	inline const Color& getColor() const noexcept
 	{
 		return c;
 	}

@@ -15,25 +15,25 @@ public:
 	virtual void MouseIn(Mouse& mouse) = 0;
 	virtual void ResetState() = 0;
 	void OnNotify(Observer* datauser) override {};
-	RectF GetRect()
+	inline RectF GetRect() noexcept
 	{
 		return RectF(pos, width, height);
 	}
-	VecF GetPos()
+	inline VecF GetPos() noexcept
 	{
 		return pos;
 	}
-	float GetWidth()
+	inline float GetWidth() noexcept
 	{
 		return width;
 	}
-	float GetHeight()
+	inline float GetHeight() noexcept
 	{
 		return height;
 	}
-	TypeDame* getData() { return data; }
-	void setData(TypeDame* newdata) { data = newdata; }
-	void setColor(Color c)
+	inline TypeDame* getData() { return data; }
+	inline void setData(TypeDame* newdata) { data = newdata; }
+	inline void setColor(Color c)  noexcept
 	{
 		color = c;
 		baseColor = c;

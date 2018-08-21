@@ -1,14 +1,10 @@
 #pragma once
 #include "IObservable.h"
-#include "MenuItem.h"
-#include "Tower.h"
+#include "TypeDame.h"
 class MouseState : public IObervable
 {
 public:
-	void OnNotify(Observer* datauser) override
-	{
-		typeDame = static_cast<MenuItem*>(datauser)->getData();
-	}
+	void OnNotify(Observer* datauser) override;
 	TypeDame* typeDame = nullptr;
 	FireDame fire;
 	IceDame ice;

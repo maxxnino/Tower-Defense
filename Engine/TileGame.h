@@ -4,6 +4,7 @@
 #include "Vec2.h"
 #include "Graphics.h"
 #include "Tower.h"
+#include "Observer.h"
 class TileGame : public Observer, public IObervable
 {
 public:

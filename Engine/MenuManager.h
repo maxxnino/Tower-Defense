@@ -1,12 +1,10 @@
 #pragma once
 #include "Menu.h"
 #include "Button.h"
-#include "Board.h"
 #include "Observer.h"
-#include <algorithm>
 #include "MouseState.h"
-#include "TypeDame.h"
-#include "BuildableTile.h"
+#include <algorithm>
+
 class MenuManager : public Observer, public IObervable
 {
 public:
@@ -60,29 +58,7 @@ public:
 			activeMenu->MouseLeave();
 		}
 	}
-	void OnNotify(Observer* dataUser) override
-	{
-		if (activeMenu == &mainMenu)
-		{
-			auto obs = static_cast<BuildableTile*>(dataUser);
-			activeMenu = &upgradeMenu;
-			activeMenu->ResetItem();
-			upgradeMenuBtn01.Clear();
-			upgradeMenuBtn02.Clear();
-			upgradeMenuBtn03.Clear();
-			upgradeMenuBtn01.AddObs(obs);
-			upgradeMenuBtn01.AddObs(this);
-			upgradeMenuBtn02.AddObs(obs);
-			upgradeMenuBtn02.AddObs(this);
-			upgradeMenuBtn03.AddObs(obs);
-			upgradeMenuBtn03.AddObs(this);
-		}
-		else
-		{
-			activeMenu = &mainMenu;
-			activeMenu->ResetItem();
-		}
-	}
+	void OnNotify(Observer* dataUser) override;
 	void Draw(Graphics& gfx) const
 	{
 		activeMenu->Draw(gfx);
@@ -91,7 +67,7 @@ public:
 	{
 		
 	}
-	IObervable* GetMouseStateObs()
+	inline IObervable* GetMouseStateObs() noexcept
 	{
 		return &mouseState;
 	}
@@ -133,5 +109,4 @@ private:
 	Button upgradeMenuBtn01;
 	Button upgradeMenuBtn02;
 	Button upgradeMenuBtn03;
-	
 };

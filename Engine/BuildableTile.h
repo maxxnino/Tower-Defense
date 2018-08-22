@@ -10,7 +10,7 @@ public:
 	void AddEntity(std::shared_ptr<Tower> tower) override;
 	void DeleteTower()
 	{
-		myTower = nullptr;
+		myTower.reset();
 	}
 	void BuildTower(TypeDame* type);
 private:

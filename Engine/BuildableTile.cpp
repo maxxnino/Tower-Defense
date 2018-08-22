@@ -37,22 +37,25 @@ void BuildableTile::Draw(Graphics & gfx, VecI pos, int width, int height, IOberv
 
 void BuildableTile::MouseClick(const VecI & mousePos, IObervable * obs) noexcept
 {
-	auto newType = static_cast<MouseState*>(obs)->typeDame;
-	if (newType == nullptr)
+	auto data = static_cast<MouseState*>(obs)->typeDame;
+	if (!data)
 	{
-		if (myTower != nullptr)
+		if (!myTower)
 		{
+			//that mean nothing in mouse, and this tile have tower, clicked for open upgrade menu from Menumanager
 			Notify(this);
 		}
 	}
 	else
 	{
-		newType->executed(this);
+		// have data, delete or build tower base on IItemData 
+		data->executed(this);
 	}
 }
 
 void BuildableTile::OnNotify(Observer * userData)
 {
+	// call from Menumanager when one Button from upgrade menu clicked
 	auto data = static_cast<Button*>(userData)->getData();
 	myTower->Upgrade(static_cast<TypeDame*>(data));
 }
@@ -64,6 +67,9 @@ void BuildableTile::AddEntity(std::shared_ptr<Tower> tower)
 
 void BuildableTile::BuildTower(TypeDame * type)
 {
-	myTower = std::make_shared<Tower>(Colors::Red);
-	myTower->Upgrade(type);
+	if (!myTower)
+	{
+		myTower = std::make_shared<Tower>(Colors::Red);
+		myTower->Upgrade(type);
+	}
 }

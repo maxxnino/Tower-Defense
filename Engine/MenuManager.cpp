@@ -5,6 +5,7 @@ void MenuManager::OnNotify(Observer * dataUser)
 {
 	if (activeMenu == &mainMenu)
 	{
+		//call from buildableTile if that tile have tower and MouseState have nothing -> open Upgrade menu
 		auto obs = static_cast<BuildableTile*>(dataUser);
 		activeMenu = &upgradeMenu;
 		activeMenu->ResetItem();

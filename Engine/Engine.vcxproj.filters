@@ -141,6 +141,9 @@
     <ClInclude Include="DeleteTower.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionRect.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">

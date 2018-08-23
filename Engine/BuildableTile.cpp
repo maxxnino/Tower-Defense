@@ -40,7 +40,7 @@ void BuildableTile::MouseClick(const VecI & mousePos, IObervable * obs) noexcept
 	auto data = static_cast<MouseState*>(obs)->typeDame;
 	if (!data)
 	{
-		if (!myTower)
+		if (myTower)
 		{
 			//that mean nothing in mouse, and this tile have tower, clicked for open upgrade menu from Menumanager
 			Notify(this);

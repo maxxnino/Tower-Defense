@@ -146,6 +146,7 @@
     <ClInclude Include="ButtonState.h" />
     <ClInclude Include="ChiliException.h" />
     <ClInclude Include="ChiliWin.h" />
+    <ClInclude Include="CollisionRect.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="COMInitializer.h" />
     <ClInclude Include="DeleteTower.h" />

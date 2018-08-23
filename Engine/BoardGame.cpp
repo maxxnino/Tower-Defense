@@ -12,19 +12,20 @@ BoardGame::BoardGame(VecF pos, float menuW, float menuH, IObervable * menuManage
 	const int b = ((int)menuH % height >= 1) ? 1 : 0;
 	nWidth = r + (int)menuW / width;
 	nHeight = b + (int)menuH / height;
-	std::uniform_int_distribution<int> seed(0, 1);
+	const int mid = nHeight / 2;
 	for (size_t y = 0; y < nHeight; y++)
 	{
 		for (size_t x = 0; x < nWidth; x++)
 		{
-			if (seed(rng) == 1)
+			if (y == mid - 1 || y == mid || y == mid + 1)
 			{
-				tiles.emplace_back(std::make_unique<BuildableTile>());
-				tiles.back()->AddObs(menuManagerObs);
+				tiles.emplace_back(std::make_unique<WalkableTile>());
+				
 			}
 			else
 			{
-				tiles.emplace_back(std::make_unique<WalkableTile>());
+				tiles.emplace_back(std::make_unique<BuildableTile>());
+				tiles.back()->AddObs(menuManagerObs);
 			}
 		}
 	}

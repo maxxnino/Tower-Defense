@@ -47,21 +47,37 @@ public:
 				break;
 			case 2:
 				{
-					const Color& c01 = typeDames[0]->getColor();
 					const Color& c02 = typeDames[1]->getColor();
-					c.SetR((c01.GetR() + c02.GetR()) / 2u);
-					c.SetG((c01.GetG() + c02.GetG()) / 2u);
-					c.SetB((c01.GetB() + c02.GetB()) / 2u);
+					if (c.dword == c02.dword)
+					{
+						c.SetR((c.GetR() + c02.GetR()) / 3u);
+						c.SetG((c.GetG() + c02.GetG()) / 3u);
+						c.SetB((c.GetB() + c02.GetB()) / 3u);
+					}
+					else
+					{
+						c.SetR((c.GetR() + c02.GetR()) / 2u);
+						c.SetG((c.GetG() + c02.GetG()) / 2u);
+						c.SetB((c.GetB() + c02.GetB()) / 2u);
+					}
+					
 				}
 				break;
 			case 3:
 				{
-					const Color& c01 = typeDames[0]->getColor();
-					const Color& c02 = typeDames[1]->getColor();
 					const Color& c03 = typeDames[2]->getColor();
-					c.SetR((c01.GetR() + c02.GetR() + c03.GetR()) / 3u);
-					c.SetG((c01.GetG() + c02.GetG() + c03.GetG()) / 3u);
-					c.SetB((c01.GetB() + c02.GetB() + c03.GetB()) / 3u);
+					if (c.dword == c03.dword * 2u / 3u)
+					{
+						c.SetR((c.GetR() + c03.GetR()) / 3u);
+						c.SetG((c.GetG() + c03.GetG()) / 3u);
+						c.SetB((c.GetB() + c03.GetB()) / 3u);
+					}
+					else
+					{
+						c.SetR((c.GetR() + c03.GetR()) / 2u);
+						c.SetG((c.GetG() + c03.GetG()) / 2u);
+						c.SetB((c.GetB() + c03.GetB()) / 2u);
+					}
 				}
 				break;
 			default:

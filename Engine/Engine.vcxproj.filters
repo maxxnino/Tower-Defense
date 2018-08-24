@@ -84,9 +84,6 @@
     <ClInclude Include="..\..\menu\Engine\Vec2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Board.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
@@ -94,9 +91,6 @@
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Tile.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="MenuManager.h">
@@ -141,7 +135,13 @@
     <ClInclude Include="DeleteTower.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionRect.h">
+    <ClInclude Include="Box.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MyContactLisener.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>

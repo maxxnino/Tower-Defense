@@ -25,6 +25,7 @@
 #include "ChiliException.h"
 #include "Colors.h"
 #include "Vec2.h"
+#include "Box2D/Box2D.h"
 
 class Graphics
 {
@@ -58,11 +59,17 @@ public:
 		PutPixel( x,y,{ unsigned char( r ),unsigned char( g ),unsigned char( b ) } );
 	}
 	void PutPixel( int x,int y,Color c );
+	inline VecI ToScreenSpace(const b2Vec2& worldPosition) noexcept
+	{
+		return VecI((int)(worldPosition.x * scalePixel) + offSetX,
+			-(int)(worldPosition.y * scalePixel) + offSetY);
+	}
 	void DrawRect(VecI p0, VecI p1, Color c);
 	void DrawRectDim(VecI p, int width, int height, Color c)
 	{
 		DrawRect(p, p + VecI(width, height), c);
 	}
+	void DrawRectDim(b2Vec2 worldPos, float worldSize, const Color& c);
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;
@@ -81,4 +88,7 @@ private:
 public:
 	static constexpr int ScreenWidth = 800;
 	static constexpr int ScreenHeight = 600;
+	static constexpr int scalePixel = 20;
+	static constexpr int offSetX = Graphics::ScreenWidth / 2;
+	static constexpr int offSetY = Graphics::ScreenHeight / 2;
 };

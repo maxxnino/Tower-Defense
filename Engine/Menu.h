@@ -1,6 +1,5 @@
 #pragma once
 #include "Colors.h"
-#include "Board.h"
 #include "MenuItem.h"
 #include "MouseState.h"
 class Menu

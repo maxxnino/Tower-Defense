@@ -27,6 +27,8 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight,&gui,gui.GetMouseStateObs())
 {
+	const b2Vec2 gravity = { 0.0f, 0.0f };
+	box2DEngine = std::make_unique<b2World>(gravity);
 	brd.AddObs(&gui);
 }
 
@@ -41,13 +43,30 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	const float dt = ft.Mark();
-	gui.ProcessCommand(wnd.mouse);
-	gui.Update(dt, wnd.mouse);
-	brd.ProcessComand(wnd.mouse);
+	//gui.ProcessCommand(wnd.mouse);
+	//gui.Update(dt, wnd.mouse);
+	//brd.ProcessComand(wnd.mouse);
+	while (!wnd.mouse.IsEmpty())
+	{
+		auto e = wnd.mouse.Read().GetType();
+		if (e == Mouse::Event::Type::LPress)
+		{
+			const b2Vec2 pos = { 0.0f,0.0f };
+			const float size = 1.0f;
+			const b2Vec2 vel = { 2.0f,2.0f };
+			pro.emplace_back(std::make_unique<Projectile>(*box2DEngine, pos, size, vel));
+		}
+	}
+	
+	box2DEngine->Step(dt, velocityIterations, positionIterations);
 }
 
 void Game::ComposeFrame()
 {
 	brd.Draw(gfx);
 	gui.Draw(gfx);
+	for (auto& p : pro)
+	{
+		p->Draw(gfx);
+	}
 }

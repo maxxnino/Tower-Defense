@@ -338,6 +338,12 @@ void Graphics::DrawRect(VecI p0, VecI p1, Color c)
 		}
 	}
 }
+void Graphics::DrawRectDim(b2Vec2 worldPos, float worldSize, const Color & c)
+{
+	const VecI pos = ToScreenSpace(worldPos);
+	const int size = int(worldSize * scalePixel);
+	DrawRectDim(pos, size, size, c);
+}
 
 
 //////////////////////////////////////////////////

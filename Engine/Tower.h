@@ -4,18 +4,20 @@
 #include <algorithm>
 #include "TypeDame.h"
 #include "Colors.h"
-class Tower
+#include "Projectile.h"
+class Tower : public PhysicObject
 {
 public:
-	Tower(Color c)
+	Tower(b2World& box2DEngine,Color c, const b2Vec2& worldPos, float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f })
 		:
-		c(c)
+		c(c),
+		PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::SENSOR, worldPos, true, true, size, linVel)
 	{}
 	inline const Color& GetColor() const noexcept
 	{
 		return c;
 	}
-	bool isAttack(float dt) noexcept
+	void Update(float dt) noexcept
 	{
 		timer += dt;
 		float totalAttackSpeed = 0.0f;
@@ -24,12 +26,16 @@ public:
 		if (timer >= totalAttackSpeed)
 		{
 			timer = 0.0f;
-			return true;
+			isAttack = true;
 		}
 		else
 		{
-			return false; 
+			isAttack = false;
 		}
+	}
+	bool GetAttack()
+	{
+		return isAttack;
 	}
 	bool Upgrade(TypeDame* newType)
 	{
@@ -39,7 +45,7 @@ public:
 		}
 		else
 		{
-			typeDames.emplace_back(newType->Clone());
+			typeDames.emplace_back(newType);
 			switch (typeDames.size())
 			{
 			case 1:
@@ -90,5 +96,6 @@ private:
 	Color c;
 	int lv = 1;
 	float timer = 0;
-	std::vector<std::shared_ptr<TypeDame>> typeDames;
+	bool isAttack = false;
+	std::vector<TypeDame*> typeDames;
 };

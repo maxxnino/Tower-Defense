@@ -29,6 +29,7 @@
 #include "Tower.h"
 #include "MouseState.h"
 #include "Projectile.h"
+#include "Enemy.h"
 class Game
 {
 public:
@@ -48,11 +49,12 @@ private:
 	/********************************/
 	/*  User Variables              */
 	FrameTimer ft;
+	std::unique_ptr<b2World> box2DEngine;
 	MenuManager gui;
 	BoardGame brd;
-	std::unique_ptr<b2World> box2DEngine;
 	int32 velocityIterations = 8;
 	int32 positionIterations = 3;
-	std::vector<std::unique_ptr<Projectile>> pro;
+	std::vector<std::unique_ptr<Enemy>> enemies;
+	float timer = 0.0f;
 	/********************************/
 };

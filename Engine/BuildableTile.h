@@ -1,9 +1,12 @@
 #pragma once
 #include "TileGame.h"
-
 class BuildableTile : public TileGame
 {
 public:
+	BuildableTile(VecI pos)
+		:
+		pos(pos)
+	{}
 	void Draw(Graphics& gfx, VecI pos, int width, int height, IObervable* obs) const noexcept override;
 	void MouseClick(const VecI& mousePos, IObervable* obs) noexcept override;
 	void OnNotify(Observer* userData) override;
@@ -16,4 +19,5 @@ public:
 private:
 	static constexpr Color c = Colors::Gray;
 	std::shared_ptr<Tower> myTower;
+	VecI pos;
 };

@@ -24,7 +24,8 @@ BoardGame::BoardGame(VecF pos, float menuW, float menuH, IObervable * menuManage
 			}
 			else
 			{
-				tiles.emplace_back(std::make_unique<BuildableTile>());
+				VecI pos = VecI((int)x * width, (int)y  * height);
+				tiles.emplace_back(std::make_unique<BuildableTile>(pos));
 				tiles.back()->AddObs(menuManagerObs);
 			}
 		}

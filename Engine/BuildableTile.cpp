@@ -67,9 +67,12 @@ void BuildableTile::AddEntity(std::shared_ptr<Tower> tower)
 
 void BuildableTile::BuildTower(TypeDame * type)
 {
+	//call from TypeDame for build tower
 	if (!myTower)
 	{
-		myTower = std::make_shared<Tower>(Colors::Red);
+		b2Vec2 worldPos = b2Vec2((float32)(pos.x - Graphics::offSetX) / (float32)Graphics::scalePixel, (float32)(Graphics::offSetY - pos.y) / (float32)Graphics::scalePixel);
+		float size = 10.0f;
+		myTower = std::make_shared<Tower>(type->GetBox2DEngine(),Colors::Red, worldPos, size);
 		myTower->Upgrade(type);
 	}
 }

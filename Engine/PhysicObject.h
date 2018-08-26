@@ -4,10 +4,18 @@
 #include <memory>
 #include <functional>
 #include "Box2D/Box2D.h"
-class Box
+enum CollisionFillter {
+	BOX = 0x0001,
+	ENEMY = 0x0002,
+	TOWER = 0x0004,
+	SENSOR = 0x0008,
+	BASE = 0x0010
+};
+class PhysicObject
 {
 public:
-	Box(b2World& box2DEngine, uint16 categoryBits, uint16 maskBits, const b2Vec2& worldPos, float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f } )
+	PhysicObject(b2World& box2DEngine, uint16 categoryBits, uint16 maskBits, const b2Vec2& worldPos, 
+		bool isCircle = false, bool isSensor = false,float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f } )
 		:
 		size(size)
 	{
@@ -19,12 +27,27 @@ public:
 			bodyDef.linearVelocity = b2Vec2(linVel.x, linVel.y);
 			body = { box2DEngine.CreateBody(&bodyDef),[&box2DEngine](b2Body* pBody) {box2DEngine.DestroyBody(pBody); } };
 		}
-		
+		if (isCircle)
+		{
+			b2CircleShape circleShape;
+			circleShape.m_radius = size;
+			b2FixtureDef fixtureDef;
+			fixtureDef.shape = &circleShape;
+			fixtureDef.density = 1.0f;
+			fixtureDef.friction = 0.0f;
+			fixtureDef.restitution = 1.0f;
+			//collision fillter
+			fixtureDef.filter.categoryBits = categoryBits;
+			fixtureDef.filter.maskBits = maskBits;
+			body->CreateFixture(&fixtureDef);
+		}
+		else
 		{
 			b2PolygonShape dynamicBox;
 			dynamicBox.SetAsBox(size, size);
 			b2FixtureDef fixtureDef;
 			fixtureDef.shape = &dynamicBox;
+			fixtureDef.isSensor = isSensor;
 			fixtureDef.density = 1.0f;
 			fixtureDef.friction = 0.0f;
 			fixtureDef.restitution = 1.0f;

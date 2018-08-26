@@ -25,10 +25,10 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight,&gui,gui.GetMouseStateObs())
+	box2DEngine(std::make_unique<b2World>(b2Vec2(0.0f, 0.0f))),
+	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight,&gui,gui.GetMouseStateObs()),
+	gui(*box2DEngine)
 {
-	const b2Vec2 gravity = { 0.0f, 0.0f };
-	box2DEngine = std::make_unique<b2World>(gravity);
 	brd.AddObs(&gui);
 }
 
@@ -43,21 +43,15 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	const float dt = ft.Mark();
-	//gui.ProcessCommand(wnd.mouse);
-	//gui.Update(dt, wnd.mouse);
-	//brd.ProcessComand(wnd.mouse);
-	while (!wnd.mouse.IsEmpty())
+	gui.ProcessCommand(wnd.mouse);
+	gui.Update(dt, wnd.mouse);
+	brd.ProcessComand(wnd.mouse);
+	timer += dt;
+	if (timer >= 1.0f)
 	{
-		auto e = wnd.mouse.Read().GetType();
-		if (e == Mouse::Event::Type::LPress)
-		{
-			const b2Vec2 pos = { 0.0f,0.0f };
-			const float size = 1.0f;
-			const b2Vec2 vel = { 2.0f,2.0f };
-			pro.emplace_back(std::make_unique<Projectile>(*box2DEngine, pos, size, vel));
-		}
+		timer = 0.0f;
+		enemies.emplace_back(std::make_unique<Enemy>(*box2DEngine));
 	}
-	
 	box2DEngine->Step(dt, velocityIterations, positionIterations);
 }
 
@@ -65,8 +59,8 @@ void Game::ComposeFrame()
 {
 	brd.Draw(gfx);
 	gui.Draw(gfx);
-	for (auto& p : pro)
+	for (auto& e : enemies)
 	{
-		p->Draw(gfx);
+		e->Draw(gfx);
 	}
 }

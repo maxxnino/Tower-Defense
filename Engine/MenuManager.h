@@ -3,13 +3,15 @@
 #include "Button.h"
 #include "Observer.h"
 #include "MouseState.h"
+#include "Box2D/Box2D.h"
 #include <algorithm>
 
 class MenuManager : public Observer, public IObervable
 {
 public:
-	MenuManager()
+	MenuManager(b2World& box2DEngine)
 		:
+		mouseState(box2DEngine),
 		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::Cyan),
 		mainMenuBtn01(VecF(100.0f + 100.0f , 500.0f + 7.0f), 60.0f, 60.0f),
 		mainMenuBtn02(VecF(100.0f + 100.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),

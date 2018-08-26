@@ -30,6 +30,8 @@
 #include "MouseState.h"
 #include "Projectile.h"
 #include "Enemy.h"
+#include "MyContactLisener.h"
+
 class Game
 {
 public:
@@ -50,6 +52,7 @@ private:
 	/*  User Variables              */
 	FrameTimer ft;
 	std::unique_ptr<b2World> box2DEngine;
+	MyContactLisener listener;
 	MenuManager gui;
 	BoardGame brd;
 	int32 velocityIterations = 8;

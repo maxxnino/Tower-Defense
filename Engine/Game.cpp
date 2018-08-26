@@ -29,6 +29,7 @@ Game::Game( MainWindow& wnd )
 	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight,&gui,gui.GetMouseStateObs()),
 	gui(*box2DEngine)
 {
+	box2DEngine->SetContactListener(&listener);
 	brd.AddObs(&gui);
 }
 
@@ -53,6 +54,18 @@ void Game::UpdateModel()
 		enemies.emplace_back(std::make_unique<Enemy>(*box2DEngine));
 	}
 	box2DEngine->Step(dt, velocityIterations, positionIterations);
+	for (size_t i = 0; i < enemies.size();)
+	{
+		if (enemies[i]->isRemove())
+		{
+			std::swap(enemies[i], enemies.back());
+			enemies.pop_back();
+		}
+		else
+		{
+			i++;
+		}
+	}
 }
 
 void Game::ComposeFrame()

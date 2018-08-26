@@ -8,8 +8,7 @@ enum CollisionFillter {
 	BOX = 0x0001,
 	ENEMY = 0x0002,
 	TOWER = 0x0004,
-	SENSOR = 0x0008,
-	BASE = 0x0010
+	BASE = 0x0008
 };
 class PhysicObject
 {
@@ -33,6 +32,7 @@ public:
 			circleShape.m_radius = size;
 			b2FixtureDef fixtureDef;
 			fixtureDef.shape = &circleShape;
+			fixtureDef.isSensor = isSensor;
 			fixtureDef.density = 1.0f;
 			fixtureDef.friction = 0.0f;
 			fixtureDef.restitution = 1.0f;

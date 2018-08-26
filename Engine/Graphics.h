@@ -64,6 +64,7 @@ public:
 		return VecI((int)(worldPosition.x * scalePixel) + offSetX,
 			-(int)(worldPosition.y * scalePixel) + offSetY);
 	}
+	void DrawCircle(b2Vec2 worldPos, float worldSize, const Color& c);
 	void DrawRect(VecI p0, VecI p1, Color c);
 	void DrawRectDim(VecI p, int width, int height, Color c)
 	{

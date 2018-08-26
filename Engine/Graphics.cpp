@@ -338,6 +338,26 @@ void Graphics::DrawRect(VecI p0, VecI p1, Color c)
 		}
 	}
 }
+void Graphics::DrawCircle(b2Vec2 worldPos, float worldSize, const Color& c)
+{
+	const VecI pos = ToScreenSpace(worldPos);
+	const int rad = int(worldSize * scalePixel);
+	int left = std::max(0, pos.x - rad);
+	int top = std::max(0, pos.y - rad);
+	int right = std::min(ScreenWidth, pos.x + rad);
+	int bottom = std::min(ScreenHeight, pos.y + rad);
+	for (int y = top; y < bottom; y++)
+	{
+		for (int x = left; x < right; x++)
+		{
+			int distanceSq = (x - pos.x) * (x - pos.x) + (y - pos.y) * (y - pos.y);
+			if (distanceSq < rad * rad)
+			{
+				PutPixel(x, y, c);
+			}
+		}
+	}
+}
 void Graphics::DrawRectDim(b2Vec2 worldPos, float worldSize, const Color & c)
 {
 	const VecI pos = ToScreenSpace(worldPos);

@@ -11,7 +11,7 @@ public:
 	Tower(b2World& box2DEngine,Color c, const b2Vec2& worldPos, float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f })
 		:
 		c(c),
-		PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::SENSOR, worldPos, true, true, size, linVel)
+		PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::ENEMY, worldPos, true, true, size, linVel)
 	{}
 	inline const Color& GetColor() const noexcept
 	{

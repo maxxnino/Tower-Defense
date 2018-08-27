@@ -48,12 +48,24 @@ void Game::UpdateModel()
 	gui.Update(dt, wnd.mouse);
 	brd.ProcessComand(wnd.mouse);
 	timer += dt;
+	timer2 += dt;
 	if (timer >= 1.0f)
 	{
 		timer = 0.0f;
 		enemies.emplace_back(std::make_unique<Enemy>(*box2DEngine));
 	}
 	box2DEngine->Step(dt, velocityIterations, positionIterations);
+	if (timer2 >= 2.5f)
+	{
+		timer2 = 0.0f;
+		if (enemies.size() >= 1)
+		{
+			std::uniform_int_distribution<int> seed(0, (int)enemies.size() - 1);
+			enemies[seed(rng)]->MarkAsDead();
+		}
+	}
+	
+
 	for (size_t i = 0; i < enemies.size();)
 	{
 		if (enemies[i]->isRemove())

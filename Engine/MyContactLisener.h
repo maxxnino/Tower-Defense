@@ -2,6 +2,8 @@
 #include <sstream>
 #include <typeinfo>
 #include "PhysicObject.h"
+#include "Enemy.h"
+#include "Tower.h"
 
 class MyContactLisener : public b2ContactListener
 {
@@ -14,11 +16,17 @@ public:
 		if (!(sensorA ^ sensorB)) return;
 		if (sensorA)
 		{
-			static_cast<Enemy*>(bodyPtrs[1]->GetBody()->GetUserData())->MarkAsDead();
+			auto enemy = static_cast<Enemy*>(bodyPtrs[1]->GetBody()->GetUserData());
+			auto tower = static_cast<Tower*>(bodyPtrs[0]->GetBody()->GetUserData());
+			tower->AddEnemy(enemy);
+			enemy->AddObs(tower);
 		}
 		else
 		{
-			static_cast<Enemy*>(bodyPtrs[0]->GetBody()->GetUserData())->MarkAsDead();
+			auto enemy = static_cast<Enemy*>(bodyPtrs[0]->GetBody()->GetUserData());
+			auto tower = static_cast<Tower*>(bodyPtrs[1]->GetBody()->GetUserData());
+			tower->AddEnemy(enemy);
+			enemy->AddObs(tower);
 		}
 
 
@@ -36,5 +44,26 @@ public:
 			msg << "Collision between " << tid0.name() << " and " << tid1.name() << std::endl;
 			OutputDebugStringA(msg.str().c_str());
 		}*/
+	}
+	void EndContact(b2Contact* contact) 
+	{
+		const b2Fixture* bodyPtrs[] = { contact->GetFixtureA(),contact->GetFixtureB() };
+		bool sensorA = bodyPtrs[0]->IsSensor();
+		bool sensorB = bodyPtrs[1]->IsSensor();
+		if (!(sensorA ^ sensorB)) return;
+		if (sensorA)
+		{
+			auto tower = static_cast<Tower*>(bodyPtrs[0]->GetBody()->GetUserData());
+			auto enemy = static_cast<Enemy*>(bodyPtrs[1]->GetBody()->GetUserData());
+			tower->RemoveEnemy(enemy);
+			enemy->RemoveObs(tower);
+		}
+		else
+		{
+			auto tower = static_cast<Tower*>(bodyPtrs[1]->GetBody()->GetUserData());
+			auto enemy = static_cast<Enemy*>(bodyPtrs[0]->GetBody()->GetUserData());
+			tower->RemoveEnemy(enemy);
+			enemy->RemoveObs(tower);
+		}
 	}
 };

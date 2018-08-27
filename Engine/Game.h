@@ -31,7 +31,7 @@
 #include "Projectile.h"
 #include "Enemy.h"
 #include "MyContactLisener.h"
-
+#include <random>
 class Game
 {
 public:
@@ -59,5 +59,7 @@ private:
 	int32 positionIterations = 3;
 	std::vector<std::unique_ptr<Enemy>> enemies;
 	float timer = 0.0f;
+	float timer2 = 0.0f;
+	std::mt19937 rng = std::mt19937(std::random_device{}());
 	/********************************/
 };

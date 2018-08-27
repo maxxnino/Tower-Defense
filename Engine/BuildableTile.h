@@ -13,6 +13,7 @@ public:
 	void AddEntity(std::shared_ptr<Tower> tower) override;
 	void DeleteTower()
 	{
+		myTower->RemoveAll();
 		myTower.reset();
 	}
 	void BuildTower(TypeDame* type);

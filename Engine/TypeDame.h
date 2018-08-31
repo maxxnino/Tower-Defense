@@ -1,43 +1,32 @@
 #pragma once
 #include <memory>
+#include <vector>
+#include "Projectile.h"
 #include "Colors.h"
-#include "IDataItem.h"
-#include "Box2D/Box2D.h"
-class TypeDame : public IDataItem
+class TypeDame
 {
 public:
-	TypeDame(b2World& box2DEngine, float attackSpeedMultiply, float dameMultiply, Color c)
+	TypeDame(float attackSpeedMultiply, float dameMultiply, Color c)
 		:
-		box2DEngine(box2DEngine),
 		attackSpeedMultiply(attackSpeedMultiply),
 		dameMultiply(dameMultiply),
 		c(c)
 	{}
 	virtual float getDame() = 0;
 	virtual float getAttackSpeed() = 0;
-	Color getColor() override
-	{
-		return c;
-	}
-	void executed(TileGame* tileGame) override;
-	b2World& GetBox2DEngine()
-	{
-		return box2DEngine;
-	}
 protected:
 	float baseAttackSpeed = 1.0f;
 	float baseDame = 10.0f;
 	float attackSpeedMultiply;
 	float dameMultiply;
 	Color c;
-	b2World& box2DEngine;
 };
 class FireDame : public TypeDame
 {
 public:
-	FireDame(b2World& box2DEngine)
+	FireDame()
 		:
-		TypeDame(box2DEngine, 1.0f, 2.0f,Colors::Red)
+		TypeDame(1.0f, 2.0f,Colors::Red)
 	{}
 	float getDame() override
 	{
@@ -51,9 +40,9 @@ public:
 class IceDame : public TypeDame
 {
 public:
-	IceDame(b2World& box2DEngine)
+	IceDame()
 		:
-		TypeDame(box2DEngine, 1.5f, 1.5f, Colors::Green)
+		TypeDame(1.5f, 1.5f, Colors::Green)
 	{}
 	float getDame() override
 	{
@@ -67,9 +56,9 @@ public:
 class LightingDame : public TypeDame
 {
 public:
-	LightingDame(b2World& box2DEngine)
+	LightingDame()
 		:
-		TypeDame(box2DEngine, 0.5f, 0.75f, Colors::Blue)
+		TypeDame(0.5f, 0.75f, Colors::Blue)
 	{}
 	float getDame() override
 	{

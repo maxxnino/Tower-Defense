@@ -6,6 +6,7 @@ public:
 	virtual float CalculateDame(FireDame& typeDame) = 0;
 	virtual float CalculateDame(IceDame& typeDame) = 0;
 	virtual float CalculateDame(LightingDame& typeDame) = 0;
+	
 };
 
 class FireArmor : public TypeArmor

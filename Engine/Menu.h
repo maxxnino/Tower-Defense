@@ -1,7 +1,6 @@
 #pragma once
 #include "Colors.h"
 #include "MenuItem.h"
-#include "MouseState.h"
 class Menu
 {
 public:
@@ -9,8 +8,7 @@ public:
 	void Draw(Graphics& gfx) const noexcept;
 	void Update(float dt, Mouse& mouse) noexcept;
 	void MouseLeave() noexcept;
-	void ProcessCommand(Mouse& mouse, MouseState& mouseTower) noexcept;
-	void AddItem(MenuItem* item, IObervable* obs);
+	void ProcessCommand(Mouse& mouse) noexcept;
 	void AddItem(MenuItem* item);
 	void ResetItem() noexcept;
 	inline RectF GetRect() { return RectF(pos, width, height); }

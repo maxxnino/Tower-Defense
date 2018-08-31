@@ -3,12 +3,11 @@
 #include <memory>
 #include <random>
 #include "TileGame.h"
-#include "Observer.h"
 #include "Mouse.h"
-class BoardGame : public Observer
+class BoardGame
 {
 public:
-	BoardGame(VecF pos, float menuW, float menuH, IObervable* menuManagerObs, IObervable* mouseState);
+	BoardGame(VecF pos, float menuW, float menuH);
 	void Draw(Graphics& gfx) const noexcept;
 	void ProcessComand(Mouse& mouse);
 	inline TileGame& tileAt(int w, int h)
@@ -23,7 +22,7 @@ private:
 	void MouseMove(const VecI& mousePos) noexcept;
 	inline void MouseClick(const VecI& mousePos) noexcept
 	{
-		tiles.at(curTile)->MouseClick(mousePos, mouseState);
+		tiles.at(curTile)->MouseClick(mousePos);
 	}
 private:
 	static constexpr int width = 40;
@@ -35,5 +34,4 @@ private:
 	std::vector<std::unique_ptr<TileGame>> tiles;
 	int prevTile = -1;
 	int curTile = -1;
-	IObervable* mouseState = nullptr;
 };

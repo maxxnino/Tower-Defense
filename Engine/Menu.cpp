@@ -32,8 +32,7 @@ void Menu::MouseLeave() noexcept
 		i->MouseLeave();
 	}
 }
-
-void Menu::ProcessCommand(Mouse & mouse, MouseState & mouseTower) noexcept
+void Menu::ProcessCommand(Mouse & mouse) noexcept
 {
 	for (auto i : items)
 	{
@@ -46,19 +45,6 @@ void Menu::ProcessCommand(Mouse & mouse, MouseState & mouseTower) noexcept
 			i->MouseLeave();
 		}
 	}
-	while (!mouse.IsEmpty())
-	{
-		if (mouse.Read().GetType() == Mouse::Event::Type::RPress)
-		{
-			mouseTower.typeDame = nullptr;
-		}
-	}
-}
-
-void Menu::AddItem(MenuItem * item, IObervable * obs)
-{
-	items.emplace_back(item);
-	item->AddObs(obs);
 }
 
 void Menu::AddItem(MenuItem * item)

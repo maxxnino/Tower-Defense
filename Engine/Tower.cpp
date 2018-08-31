@@ -1,5 +1,4 @@
 #include "Tower.h"
-
 void Tower::Update(float dt) noexcept
 {
 	timer += dt;
@@ -10,6 +9,11 @@ void Tower::Update(float dt) noexcept
 	{
 		timer = 0.0f;
 		isAttack = true;
+		if (enemies.size() != 0)
+		{
+
+		}
+		
 	}
 	else
 	{
@@ -17,9 +21,9 @@ void Tower::Update(float dt) noexcept
 	}
 }
 
-bool Tower::Upgrade(TypeDame * newType)
+void Tower::Upgrade(TypeDame * newType)
 {
-	if (typeDames.size() >= 3)
+	/*if (typeDames.size() >= 3)
 	{
 		return false;
 	}
@@ -70,5 +74,5 @@ bool Tower::Upgrade(TypeDame * newType)
 			break;
 		}
 		return true;
-	}
+	}*/
 }

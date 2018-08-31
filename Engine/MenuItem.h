@@ -1,12 +1,10 @@
 #pragma once
-#include <memory>
+#include <functional>
 #include <assert.h>
 #include "Graphics.h"
 #include "Rect.h"
 #include "Mouse.h"
-#include "Observer.h"
-#include "IDataItem.h"
-class MenuItem : public Observer, public IObervable
+class MenuItem
 {
 public:
 	virtual void Draw(Graphics& gfx) const = 0;
@@ -14,7 +12,6 @@ public:
 	virtual void MouseLeave() = 0;
 	virtual void MouseIn(Mouse& mouse) = 0;
 	virtual void ResetState() = 0;
-	void OnNotify(Observer* datauser) override {};
 	inline RectF GetRect() noexcept
 	{
 		return RectF(pos, width, height);
@@ -31,12 +28,14 @@ public:
 	{
 		return height;
 	}
-	inline IDataItem* getData() { return data; }
-	inline void setData(IDataItem* newdata) { data = newdata; }
 	inline void setColor(Color c)  noexcept
 	{
 		color = c;
 		baseColor = c;
+	}
+	std::function<void()>& getFunction()
+	{
+		return pFunc;
 	}
 protected:
 	MenuItem(VecF pos, float width, float height)
@@ -50,6 +49,6 @@ protected:
 	float height;
 	Color color;
 	Color baseColor;
-	IDataItem* data;
+	std::function<void()> pFunc;
 private:
 };

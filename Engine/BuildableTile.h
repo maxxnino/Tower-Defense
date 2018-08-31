@@ -7,13 +7,11 @@ public:
 		:
 		pos(pos)
 	{}
-	void Draw(Graphics& gfx, VecI pos, int width, int height, IObervable* obs) const noexcept override;
-	void MouseClick(const VecI& mousePos, IObervable* obs) noexcept override;
-	void OnNotify(Observer* userData) override;
+	void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept override;
+	void MouseClick(const VecI& mousePos) noexcept override;
 	void AddEntity(std::shared_ptr<Tower> tower) override;
 	void DeleteTower()
 	{
-		myTower->RemoveAll();
 		myTower.reset();
 	}
 	void BuildTower(TypeDame* type);

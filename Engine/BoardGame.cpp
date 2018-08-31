@@ -1,12 +1,10 @@
 #include "BoardGame.h"
 #include "WalkableTile.h"
 #include "BuildableTile.h"
-#include "MouseState.h"
 
-BoardGame::BoardGame(VecF pos, float menuW, float menuH, IObervable * menuManagerObs, IObervable * mouseState)
+BoardGame::BoardGame(VecF pos, float menuW, float menuH)
 	:
-	pos(pos),
-	mouseState(mouseState)
+	pos(pos)
 {
 	const int r = ((int)menuW % width >= 1) ? 1 : 0;
 	const int b = ((int)menuH % height >= 1) ? 1 : 0;
@@ -26,7 +24,7 @@ BoardGame::BoardGame(VecF pos, float menuW, float menuH, IObervable * menuManage
 			{
 				VecI pos = VecI((int)x * width, (int)y  * height);
 				tiles.emplace_back(std::make_unique<BuildableTile>(pos));
-				tiles.back()->AddObs(menuManagerObs);
+				//tiles.back()->AddObs(menuManagerObs);
 			}
 		}
 	}
@@ -39,7 +37,7 @@ void BoardGame::Draw(Graphics & gfx) const noexcept
 		for (int w = 0; w < nWidth; w++)
 		{
 			const VecI tilePos = (VecI)pos + VecI(w * width, h * height);
-			tileAt(w, h).Draw(gfx, tilePos, width, height, mouseState);
+			tileAt(w, h).Draw(gfx, tilePos, width, height);
 		}
 	}
 }
@@ -60,7 +58,7 @@ void BoardGame::ProcessComand(Mouse & mouse)
 			MouseMove(mousePos);
 			break;
 		case Mouse::Event::Type::RPress:
-			static_cast<MouseState*>(mouseState)->typeDame = nullptr;
+			//static_cast<MouseState*>(mouseState)->typeDame = nullptr;
 			break;
 		default:
 			break;

@@ -74,7 +74,7 @@ public:
 		body->SetLinearVelocity(vel);
 	}
 protected:
-	float maxSpeedSq = 10.0f;
+	float maxSpeedSq = 100.0f;
 	float size;
 	std::unique_ptr<b2Body, std::function<void(b2Body*)>> body;
 };

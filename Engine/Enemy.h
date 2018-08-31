@@ -1,8 +1,7 @@
 #pragma once
 #include "PhysicObject.h"
 #include "Graphics.h"
-#include "Observer.h"
-class Enemy : public PhysicObject, public Observer
+class Enemy : public PhysicObject
 {
 public:
 	Enemy(b2World& box2DEngine)
@@ -18,7 +17,7 @@ public:
 	void MarkAsDead()
 	{
 		isDead = true;
-		Notify(this);
+		//Notify(this);
 	}
 	bool isRemove()
 	{

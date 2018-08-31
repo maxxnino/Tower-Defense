@@ -149,21 +149,17 @@
     <ClInclude Include="PhysicObject.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="COMInitializer.h" />
-    <ClInclude Include="DeleteTower.h" />
     <ClInclude Include="DXErr.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
-    <ClInclude Include="IDataItem.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuItem.h" />
     <ClInclude Include="MenuManager.h" />
     <ClInclude Include="Mouse.h" />
-    <ClInclude Include="IObservable.h" />
     <ClInclude Include="MouseState.h" />
     <ClInclude Include="MyContactLisener.h" />
-    <ClInclude Include="Observer.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sound.h" />
@@ -181,7 +177,6 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonState.cpp" />
     <ClCompile Include="COMInitializer.cpp" />
-    <ClCompile Include="DeleteTower.cpp" />
     <ClCompile Include="DXErr.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -191,10 +186,8 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuManager.cpp" />
     <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Tower.cpp" />
-    <ClCompile Include="TypeDame.cpp" />
     <ClCompile Include="WalkableTile.cpp" />
   </ItemGroup>
   <ItemGroup>

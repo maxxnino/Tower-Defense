@@ -36,7 +36,7 @@ void BtnSleepState::MouseIn(Button * btn, Mouse& mouse)
 		if (e == Mouse::Event::Type::LPress)
 		{
 			isclicked = false;
-			btn->Notify(btn);
+			btn->pFunc();
 			btn->color = Colors::Magenta;
 			btn->btnState = &btn->clickedState;
 		}
@@ -68,7 +68,7 @@ void BtnMouseHoverState::MouseIn(Button * btn, Mouse & mouse)
 		if (e == Mouse::Event::Type::LPress)
 		{
 			isclicked = false;
-			btn->Notify(btn);
+			btn->pFunc();
 			btn->color = Colors::Magenta;
 			btn->btnState = &btn->clickedState;
 		}

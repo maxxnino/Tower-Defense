@@ -1,83 +1,98 @@
 #pragma once
 #include "Menu.h"
 #include "Button.h"
-#include "Observer.h"
-#include "MouseState.h"
-#include "Box2D/Box2D.h"
 #include <algorithm>
-
-class MenuManager : public Observer, public IObervable
+#include <memory>
+class MenuManager
 {
 public:
-	MenuManager(b2World& box2DEngine)
+	MenuManager()
 		:
-		mouseState(box2DEngine),
 		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::Cyan),
-		mainMenuBtn01(VecF(100.0f + 100.0f , 500.0f + 7.0f), 60.0f, 60.0f),
-		mainMenuBtn02(VecF(100.0f + 100.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		mainMenuBtn03(VecF(100.0f + 100.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		deleteTowerBtn04(VecF(100.0f + 100.0f + 3.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		//mainMenuBtn01(VecF(100.0f + 100.0f , 500.0f + 7.0f), 60.0f, 60.0f),
+		//mainMenuBtn02(VecF(100.0f + 100.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		//mainMenuBtn03(VecF(100.0f + 100.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		//deleteTowerBtn04(VecF(100.0f + 100.0f + 3.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
 		upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::MakeRGB(172u, 115u, 57u)),
-		upgradeMenuBtn01(VecF(100.0f + 150.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f)
+		testMenu({ 100.0f,100.0f }, 600.0f, 75.0f, Colors::MakeRGB(100u, 30u, 100u)),
+		//upgradeMenuBtn01(VecF(100.0f + 150.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		//upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		//upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		openMainMenu(VecF(100.0f + 100.0f, 100.0f + 7.0f), 60.0f, 60.0f),
+		openUpgradeMenu(VecF(100.0f + 200.0f, 100.0f + 7.0f), 60.0f, 60.0f),
+		openToggleMenu(VecF(100.0f + 300.0f, 100.0f + 7.0f), 60.0f, 60.0f)
 	{
 		activeMenu = &mainMenu;
 		//main menu
-		mainMenuBtn01.setData(&(mouseState.fire));
-		mainMenuBtn02.setData(&(mouseState.ice));
-		mainMenuBtn03.setData(&(mouseState.lighting));
-		deleteTowerBtn04.setData(&(mouseState.deleteTower));
-		mainMenuBtn01.setColor(mouseState.fire.getColor());
-		mainMenuBtn02.setColor(mouseState.ice.getColor());
-		mainMenuBtn03.setColor(mouseState.lighting.getColor());
-		deleteTowerBtn04.setColor(Colors::White);
-		mainMenu.AddItem(&mainMenuBtn01, &mouseState);
-		mainMenu.AddItem(&mainMenuBtn02, &mouseState);
-		mainMenu.AddItem(&mainMenuBtn03, &mouseState);
-		mainMenu.AddItem(&deleteTowerBtn04, &mouseState);
+		openMainMenu.getFunction() = [this]() {this->ChangeMainMenu(); };
+		openMainMenu.setColor(Colors::Red);
+
+		openUpgradeMenu.getFunction() = [this]() {this->ChangeUpgradeMenu(); };
+		openUpgradeMenu.setColor(Colors::Green);
+
+		openToggleMenu.getFunction() = [this]() {this->ToggleMenu(); };
+		openToggleMenu.setColor(Colors::Blue);
+
+		testMenu.AddItem(&openMainMenu);
+		testMenu.AddItem(&openUpgradeMenu);
+		testMenu.AddItem(&openToggleMenu);
 		
 		//upgrademenu
-		upgradeMenuBtn01.setData(&(mouseState.fire));
-		upgradeMenuBtn02.setData(&(mouseState.ice));
-		upgradeMenuBtn03.setData(&(mouseState.lighting));
-		upgradeMenuBtn01.setColor(mouseState.fire.getColor());
-		upgradeMenuBtn02.setColor(mouseState.ice.getColor());
-		upgradeMenuBtn03.setColor(mouseState.lighting.getColor());
-		upgradeMenu.AddItem(&upgradeMenuBtn01);
-		upgradeMenu.AddItem(&upgradeMenuBtn02);
-		upgradeMenu.AddItem(&upgradeMenuBtn03);
+
 		
 	}
 	void Update(float dt, Mouse& mouse)
 	{
+		ProcessCommand(mouse);
 		activeMenu->Update(dt, mouse);
+		testMenu.Update(dt, mouse);
 	}
+	void Draw(Graphics& gfx)
+	{
+		activeMenu->Draw(gfx);
+		testMenu.Draw(gfx);
+	}
+
+private:
+
 	void ProcessCommand(Mouse& mouse)
 	{
 		if (activeMenu->GetRect().isContaint(mouse.GetPos()))
 		{
-			activeMenu->ProcessCommand(mouse, mouseState);
+			activeMenu->ProcessCommand(mouse);
 		}
 		else
 		{
 			activeMenu->MouseLeave();
 		}
+		if (testMenu.GetRect().isContaint(mouse.GetPos()))
+		{
+			testMenu.ProcessCommand(mouse);
+		}
+		else
+		{
+			testMenu.MouseLeave();
+		}
 	}
-	void OnNotify(Observer* dataUser) override;
-	void Draw(Graphics& gfx) const
+	void ChangeMainMenu()
 	{
-		activeMenu->Draw(gfx);
+		activeMenu = &mainMenu;
 	}
-	int getData()
+	void ChangeUpgradeMenu()
 	{
-		
+		activeMenu = &upgradeMenu;
 	}
-	inline IObervable* GetMouseStateObs() noexcept
+	void ToggleMenu()
 	{
-		return &mouseState;
+		if (activeMenu == &mainMenu)
+		{
+			activeMenu = &upgradeMenu;
+		}
+		else
+		{
+			activeMenu = &mainMenu;
+		}
 	}
-private:
 	/*void MakeMenu(VecF menuPos, float menuW, float menuH)
 	{
 		auto menu = std::make_shared<Menu>(Menu(menuPos, menuW, menuH, Colors::Cyan));
@@ -102,18 +117,23 @@ private:
 		}
 	}*/
 private:
-	MouseState mouseState;
 	Menu* activeMenu = nullptr;
 	//Make main menu and button
 	Menu mainMenu;
-	Button mainMenuBtn01;
-	Button mainMenuBtn02;
-	Button mainMenuBtn03;
-	Button deleteTowerBtn04;
+	//Button mainMenuBtn01;
+	//Button mainMenuBtn02;
+	//Button mainMenuBtn03;
+	//Button deleteTowerBtn04;
 
 	//Upgrade Menu
 	Menu upgradeMenu;
-	Button upgradeMenuBtn01;
-	Button upgradeMenuBtn02;
-	Button upgradeMenuBtn03;
+	//Button upgradeMenuBtn01;
+	//Button upgradeMenuBtn02;
+	//Button upgradeMenuBtn03;
+
+	//test button
+	Menu testMenu;
+	Button openMainMenu;
+	Button openUpgradeMenu;
+	Button openToggleMenu;
 };

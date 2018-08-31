@@ -123,18 +123,6 @@
     <ClInclude Include="TypeArmor.h">
       <Filter>Header Files\Game\Tower</Filter>
     </ClInclude>
-    <ClInclude Include="IObservable.h">
-      <Filter>Header Files\Observer</Filter>
-    </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Header Files\Observer</Filter>
-    </ClInclude>
-    <ClInclude Include="IDataItem.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="DeleteTower.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
@@ -197,16 +185,7 @@
     <ClCompile Include="MenuManager.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="MouseState.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="WalkableTile.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="DeleteTower.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="TypeDame.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Tower.cpp">

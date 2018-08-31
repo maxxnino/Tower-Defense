@@ -9,7 +9,7 @@
 class TileGame
 {
 public:
-	virtual void MouseClick(const VecI& mousePos, IMediator* mediator) noexcept = 0;
+	virtual void MouseClick(const VecI& mousePos, IMediator* mediator) = 0;
 	virtual void AddEntity(std::shared_ptr<Tower>) = 0;
 	virtual void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept = 0;
 	virtual void UpgradeTower(TypeDame* typeDame) = 0;

@@ -1,5 +1,4 @@
 #pragma once
-#include <functional>
 #include <assert.h>
 #include "Graphics.h"
 #include "Rect.h"
@@ -33,10 +32,6 @@ public:
 		color = c;
 		baseColor = c;
 	}
-	std::function<void()>& getFunction()
-	{
-		return pFunc;
-	}
 protected:
 	MenuItem(VecF pos, float width, float height)
 		:
@@ -49,6 +44,4 @@ protected:
 	float height;
 	Color color;
 	Color baseColor;
-	std::function<void()> pFunc;
-private:
 };

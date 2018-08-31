@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include "MenuItem.h"
 #include "ButtonState.h"
 class Button : public MenuItem
@@ -13,6 +14,10 @@ public:
 	void MouseIn(Mouse& mouse) override;
 	void MouseLeave() override;
 	void ResetState() override;
+	std::function<void()>& getFunction()
+	{
+		return pFunc;
+	}
 private:
 	friend BtnClickState;
 	friend BtnSleepState;
@@ -21,5 +26,6 @@ private:
 	BtnSleepState sleepState;
 	BtnMouseHoverState hoverState;
 	ButtonState* btnState = &sleepState;
+	std::function<void()> pFunc = []() {};
 	float timer = 0.0f;
 };

@@ -31,6 +31,7 @@
 #include "Projectile.h"
 #include "Enemy.h"
 #include "MyContactLisener.h"
+#include "ControlGuiAndBoard.h"
 #include <random>
 class Game
 {
@@ -55,6 +56,7 @@ private:
 	MyContactLisener listener;
 	MenuManager gui;
 	BoardGame brd;
+	ControlGuiAndBoard mediatorGuiAndBrd;
 	int32 velocityIterations = 8;
 	int32 positionIterations = 3;
 	std::vector<std::unique_ptr<Enemy>> enemies;

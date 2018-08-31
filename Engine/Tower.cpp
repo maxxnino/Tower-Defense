@@ -21,11 +21,11 @@ void Tower::Update(float dt) noexcept
 	}
 }
 
-void Tower::Upgrade(TypeDame * newType)
+void Tower::Upgrade(const TypeDame * newType)
 {
-	/*if (typeDames.size() >= 3)
+	if (typeDames.size() >= 3)
 	{
-		return false;
+		return;
 	}
 	else
 	{
@@ -73,6 +73,5 @@ void Tower::Upgrade(TypeDame * newType)
 		default:
 			break;
 		}
-		return true;
-	}*/
+	}
 }

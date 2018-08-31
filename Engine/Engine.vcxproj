@@ -146,6 +146,10 @@
     <ClInclude Include="ChiliException.h" />
     <ClInclude Include="ChiliWin.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="IComponent.h" />
+    <ClInclude Include="IMediator.h" />
+    <ClInclude Include="ControlGuiAndBoard.h" />
+    <ClInclude Include="MouseGame.h" />
     <ClInclude Include="PhysicObject.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="COMInitializer.h" />
@@ -158,7 +162,6 @@
     <ClInclude Include="MenuItem.h" />
     <ClInclude Include="MenuManager.h" />
     <ClInclude Include="Mouse.h" />
-    <ClInclude Include="MouseState.h" />
     <ClInclude Include="MyContactLisener.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Resource.h" />

@@ -3,82 +3,51 @@
 #include "Button.h"
 #include <algorithm>
 #include <memory>
-class MenuManager
+#include "IComponent.h"
+class MenuManager : public IComponent
 {
 public:
 	MenuManager()
 		:
 		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::Cyan),
-		//mainMenuBtn01(VecF(100.0f + 100.0f , 500.0f + 7.0f), 60.0f, 60.0f),
-		//mainMenuBtn02(VecF(100.0f + 100.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		//mainMenuBtn03(VecF(100.0f + 100.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		mainMenuBtn01(VecF(100.0f + 100.0f , 500.0f + 7.0f), 60.0f, 60.0f),
+		mainMenuBtn02(VecF(100.0f + 100.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		mainMenuBtn03(VecF(100.0f + 100.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
 		//deleteTowerBtn04(VecF(100.0f + 100.0f + 3.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
 		upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::MakeRGB(172u, 115u, 57u)),
-		testMenu({ 100.0f,100.0f }, 600.0f, 75.0f, Colors::MakeRGB(100u, 30u, 100u)),
-		//upgradeMenuBtn01(VecF(100.0f + 150.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		//upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		//upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		openMainMenu(VecF(100.0f + 100.0f, 100.0f + 7.0f), 60.0f, 60.0f),
-		openUpgradeMenu(VecF(100.0f + 200.0f, 100.0f + 7.0f), 60.0f, 60.0f),
-		openToggleMenu(VecF(100.0f + 300.0f, 100.0f + 7.0f), 60.0f, 60.0f)
+		upgradeMenuBtn01(VecF(100.0f + 150.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f)
 	{
 		activeMenu = &mainMenu;
 		//main menu
-		openMainMenu.getFunction() = [this]() {this->ChangeMainMenu(); };
-		openMainMenu.setColor(Colors::Red);
+		mainMenuBtn01.getFunction() = [this]() {this->mediator->ChangeToFire(); };
+		mainMenuBtn02.getFunction() = [this]() {this->mediator->ChangeToIce(); };
+		mainMenuBtn03.getFunction() = [this]() {this->mediator->ChangeToLighting(); };
+		mainMenu.AddItem(&mainMenuBtn01);
+		mainMenu.AddItem(&mainMenuBtn02);
+		mainMenu.AddItem(&mainMenuBtn03);
 
-		openUpgradeMenu.getFunction() = [this]() {this->ChangeUpgradeMenu(); };
-		openUpgradeMenu.setColor(Colors::Green);
-
-		openToggleMenu.getFunction() = [this]() {this->ToggleMenu(); };
-		openToggleMenu.setColor(Colors::Blue);
-
-		testMenu.AddItem(&openMainMenu);
-		testMenu.AddItem(&openUpgradeMenu);
-		testMenu.AddItem(&openToggleMenu);
-		
 		//upgrademenu
-
-		
+	}
+	void AddMediator(IMediator* mediator) override
+	{
+		this->mediator = mediator;
 	}
 	void Update(float dt, Mouse& mouse)
 	{
 		ProcessCommand(mouse);
 		activeMenu->Update(dt, mouse);
-		testMenu.Update(dt, mouse);
 	}
 	void Draw(Graphics& gfx)
 	{
 		activeMenu->Draw(gfx);
-		testMenu.Draw(gfx);
-	}
-
-private:
-
-	void ProcessCommand(Mouse& mouse)
-	{
-		if (activeMenu->GetRect().isContaint(mouse.GetPos()))
-		{
-			activeMenu->ProcessCommand(mouse);
-		}
-		else
-		{
-			activeMenu->MouseLeave();
-		}
-		if (testMenu.GetRect().isContaint(mouse.GetPos()))
-		{
-			testMenu.ProcessCommand(mouse);
-		}
-		else
-		{
-			testMenu.MouseLeave();
-		}
 	}
 	void ChangeMainMenu()
 	{
 		activeMenu = &mainMenu;
 	}
-	void ChangeUpgradeMenu()
+	void ChangeUpgradeMenu(int index)
 	{
 		activeMenu = &upgradeMenu;
 	}
@@ -93,6 +62,20 @@ private:
 			activeMenu = &mainMenu;
 		}
 	}
+private:
+
+	void ProcessCommand(Mouse& mouse)
+	{
+		if (activeMenu->GetRect().isContaint(mouse.GetPos()))
+		{
+			activeMenu->ProcessCommand(mouse);
+		}
+		else
+		{
+			activeMenu->MouseLeave();
+		}
+	}
+
 	/*void MakeMenu(VecF menuPos, float menuW, float menuH)
 	{
 		auto menu = std::make_shared<Menu>(Menu(menuPos, menuW, menuH, Colors::Cyan));
@@ -118,22 +101,17 @@ private:
 	}*/
 private:
 	Menu* activeMenu = nullptr;
+	IMediator* mediator = nullptr;
 	//Make main menu and button
 	Menu mainMenu;
-	//Button mainMenuBtn01;
-	//Button mainMenuBtn02;
-	//Button mainMenuBtn03;
+	Button mainMenuBtn01;
+	Button mainMenuBtn02;
+	Button mainMenuBtn03;
 	//Button deleteTowerBtn04;
 
 	//Upgrade Menu
 	Menu upgradeMenu;
-	//Button upgradeMenuBtn01;
-	//Button upgradeMenuBtn02;
-	//Button upgradeMenuBtn03;
-
-	//test button
-	Menu testMenu;
-	Button openMainMenu;
-	Button openUpgradeMenu;
-	Button openToggleMenu;
+	Button upgradeMenuBtn01;
+	Button upgradeMenuBtn02;
+	Button upgradeMenuBtn03;
 };

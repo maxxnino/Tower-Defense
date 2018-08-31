@@ -14,6 +14,10 @@ public:
 	{}
 	virtual float getDame() = 0;
 	virtual float getAttackSpeed() = 0;
+	inline const Color& getColor() const noexcept
+	{
+		return c;
+	}
 protected:
 	float baseAttackSpeed = 1.0f;
 	float baseDame = 10.0f;

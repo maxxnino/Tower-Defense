@@ -1,8 +1,10 @@
 #pragma once
 #include "TypeDame.h"
-class MouseState
+
+class MouseGame
 {
 public:
+	TypeDame * typeDame = nullptr;
 	FireDame fire;
 	IceDame ice;
 	LightingDame lighting;

@@ -3,13 +3,15 @@
 class BuildableTile : public TileGame
 {
 public:
-	BuildableTile(VecI pos)
+	BuildableTile(VecI pos,int index)
 		:
-		pos(pos)
+		pos(pos),
+		index(index)
 	{}
 	void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept override;
-	void MouseClick(const VecI& mousePos) noexcept override;
+	void MouseClick(const VecI& mousePos, IMediator* mediator) noexcept override;
 	void AddEntity(std::shared_ptr<Tower> tower) override;
+	void UpgradeTower(const TypeDame* typeDame) override;
 	void DeleteTower()
 	{
 		myTower.reset();
@@ -19,4 +21,5 @@ private:
 	static constexpr Color c = Colors::Gray;
 	std::shared_ptr<Tower> myTower;
 	VecI pos;
+	int index;
 };

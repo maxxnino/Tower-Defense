@@ -18,12 +18,11 @@ BoardGame::BoardGame(VecF pos, float menuW, float menuH)
 			if (y == mid - 1 || y == mid || y == mid + 1)
 			{
 				tiles.emplace_back(std::make_unique<WalkableTile>());
-				
 			}
 			else
 			{
 				VecI pos = VecI((int)x * width, (int)y  * height);
-				tiles.emplace_back(std::make_unique<BuildableTile>(pos));
+				tiles.emplace_back(std::make_unique<BuildableTile>(pos,int(x + y * nWidth)));
 				//tiles.back()->AddObs(menuManagerObs);
 			}
 		}
@@ -63,30 +62,5 @@ void BoardGame::ProcessComand(Mouse & mouse)
 		default:
 			break;
 		}
-	}
-}
-
-void BoardGame::MouseMove(const VecI & mousePos) noexcept
-{
-	if (prevTile != -1)
-	{
-		if (curTile != prevTile)
-		{
-			tiles.at(curTile)->MouseMove(mousePos);
-			tiles.at(prevTile)->MouseMove(mousePos);
-			tiles[curTile]->Awake();
-			tiles[prevTile]->Sleep();
-			prevTile = curTile;
-		}
-		else
-		{
-			tiles.at(curTile)->MouseMove(mousePos);
-		}
-	}
-	else
-	{
-		tiles.at(curTile)->MouseMove(mousePos);
-		prevTile = curTile;
-		tiles[curTile]->Awake();
 	}
 }

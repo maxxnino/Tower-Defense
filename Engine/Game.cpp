@@ -26,7 +26,8 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd ),
 	box2DEngine(std::make_unique<b2World>(b2Vec2(0.0f, 0.0f))),
-	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight)
+	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight),
+	mediatorGuiAndBrd(&brd,&gui)
 {
 	box2DEngine->SetContactListener(&listener);
 }

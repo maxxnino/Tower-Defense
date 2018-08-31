@@ -26,7 +26,7 @@ public:
 	{
 		return isAttack;
 	}
-	void Upgrade(TypeDame* newType);
+	void Upgrade(const TypeDame* newType);
 	void AddEnemy(Enemy* enemy)
 	{
 		enemies.insert(enemy);

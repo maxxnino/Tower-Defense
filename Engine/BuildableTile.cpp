@@ -35,27 +35,23 @@ void BuildableTile::Draw(Graphics & gfx, VecI pos, int width, int height) const 
 	//}
 }
 
-void BuildableTile::MouseClick(const VecI & mousePos) noexcept
+void BuildableTile::MouseClick(const VecI & mousePos, IMediator* mediator) noexcept
 {
-	//auto data = static_cast<MouseState*>(obs)->typeDame;
-	//if (!data)
-	//{
-	//	if (myTower)
-	//	{
-	//		//that mean nothing in mouse, and this tile have tower, clicked for open upgrade menu from Menumanager
-	//		Notify(this);
-	//	}
-	//}
-	//else
-	//{
-	//	// have data, delete or build tower base on IItemData 
-	//	data->executed(this);
-	//}
+	if (myTower)
+	{
+		//that mean nothing in mouse, and this tile have tower, clicked for open upgrade menu from Menumanager
+		mediator->OpenUpgradeMenu(index);
+	}
 }
 
 void BuildableTile::AddEntity(std::shared_ptr<Tower> tower)
 {
 	myTower = tower;
+}
+
+void BuildableTile::UpgradeTower(const TypeDame * typeDame)
+{
+	myTower->Upgrade(typeDame);
 }
 
 void BuildableTile::BuildTower(TypeDame * type)

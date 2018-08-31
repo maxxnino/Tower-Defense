@@ -15,12 +15,13 @@ public:
 	}
 	void OpenUpgradeMenu(int index) override
 	{
-		menuMgr.ChangeUpgradeMenu();
 		towerIndex = index;
+		menuMgr.ChangeUpgradeMenu();
 	}
 	void UpgradeTower() override
 	{
 		board.tileAt(towerIndex).UpgradeTower(mouseGame.typeDame);
+		mouseGame.typeDame = nullptr;
 	}
 	MouseGame* GetMouseGame() override
 	{

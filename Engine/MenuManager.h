@@ -45,19 +45,19 @@ public:
 			auto mouseGame = this->mediator->GetMouseGame();
 			mouseGame->typeDame = &mouseGame->fire;
 			this->mediator->UpgradeTower();
-			activeMenu = &mainMenu;
+			ChangeMainMenu();
 		};
 		upgradeMenuBtn02.GetLeftClickFunc() = [this]() {
 			auto mouseGame = this->mediator->GetMouseGame();
 			mouseGame->typeDame = &mouseGame->ice;
 			this->mediator->UpgradeTower();
-			activeMenu = &mainMenu;
+			ChangeMainMenu();
 		};
 		upgradeMenuBtn03.GetLeftClickFunc() = [this]() {
 			auto mouseGame = this->mediator->GetMouseGame();
 			mouseGame->typeDame = &mouseGame->lighting;
 			this->mediator->UpgradeTower();
-			activeMenu = &mainMenu;
+			ChangeMainMenu();
 		};
 		upgradeMenuBtn01.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->typeDame = nullptr; };
 		upgradeMenuBtn02.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->typeDame = nullptr; };
@@ -88,21 +88,18 @@ public:
 	}
 	void ChangeMainMenu()
 	{
-		activeMenu = &mainMenu;
+		if (activeMenu != &mainMenu)
+		{
+			activeMenu = &mainMenu;
+			upgradeMenu.ResetItem();
+		}
 	}
 	void ChangeUpgradeMenu()
 	{
-		activeMenu = &upgradeMenu;
-	}
-	void ToggleMenu()
-	{
-		if (activeMenu == &mainMenu)
+		if (activeMenu != &upgradeMenu)
 		{
 			activeMenu = &upgradeMenu;
-		}
-		else
-		{
-			activeMenu = &mainMenu;
+			mainMenu.ResetItem();
 		}
 	}
 private:
@@ -126,30 +123,6 @@ private:
 			activeMenu->MouseLeave();
 		}
 	}
-
-	/*void MakeMenu(VecF menuPos, float menuW, float menuH)
-	{
-		auto menu = std::make_shared<Menu>(Menu(menuPos, menuW, menuH, Colors::Cyan));
-		menus.emplace_back(menu);
-	}
-	void AddVerticalButton(VecI menuPos, int nBtn, float paddingLeft, float paddingTop, float spaceBetweenBtn, float btwWidth, float btnHeight)
-	{
-		for (int i = 0; i < nBtn; i++)
-		{
-			auto b = std::make_shared<Button>(menuPos + VecF(paddingLeft + (float)i * spaceBetweenBtn, paddingTop), btwWidth, btnHeight, Colors::Red);
-			b->setData(i + 1);
-			b->addListener(btnListener);
-			menus.back()->AddItem(b);
-		}
-	}
-	void AddHorizontalButton(VecI menuPos, int nBtn, float paddingLeft, float paddingTop, float spaceBetweenBtn, float btwWidth, float btnHeight)
-	{
-		for (int i = 0; i < nBtn; i++)
-		{
-			auto b = std::make_shared<Button>(menuPos + VecF(paddingLeft, paddingTop + (float)i * spaceBetweenBtn), btwWidth, btnHeight, Colors::Red);
-			menus.back()->AddItem(b);
-		}
-	}*/
 private:
 	Menu* activeMenu = nullptr;
 	IMediator* mediator = nullptr;
@@ -166,3 +139,27 @@ private:
 	Button upgradeMenuBtn02;
 	Button upgradeMenuBtn03;
 };
+
+/*void MakeMenu(VecF menuPos, float menuW, float menuH)
+{
+auto menu = std::make_shared<Menu>(Menu(menuPos, menuW, menuH, Colors::Cyan));
+menus.emplace_back(menu);
+}
+void AddVerticalButton(VecI menuPos, int nBtn, float paddingLeft, float paddingTop, float spaceBetweenBtn, float btwWidth, float btnHeight)
+{
+for (int i = 0; i < nBtn; i++)
+{
+auto b = std::make_shared<Button>(menuPos + VecF(paddingLeft + (float)i * spaceBetweenBtn, paddingTop), btwWidth, btnHeight, Colors::Red);
+b->setData(i + 1);
+b->addListener(btnListener);
+menus.back()->AddItem(b);
+}
+}
+void AddHorizontalButton(VecI menuPos, int nBtn, float paddingLeft, float paddingTop, float spaceBetweenBtn, float btwWidth, float btnHeight)
+{
+for (int i = 0; i < nBtn; i++)
+{
+auto b = std::make_shared<Button>(menuPos + VecF(paddingLeft, paddingTop + (float)i * spaceBetweenBtn), btwWidth, btnHeight, Colors::Red);
+menus.back()->AddItem(b);
+}
+}*/

@@ -39,12 +39,18 @@ void BoardGame::Draw(Graphics & gfx) const noexcept
 			tileAt(w, h).Draw(gfx, tilePos, width, height);
 		}
 	}
+	auto typeDame = mediator->GetMouseGame()->typeDame;
+	if (typeDame)
+	{
+		const VecI tilePos = (VecI)pos + VecI(curTile.x * width, curTile.y * height);
+		tileAt(curTile).DrawActive(gfx, tilePos, width, height, typeDame->getColor());
+	}
+	
 }
 
 void BoardGame::ProcessComand(Mouse & mouse)
 {
 	const VecI mousePos = mouse.GetPos();
-	curTile = (mousePos.x - (int)pos.x) / width + ((mousePos.y - (int)pos.y) / height) * nWidth;
 	while (!mouse.IsEmpty())
 	{
 		const auto e = mouse.Read().GetType();
@@ -54,10 +60,10 @@ void BoardGame::ProcessComand(Mouse & mouse)
 			MouseClick(mousePos);
 			break;
 		case Mouse::Event::Type::Move:
-			MouseMove(mousePos);
+			curTile = { (mousePos.x - (int)pos.x) / width ,(mousePos.y - (int)pos.y) / height };
 			break;
 		case Mouse::Event::Type::RPress:
-			//static_cast<MouseState*>(mouseState)->typeDame = nullptr;
+			mediator->GetMouseGame()->typeDame = nullptr;
 			break;
 		default:
 			break;

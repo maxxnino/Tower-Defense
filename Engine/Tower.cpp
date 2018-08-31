@@ -21,7 +21,7 @@ void Tower::Update(float dt) noexcept
 	}
 }
 
-void Tower::Upgrade(const TypeDame * newType)
+void Tower::Upgrade(TypeDame * newType)
 {
 	if (typeDames.size() >= 3)
 	{

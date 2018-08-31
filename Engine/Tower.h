@@ -7,15 +7,15 @@
 #include "Colors.h"
 #include "Projectile.h"
 #include "Enemy.h"
-class Tower : public PhysicObject
+class Tower //: public PhysicObject
 {
 public:
-	Tower(b2World& box2DEngine,Color c, const b2Vec2& worldPos, float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f })
+	Tower(Color c, const b2Vec2& worldPos, float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f })
 		:
-		c(c),
-		PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::ENEMY, worldPos, true, true, size, linVel)
+		c(c)
+		//PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::ENEMY, worldPos, true, true, size, linVel)
 	{
-		body->SetUserData(this);
+		//body->SetUserData(this);
 	}
 	inline const Color& GetColor() const noexcept
 	{
@@ -26,7 +26,7 @@ public:
 	{
 		return isAttack;
 	}
-	void Upgrade(const TypeDame* newType);
+	void Upgrade(TypeDame* newType);
 	void AddEnemy(Enemy* enemy)
 	{
 		enemies.insert(enemy);

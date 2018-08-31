@@ -27,7 +27,6 @@
 #include "MenuManager.h"
 #include "BoardGame.h"
 #include "Tower.h"
-#include "MouseState.h"
 #include "Projectile.h"
 #include "Enemy.h"
 #include "MyContactLisener.h"

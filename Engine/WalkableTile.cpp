@@ -1,5 +1,4 @@
 #include "WalkableTile.h"
-#include "MouseState.h"
 
 void WalkableTile::Draw(Graphics & gfx, VecI pos, int width, int height) const noexcept
 {

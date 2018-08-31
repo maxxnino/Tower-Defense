@@ -2,7 +2,6 @@
 #include "IMediator.h"
 #include "BoardGame.h"
 #include "MenuManager.h"
-#include "MouseGame.h"
 class ControlGuiAndBoard : public IMediator
 {
 public:
@@ -16,26 +15,20 @@ public:
 	}
 	void OpenUpgradeMenu(int index) override
 	{
-		menuMgr.ChangeUpgradeMenu(index);
+		menuMgr.ChangeUpgradeMenu();
+		towerIndex = index;
 	}
-	void UpgradeTower(int index) override
+	void UpgradeTower() override
 	{
-		board.tileAt(index).UpgradeTower(mouseGame.typeDame);
+		board.tileAt(towerIndex).UpgradeTower(mouseGame.typeDame);
 	}
-	void ChangeToFire() override
+	MouseGame* GetMouseGame() override
 	{
-		mouseGame.typeDame = &mouseGame.fire;
-	}
-	void ChangeToIce() override
-	{
-		mouseGame.typeDame = &mouseGame.ice;
-	}
-	void ChangeToLighting() override
-	{
-		mouseGame.typeDame = &mouseGame.lighting;
+		return &mouseGame;
 	}
 private:
 	BoardGame& board;
 	MenuManager& menuMgr;
 	MouseGame mouseGame;
+	int towerIndex = -1;
 };

@@ -198,7 +198,7 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Tower.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

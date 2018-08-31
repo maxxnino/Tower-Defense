@@ -14,9 +14,13 @@ public:
 	void MouseIn(Mouse& mouse) override;
 	void MouseLeave() override;
 	void ResetState() override;
-	std::function<void()>& getFunction()
+	std::function<void()>& GetLeftClickFunc()
 	{
-		return pFunc;
+		return LeftClickFunc;
+	}
+	std::function<void()>& GetRightClickFunc()
+	{
+		return RightClickFunc;
 	}
 private:
 	friend BtnClickState;
@@ -26,6 +30,7 @@ private:
 	BtnSleepState sleepState;
 	BtnMouseHoverState hoverState;
 	ButtonState* btnState = &sleepState;
-	std::function<void()> pFunc = []() {};
+	std::function<void()> LeftClickFunc = []() {};
+	std::function<void()> RightClickFunc = []() {};
 	float timer = 0.0f;
 };

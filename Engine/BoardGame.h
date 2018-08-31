@@ -33,32 +33,25 @@ public:
 		assert(w + h * nWidth >= 0 && w + h * nWidth < tiles.size());
 		return *tiles[w + h * nWidth];
 	}
+	inline TileGame& tileAt(VecI curtile) noexcept
+	{
+		assert(curtile.x + curtile.y * nWidth >= 0 && curtile.x + curtile.y * nWidth < tiles.size());
+		return *tiles[curtile.x + curtile.y * nWidth];
+	}
+	inline const TileGame& tileAt(VecI curtile) const noexcept
+	{
+		assert(curtile.x + curtile.y * nWidth >= 0 && curtile.x + curtile.y * nWidth < tiles.size());
+		return *tiles[curtile.x + curtile.y * nWidth];
+	}
 	inline TileGame& tileAt(int index) noexcept
 	{
 		assert(index >= 0 && index < tiles.size());
 		return *tiles[index];
 	}
 private:
-	void MouseMove(const VecI& mousePos) noexcept
-	{
-		if (prevTile != -1)
-		{
-			if (curTile != prevTile)
-			{
-				tiles[curTile]->Awake();
-				tiles[prevTile]->Sleep();
-				prevTile = curTile;
-			}
-		}
-		else
-		{
-			tiles[curTile]->Awake();
-			prevTile = curTile;
-		}
-	}
 	inline void MouseClick(const VecI& mousePos) noexcept
 	{
-		tiles.at(curTile)->MouseClick(mousePos, mediator);
+		tileAt(curTile).MouseClick(mousePos, mediator);
 	}
 private:
 	static constexpr int width = 40;
@@ -69,6 +62,5 @@ private:
 	std::mt19937 rng = std::mt19937(std::random_device{}());
 	std::vector<std::unique_ptr<TileGame>> tiles;
 	IMediator* mediator = nullptr;
-	int prevTile = -1;
-	int curTile = -1;
+	VecI curTile = {0,0};
 };

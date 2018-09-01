@@ -4,7 +4,7 @@
 class WalkableTile : public TileGame
 {
 public:
-	void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept override;
+	void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept override {};
 	void MouseClick(const VecI& mousePos, IMediator* mediator) override {};
 	void AddEntity(std::shared_ptr<Tower>) override {};
 	void UpgradeTower(TypeDame* typeDame) override {};

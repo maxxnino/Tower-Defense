@@ -21,7 +21,7 @@ public:
 	}
 	void MouseClick(const VecI& mousePos, IMediator* mediator) override
 	{
-		auto typeDame = mediator->GetMouseGame()->typeDame;
+		auto typeDame = mediator->GetMouseGame()->getTypeDame();
 		if (typeDame)
 		{
 			if (!myTower)

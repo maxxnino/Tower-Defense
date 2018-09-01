@@ -23,19 +23,19 @@ public:
 		//main menu
 		mainMenuBtn01.GetLeftClickFunc() = [this]() {
 			auto mouseGame = this->mediator->GetMouseGame();
-			mouseGame->typeDame = &mouseGame->fire;
+			mouseGame->ChangeToFire();
 		};
 		mainMenuBtn02.GetLeftClickFunc() = [this]() {
 			auto mouseGame = this->mediator->GetMouseGame();
-			mouseGame->typeDame = &mouseGame->ice;
+			mouseGame->ChangeToIce();
 		};
 		mainMenuBtn03.GetLeftClickFunc() = [this]() {
 			auto mouseGame = this->mediator->GetMouseGame();
-			mouseGame->typeDame = &mouseGame->lighting;
+			mouseGame->ChangeToLighting();
 		};
-		mainMenuBtn01.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->typeDame = nullptr; };
-		mainMenuBtn02.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->typeDame = nullptr; };
-		mainMenuBtn03.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->typeDame = nullptr; };
+		mainMenuBtn01.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->Clear(); };
+		mainMenuBtn02.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->Clear(); };
+		mainMenuBtn03.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->Clear(); };
 		mainMenu.AddItem(&mainMenuBtn01);
 		mainMenu.AddItem(&mainMenuBtn02);
 		mainMenu.AddItem(&mainMenuBtn03);
@@ -43,25 +43,25 @@ public:
 		//upgrademenu
 		upgradeMenuBtn01.GetLeftClickFunc() = [this]() {
 			auto mouseGame = this->mediator->GetMouseGame();
-			mouseGame->typeDame = &mouseGame->fire;
+			mouseGame->ChangeToFire();
 			this->mediator->UpgradeTower();
 			ChangeMainMenu();
 		};
 		upgradeMenuBtn02.GetLeftClickFunc() = [this]() {
 			auto mouseGame = this->mediator->GetMouseGame();
-			mouseGame->typeDame = &mouseGame->ice;
+			mouseGame->ChangeToIce();
 			this->mediator->UpgradeTower();
 			ChangeMainMenu();
 		};
 		upgradeMenuBtn03.GetLeftClickFunc() = [this]() {
 			auto mouseGame = this->mediator->GetMouseGame();
-			mouseGame->typeDame = &mouseGame->lighting;
+			mouseGame->ChangeToLighting();
 			this->mediator->UpgradeTower();
 			ChangeMainMenu();
 		};
-		upgradeMenuBtn01.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->typeDame = nullptr; };
-		upgradeMenuBtn02.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->typeDame = nullptr; };
-		upgradeMenuBtn03.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->typeDame = nullptr; };
+		upgradeMenuBtn01.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->Clear(); };
+		upgradeMenuBtn02.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->Clear(); };
+		upgradeMenuBtn03.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->Clear(); };
 		upgradeMenu.AddItem(&upgradeMenuBtn01);
 		upgradeMenu.AddItem(&upgradeMenuBtn02);
 		upgradeMenu.AddItem(&upgradeMenuBtn03);
@@ -70,12 +70,12 @@ public:
 	{
 		this->mediator = mediator;
 		auto mouseGame = this->mediator->GetMouseGame();
-		mainMenuBtn01.setColor(mouseGame->fire.getColor());
-		mainMenuBtn02.setColor(mouseGame->ice.getColor());
-		mainMenuBtn03.setColor(mouseGame->lighting.getColor());
-		upgradeMenuBtn01.setColor(mouseGame->fire.getColor());
-		upgradeMenuBtn02.setColor(mouseGame->ice.getColor());
-		upgradeMenuBtn03.setColor(mouseGame->lighting.getColor());
+		mainMenuBtn01.setColor(mouseGame->GetFireColor());
+		mainMenuBtn02.setColor(mouseGame->GetIceColor());
+		mainMenuBtn03.setColor(mouseGame->GetLightingColor());
+		upgradeMenuBtn01.setColor(mouseGame->GetFireColor());
+		upgradeMenuBtn02.setColor(mouseGame->GetIceColor());
+		upgradeMenuBtn03.setColor(mouseGame->GetLightingColor());
 	}
 	void Update(float dt, Mouse& mouse)
 	{
@@ -114,7 +114,7 @@ private:
 				auto e = mouse.Read().GetType();
 				if (e == Mouse::Event::Type::RPress)
 				{
-					mediator->GetMouseGame()->typeDame = nullptr;
+					mediator->GetMouseGame()->Clear();
 				}
 			}
 		}

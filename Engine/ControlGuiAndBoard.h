@@ -20,8 +20,8 @@ public:
 	}
 	void UpgradeTower() override
 	{
-		board.tileAt(towerIndex).UpgradeTower(mouseGame.typeDame);
-		mouseGame.typeDame = nullptr;
+		board.tileAt(towerIndex).UpgradeTower(mouseGame.getTypeDame());
+		mouseGame.Clear();
 	}
 	MouseGame* GetMouseGame() override
 	{

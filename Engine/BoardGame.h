@@ -47,7 +47,7 @@ public:
 				tileAt(w, h).Draw(gfx, tilePos, width, height);
 			}
 		}
-		auto typeDame = mediator->GetMouseGame()->typeDame;
+		auto typeDame = mediator->GetMouseGame()->getTypeDame();
 		if (typeDame)
 		{
 			const VecI tilePos = (VecI)pos + VecI(curTile.x * width, curTile.y * height);
@@ -71,7 +71,7 @@ public:
 				curTile = { (mousePos.x - (int)pos.x) / width ,(mousePos.y - (int)pos.y) / height };
 				break;
 			case Mouse::Event::Type::RPress:
-				mediator->GetMouseGame()->typeDame = nullptr;
+				mediator->GetMouseGame()->Clear();
 				break;
 			default:
 				break;

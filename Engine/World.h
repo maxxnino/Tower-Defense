@@ -18,30 +18,54 @@ public:
 		tileWidth(tileWidth),
 		tileHeight(tileHeight),
 		indexTower(0),
-		indexEnemy(0),
-		indexBullet(0)
+		indexEnemy(0)
 	{
 
+	}
+	//world control
+	void AddMediator(IMediator* mediator) override
+	{
+		guiAndBoardMediator = mediator;
 	}
 	void Draw(Graphics& gfx)
 	{
 		std::for_each(enemyMgr.begin(), enemyMgr.end(), [&gfx](auto& e) {e.second->Draw(gfx); });
 		std::for_each(towerMgr.begin(), towerMgr.end(), [&gfx,this](auto& t) {t.second->Draw(gfx, tileWidth, tileHeight); });
-		std::for_each(bulletMgr.begin(), bulletMgr.end(), [&gfx, this](auto& b) {b.second->Draw(gfx); });
+		for (auto& b : bulletMgr)
+		{
+			b->Draw(gfx);
+		}
 	}
 	void Update(float dt)
 	{
 		std::for_each(towerMgr.begin(), towerMgr.end(), [dt,this](auto& t) {t.second->Update(dt); });
+		for (int i = 0; i < bulletMgr.size();)
+		{
+			if (bulletMgr[i]->IsRemove())
+			{
+				std::swap(bulletMgr[i], bulletMgr.back());
+				bulletMgr.pop_back();
+			}
+			else
+			{
+				if (bulletMgr[i]->GetEnemyID() != -1)
+				{
+					auto enemy = enemyMgr.find(bulletMgr[i]->GetEnemyID());
+					bulletMgr[i]->SetVelocity(enemy->second->getBody().GetPosition() - bulletMgr[i]->getBody().GetPosition());
+					i++;
+				}
+				else
+				{
+					bulletMgr[i]->MarkDead();
+				}
+			}
+		}
 		timer += dt;
 		if (timer >= 1.0f)
 		{
 			timer = 0.0f;
 			MakeEnemy();
 		}
-	}
-	void AddMediator(IMediator* mediator) override
-	{
-		guiAndBoardMediator = mediator;
 	}
 	//bullet control
 	void MakeBullet(int curTarget, TypeDame* typeDame, Color c, const b2Vec2& worldPos) override
@@ -52,8 +76,7 @@ public:
 			const b2Vec2 enemyPos =  e->second->getBody().GetPosition();
 			auto b = std::make_unique<Projectile>(box2DEngine, curTarget, worldPos, bulletSize);
 			b->SetVelocity(enemyPos - worldPos);
-			bulletMgr.emplace(indexBullet, std::move(b));
-			indexBullet++;
+			bulletMgr.emplace_back(std::move(b));
 		}
 	}
 	
@@ -89,14 +112,8 @@ public:
 	void UpgradeTower(TypeDame* typeDame, int towerIndex) override
 	{
 		auto t = towerMgr.find(towerIndex);
-		if (t != towerMgr.end())
-		{
-			t->second->Upgrade(typeDame);
-		}
-		else
-		{
-			assert(false);
-		}
+		assert(t != towerMgr.end());
+		t->second->Upgrade(typeDame);
 	}
 	int GetTargetEnemy(std::set<int>& enemyIDs,const b2Vec2& towerPos)
 	{
@@ -129,8 +146,7 @@ private:
 	IMediator* guiAndBoardMediator = nullptr;
 	std::unordered_map<int, std::unique_ptr<Tower>> towerMgr;
 	std::unordered_map<int, std::unique_ptr<Enemy>> enemyMgr;
-	std::unordered_map<int, std::unique_ptr<Projectile>> bulletMgr;
+	std::vector<std::unique_ptr<Projectile>> bulletMgr;
 	int indexTower;
 	int indexEnemy;
-	int indexBullet;
 };

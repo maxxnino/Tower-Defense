@@ -138,9 +138,6 @@
     <ClInclude Include="WalkableTile.h">
       <Filter>Header Files\Game\Board and Tile</Filter>
     </ClInclude>
-    <ClInclude Include="MyContactLisener.h">
-      <Filter>Header Files\Game\Enemy and bullet</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicObject.h">
       <Filter>Header Files\Game\Enemy and bullet</Filter>
     </ClInclude>
@@ -158,6 +155,9 @@
     </ClInclude>
     <ClInclude Include="World.h">
       <Filter>Header Files\Game\World Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBox2DListener.h">
+      <Filter>Header Files\Game\Enemy and bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -108,19 +108,8 @@ public:
 	{
 		return typeDames.size() >= 3;
 	}
-	void AddEnemyID(int id)
-	{
-		enemyIDs.insert(id);
-	}
-	void RemoveEnemyID(int id)
-	{
-		assert(enemyIDs.find(id) != enemyIDs.end());
-		enemyIDs.erase(id);
-		if (id == curTarget)
-		{
-			curTarget = -1;
-		}
-	}
+	
+	
 	//add World mediation
 	void AddMediator(IWorldMediator* wordMediator) override
 	{
@@ -129,6 +118,21 @@ public:
 			this->wordMediator = wordMediator;
 		}
 	}
+	void RemoveEnemyID(int id) override
+	{
+		assert(enemyIDs.find(id) != enemyIDs.end());
+		enemyIDs.erase(id);
+		if (id == curTarget)
+		{
+			curTarget = -1;
+		}
+	}
+	void AddEnemyID(int id) override
+	{
+		enemyIDs.insert(id);
+	}
+	void MarkDead() override {}
+	int GetID() override { return -1; }
 private:
 	Color c;
 	float timer = 0;

@@ -1,11 +1,12 @@
 #pragma once
-#include "Rect.h"
 #include <cmath>
 #include <memory>
 #include <functional>
+#include <string>
 #include "Box2D/Box2D.h"
+#include "Rect.h"
 enum CollisionFillter {
-	BOX = 0x0001,
+	BULLET = 0x0001,
 	ENEMY = 0x0002,
 	TOWER = 0x0004,
 	BASE = 0x0008
@@ -73,6 +74,10 @@ public:
 		}
 		body->SetLinearVelocity(vel);
 	}
+	virtual void MarkDead() = 0;
+	virtual void AddEnemyID(int id) = 0;
+	virtual int GetID() = 0;
+	virtual void RemoveEnemyID(int id) = 0;
 protected:
 	float maxSpeedSq = 100.0f;
 	float size;

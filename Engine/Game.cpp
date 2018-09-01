@@ -30,7 +30,20 @@ Game::Game( MainWindow& wnd )
 	world(*box2DEngine,BoardGame::tileWidth,BoardGame::tileHeight),
 	mediatorGuiAndBrd(&brd,&gui,&world)
 {
-	box2DEngine->SetContactListener(&listener);
+	mrLister.CaseContact<Tower, Enemy>([](PhysicObject& t, PhysicObject& e)
+	{
+		t.AddEnemyID(e.GetID());
+	});
+	mrLister.CaseContact<Projectile, Enemy>([](PhysicObject& p, PhysicObject& e)
+	{
+		p.MarkDead();
+	});
+
+	mrLister.CaseLeave<Tower, Enemy>([](PhysicObject& t, PhysicObject& e)
+	{
+		t.RemoveEnemyID(e.GetID());
+	});
+	box2DEngine->SetContactListener(&mrLister);
 }
 
 void Game::Go()
@@ -43,13 +56,15 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	const float dt = ft.Mark();
+	float dt = ft.Mark();
+	if (dt > 0.01666666666667f * 5.0f)
+	{
+		dt = 0.01666667f;
+	}
 	gui.Update(dt, wnd.mouse);
 	brd.ProcessComand(wnd.mouse);
 	world.Update(dt);
-	
 	box2DEngine->Step(dt, velocityIterations, positionIterations);
-	
 
 	/*for (size_t i = 0; i < enemies.size();)
 	{

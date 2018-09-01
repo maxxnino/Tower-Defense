@@ -7,7 +7,7 @@ class Projectile : public PhysicObject
 public:
 	Projectile(b2World& box2DEngine, int curTarget, const b2Vec2& worldPos,float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f })
 		:
-		PhysicObject(box2DEngine, CollisionFillter::BOX, CollisionFillter::ENEMY,worldPos, false, false, size, linVel),
+		PhysicObject(box2DEngine, CollisionFillter::BULLET, CollisionFillter::ENEMY,worldPos, false, false, size, linVel),
 		targetID(curTarget)
 	{
 		body->SetUserData(this);
@@ -25,6 +25,22 @@ public:
 			//SetVelocity(dir);
 		}
 	}
+	inline int GetEnemyID() noexcept
+	{
+		return targetID;
+	}
+	inline bool IsRemove()
+	{
+		return isDead;
+	}
+	void RemoveEnemyID(int id) override {}
+	void MarkDead() override
+	{
+		isDead = true;
+	}
+	void AddEnemyID(int id) override {}
+	int GetID() override { return -1; }
 private:
 	int targetID = -1;
+	bool isDead = false;
 };

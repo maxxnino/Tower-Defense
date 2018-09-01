@@ -24,7 +24,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "FrameTimer.h"
-#include "MyContactLisener.h"
+#include "MyBox2DListener.h"
 #include "ControlGuiAndBoard.h"
 #include <random>
 class Game
@@ -49,7 +49,7 @@ private:
 	int32 velocityIterations = 8;
 	int32 positionIterations = 3;
 	std::unique_ptr<b2World> box2DEngine;
-	MyContactLisener listener;
+	MyBox2DListener mrLister;
 	BoardGame brd;
 	World world;
 	MenuManager gui;

@@ -66,6 +66,8 @@ public:
 		upgradeMenu.AddItem(&upgradeMenuBtn02);
 		upgradeMenu.AddItem(&upgradeMenuBtn03);
 	}
+
+	// Remember update color for button after add mediator
 	void AddMediator(IMediator* mediator) override
 	{
 		this->mediator = mediator;
@@ -103,7 +105,6 @@ public:
 		}
 	}
 private:
-
 	void ProcessCommand(Mouse& mouse)
 	{
 		if (activeMenu->GetRect().isContaint(mouse.GetPos()))

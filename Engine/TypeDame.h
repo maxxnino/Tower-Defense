@@ -1,6 +1,4 @@
 #pragma once
-#include <memory>
-#include <vector>
 #include "Projectile.h"
 #include "Colors.h"
 class TypeDame
@@ -15,6 +13,10 @@ public:
 	virtual float getDame() = 0;
 	virtual float getAttackSpeed() = 0;
 	inline const Color& getColor() const noexcept
+	{
+		return c;
+	}
+	inline Color getColor() noexcept
 	{
 		return c;
 	}

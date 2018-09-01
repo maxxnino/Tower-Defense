@@ -24,11 +24,6 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "FrameTimer.h"
-#include "MenuManager.h"
-#include "BoardGame.h"
-#include "Tower.h"
-#include "Projectile.h"
-#include "Enemy.h"
 #include "MyContactLisener.h"
 #include "ControlGuiAndBoard.h"
 #include <random>
@@ -51,16 +46,13 @@ private:
 	/********************************/
 	/*  User Variables              */
 	FrameTimer ft;
-	std::unique_ptr<b2World> box2DEngine;
-	MyContactLisener listener;
-	MenuManager gui;
-	BoardGame brd;
-	ControlGuiAndBoard mediatorGuiAndBrd;
 	int32 velocityIterations = 8;
 	int32 positionIterations = 3;
-	std::vector<std::unique_ptr<Enemy>> enemies;
-	float timer = 0.0f;
-	float timer2 = 0.0f;
-	std::mt19937 rng = std::mt19937(std::random_device{}());
+	std::unique_ptr<b2World> box2DEngine;
+	MyContactLisener listener;
+	BoardGame brd;
+	World world;
+	MenuManager gui;
+	ControlGuiAndBoard mediatorGuiAndBrd;
 	/********************************/
 };

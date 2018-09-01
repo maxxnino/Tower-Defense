@@ -2,34 +2,62 @@
 #include "IMediator.h"
 #include "BoardGame.h"
 #include "MenuManager.h"
+#include "World.h"
 class ControlGuiAndBoard : public IMediator
 {
 public:
-	ControlGuiAndBoard(BoardGame* board, MenuManager* menuMgr)
+	ControlGuiAndBoard(BoardGame* board, MenuManager* menuMgr, World* world)
 		:
 		board(*board),
-		menuMgr(*menuMgr)
+		menuMgr(*menuMgr),
+		world(*world)
 	{
 		this->board.AddMediator(this);
 		this->menuMgr.AddMediator(this);
+		this->world.AddMediator(this);
 	}
-	void OpenUpgradeMenu(int index) override
+	//control gui and board object
+	void OpenUpgradeMenu(int towerIndex, Color* towerColor) override
 	{
-		towerIndex = index;
-		menuMgr.ChangeUpgradeMenu();
+		assert(towerIndex != -1);
+		if (!world.IsTowerMaxLv(towerIndex))
+		{
+			towerIndexInWorld = towerIndex;
+			colorBuildableTile = towerColor;
+			menuMgr.ChangeUpgradeMenu();
+		}
 	}
+
 	void UpgradeTower() override
 	{
-		board.tileAt(towerIndex).UpgradeTower(mouseGame.getTypeDame());
+		*colorBuildableTile = world.UpgradeTower(mouseGame.getTypeDame(), towerIndexInWorld);
+		ResetTrackingData();
 		mouseGame.Clear();
 	}
-	MouseGame* GetMouseGame() override
+
+	//control world object
+	std::pair<int, Color> MakeTower(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f) override
 	{
-		return &mouseGame;
+		return std::move(world.MakeTower(typeDame, c, worldPos, size));
+	}
+	int MakeEnemy(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f }) override
+	{
+		return world.MakeEnemy(typeDame, c, worldPos, size, linVel);
+	}
+	int MakeBullet(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f }) override
+	{
+		return world.MakeBullet(typeDame, c, worldPos, size, linVel);
 	}
 private:
-	BoardGame& board;
+	void ResetTrackingData()
+	{
+		towerIndexInWorld = -1;
+		colorBuildableTile = nullptr;
+	}
+private:
 	MenuManager& menuMgr;
-	MouseGame mouseGame;
-	int towerIndex = -1;
+	World& world;
+	BoardGame& board;
+	int towerIndexInWorld = -1;
+	Color* colorBuildableTile = nullptr;
 };

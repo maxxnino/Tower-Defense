@@ -149,6 +149,7 @@
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IMediator.h" />
     <ClInclude Include="ControlGuiAndBoard.h" />
+    <ClInclude Include="IWordComponent.h" />
     <ClInclude Include="MouseGame.h" />
     <ClInclude Include="PhysicObject.h" />
     <ClInclude Include="Colors.h" />
@@ -172,6 +173,8 @@
     <ClInclude Include="TypeArmor.h" />
     <ClInclude Include="TypeDame.h" />
     <ClInclude Include="WalkableTile.h" />
+    <ClInclude Include="IWorldMediator.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\menu\Engine\FrameTimer.cpp" />
@@ -186,7 +189,6 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="Tower.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FramebufferPS.hlsl">

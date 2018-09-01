@@ -27,7 +27,8 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	box2DEngine(std::make_unique<b2World>(b2Vec2(0.0f, 0.0f))),
 	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight),
-	mediatorGuiAndBrd(&brd,&gui)
+	world(*box2DEngine),
+	mediatorGuiAndBrd(&brd,&gui,&world)
 {
 	box2DEngine->SetContactListener(&listener);
 }
@@ -45,37 +46,11 @@ void Game::UpdateModel()
 	const float dt = ft.Mark();
 	gui.Update(dt, wnd.mouse);
 	brd.ProcessComand(wnd.mouse);
-	timer += dt;
-	timer2 += dt;
-	/*if (timer >= 1.0f)
-	{
-		timer = 0.0f;
-		enemies.emplace_back(std::make_unique<Enemy>(*box2DEngine));
-	}
-	
-	box2DEngine->Step(dt, velocityIterations, positionIterations);*/
-	
-
-	/*for (size_t i = 0; i < enemies.size();)
-	{
-		if (enemies[i]->isRemove())
-		{
-			std::swap(enemies[i], enemies.back());
-			enemies.pop_back();
-		}
-		else
-		{
-			i++;
-		}
-	}*/
+	box2DEngine->Step(dt, velocityIterations, positionIterations);
 }
 
 void Game::ComposeFrame()
 {
 	brd.Draw(gfx);
 	gui.Draw(gfx);
-	/*for (auto& e : enemies)
-	{
-		e->Draw(gfx);
-	}*/
 }

@@ -18,13 +18,13 @@ public:
 		{
 			auto enemy = static_cast<Enemy*>(bodyPtrs[1]->GetBody()->GetUserData());
 			auto tower = static_cast<Tower*>(bodyPtrs[0]->GetBody()->GetUserData());
-			tower->AddEnemy(enemy);
+			//tower->AddEnemy(enemy);
 		}
 		else if (sensorB)
 		{
 			auto enemy = static_cast<Enemy*>(bodyPtrs[0]->GetBody()->GetUserData());
 			auto tower = static_cast<Tower*>(bodyPtrs[1]->GetBody()->GetUserData());
-			tower->AddEnemy(enemy);
+			//tower->AddEnemy(enemy);
 		}
 
 
@@ -53,13 +53,13 @@ public:
 		{
 			auto tower = static_cast<Tower*>(bodyPtrs[0]->GetBody()->GetUserData());
 			auto enemy = static_cast<Enemy*>(bodyPtrs[1]->GetBody()->GetUserData());
-			tower->RemoveEnemy(enemy);
+			//tower->RemoveEnemy(enemy);
 		}
 		else if(sensorB)
 		{
 			auto tower = static_cast<Tower*>(bodyPtrs[1]->GetBody()->GetUserData());
 			auto enemy = static_cast<Enemy*>(bodyPtrs[0]->GetBody()->GetUserData());
-			tower->RemoveEnemy(enemy);
+			//tower->RemoveEnemy(enemy);
 		}
 	}
 };

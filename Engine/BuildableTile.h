@@ -6,17 +6,17 @@ public:
 	BuildableTile(VecI pos,int index)
 		:
 		pos(pos),
-		index(index)
+		towerIndex(-1)
 	{}
 	void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept override
 	{
-		if (myTower)
+		if (towerIndex != -1)
 		{
-			gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, myTower->GetColor());
+			gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, towerColor);
 		}
 		else
 		{
-			gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, c);
+			gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, defaultColor);
 		}
 	}
 	void MouseClick(const VecI& mousePos, IMediator* mediator) override
@@ -24,9 +24,9 @@ public:
 		auto typeDame = mediator->GetMouseGame()->getTypeDame();
 		if (typeDame)
 		{
-			if (!myTower)
+			if (towerIndex == -1)
 			{
-				BuildTower(typeDame);
+				BuildTower(typeDame, mediator);
 			}
 			else
 			{
@@ -35,38 +35,25 @@ public:
 		}
 		else
 		{
-			if (myTower)
+			if (towerIndex != -1)
 			{
 				//nothing in mouse, and this tile have tower, clicked for open upgrade menu from Menumanager
-				mediator->OpenUpgradeMenu(index);
+				mediator->OpenUpgradeMenu(towerIndex,&towerColor);
 			}
 		}
 	}
-	void AddEntity(std::shared_ptr<Tower> tower) override
+	void BuildTower(TypeDame* type, IMediator* mediator)
 	{
-		myTower = tower;
-	}
-	void UpgradeTower(TypeDame* typeDame) override
-	{
-		myTower->Upgrade(typeDame);
-	}
-	void DeleteTower()
-	{
-		myTower.reset();
-	}
-	void BuildTower(TypeDame* type)
-	{
-		if (!myTower)
-		{
-			b2Vec2 worldPos = b2Vec2((float32)(pos.x - Graphics::offSetX) / (float32)Graphics::scalePixel, (float32)(Graphics::offSetY - pos.y) / (float32)Graphics::scalePixel);
-			float size = 10.0f;
-			myTower = std::make_shared<Tower>(Colors::Red, worldPos, size);
-			myTower->Upgrade(type);
-		}
+		assert(towerIndex == -1);
+		b2Vec2 worldPos = b2Vec2((float32)(pos.x - Graphics::offSetX) / (float32)Graphics::scalePixel, (float32)(Graphics::offSetY - pos.y) / (float32)Graphics::scalePixel);
+		float size = 10.0f;
+		std::pair<int,Color> pair = std::move(mediator->MakeTower(type, type->getColor(), worldPos, size));
+		towerColor = pair.second;
+		towerIndex = pair.first;
 	}
 private:
-	static constexpr Color c = Colors::Gray;
-	std::shared_ptr<Tower> myTower;
+	static constexpr Color defaultColor = Colors::Gray;
+	Color towerColor = defaultColor;
+	int towerIndex;
 	VecI pos;
-	int index;
 };

@@ -27,7 +27,7 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	box2DEngine(std::make_unique<b2World>(b2Vec2(0.0f, 0.0f))),
 	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight),
-	world(*box2DEngine),
+	world(*box2DEngine,BoardGame::tileWidth,BoardGame::tileHeight),
 	mediatorGuiAndBrd(&brd,&gui,&world)
 {
 	box2DEngine->SetContactListener(&listener);
@@ -44,14 +44,9 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	const float dt = ft.Mark();
-	timer += dt;
 	gui.Update(dt, wnd.mouse);
 	brd.ProcessComand(wnd.mouse);
-	if (timer >= 1.0f)
-	{
-		timer = 0.0f;
-		world.MakeEnemy();
-	}
+	world.Update(dt);
 	
 	box2DEngine->Step(dt, velocityIterations, positionIterations);
 	

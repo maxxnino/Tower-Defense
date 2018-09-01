@@ -22,46 +22,46 @@ public:
 		activeMenu = &mainMenu;
 		//main menu
 		mainMenuBtn01.GetLeftClickFunc() = [this]() {
-			auto mouseGame = this->mediator->GetMouseGame();
+			auto mouseGame = mediator->GetMouseGame();
 			mouseGame->ChangeToFire();
 		};
 		mainMenuBtn02.GetLeftClickFunc() = [this]() {
-			auto mouseGame = this->mediator->GetMouseGame();
+			auto mouseGame = mediator->GetMouseGame();
 			mouseGame->ChangeToIce();
 		};
 		mainMenuBtn03.GetLeftClickFunc() = [this]() {
-			auto mouseGame = this->mediator->GetMouseGame();
+			auto mouseGame = mediator->GetMouseGame();
 			mouseGame->ChangeToLighting();
 		};
-		mainMenuBtn01.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->Clear(); };
-		mainMenuBtn02.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->Clear(); };
-		mainMenuBtn03.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->Clear(); };
+		mainMenuBtn01.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
+		mainMenuBtn02.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
+		mainMenuBtn03.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
 		mainMenu.AddItem(&mainMenuBtn01);
 		mainMenu.AddItem(&mainMenuBtn02);
 		mainMenu.AddItem(&mainMenuBtn03);
 
 		//upgrademenu
 		upgradeMenuBtn01.GetLeftClickFunc() = [this]() {
-			auto mouseGame = this->mediator->GetMouseGame();
+			auto mouseGame = mediator->GetMouseGame();
 			mouseGame->ChangeToFire();
-			this->mediator->UpgradeTower();
+			mediator->UpgradeTower();
 			ChangeMainMenu();
 		};
 		upgradeMenuBtn02.GetLeftClickFunc() = [this]() {
-			auto mouseGame = this->mediator->GetMouseGame();
+			auto mouseGame = mediator->GetMouseGame();
 			mouseGame->ChangeToIce();
-			this->mediator->UpgradeTower();
+			mediator->UpgradeTower();
 			ChangeMainMenu();
 		};
 		upgradeMenuBtn03.GetLeftClickFunc() = [this]() {
-			auto mouseGame = this->mediator->GetMouseGame();
+			auto mouseGame = mediator->GetMouseGame();
 			mouseGame->ChangeToLighting();
-			this->mediator->UpgradeTower();
+			mediator->UpgradeTower();
 			ChangeMainMenu();
 		};
-		upgradeMenuBtn01.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->Clear(); };
-		upgradeMenuBtn02.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->Clear(); };
-		upgradeMenuBtn03.GetRightClickFunc() = [this]() {this->mediator->GetMouseGame()->Clear(); };
+		upgradeMenuBtn01.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
+		upgradeMenuBtn02.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
+		upgradeMenuBtn03.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
 		upgradeMenu.AddItem(&upgradeMenuBtn01);
 		upgradeMenu.AddItem(&upgradeMenuBtn02);
 		upgradeMenu.AddItem(&upgradeMenuBtn03);

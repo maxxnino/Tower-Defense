@@ -1,11 +1,13 @@
 #pragma once
+#include <set>
 #include "TypeDame.h"
 class IWorldMediator
 {
 public:
-	virtual std::pair<int, Color> MakeTower(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f) = 0;
-	virtual int MakeEnemy() = 0;
-	virtual int MakeBullet(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f }) = 0;
+	virtual int MakeTower(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f) = 0;
+	virtual void MakeEnemy() = 0;
+	virtual void MakeBullet(int curTarget, TypeDame* typeDame, Color c, const b2Vec2& worldPos) = 0;
 	virtual bool IsTowerMaxLv(int towerIndex) = 0;
-	virtual Color UpgradeTower(TypeDame* typeDame, int towerIndex) = 0;
+	virtual void UpgradeTower(TypeDame* typeDame, int towerIndex) = 0;
+	virtual int GetTargetEnemy(std::set<int>& enemyIDs, const b2Vec2& towerPos) = 0;
 };

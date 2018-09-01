@@ -10,11 +10,7 @@ public:
 	{}
 	void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept override
 	{
-		if (towerIndex != -1)
-		{
-			gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, towerColor);
-		}
-		else
+		if (towerIndex == -1)
 		{
 			gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, defaultColor);
 		}
@@ -38,7 +34,7 @@ public:
 			if (towerIndex != -1)
 			{
 				//nothing in mouse, and this tile have tower, clicked for open upgrade menu from Menumanager
-				mediator->OpenUpgradeMenu(towerIndex,&towerColor);
+				mediator->OpenUpgradeMenu(towerIndex);
 			}
 		}
 	}
@@ -47,13 +43,10 @@ public:
 		assert(towerIndex == -1);
 		b2Vec2 worldPos = b2Vec2((float32)(pos.x - Graphics::offSetX) / (float32)Graphics::scalePixel, (float32)(Graphics::offSetY - pos.y) / (float32)Graphics::scalePixel);
 		float size = 10.0f;
-		std::pair<int,Color> pair = std::move(mediator->MakeTower(type, type->getColor(), worldPos, size));
-		towerColor = pair.second;
-		towerIndex = pair.first;
+		towerIndex = mediator->MakeTower(type, type->getColor(), worldPos, size);
 	}
 private:
 	static constexpr Color defaultColor = Colors::Gray;
-	Color towerColor = defaultColor;
 	int towerIndex;
 	VecI pos;
 };

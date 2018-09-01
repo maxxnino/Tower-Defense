@@ -2,14 +2,13 @@
 #include "PhysicObject.h"
 #include "Graphics.h"
 #include "TypeDame.h"
-#include "Enemy.h"
 class Projectile : public PhysicObject
 {
 public:
-	Projectile(b2World& box2DEngine, const b2Vec2& worldPos,float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f })
+	Projectile(b2World& box2DEngine, int curTarget, const b2Vec2& worldPos,float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f })
 		:
 		PhysicObject(box2DEngine, CollisionFillter::BOX, CollisionFillter::ENEMY,worldPos, false, false, size, linVel),
-		enemy(enemy)
+		targetID(curTarget)
 	{
 		body->SetUserData(this);
 	}
@@ -20,21 +19,12 @@ public:
 	}
 	void Update(float dt)
 	{
-		if (enemy)
+		if (targetID != -1)
 		{
-			b2Vec2 dir =  enemy->getBody().GetPosition() - body->GetPosition();
-			SetVelocity(dir);
-		}
-	}
-	void AddEnemy(Enemy* enemy)
-	{
-		if (enemy)
-		{
-			this->enemy = enemy;
-			b2Vec2 dir =  enemy->getBody().GetPosition() - body->GetPosition();
-			SetVelocity(dir);
+			//b2Vec2 dir =  enemy->getBody().GetPosition() - body->GetPosition();
+			//SetVelocity(dir);
 		}
 	}
 private:
-	Enemy* enemy = nullptr;
+	int targetID = -1;
 };

@@ -13,10 +13,10 @@ public:
 		:
 		pos(pos)
 	{
-		const int r = ((int)menuW % width >= 1) ? 1 : 0;
-		const int b = ((int)menuH % height >= 1) ? 1 : 0;
-		nWidth = r + (int)menuW / width;
-		nHeight = b + (int)menuH / height;
+		const int r = ((int)menuW % tileWidth >= 1) ? 1 : 0;
+		const int b = ((int)menuH % tileHeight >= 1) ? 1 : 0;
+		nWidth = r + (int)menuW / tileWidth;
+		nHeight = b + (int)menuH / tileHeight;
 		const int mid = nHeight / 2;
 		for (size_t y = 0; y < nHeight; y++)
 		{
@@ -28,9 +28,8 @@ public:
 				}
 				else
 				{
-					VecI pos = VecI((int)x * width, (int)y  * height);
+					VecI pos = VecI((int)x * tileWidth, (int)y  * tileHeight);
 					tiles.emplace_back(std::make_unique<BuildableTile>(pos, int(x + y * nWidth)));
-					//tiles.back()->AddObs(menuManagerObs);
 				}
 			}
 		}
@@ -43,15 +42,15 @@ public:
 		{
 			for (int w = 0; w < nWidth; w++)
 			{
-				const VecI tilePos = (VecI)pos + VecI(w * width, h * height);
-				tileAt(w, h).Draw(gfx, tilePos, width, height);
+				const VecI tilePos = (VecI)pos + VecI(w * tileWidth, h * tileHeight);
+				tileAt(w, h).Draw(gfx, tilePos, tileWidth, tileHeight);
 			}
 		}
 		auto typeDame = mediator->GetMouseGame()->getTypeDame();
 		if (typeDame)
 		{
-			const VecI tilePos = (VecI)pos + VecI(curTile.x * width, curTile.y * height);
-			tileAt(curTile).DrawActive(gfx, tilePos, width, height, typeDame->getColor());
+			const VecI tilePos = (VecI)pos + VecI(curTile.x * tileWidth, curTile.y * tileHeight);
+			tileAt(curTile).DrawActive(gfx, tilePos, tileWidth, tileHeight, typeDame->getColor());
 		}
 	}
 
@@ -68,7 +67,7 @@ public:
 				MouseClick(mousePos);
 				break;
 			case Mouse::Event::Type::Move:
-				curTile = { (mousePos.x - (int)pos.x) / width ,(mousePos.y - (int)pos.y) / height };
+				curTile = { (mousePos.x - (int)pos.x) / tileWidth ,(mousePos.y - (int)pos.y) / tileHeight };
 				break;
 			case Mouse::Event::Type::RPress:
 				mediator->GetMouseGame()->Clear();
@@ -116,9 +115,10 @@ private:
 	{
 		tileAt(curTile).MouseClick(mousePos, mediator);
 	}
+public:
+	static constexpr int tileWidth = 40;
+	static constexpr int tileHeight = 40;
 private:
-	static constexpr int width = 40;
-	static constexpr int height = 40;
 	int nWidth = -1;
 	int nHeight = -1;
 	VecF pos;

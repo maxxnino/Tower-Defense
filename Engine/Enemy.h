@@ -4,9 +4,10 @@
 class Enemy : public PhysicObject
 {
 public:
-	Enemy(b2World& box2DEngine)
+	Enemy(b2World& box2DEngine, int id)
 		:
-		PhysicObject(box2DEngine, CollisionFillter::ENEMY, CollisionFillter::BASE | CollisionFillter::TOWER, { -20.0f,0.0f }, false, false, 1.0f, {2.0f,0.0f})
+		PhysicObject(box2DEngine, CollisionFillter::ENEMY, CollisionFillter::BASE | CollisionFillter::TOWER, { -20.0f,0.0f }, false, false, 1.0f, {2.0f,0.0f}),
+		id(id)
 	{
 		body->SetUserData(this);
 	}
@@ -19,10 +20,15 @@ public:
 		isDead = true;
 		//Notify(this);
 	}
+	inline int GetID() noexcept
+	{
+		return id;
+	}
 	bool isRemove()
 	{
 		return isDead;
 	}
 private:
 	bool isDead = false;
+	int id;
 };

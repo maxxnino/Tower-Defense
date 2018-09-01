@@ -17,43 +17,31 @@ public:
 		this->world.AddMediator(this);
 	}
 	//control gui and board object
-	void OpenUpgradeMenu(int towerIndex, Color* towerColor) override
+	void OpenUpgradeMenu(int towerIndex) override
 	{
 		assert(towerIndex != -1);
 		if (!world.IsTowerMaxLv(towerIndex))
 		{
 			towerIndexInWorld = towerIndex;
-			colorBuildableTile = towerColor;
 			menuMgr.ChangeUpgradeMenu();
 		}
 	}
 
 	void UpgradeTower() override
 	{
-		*colorBuildableTile = world.UpgradeTower(mouseGame.getTypeDame(), towerIndexInWorld);
-		ResetTrackingData();
+		world.UpgradeTower(mouseGame.getTypeDame(), towerIndexInWorld);
+		towerIndexInWorld = -1;
 		mouseGame.Clear();
 	}
 
 	//control world object
-	std::pair<int, Color> MakeTower(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f) override
+	int MakeTower(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f) override
 	{
-		return std::move(world.MakeTower(typeDame, c, worldPos, size));
-	}
-	int MakeBullet(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f }) override
-	{
-		return world.MakeBullet(typeDame, c, worldPos, size, linVel);
-	}
-private:
-	void ResetTrackingData()
-	{
-		towerIndexInWorld = -1;
-		colorBuildableTile = nullptr;
+		return world.MakeTower(typeDame, c, worldPos, size);
 	}
 private:
 	MenuManager& menuMgr;
 	World& world;
 	BoardGame& board;
 	int towerIndexInWorld = -1;
-	Color* colorBuildableTile = nullptr;
 };

@@ -1,9 +1,11 @@
 #pragma once
 #include <vector>
+#include <set>
 #include "PhysicObject.h"
 #include "TypeDame.h"
 #include "Colors.h"
-class Tower : public PhysicObject
+#include "IWordComponent.h"
+class Tower : public PhysicObject, public IWorldComponent
 {
 public:
 	Tower(b2World& box2DEngine,TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f )
@@ -13,6 +15,10 @@ public:
 	{
 		Upgrade(typeDame);
 		body->SetUserData(this);
+	}
+	void Draw(Graphics& gfx, int tileWidth, int tileHeight)
+	{
+		gfx.DrawRectDim(gfx.ToScreenSpace(body->GetPosition()) + VecI(2, 2), tileWidth - 2, tileHeight - 2, c);
 	}
 	inline const Color& GetColor() const noexcept
 	{
@@ -27,27 +33,28 @@ public:
 		if (timer >= totalAttackSpeed)
 		{
 			timer = 0.0f;
-			isAttack = true;
-			/*if (enemies.size() != 0)
+			if (curTarget == -1)
 			{
-
-			}*/
-
-		}
-		else
-		{
-			isAttack = false;
+				if (enemyIDs.size() > 0)
+				{
+					curTarget = wordMediator->GetTargetEnemy(enemyIDs, body->GetPosition());
+					if (curTarget != -1)
+					{
+						wordMediator->MakeBullet(curTarget, typeDames[0], typeDames[0]->getColor(), body->GetPosition());
+					}
+				}
+			}
+			else
+			{
+				wordMediator->MakeBullet(curTarget, typeDames[0], typeDames[0]->getColor(),body->GetPosition());
+			}
 		}
 	}
-	bool GetAttack()
-	{
-		return isAttack;
-	}
-	Color& Upgrade(TypeDame* newType)
+	void Upgrade(TypeDame* newType)
 	{
 		if (typeDames.size() >= 3)
 		{
-			return c;
+			return;
 		}
 		else
 		{
@@ -96,16 +103,37 @@ public:
 				break;
 			}
 		}
-		return c;
 	}
 	bool IsMaxLv()
 	{
 		return typeDames.size() >= 3;
 	}
+	void AddEnemyID(int id)
+	{
+		enemyIDs.insert(id);
+	}
+	void RemoveEnemyID(int id)
+	{
+		assert(enemyIDs.find(id) != enemyIDs.end());
+		enemyIDs.erase(id);
+		if (id == curTarget)
+		{
+			curTarget = -1;
+		}
+	}
+	//add World mediation
+	void AddMediator(IWorldMediator* wordMediator) override
+	{
+		if (this->wordMediator == nullptr)
+		{
+			this->wordMediator = wordMediator;
+		}
+	}
 private:
 	Color c;
-	int lv = 1;
 	float timer = 0;
-	bool isAttack = false;
+	IWorldMediator* wordMediator = nullptr;
 	std::vector<TypeDame*> typeDames;
+	std::set<int> enemyIDs;
+	int curTarget = -1;
 };

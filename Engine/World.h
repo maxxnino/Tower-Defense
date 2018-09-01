@@ -20,6 +20,10 @@ public:
 	{
 
 	}
+	void Draw(Graphics& gfx)
+	{
+		std::for_each(enemyMgr.begin(), enemyMgr.end(), [&gfx](auto& e) {e.second->Draw(gfx); });
+	}
 	void AddMediator(IMediator* mediator) override
 	{
 		guiAndBoardMediator = mediator;
@@ -30,8 +34,9 @@ public:
 		indexTower++;
 		return std::move(std::make_pair<int, Color>(indexTower - 1, typeDame->getColor()));
 	}
-	int MakeEnemy(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f }) override 
+	int MakeEnemy() override 
 	{
+		enemyMgr.emplace(indexEnemy, std::make_unique<Enemy>(box2DEngine));
 		indexEnemy++;
 		return indexEnemy - 1;
 	}
@@ -41,7 +46,6 @@ public:
 		return indexBullet - 1;
 	}
 	
-
 	bool IsTowerMaxLv(int towerIndex) override
 	{
 		auto t = towerMgr.find(towerIndex);

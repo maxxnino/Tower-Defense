@@ -40,10 +40,6 @@ public:
 	{
 		return std::move(world.MakeTower(typeDame, c, worldPos, size));
 	}
-	int MakeEnemy(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f }) override
-	{
-		return world.MakeEnemy(typeDame, c, worldPos, size, linVel);
-	}
 	int MakeBullet(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f }) override
 	{
 		return world.MakeBullet(typeDame, c, worldPos, size, linVel);

@@ -44,13 +44,35 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	const float dt = ft.Mark();
+	timer += dt;
 	gui.Update(dt, wnd.mouse);
 	brd.ProcessComand(wnd.mouse);
+	if (timer >= 1.0f)
+	{
+		timer = 0.0f;
+		world.MakeEnemy();
+	}
+	
 	box2DEngine->Step(dt, velocityIterations, positionIterations);
+	
+
+	/*for (size_t i = 0; i < enemies.size();)
+	{
+		if (enemies[i]->isRemove())
+		{
+			std::swap(enemies[i], enemies.back());
+			enemies.pop_back();
+		}
+		else
+		{
+			i++;
+		}
+	}*/
 }
 
 void Game::ComposeFrame()
 {
 	brd.Draw(gfx);
 	gui.Draw(gfx);
+	world.Draw(gfx);
 }

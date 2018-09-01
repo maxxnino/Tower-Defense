@@ -54,5 +54,6 @@ private:
 	World world;
 	MenuManager gui;
 	ControlGuiAndBoard mediatorGuiAndBrd;
+	float timer = 0.0f;
 	/********************************/
 };

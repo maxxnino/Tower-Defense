@@ -26,7 +26,15 @@ public:
 	{
 		return isDead;
 	}
-
+	bool CooldownToDead(float dt) noexcept
+	{
+		timer += dt;
+		if (timer >= deadTimer)
+		{
+			return true;
+		}
+		return false;
+	}
 
 	/**********************************/
 	/*Virtual function for PhysiObject*/
@@ -45,10 +53,17 @@ public:
 	{
 		isDead = true;
 	}
+	int GetDame() override
+	{
+		return dame;
+	}
 	/***********************************/
 private:
+	static constexpr float deadTimer = 3.0f;
+	int dame = 2;
 	int targetID = -1;
 	bool isDead = false;
 	float maxSpeedSq = 50.0f;
+	float timer = 0.0f;
 	float size;
 };

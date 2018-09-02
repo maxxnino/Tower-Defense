@@ -80,19 +80,55 @@ public:
 			body->CreateFixture(&fixtureDef);
 		}
 	}
+	PhysicObject(b2World& box2DEngine, uint16 categoryBits, uint16 maskBits, const b2Vec2& worldPos, float width, float height, bool isCircle = false)
+	{
+		{
+			b2BodyDef bodyDef;
+			bodyDef.type = b2_dynamicBody; //change body type
+			bodyDef.position.Set(worldPos.x, worldPos.y); //middle, bottom
+			body = { box2DEngine.CreateBody(&bodyDef),[&box2DEngine](b2Body* pBody) {box2DEngine.DestroyBody(pBody); } };
+		}
+		if (isCircle)
+		{
+			b2CircleShape circleShape;
+			circleShape.m_radius = width;
+			b2FixtureDef fixtureDef;
+			fixtureDef.shape = &circleShape;
+			fixtureDef.isSensor = true;
+			//collision fillter
+			fixtureDef.filter.categoryBits = categoryBits;
+			fixtureDef.filter.maskBits = maskBits;
+			body->CreateFixture(&fixtureDef);
+		}
+		{
+			b2PolygonShape kinematicBBox;
+			kinematicBBox.SetAsBox(width, height);
+			b2FixtureDef fixtureDef;
+			fixtureDef.shape = &kinematicBBox;
+			fixtureDef.isSensor = true;
+			//collision fillter
+			fixtureDef.filter.categoryBits = categoryBits;
+			fixtureDef.filter.maskBits = maskBits;
+			body->CreateFixture(&fixtureDef);
+		}
+	}
+
+	
+	
 	b2Body& getBody()
 	{
 		return *body;
 	}
 
-
 	/**********************************/
 	/*Virtual function for PhysiObject*/
 	virtual void SetVelocity(const b2Vec2& dir) {}
 	virtual void MarkDead() {}
-	virtual void AddEnemyID(int id) {}
-	virtual int GetID() { return -1; }
-	virtual void RemoveEnemyID(int id) {}
+	virtual void AddEnemyID(int id) { assert(false); }
+	virtual int GetID() { assert(false); return -1; }
+	virtual void RemoveEnemyID(int id) { assert(false); }
+	virtual void ApplyDame(int dame) { assert(false); }
+	virtual int GetDame() { assert(false); return -1; }
 	/***********************************/
 protected:
 	std::unique_ptr<b2Body, std::function<void(b2Body*)>> body;

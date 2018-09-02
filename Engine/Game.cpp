@@ -38,12 +38,20 @@ Game::Game( MainWindow& wnd )
 	mrLister.CaseContact<Projectile, Enemy>([](PhysicObject& p, PhysicObject& e)
 	{
 		p.MarkDead();
+		e.ApplyDame(p.GetDame());
 	});
+	mrLister.CaseContact<Base, Enemy>([](PhysicObject& b, PhysicObject& e)
+	{
+		b.ApplyDame(e.GetDame());
+		e.MarkDead();
+	});
+
 
 	mrLister.CaseLeave<Tower, Enemy>([](PhysicObject& t, PhysicObject& e)
 	{
 		t.RemoveEnemyID(e.GetID());
 	});
+	
 	box2DEngine->SetContactListener(&mrLister);
 }
 
@@ -66,6 +74,7 @@ void Game::UpdateModel()
 	brd.ProcessComand(wnd.mouse);
 	world.Update(dt);
 	box2DEngine->Step(dt, velocityIterations, positionIterations);
+	world.CleanWorld(dt);
 }
 
 void Game::ComposeFrame()

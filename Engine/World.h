@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "Projectile.h"
 #include "LineWall.h"
+#include "Base.h"
 class World : public IWorldMediator, public IComponent
 {
 public:
@@ -17,6 +18,7 @@ public:
 		:
 		box2DEngine(box2DEngine),
 		border(box2DEngine),
+		base(box2DEngine, {18.0f,0.0f}, {2,4}),
 		tileWidth(tileWidth),
 		tileHeight(tileHeight),
 		posOffSet(float32(tileWidth / (Graphics::scalePixel * 2)), float32(-tileHeight / (Graphics::scalePixel * 2))),
@@ -35,33 +37,33 @@ public:
 	{
 		std::for_each(enemyMgr.begin(), enemyMgr.end(), [&gfx](auto& e) {e.second->Draw(gfx); });
 		std::for_each(towerMgr.begin(), towerMgr.end(), [&gfx,this](auto& t) {t.second->Draw(gfx, tileWidth, tileHeight); });
+		base.Draw(gfx);
 		for (auto& b : bulletMgr)
 		{
 			b->Draw(gfx);
 		}
+		for (auto& b : noTargetBullet)
+		{
+			b->Draw(gfx);
+		}
+		
 	}
 	void Update(float dt)
 	{
 		std::for_each(towerMgr.begin(), towerMgr.end(), [dt,this](auto& t) {t.second->Update(dt); });
 		for (int i = 0; i < bulletMgr.size();)
 		{
-			if (bulletMgr[i]->IsRemove())
+			auto enemy = enemyMgr.find(bulletMgr[i]->GetEnemyID());
+			if (enemy != enemyMgr.end())
 			{
-				std::swap(bulletMgr[i], bulletMgr.back());
-				bulletMgr.pop_back();
+				bulletMgr[i]->SetVelocity(enemy->second->getBody().GetPosition() - bulletMgr[i]->getBody().GetPosition());
+				i++;
 			}
 			else
 			{
-				if (bulletMgr[i]->GetEnemyID() != -1)
-				{
-					auto enemy = enemyMgr.find(bulletMgr[i]->GetEnemyID());
-					bulletMgr[i]->SetVelocity(enemy->second->getBody().GetPosition() - bulletMgr[i]->getBody().GetPosition());
-					i++;
-				}
-				else
-				{
-					bulletMgr[i]->MarkDead();
-				}
+				std::swap(bulletMgr[i], bulletMgr.back());
+				noTargetBullet.emplace_back(std::move(bulletMgr.back()));
+				bulletMgr.pop_back();
 			}
 		}
 		timer += dt;
@@ -71,8 +73,9 @@ public:
 			MakeEnemy();
 		}
 	}
-	void ClearWorld()
+	void CleanWorld(float dt)
 	{
+		//clear dead bullet
 		for (int i = 0; i < bulletMgr.size();)
 		{
 			if (bulletMgr[i]->IsRemove())
@@ -83,6 +86,39 @@ public:
 			else
 			{
 				i++;
+			}
+		}
+		//clear dead enemy
+		for (auto e = enemyMgr.begin(); e != enemyMgr.end();)
+		{
+			if (e->second->isRemove())
+			{
+				e = enemyMgr.erase(e);
+			}
+			else
+			{
+				e++;
+			}
+		}
+		//clear no target dead bullet
+		for (int i = 0; i < noTargetBullet.size();)
+		{
+			if (noTargetBullet[i]->IsRemove())
+			{
+				std::swap(noTargetBullet[i], noTargetBullet.back());
+				noTargetBullet.pop_back();
+			}
+			else
+			{
+				if (noTargetBullet[i]->CooldownToDead(dt))
+				{
+					std::swap(noTargetBullet[i], noTargetBullet.back());
+					noTargetBullet.pop_back();
+				}
+				else
+				{
+					i++;
+				}
 			}
 		}
 	}
@@ -109,8 +145,15 @@ public:
 	/*         Enemy Control          */
 	void MakeEnemy() override 
 	{
-		enemyMgr.emplace(indexEnemy, std::make_unique<Enemy>(box2DEngine, indexEnemy));
-		indexEnemy++;
+		enemyMgr.emplace(indexEnemy, std::make_unique<Enemy>(box2DEngine, indexEnemy, 1.5f));
+		if (indexEnemy > 10000)
+		{
+			indexEnemy = 0;
+		}
+		else
+		{
+			indexEnemy++;
+		}
 	}
 	/**********************************/
 
@@ -177,9 +220,11 @@ private:
 	b2World& box2DEngine;
 	IMediator* guiAndBoardMediator = nullptr;
 	Border border;
+	Base base;
 	std::unordered_map<int, std::unique_ptr<Tower>> towerMgr;
 	std::unordered_map<int, std::unique_ptr<Enemy>> enemyMgr;
 	std::vector<std::unique_ptr<Projectile>> bulletMgr;
+	std::vector<std::unique_ptr<Projectile>> noTargetBullet;
 	int indexTower;
 	int indexEnemy;
 };

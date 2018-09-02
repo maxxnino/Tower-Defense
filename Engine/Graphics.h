@@ -70,7 +70,8 @@ public:
 	{
 		DrawRect(p, p + VecI(width, height), c);
 	}
-	void DrawRectDim(b2Vec2 worldPos, float worldSize, const Color& c);
+	void DrawRectDim(const b2Vec2& worldPos, const VecF& size, const Color& c);
+	void DrawRectDim(const b2Vec2& worldPos, float worldSize, const Color& c);
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;

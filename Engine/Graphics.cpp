@@ -359,7 +359,13 @@ void Graphics::DrawCircle(b2Vec2 worldPos, float worldSize, const Color& c)
 		}
 	}
 }
-void Graphics::DrawRectDim(b2Vec2 worldPos, float worldSize, const Color & c)
+void Graphics::DrawRectDim(const b2Vec2& worldPos, const VecF& size, const Color & c)
+{
+	const VecI pos = ToScreenSpace(worldPos);
+	const VecI expand = { int(size.x * scalePixel), int(size.y * scalePixel) };
+	DrawRect(pos - expand, pos + expand, c);
+}
+void Graphics::DrawRectDim(const b2Vec2& worldPos, float worldSize, const Color & c)
 {
 	const int size = int(worldSize * scalePixel);
 	const VecI pos = ToScreenSpace(worldPos);

@@ -41,13 +41,10 @@ public:
 		}
 		body->SetLinearVelocity(vel);
 	}
-	void RemoveEnemyID(int id) override {}
 	void MarkDead() override
 	{
 		isDead = true;
 	}
-	void AddEnemyID(int id) override {}
-	int GetID() override { return -1; }
 	/***********************************/
 private:
 	int targetID = -1;

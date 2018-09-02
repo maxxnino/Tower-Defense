@@ -25,9 +25,6 @@ public:
 
 	/**********************************/
 	/*Virtual function for PhysiObject*/
-	void SetVelocity(const b2Vec2& dir) override {}
-	void RemoveEnemyID(int id) override {}
-	void AddEnemyID(int id) override {}
 	void MarkDead() override
 	{
 		isDead = true;

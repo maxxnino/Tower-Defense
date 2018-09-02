@@ -121,7 +121,6 @@ public:
 
 	/**********************************/
 	/*Virtual function for PhysiObject*/
-	void SetVelocity(const b2Vec2& dir) override{}
 	void RemoveEnemyID(int id) override
 	{
 		assert(enemyIDs.find(id) != enemyIDs.end());
@@ -135,8 +134,6 @@ public:
 	{
 		enemyIDs.insert(id);
 	}
-	void MarkDead() override {}
-	int GetID() override { return -1; }
 	/***********************************/
 private:
 	Color c;

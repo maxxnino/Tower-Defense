@@ -9,8 +9,8 @@
 class TileGame
 {
 public:
-	virtual void MouseClick(const VecI& mousePos, IMediator* mediator) = 0;
-	virtual void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept = 0;
+	virtual void MouseClick(const VecI& mousePos, IMediator* mediator) {}
+	virtual void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept {}
 	void DrawActive(Graphics& gfx, VecI pos, int width, int height, const Color& c) const
 	{
 		gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, c);

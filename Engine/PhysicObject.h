@@ -88,11 +88,11 @@ public:
 
 	/**********************************/
 	/*Virtual function for PhysiObject*/
-	virtual void SetVelocity(const b2Vec2& dir) = 0;
-	virtual void MarkDead() = 0;
-	virtual void AddEnemyID(int id) = 0;
-	virtual int GetID() = 0;
-	virtual void RemoveEnemyID(int id) = 0;
+	virtual void SetVelocity(const b2Vec2& dir) {}
+	virtual void MarkDead() {}
+	virtual void AddEnemyID(int id) {}
+	virtual int GetID() { return -1; }
+	virtual void RemoveEnemyID(int id) {}
 	/***********************************/
 protected:
 	std::unique_ptr<b2Body, std::function<void(b2Body*)>> body;

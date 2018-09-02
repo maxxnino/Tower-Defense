@@ -30,6 +30,7 @@ Game::Game( MainWindow& wnd )
 	world(*box2DEngine,BoardGame::tileWidth,BoardGame::tileHeight),
 	mediatorGuiAndBrd(&brd,&gui,&world)
 {
+	static MyBox2DListener mrLister;
 	mrLister.CaseContact<Tower, Enemy>([](PhysicObject& t, PhysicObject& e)
 	{
 		t.AddEnemyID(e.GetID());
@@ -65,24 +66,11 @@ void Game::UpdateModel()
 	brd.ProcessComand(wnd.mouse);
 	world.Update(dt);
 	box2DEngine->Step(dt, velocityIterations, positionIterations);
-
-	/*for (size_t i = 0; i < enemies.size();)
-	{
-		if (enemies[i]->isRemove())
-		{
-			std::swap(enemies[i], enemies.back());
-			enemies.pop_back();
-		}
-		else
-		{
-			i++;
-		}
-	}*/
 }
 
 void Game::ComposeFrame()
 {
 	brd.Draw(gfx);
-	gui.Draw(gfx);
 	world.Draw(gfx);
+	gui.Draw(gfx);
 }

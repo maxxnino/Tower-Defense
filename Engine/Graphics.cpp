@@ -340,8 +340,9 @@ void Graphics::DrawRect(VecI p0, VecI p1, Color c)
 }
 void Graphics::DrawCircle(b2Vec2 worldPos, float worldSize, const Color& c)
 {
-	const VecI pos = ToScreenSpace(worldPos);
 	const int rad = int(worldSize * scalePixel);
+	const VecI pos = ToScreenSpace(worldPos);
+	
 	int left = std::max(0, pos.x - rad);
 	int top = std::max(0, pos.y - rad);
 	int right = std::min(ScreenWidth, pos.x + rad);
@@ -360,9 +361,10 @@ void Graphics::DrawCircle(b2Vec2 worldPos, float worldSize, const Color& c)
 }
 void Graphics::DrawRectDim(b2Vec2 worldPos, float worldSize, const Color & c)
 {
-	const VecI pos = ToScreenSpace(worldPos);
 	const int size = int(worldSize * scalePixel);
-	DrawRectDim(pos, size, size, c);
+	const VecI pos = ToScreenSpace(worldPos);
+	const VecI expand = { size, size };
+	DrawRect(pos - expand, pos + expand, c);
 }
 
 

@@ -49,7 +49,6 @@ private:
 	int32 velocityIterations = 8;
 	int32 positionIterations = 3;
 	std::unique_ptr<b2World> box2DEngine;
-	MyBox2DListener mrLister;
 	BoardGame brd;
 	World world;
 	MenuManager gui;

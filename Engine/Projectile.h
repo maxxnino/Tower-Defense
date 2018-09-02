@@ -5,25 +5,18 @@
 class Projectile : public PhysicObject
 {
 public:
-	Projectile(b2World& box2DEngine, int curTarget, const b2Vec2& worldPos,float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f })
+	Projectile(b2World& box2DEngine, int curTarget, const b2Vec2& worldPos,float size = 0.2f, const b2Vec2& linVel = { 0.0f,0.0f })
 		:
-		PhysicObject(box2DEngine, CollisionFillter::BULLET, CollisionFillter::ENEMY,worldPos, false, false, size, linVel),
-		targetID(curTarget)
+		PhysicObject(box2DEngine, CollisionFillter::BULLET, CollisionFillter::ENEMY,worldPos, true, false, size, linVel),
+		targetID(curTarget),
+		size(size)
 	{
 		body->SetUserData(this);
 	}
+
 	void Draw(Graphics& gfx) const
 	{
-		const b2Vec2 pos = body->GetPosition();
-		gfx.DrawRectDim(body->GetPosition(), size, Colors::Magenta);
-	}
-	void Update(float dt)
-	{
-		if (targetID != -1)
-		{
-			//b2Vec2 dir =  enemy->getBody().GetPosition() - body->GetPosition();
-			//SetVelocity(dir);
-		}
+		gfx.DrawCircle(body->GetPosition(), size, Colors::Magenta);
 	}
 	inline int GetEnemyID() noexcept
 	{
@@ -33,6 +26,21 @@ public:
 	{
 		return isDead;
 	}
+
+
+	/**********************************/
+	/*Virtual function for PhysiObject*/
+	void SetVelocity(const b2Vec2& dir) override
+	{
+		b2Vec2 vel = body->GetLinearVelocity() + dir;
+		const float curSpeedSq = std::pow(vel.x, 2) + std::pow(vel.y, 2);
+		if (curSpeedSq > maxSpeedSq)
+		{
+			float factor = std::sqrt(maxSpeedSq / curSpeedSq);
+			vel = factor * vel;
+		}
+		body->SetLinearVelocity(vel);
+	}
 	void RemoveEnemyID(int id) override {}
 	void MarkDead() override
 	{
@@ -40,7 +48,10 @@ public:
 	}
 	void AddEnemyID(int id) override {}
 	int GetID() override { return -1; }
+	/***********************************/
 private:
 	int targetID = -1;
 	bool isDead = false;
+	float maxSpeedSq = 50.0f;
+	float size;
 };

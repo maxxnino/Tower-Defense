@@ -9,20 +9,24 @@
 #include "Tower.h"
 #include "Enemy.h"
 #include "Projectile.h"
+#include "LineWall.h"
 class World : public IWorldMediator, public IComponent
 {
 public:
 	World(b2World& box2DEngine, int tileWidth, int tileHeight)
 		:
 		box2DEngine(box2DEngine),
+		border(box2DEngine),
 		tileWidth(tileWidth),
 		tileHeight(tileHeight),
+		posOffSet(float32(tileWidth / (Graphics::scalePixel * 2)), float32(-tileHeight / (Graphics::scalePixel * 2))),
 		indexTower(0),
 		indexEnemy(0)
 	{
 
 	}
-	//world control
+	/**********************************/
+	/*          World Control         */
 	void AddMediator(IMediator* mediator) override
 	{
 		guiAndBoardMediator = mediator;
@@ -61,33 +65,58 @@ public:
 			}
 		}
 		timer += dt;
-		if (timer >= 1.0f)
+		if (timer >= 1.5f)
 		{
 			timer = 0.0f;
 			MakeEnemy();
 		}
 	}
-	//bullet control
+	void ClearWorld()
+	{
+		for (int i = 0; i < bulletMgr.size();)
+		{
+			if (bulletMgr[i]->IsRemove())
+			{
+				std::swap(bulletMgr[i], bulletMgr.back());
+				bulletMgr.pop_back();
+			}
+			else
+			{
+				i++;
+			}
+		}
+	}
+	/**********************************/
+
+
+	/**********************************/
+	/*          Bullet Control        */
 	void MakeBullet(int curTarget, TypeDame* typeDame, Color c, const b2Vec2& worldPos) override
 	{
 		auto e = enemyMgr.find(curTarget);
 		if (e != enemyMgr.end())
 		{
 			const b2Vec2 enemyPos =  e->second->getBody().GetPosition();
-			auto b = std::make_unique<Projectile>(box2DEngine, curTarget, worldPos, bulletSize);
+			auto b = std::make_unique<Projectile>(box2DEngine, curTarget, worldPos + posOffSet, bulletSize);
 			b->SetVelocity(enemyPos - worldPos);
 			bulletMgr.emplace_back(std::move(b));
 		}
 	}
-	
-	//enemy control
+	/**********************************/
+
+
+	/**********************************/
+	/*         Enemy Control          */
 	void MakeEnemy() override 
 	{
 		enemyMgr.emplace(indexEnemy, std::make_unique<Enemy>(box2DEngine, indexEnemy));
 		indexEnemy++;
 	}
-	
-	//tower control
+	/**********************************/
+
+
+	/**********************************/
+	/*          Tower Control         */
 	int MakeTower(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f) override
 	{
 		auto tower = std::make_unique<Tower>(box2DEngine, typeDame, c, worldPos, size);
@@ -137,13 +166,17 @@ public:
 		});
 		return targetID;
 	}
+	/**********************************/
+
 private:
 	int tileWidth;
 	int tileHeight;
+	b2Vec2 posOffSet;
 	float timer = 0.0f;
-	static constexpr float bulletSize = 0.5f;
+	static constexpr float bulletSize = 0.2f;
 	b2World& box2DEngine;
 	IMediator* guiAndBoardMediator = nullptr;
+	Border border;
 	std::unordered_map<int, std::unique_ptr<Tower>> towerMgr;
 	std::unordered_map<int, std::unique_ptr<Enemy>> enemyMgr;
 	std::vector<std::unique_ptr<Projectile>> bulletMgr;

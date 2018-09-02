@@ -6,18 +6,17 @@
 #include "Box2D/Box2D.h"
 #include "Rect.h"
 enum CollisionFillter {
-	BULLET = 0x0001,
+	BORDER = 0x0001,
 	ENEMY = 0x0002,
 	TOWER = 0x0004,
-	BASE = 0x0008
+	BASE = 0x0008,
+	BULLET = 0x0010
 };
 class PhysicObject
 {
 public:
 	PhysicObject(b2World& box2DEngine, uint16 categoryBits, uint16 maskBits, const b2Vec2& worldPos, 
 		bool isCircle = false, bool isSensor = false,float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f } )
-		:
-		size(size)
 	{
 		{
 			b2BodyDef bodyDef;
@@ -57,29 +56,44 @@ public:
 			fixtureDef.filter.maskBits = maskBits;
 			body->CreateFixture(&fixtureDef);
 		}
-		
+	}
+	PhysicObject(b2World& box2DEngine, uint16 categoryBits, uint16 maskBits, const b2Vec2& posBegin, const b2Vec2& posEnd)
+	{
+		{
+			b2BodyDef bodyDef;
+			bodyDef.type = b2_staticBody; //change body type
+			bodyDef.position.Set(0, 0); //middle, bottom
+			body = { box2DEngine.CreateBody(&bodyDef),[&box2DEngine](b2Body* pBody) {box2DEngine.DestroyBody(pBody); } };
+		}
+
+		{
+			//shape
+			b2EdgeShape edgeShape;
+			edgeShape.Set(posBegin, posEnd);
+
+			//fixture
+			b2FixtureDef fixtureDef;
+			fixtureDef.shape = &edgeShape;
+			//collision fillter
+			fixtureDef.filter.categoryBits = categoryBits;
+			fixtureDef.filter.maskBits = maskBits;
+			body->CreateFixture(&fixtureDef);
+		}
 	}
 	b2Body& getBody()
 	{
 		return *body;
 	}
-	void SetVelocity(const b2Vec2& dir)
-	{
-		b2Vec2 vel = body->GetLinearVelocity() + dir;
-		const float curSpeedSq = std::pow(vel.x, 2) + std::pow(vel.y, 2);
-		if (curSpeedSq > maxSpeedSq)
-		{
-			float factor = std::sqrt(maxSpeedSq / curSpeedSq);
-			vel = factor * vel;
-		}
-		body->SetLinearVelocity(vel);
-	}
+
+
+	/**********************************/
+	/*Virtual function for PhysiObject*/
+	virtual void SetVelocity(const b2Vec2& dir) = 0;
 	virtual void MarkDead() = 0;
 	virtual void AddEnemyID(int id) = 0;
 	virtual int GetID() = 0;
 	virtual void RemoveEnemyID(int id) = 0;
+	/***********************************/
 protected:
-	float maxSpeedSq = 100.0f;
-	float size;
 	std::unique_ptr<b2Body, std::function<void(b2Body*)>> body;
 };

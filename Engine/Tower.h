@@ -109,8 +109,7 @@ public:
 		return typeDames.size() >= 3;
 	}
 	
-	
-	//add World mediation
+	//Add World mediation
 	void AddMediator(IWorldMediator* wordMediator) override
 	{
 		if (this->wordMediator == nullptr)
@@ -118,6 +117,11 @@ public:
 			this->wordMediator = wordMediator;
 		}
 	}
+
+
+	/**********************************/
+	/*Virtual function for PhysiObject*/
+	void SetVelocity(const b2Vec2& dir) override{}
 	void RemoveEnemyID(int id) override
 	{
 		assert(enemyIDs.find(id) != enemyIDs.end());
@@ -133,6 +137,7 @@ public:
 	}
 	void MarkDead() override {}
 	int GetID() override { return -1; }
+	/***********************************/
 private:
 	Color c;
 	float timer = 0;

@@ -16,7 +16,8 @@ public:
 		this->menuMgr.AddMediator(this);
 		this->world.AddMediator(this);
 	}
-	//control gui and board object
+	/**********************************/
+	/*  Control Gui and Board Bbject  */
 	void OpenUpgradeMenu(int towerIndex) override
 	{
 		assert(towerIndex != -1);
@@ -26,19 +27,22 @@ public:
 			menuMgr.ChangeUpgradeMenu();
 		}
 	}
-
 	void UpgradeTower() override
 	{
 		world.UpgradeTower(mouseGame.getTypeDame(), towerIndexInWorld);
 		towerIndexInWorld = -1;
 		mouseGame.Clear();
 	}
+	/**********************************/
 
-	//control world object
+
+	/**********************************/
+	/*      Control World Bbject      */
 	int MakeTower(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f) override
 	{
 		return world.MakeTower(typeDame, c, worldPos, size);
 	}
+	/**********************************/
 private:
 	MenuManager& menuMgr;
 	World& world;

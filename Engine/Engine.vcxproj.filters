@@ -31,14 +31,17 @@
     <Filter Include="Header Files\Game\Tower">
       <UniqueIdentifier>{646d3ede-a3ae-4cc5-a3d9-aef7d27f4ad9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Game\Enemy and bullet">
-      <UniqueIdentifier>{fc447c83-354d-4067-aa70-eed568e01400}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Game\World Mediator">
       <UniqueIdentifier>{a62d0cfb-8ff0-4487-87a3-26960a580bde}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Game\Gui and Board">
       <UniqueIdentifier>{31e175ba-ac78-452d-90c4-ab9b1a528ffd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Physic">
+      <UniqueIdentifier>{28f3edd9-e9e4-423e-9692-a4345e91bae1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Enemy, Bullet and Base">
+      <UniqueIdentifier>{fc447c83-354d-4067-aa70-eed568e01400}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,14 +141,11 @@
     <ClInclude Include="WalkableTile.h">
       <Filter>Header Files\Game\Board and Tile</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicObject.h">
-      <Filter>Header Files\Game\Enemy and bullet</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Header Files\Game\Enemy and bullet</Filter>
+      <Filter>Header Files\Game\Enemy, Bullet and Base</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
-      <Filter>Header Files\Game\Enemy and bullet</Filter>
+      <Filter>Header Files\Game\Enemy, Bullet and Base</Filter>
     </ClInclude>
     <ClInclude Include="IWorldMediator.h">
       <Filter>Header Files\Game\World Mediator</Filter>
@@ -157,7 +157,16 @@
       <Filter>Header Files\Game\World Mediator</Filter>
     </ClInclude>
     <ClInclude Include="MyBox2DListener.h">
-      <Filter>Header Files\Game\Enemy and bullet</Filter>
+      <Filter>Header Files\Game\Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicObject.h">
+      <Filter>Header Files\Game\Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="LineWall.h">
+      <Filter>Header Files\Game\Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="Base.h">
+      <Filter>Header Files\Game\Enemy, Bullet and Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -139,7 +139,9 @@
     <ClInclude Include="..\..\menu\Engine\FrameTimer.h" />
     <ClInclude Include="..\..\menu\Engine\Rect.h" />
     <ClInclude Include="..\..\menu\Engine\Vec2.h" />
+    <ClInclude Include="Base.h" />
     <ClInclude Include="BoardGame.h" />
+    <ClInclude Include="LineWall.h" />
     <ClInclude Include="BuildableTile.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonState.h" />

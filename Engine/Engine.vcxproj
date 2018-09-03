@@ -141,7 +141,10 @@
     <ClInclude Include="..\..\menu\Engine\Vec2.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="BoardGame.h" />
+    <ClInclude Include="ChiliUtil.h" />
+    <ClInclude Include="Codex.h" />
     <ClInclude Include="Font.h" />
+    <ClInclude Include="GDIPlusManager.h" />
     <ClInclude Include="Gold.h" />
     <ClInclude Include="LineWall.h" />
     <ClInclude Include="BuildableTile.h" />
@@ -190,6 +193,7 @@
     <ClCompile Include="DXErr.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GDIPlusManager.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="GraphicsOD.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MaxSpeed</Optimization>

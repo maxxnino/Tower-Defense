@@ -8,7 +8,7 @@
 class Surface
 {
 public:
-	Surface(const std::string& filename);
+	Surface(const std::wstring& filename);
 	Surface(int width, int height);
 	Surface(Surface&& donor);
 	Surface(const Surface&) = default;
@@ -22,6 +22,7 @@ public:
 	RectI GetRect() const;
 	void Fill(Color c);
 	const Color* Data() const;
+	void BakeAlpha();
 private:
 	std::vector<Color> pixels;
 	int width = 0;

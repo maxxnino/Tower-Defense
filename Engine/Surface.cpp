@@ -1,67 +1,82 @@
 #include "Surface.h"
+// gdiplus needs a lot of dumb windows shit
+// enable that shit for this translation unit only
+#define FULL_WINTARD
 #include "ChiliWin.h"
+#include <algorithm>
+// gdiplus needs min/max, but we disable that (even in
+// full wintard mode), so we need to inject min/max into
+// the Gdiplus namespace
+namespace Gdiplus
+{
+	using std::min;
+	using std::max;
+}
+#include <gdiplus.h>
 #include <cassert>
 #include <fstream>
-#include <algorithm>
 
-Surface::Surface(const std::string& filename)
+namespace gdi = Gdiplus;
+
+Surface::Surface(const std::wstring& filename)
 {
-	std::ifstream file(filename, std::ios::binary);
-	assert(file);
-
-	BITMAPFILEHEADER bmFileHeader;
-	file.read(reinterpret_cast<char*>(&bmFileHeader), sizeof(bmFileHeader));
-
-	BITMAPINFOHEADER bmInfoHeader;
-	file.read(reinterpret_cast<char*>(&bmInfoHeader), sizeof(bmInfoHeader));
-
-	assert(bmInfoHeader.biBitCount == 24 || bmInfoHeader.biBitCount == 32);
-	assert(bmInfoHeader.biCompression == BI_RGB);
-
-	const bool is32b = bmInfoHeader.biBitCount == 32;
-
-	width = bmInfoHeader.biWidth;
-
-	// test for reverse row order and control
-	// y loop accordingly
-	int yStart;
-	int yEnd;
-	int dy;
-	if (bmInfoHeader.biHeight < 0)
+	// filename must be at least 4 chars long
+	if (filename.length() < 4)
 	{
-		height = -bmInfoHeader.biHeight;
-		yStart = 0;
-		yEnd = height;
-		dy = 1;
-	}
-	else
-	{
-		height = bmInfoHeader.biHeight;
-		yStart = height - 1;
-		yEnd = -1;
-		dy = -1;
+		// generate narrow string of filename
+		std::string narrow(filename.begin(), filename.end());
+		throw std::runtime_error("Surface::Surface bad file name: " + narrow);
 	}
 
+	// open image file with gdiplus (not only .bmp files)
+	gdi::Bitmap bitmap(filename.c_str());
+
+	// check if file loaded successfully, throw exception if didn't
+	if (bitmap.GetLastStatus() != gdi::Ok)
+	{
+		// generate narrow string of filename
+		std::string narrow(filename.begin(), filename.end());
+		// throw exception with error message
+		// could possibly add more info with lookup of error code name / desc
+		// but I don't want to right now cuz im lazy
+		throw std::runtime_error("Surface::Surface failed to load file: " + narrow);
+	}
+
+	// allocate Surface resources and set dimensions
+	width = bitmap.GetWidth();
+	height = bitmap.GetHeight();
 	pixels.resize(width * height);
 
-	file.seekg(bmFileHeader.bfOffBits);
-	// padding is for the case of of 24 bit depth only
-	const int padding = (4 - (width * 3) % 4) % 4;
+	// test if pixel format is alpha, and save result
+	const bool isAlpha = gdi::IsAlphaPixelFormat(bitmap.GetPixelFormat()) == TRUE;
 
-	for (int y = yStart; y != yEnd; y += dy)
+	// loop through image dimensions, copy from gdip bitmap to surface
+	for (int y = 0; y < height; y++)
 	{
 		for (int x = 0; x < width; x++)
 		{
-			PutPixel(x, y, Color(file.get(), file.get(), file.get()));
-			if (is32b)
+			// need this to receive color of pixel
+			gdi::Color pixel;
+			// read color from gdip bitmap
+			bitmap.GetPixel(x, y, &pixel);
+			// write to surface (with alpha channel if exists)
+			if (isAlpha)
 			{
-				file.seekg(1, std::ios::cur);
+				PutPixel(x, y, { pixel.GetA(),pixel.GetR(),pixel.GetG(),pixel.GetB() });
+			}
+			else
+			{
+				PutPixel(x, y, { pixel.GetR(),pixel.GetG(),pixel.GetB() });
 			}
 		}
-		if (!is32b)
-		{
-			file.seekg(padding, std::ios::cur);
-		}
+	}
+
+	// check to see whether filename starts with "pm_"
+	// (actually, being lazy so only checking if contains "pm_")
+	// if so, gotta bake that alpha yo
+	if (filename.find(L"pm_") != std::wstring::npos)
+	{
+		BakeAlpha();
 	}
 }
 
@@ -105,4 +120,20 @@ RectI Surface::GetRect() const
 const Color* Surface::Data() const
 {
 	return pixels.data();
+}
+
+void Surface::BakeAlpha()
+{
+	const int nPixels = GetWidth() * GetHeight();
+	for (int i = 0; i < nPixels; i++)
+	{
+		auto pix = pixels.data()[i];
+		const int alpha = pix.GetA();
+		// premulitply alpha time each channel
+		pix.SetR((pix.GetR() * alpha) / 256);
+		pix.SetG((pix.GetG() * alpha) / 256);
+		pix.SetB((pix.GetB() * alpha) / 256);
+		// write back to surface
+		pixels.data()[i] = pix;
+	}
 }

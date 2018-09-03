@@ -209,6 +209,7 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="SurfaceOD.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Full</Optimization>

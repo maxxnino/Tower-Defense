@@ -112,8 +112,14 @@ public:
 			body->CreateFixture(&fixtureDef);
 		}
 	}
-
-	
+	bool isRemove()
+	{
+		return isDestroyed;
+	}
+	void MarkDead()
+	{
+		isDestroyed = false;
+	}
 	
 	b2Body& getBody()
 	{
@@ -123,7 +129,6 @@ public:
 	/**********************************/
 	/*Virtual function for PhysiObject*/
 	virtual void SetVelocity(const b2Vec2& dir) { assert(false); }
-	virtual void MarkDead() { assert(false); }
 	virtual void AddEnemyID(int id) { assert(false); }
 	virtual int GetID() { assert(false); return -1; }
 	virtual void RemoveEnemyID(int id) { assert(false); }
@@ -132,5 +137,6 @@ public:
 	virtual void MarkReachBase() { assert(false); }
 	/***********************************/
 protected:
+	bool isDestroyed = false;
 	std::unique_ptr<b2Body, std::function<void(b2Body*)>> body;
 };

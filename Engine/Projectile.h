@@ -22,10 +22,6 @@ public:
 	{
 		return targetID;
 	}
-	inline bool IsRemove() const
-	{
-		return isDead;
-	}
 	bool CooldownToDead(float dt) noexcept
 	{
 		timer += dt;
@@ -49,10 +45,6 @@ public:
 		}
 		body->SetLinearVelocity(vel);
 	}
-	void MarkDead() override
-	{
-		isDead = true;
-	}
 	int GetDame() override
 	{
 		return dame;
@@ -62,7 +54,6 @@ private:
 	static constexpr float deadTimer = 3.0f;
 	int dame = 2;
 	int targetID = -1;
-	bool isDead = false;
 	float maxSpeedSq = 50.0f;
 	float timer = 0.0f;
 	float size;

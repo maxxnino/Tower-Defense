@@ -18,9 +18,9 @@ public:
 		nWidth = r + (int)menuW / tileWidth;
 		nHeight = b + (int)menuH / tileHeight;
 		const int mid = nHeight / 2;
-		for (size_t y = 0; y < nHeight; y++)
+		for (int y = 0; y < nHeight; y++)
 		{
-			for (size_t x = 0; x < nWidth; x++)
+			for (int x = 0; x < nWidth; x++)
 			{
 				if (y == mid - 1 || y == mid || y == mid + 1)
 				{
@@ -28,8 +28,8 @@ public:
 				}
 				else
 				{
-					VecI pos = VecI((int)x * tileWidth, (int)y  * tileHeight);
-					tiles.emplace_back(std::make_unique<BuildableTile>(pos, int(x + y * nWidth)));
+					VecI pos = VecI(x * tileWidth, y  * tileHeight);
+					tiles.emplace_back(std::make_unique<BuildableTile>(pos, x + y * nWidth));
 				}
 			}
 		}

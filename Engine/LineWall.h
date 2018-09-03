@@ -14,11 +14,6 @@ public:
 
 	/**********************************/
 	/*Virtual function for PhysiObject*/
-	void RemoveEnemyID(int id) override {}
-	void AddEnemyID(int id) override {}
-	void MarkDead() override {}
-	int GetID() override { return -1; }
-	void SetVelocity(const b2Vec2& dir) override {}
 	/***********************************/
 private:
 	b2Vec2 beginPos;

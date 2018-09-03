@@ -5,9 +5,10 @@ class IMediator
 public:
 	/**********************************/
 	/*  Control Gui and Board Bbject  */
-	virtual void OpenUpgradeMenu(int towerIndex) = 0;
+	virtual void OpenUpgradeMenu(int towerIndex, int tileIndex) = 0;
 	virtual void UpgradeTower() = 0;
 	virtual void ActiveWarningText(int newType) = 0;
+	virtual void SellTower() = 0;
 	MouseGame* GetMouseGame()
 	{
 		return &mouseGame;

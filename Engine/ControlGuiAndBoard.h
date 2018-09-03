@@ -18,12 +18,13 @@ public:
 	}
 	/**********************************/
 	/*  Control Gui and Board Bbject  */
-	void OpenUpgradeMenu(int towerIndex) override
+	void OpenUpgradeMenu(int towerIndex, int tileIndex) override
 	{
 		assert(towerIndex != -1);
 		if (!world.IsTowerMaxLv(towerIndex))
 		{
 			towerIndexInWorld = towerIndex;
+			trackingTile = tileIndex;
 			menuMgr.ChangeUpgradeMenu();
 		}
 	}
@@ -31,7 +32,15 @@ public:
 	{
 		world.UpgradeTower(mouseGame.getTypeDame(), towerIndexInWorld);
 		towerIndexInWorld = -1;
+		trackingTile = -1;
 		mouseGame.Clear();
+	}
+	void SellTower() override
+	{
+		world.SellTower(towerIndexInWorld);
+		board.tileAt(trackingTile).RemoveTowerIndex();
+		trackingTile = -1;
+		towerIndexInWorld = -1;
 	}
 	void ActiveWarningText(int newType) override
 	{
@@ -60,4 +69,5 @@ private:
 	World& world;
 	BoardGame& board;
 	int towerIndexInWorld = -1;
+	int trackingTile = -1;
 };

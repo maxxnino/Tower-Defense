@@ -16,11 +16,12 @@ public:
 		mainMenuBtn01(VecF(100.0f + 100.0f , 500.0f + 7.0f), 60.0f, 60.0f),
 		mainMenuBtn02(VecF(100.0f + 100.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
 		mainMenuBtn03(VecF(100.0f + 100.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		//deleteTowerBtn04(VecF(100.0f + 100.0f + 3.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		
 		upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::MakeRGB(172u, 115u, 57u)),
 		upgradeMenuBtn01(VecF(100.0f + 150.0f, 500.0f + 7.0f), 60.0f, 60.0f),
 		upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f)
+		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f), 
+		deleteTowerBtn04(VecF(100.0f + 150.0f + 3.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f)
 	{
 		activeMenu = &mainMenu;
 		//main menu
@@ -33,11 +34,11 @@ public:
 		mainMenuBtn03.GetLeftClickFunc() = [this]() {
 			mediator->GetMouseGame()->ChangeToLighting();
 		};
-		//deleteTowerBtn04.GetLeftClickFunc() = [this]() {};
+		
 		mainMenuBtn01.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
 		mainMenuBtn02.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
 		mainMenuBtn03.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
-		//deleteTowerBtn04.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
+		
 		mainMenu.AddItem(&mainMenuBtn01);
 		mainMenu.AddItem(&mainMenuBtn02);
 		mainMenu.AddItem(&mainMenuBtn03);
@@ -59,12 +60,18 @@ public:
 			mediator->UpgradeTower();
 			ChangeMainMenu();
 		};
+		deleteTowerBtn04.GetLeftClickFunc() = [this]() {
+			mediator->SellTower();
+			ChangeMainMenu();
+		};
 		upgradeMenuBtn01.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
 		upgradeMenuBtn02.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
 		upgradeMenuBtn03.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
+		deleteTowerBtn04.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
 		upgradeMenu.AddItem(&upgradeMenuBtn01);
 		upgradeMenu.AddItem(&upgradeMenuBtn02);
 		upgradeMenu.AddItem(&upgradeMenuBtn03);
+		upgradeMenu.AddItem(&deleteTowerBtn04);
 	}
 
 	// Remember update color for button after add mediator
@@ -78,6 +85,7 @@ public:
 		upgradeMenuBtn01.setColor(mouseGame->GetFireColor());
 		upgradeMenuBtn02.setColor(mouseGame->GetIceColor());
 		upgradeMenuBtn03.setColor(mouseGame->GetLightingColor());
+		deleteTowerBtn04.setColor(Colors::White);
 	}
 	void Update(float dt, Mouse& mouse)
 	{
@@ -172,11 +180,12 @@ private:
 	Button mainMenuBtn01;
 	Button mainMenuBtn02;
 	Button mainMenuBtn03;
-	//Button deleteTowerBtn04;
+	
 
 	//Upgrade Menu
 	Menu upgradeMenu;
 	Button upgradeMenuBtn01;
 	Button upgradeMenuBtn02;
 	Button upgradeMenuBtn03;
+	Button deleteTowerBtn04;
 };

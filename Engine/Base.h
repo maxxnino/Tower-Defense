@@ -14,20 +14,15 @@ public:
 	{
 		gfx.DrawRectDim(body->GetPosition(), size, Colors::Blue);
 	}
-	inline bool isGameOver() noexcept
-	{
-		return isDead;
-	}
 	void ApplyDame(int dame) override
 	{
 		Hp -= dame;
 		if (Hp <= 0)
 		{
-			isDead = true;
+			isDestroyed = true;
 		}
 	}
 private:
 	int Hp = 10;
-	bool isDead = false;
 	VecF size;
 };

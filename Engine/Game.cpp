@@ -49,7 +49,10 @@ Game::Game( MainWindow& wnd )
 
 	mrLister.CaseLeave<Tower, Enemy>([](PhysicObject& t, PhysicObject& e)
 	{
-		t.RemoveEnemyID(e.GetID());
+		if (t.isRemove())
+		{
+			t.RemoveEnemyID(e.GetID());
+		}
 	});
 	
 	box2DEngine->SetContactListener(&mrLister);

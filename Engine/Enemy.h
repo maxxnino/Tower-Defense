@@ -18,7 +18,6 @@ public:
 		gfx.DrawCircle(body->GetPosition(), size, Colors::Yellow);
 	}
 	
-	bool isRemove() { return isDead; }
 	bool IsReachtBase() { return isReachBase; }
 	int GetGold() { return gold; }
 	/**********************************/
@@ -29,16 +28,14 @@ public:
 		Hp -= dame;
 		if (Hp <= 0)
 		{
-			isDead = true;
+			isDestroyed = true;
 		}
 	}
 	int GetDame() override { return dame; }
-	void MarkDead() override { isDead = true; }
 	void MarkReachBase() override { isReachBase = true; }
 	/***********************************/
 	
 private:
-	bool isDead = false;
 	bool isReachBase = false;
 	int Hp = 10;
 	int gold = 1;

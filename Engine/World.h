@@ -81,7 +81,7 @@ public:
 		//clear dead bullet
 		for (int i = 0; i < bulletMgr.size();)
 		{
-			if (bulletMgr[i]->IsRemove())
+			if (bulletMgr[i]->isRemove())
 			{
 				std::swap(bulletMgr[i], bulletMgr.back());
 				bulletMgr.pop_back();
@@ -111,7 +111,7 @@ public:
 		//clear no target dead bullet
 		for (int i = 0; i < noTargetBullet.size();)
 		{
-			if (noTargetBullet[i]->IsRemove())
+			if (noTargetBullet[i]->isRemove())
 			{
 				std::swap(noTargetBullet[i], noTargetBullet.back());
 				noTargetBullet.pop_back();
@@ -188,6 +188,17 @@ public:
 		indexTower++;
 		return indexTower - 1;
 	}
+	void SellTower(int curTowerIndex) 
+	{
+		assert(curTowerIndex >= 0);
+		assert(towerMgr.find(curTowerIndex) != towerMgr.end());
+		{
+			auto t = towerMgr.find(curTowerIndex);
+			gold.AddGold(int((float)(t->second->GetGold()) * sellRate + 0.5f));
+			t->second->MarkDead();
+		}
+		towerMgr.erase(curTowerIndex);
+	}
 	bool IsTowerMaxLv(int towerIndex) override
 	{
 		auto t = towerMgr.find(towerIndex);
@@ -237,6 +248,7 @@ private:
 	b2Vec2 posOffSet;
 	float timer = 0.0f;
 	static constexpr float bulletSize = 0.2f;
+	static constexpr float sellRate = 0.66667f;
 	b2World& box2DEngine;
 	IMediator* guiAndBoardMediator = nullptr;
 	Gold gold;

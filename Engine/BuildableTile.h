@@ -3,10 +3,10 @@
 class BuildableTile : public TileGame
 {
 public:
-	BuildableTile(VecI pos,int index)
+	BuildableTile(VecI pos,int tileIndex)
 		:
 		pos(pos),
-		towerIndex(-1)
+		tileIndex(tileIndex)
 	{}
 	void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept override
 	{
@@ -44,9 +44,13 @@ public:
 			if (towerIndex != -1)
 			{
 				//nothing in mouse, and this tile have tower, clicked for open upgrade menu from Menumanager
-				mediator->OpenUpgradeMenu(towerIndex);
+				mediator->OpenUpgradeMenu(towerIndex, tileIndex);
 			}
 		}
+	}
+	void RemoveTowerIndex() override
+	{
+		towerIndex = -1;
 	}
 	void BuildTower(TypeDame* type, IMediator* mediator)
 	{
@@ -57,6 +61,7 @@ public:
 	}
 private:
 	static constexpr Color defaultColor = Colors::Gray;
-	int towerIndex;
+	int towerIndex = -1;
+	const int tileIndex;
 	VecI pos;
 };

@@ -108,6 +108,10 @@ public:
 	{
 		return typeDames.size() >= 3;
 	}
+	inline int GetGold() const noexcept
+	{
+		return typeDames[0]->GetGold();
+	}
 	
 	//Add World mediation
 	void AddMediator(IWorldMediator* wordMediator) override

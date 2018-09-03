@@ -6,11 +6,11 @@
 class MenuItem
 {
 public:
-	virtual void Draw(Graphics& gfx) const = 0;
+	virtual void Draw(Graphics& gfx) const {};
 	virtual void Update(float dt, Mouse& mouse) = 0;
-	virtual void MouseLeave() = 0;
-	virtual void MouseIn(Mouse& mouse) = 0;
-	virtual void ResetState() = 0;
+	virtual void MouseLeave() {};
+	virtual void MouseIn(Mouse& mouse) {};
+	virtual void ResetState() {};
 	inline RectF GetRect() noexcept
 	{
 		return RectF(pos, width, height);

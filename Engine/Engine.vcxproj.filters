@@ -40,7 +40,7 @@
     <Filter Include="Header Files\Game\Physic">
       <UniqueIdentifier>{28f3edd9-e9e4-423e-9692-a4345e91bae1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Game\Enemy, Bullet and Base">
+    <Filter Include="Header Files\Game\Game Object">
       <UniqueIdentifier>{fc447c83-354d-4067-aa70-eed568e01400}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -142,10 +142,10 @@
       <Filter>Header Files\Game\Board and Tile</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Header Files\Game\Enemy, Bullet and Base</Filter>
+      <Filter>Header Files\Game\Game Object</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
-      <Filter>Header Files\Game\Enemy, Bullet and Base</Filter>
+      <Filter>Header Files\Game\Game Object</Filter>
     </ClInclude>
     <ClInclude Include="IWorldMediator.h">
       <Filter>Header Files\Game\World Mediator</Filter>
@@ -166,7 +166,19 @@
       <Filter>Header Files\Game\Physic</Filter>
     </ClInclude>
     <ClInclude Include="Base.h">
-      <Filter>Header Files\Game\Enemy, Bullet and Base</Filter>
+      <Filter>Header Files\Game\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Gold.h">
+      <Filter>Header Files\Game\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Surface.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteEffect.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +216,18 @@
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="ButtonState.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Surface.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceOD.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsOD.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>

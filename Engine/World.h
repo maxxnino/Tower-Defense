@@ -11,6 +11,7 @@
 #include "Projectile.h"
 #include "LineWall.h"
 #include "Base.h"
+#include "Gold.h"
 class World : public IWorldMediator, public IComponent
 {
 public:
@@ -92,6 +93,11 @@ public:
 		for (auto e = enemyMgr.begin(); e != enemyMgr.end();)
 		{
 			if (e->second->isRemove())
+			{
+				gold.AddGold(e->second->GetGold());
+				e = enemyMgr.erase(e);
+			}
+			else if (e->second->IsReachtBase())
 			{
 				e = enemyMgr.erase(e);
 			}
@@ -219,6 +225,7 @@ private:
 	static constexpr float bulletSize = 0.2f;
 	b2World& box2DEngine;
 	IMediator* guiAndBoardMediator = nullptr;
+	Gold gold;
 	Border border;
 	Base base;
 	std::unordered_map<int, std::unique_ptr<Tower>> towerMgr;

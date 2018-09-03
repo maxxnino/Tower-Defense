@@ -43,7 +43,7 @@ Game::Game( MainWindow& wnd )
 	mrLister.CaseContact<Base, Enemy>([](PhysicObject& b, PhysicObject& e)
 	{
 		b.ApplyDame(e.GetDame());
-		e.MarkDead();
+		e.MarkReachBase();
 	});
 
 

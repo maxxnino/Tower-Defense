@@ -300,20 +300,9 @@ void Graphics::EndFrame()
 		}
 	}
 }
-
-void Graphics::BeginFrame()
+RectI Graphics::GetScreenRect()
 {
-	// clear the sysbuffer
-	memset( pSysBuffer,0u,sizeof( Color ) * Graphics::ScreenHeight * Graphics::ScreenWidth );
-}
-
-void Graphics::PutPixel( int x,int y,Color c )
-{
-	assert( x >= 0 );
-	assert( x < int( Graphics::ScreenWidth ) );
-	assert( y >= 0 );
-	assert( y < int( Graphics::ScreenHeight ) );
-	pSysBuffer[Graphics::ScreenWidth * y + x] = c;
+	return{ 0,0,ScreenWidth,ScreenHeight };
 }
 
 void Graphics::DrawRect(VecI p0, VecI p1, Color c)

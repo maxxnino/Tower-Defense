@@ -18,18 +18,12 @@ public:
 		gfx.DrawCircle(body->GetPosition(), size, Colors::Yellow);
 	}
 	
-	bool isRemove()
-	{
-		return isDead;
-	}
-
-
+	bool isRemove() { return isDead; }
+	bool IsReachtBase() { return isReachBase; }
+	int GetGold() { return gold; }
 	/**********************************/
 	/*Virtual function for PhysiObject*/
-	int GetID() override
-	{
-		return id;
-	}
+	int GetID() override { return id; }
 	void ApplyDame(int dame) override
 	{
 		Hp -= dame;
@@ -38,19 +32,16 @@ public:
 			isDead = true;
 		}
 	}
-	int GetDame() override
-	{
-		return dame;
-	}
-	void MarkDead() override
-	{
-		isDead = true;
-	}
+	int GetDame() override { return dame; }
+	void MarkDead() override { isDead = true; }
+	void MarkReachBase() override { isReachBase = true; }
 	/***********************************/
 	
 private:
 	bool isDead = false;
+	bool isReachBase = false;
 	int Hp = 10;
+	int gold = 1;
 	int dame = 1;
 	int id;
 	float size;

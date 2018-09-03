@@ -21,7 +21,7 @@ public:
 		box2DEngine(box2DEngine),
 		border(box2DEngine),
 		base(box2DEngine, {18.0f,0.0f}, {2,4}),
-		gold(10),
+		gold(20),
 		tileWidth(tileWidth),
 		tileHeight(tileHeight),
 		posOffSet(float32(tileWidth / (Graphics::scalePixel * 2)), float32(-tileHeight / (Graphics::scalePixel * 2))),

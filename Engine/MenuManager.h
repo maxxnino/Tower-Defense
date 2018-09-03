@@ -37,7 +37,7 @@ public:
 		mainMenuBtn01.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
 		mainMenuBtn02.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
 		mainMenuBtn03.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
-		deleteTowerBtn04.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
+		//deleteTowerBtn04.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
 		mainMenu.AddItem(&mainMenuBtn01);
 		mainMenu.AddItem(&mainMenuBtn02);
 		mainMenu.AddItem(&mainMenuBtn03);
@@ -95,7 +95,7 @@ public:
 	void Draw(Graphics& gfx)
 	{
 		activeMenu->Draw(gfx);
-		font.DrawText(std::to_string(mediator->GetGold()), {10,10},Colors::Green,gfx);
+		font.DrawText("Gold: " + std::to_string(mediator->GetGold()), {10,10},Colors::Green,gfx);
 		DrawWaringText(gfx);
 	}
 	void ChangeMainMenu()

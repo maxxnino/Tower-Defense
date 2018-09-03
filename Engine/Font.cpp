@@ -2,17 +2,17 @@
 #include <cassert>
 #include "SpriteEffect.h"
 
-Font::Font(const std::wstring& filename, Color chroma)
+Font::Font(const Surface * sprite, Color chroma)
 	:
-	surface(filename),
+	surface(sprite),
 	// calculate glyph dimensions from bitmap dimensions
-	glyphWidth(surface.GetWidth() / nColumns),
-	glyphHeight(surface.GetHeight() / nRows),
+	glyphWidth(surface->GetWidth() / nColumns),
+	glyphHeight(surface->GetHeight() / nRows),
 	chroma(chroma)
 {
 	// verify that bitmap had valid dimensions
-	assert(glyphWidth * nColumns == surface.GetWidth());
-	assert(glyphHeight * nRows == surface.GetHeight());
+	assert(glyphWidth * nColumns == surface->GetWidth());
+	assert(glyphHeight * nRows == surface->GetHeight());
 }
 
 void Font::DrawText(const std::string& text, const VecI& pos, Color color, Graphics& gfx) const
@@ -38,7 +38,7 @@ void Font::DrawText(const std::string& text, const VecI& pos, Color color, Graph
 		else if (c >= firstChar + 1 && c <= lastChar)
 		{
 			// use DrawSpriteSubstitute so that we can choose the color of the font rendered
-			gfx.DrawSprite(curPos.x, curPos.y, MapGlyphRect(c), surface, e);
+			gfx.DrawSprite(curPos.x, curPos.y, MapGlyphRect(c), *surface, e);
 		}
 		// advance screen pos for next character
 		curPos.x += glyphWidth;

@@ -7,13 +7,13 @@
 class Font
 {
 public:
-	Font(const std::wstring& filename, Color chroma = Colors::White);
+	Font(const Surface* sprite, Color chroma = Colors::White);
 	void DrawText(const std::string& text, const VecI& pos, Color color, Graphics& gfx) const;
 private:
 	RectI MapGlyphRect(char c) const;
 private:
 	// holds the font sheet bitmap data
-	Surface surface;
+	const Surface* surface;
 	// this gives the dimensions of a glyph in the font sheet
 	int glyphWidth;
 	int glyphHeight;

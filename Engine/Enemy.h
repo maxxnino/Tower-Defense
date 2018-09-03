@@ -7,7 +7,7 @@ public:
 	Enemy(b2World& box2DEngine, int id, float size)
 		:
 		PhysicObject(box2DEngine, CollisionFillter::ENEMY, CollisionFillter::BORDER |CollisionFillter::BULLET | CollisionFillter::BASE | CollisionFillter::TOWER,
-			{ -20.0f,0.0f }, true, false, size, {8.0f,0.0f}),
+			{ -20.0f,0.0f }, true, false, size, {6.0f,0.0f}),
 		id(id),
 		size(size)
 	{

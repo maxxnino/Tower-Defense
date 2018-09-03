@@ -1,14 +1,17 @@
 #pragma once
-#include "Menu.h"
-#include "Button.h"
 #include <algorithm>
 #include <memory>
+#include "Menu.h"
+#include "Button.h"
 #include "IComponent.h"
+#include "Font.h"
+#include "Codex.h"
 class MenuManager : public IComponent
 {
 public:
 	MenuManager()
 		:
+		font(Codex<Surface>::Retrieve(L"Images\\Fixedsys16x28.bmp")),
 		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::Cyan),
 		mainMenuBtn01(VecF(100.0f + 100.0f , 500.0f + 7.0f), 60.0f, 60.0f),
 		mainMenuBtn02(VecF(100.0f + 100.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
@@ -83,10 +86,20 @@ public:
 	{
 		ProcessCommand(mouse);
 		activeMenu->Update(dt, mouse);
+		if (isWarning)
+		{
+			timer += dt;
+			if (timer >= 3.0f)
+			{
+				isWarning = false;
+			}
+		}
 	}
 	void Draw(Graphics& gfx)
 	{
 		activeMenu->Draw(gfx);
+		font.DrawText(std::to_string(mediator->GetGold()), {10,10},Colors::Green,gfx);
+		DrawWaringText(gfx);
 	}
 	void ChangeMainMenu()
 	{
@@ -104,7 +117,30 @@ public:
 			mainMenu.ResetItem();
 		}
 	}
+	void ActiveWarningText(int newType)
+	{
+		isWarning = true;
+		type = newType;
+		timer = 0.0f;
+	}
 private:
+	void DrawWaringText(Graphics& gfx) const
+	{
+		if (isWarning)
+		{
+			switch (type)
+			{
+			case 0:
+				font.DrawText(warningGoldText, { 150,50 }, Colors::Red, gfx);
+				break;
+			case 1:
+				font.DrawText(warningCantBuildText, { 80,50 }, Colors::Red, gfx);
+				break;
+			default:
+				break;
+			}
+		}
+	}
 	void ProcessCommand(Mouse& mouse)
 	{
 		if (activeMenu->GetRect().isContaint(mouse.GetPos()))
@@ -125,8 +161,14 @@ private:
 		}
 	}
 private:
+	Font font;
 	Menu* activeMenu = nullptr;
 	IMediator* mediator = nullptr;
+	bool isWarning = false;
+	int type = 0;
+	std::string warningGoldText = "Yo!!! You poor as fuck !!!";
+	std::string warningCantBuildText = "This tile already have a tower bitch !!!";
+	float timer = 0.0f;
 	//Make main menu and button
 	Menu mainMenu;
 	Button mainMenuBtn01;

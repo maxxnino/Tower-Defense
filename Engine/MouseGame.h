@@ -37,6 +37,11 @@ public:
 	{
 		return lighting.getColor();
 	}
+	inline int GetGold() const
+	{
+		assert(typeDame);
+		return typeDame->GetGold();
+	}
 private:
 	TypeDame * typeDame = nullptr;
 	FireDame fire;

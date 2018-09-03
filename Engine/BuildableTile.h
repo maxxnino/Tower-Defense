@@ -22,11 +22,18 @@ public:
 		{
 			if (towerIndex == -1)
 			{
-				BuildTower(typeDame, mediator);
+				if (mediator->CanAffordTower())
+				{
+					BuildTower(typeDame, mediator);
+				}
+				else
+				{
+					mediator->ActiveWarningText(0);
+				}
 			}
 			else
 			{
-				//Todo: show message can't build tower at here
+				mediator->ActiveWarningText(1);
 			}
 		}
 		else

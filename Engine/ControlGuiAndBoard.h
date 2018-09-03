@@ -33,14 +33,26 @@ public:
 		towerIndexInWorld = -1;
 		mouseGame.Clear();
 	}
+	void ActiveWarningText(int newType) override
+	{
+		menuMgr.ActiveWarningText(newType);
+	}
 	/**********************************/
 
 
 	/**********************************/
-	/*      Control World Bbject      */
+	/*      Control World Object      */
 	int MakeTower(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f) override
 	{
 		return world.MakeTower(typeDame, c, worldPos, size);
+	}
+	int GetGold() const override
+	{
+		return world.GetGold();
+	}
+	bool CanAffordTower() const override
+	{
+		return world.CanAffordTower(GetMouseGame());
 	}
 	/**********************************/
 private:

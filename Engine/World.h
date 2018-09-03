@@ -21,6 +21,7 @@ public:
 		box2DEngine(box2DEngine),
 		border(box2DEngine),
 		base(box2DEngine, {18.0f,0.0f}, {2,4}),
+		gold(10),
 		tileWidth(tileWidth),
 		tileHeight(tileHeight),
 		posOffSet(float32(tileWidth / (Graphics::scalePixel * 2)), float32(-tileHeight / (Graphics::scalePixel * 2))),
@@ -166,9 +167,21 @@ public:
 
 
 	/**********************************/
+	/*          Gold Control         */
+	int GetGold() const
+	{
+		return gold.GetGold();
+	}
+	bool CanAffordTower(const MouseGame& mouseGame) const
+	{
+		return gold.GetGold() >= mouseGame.GetGold();
+	}
+	/**********************************/
+	/**********************************/
 	/*          Tower Control         */
 	int MakeTower(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f) override
 	{
+		gold.RemoveGold(typeDame->GetGold());
 		auto tower = std::make_unique<Tower>(box2DEngine, typeDame, c, worldPos, size);
 		tower->AddMediator(this);
 		towerMgr.emplace(indexTower, std::move(tower));

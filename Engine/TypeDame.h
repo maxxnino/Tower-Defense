@@ -12,6 +12,7 @@ public:
 	{}
 	virtual float getDame() = 0;
 	virtual float getAttackSpeed() = 0;
+	virtual int GetGold() const = 0;
 	inline const Color& getColor() const noexcept
 	{
 		return c;
@@ -22,6 +23,7 @@ public:
 	}
 protected:
 	float baseAttackSpeed = 1.0f;
+	int baseGold = 5;
 	float baseDame = 10.0f;
 	float attackSpeedMultiply;
 	float dameMultiply;
@@ -42,6 +44,10 @@ public:
 	{
 		return baseAttackSpeed * attackSpeedMultiply;
 	}
+	int GetGold() const override
+	{
+		return baseGold - 3;
+	}
 };
 class IceDame : public TypeDame
 {
@@ -58,6 +64,10 @@ public:
 	{
 		return baseAttackSpeed * attackSpeedMultiply;
 	}
+	int GetGold() const override
+	{
+		return baseGold - 2;
+	}
 };
 class LightingDame : public TypeDame
 {
@@ -73,5 +83,9 @@ public:
 	float getAttackSpeed() override
 	{
 		return baseAttackSpeed * attackSpeedMultiply;
+	}
+	int GetGold() const override
+	{
+		return baseGold;
 	}
 };

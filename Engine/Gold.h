@@ -3,6 +3,10 @@
 class Gold
 {
 public:
+	Gold(int startingGold)
+		:
+		totalGold(startingGold)
+	{}
 	void AddGold(int amount) noexcept
 	{
 		assert(amount > 0);
@@ -13,10 +17,10 @@ public:
 		assert(amount > 0 || totalGold > amount);
 		totalGold -= amount;
 	}
-	inline int GetGold() noexcept
+	inline int GetGold() const noexcept
 	{
 		return totalGold;
 	}
 private:
-	int totalGold = 0;
+	int totalGold;
 };

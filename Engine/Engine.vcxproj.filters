@@ -43,8 +43,11 @@
     <Filter Include="Header Files\Game\Game Object">
       <UniqueIdentifier>{fc447c83-354d-4067-aa70-eed568e01400}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Game\ResourceManager">
-      <UniqueIdentifier>{49847f70-f1f4-4581-99e5-e9cc97d8d8fd}</UniqueIdentifier>
+    <Filter Include="Header Files\Resource">
+      <UniqueIdentifier>{e08c7718-b699-43fb-b8d1-12e7e9ac76a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resource">
+      <UniqueIdentifier>{f6f0fc2b-ec86-4d4a-8e39-500ce5271a08}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -174,23 +177,26 @@
     <ClInclude Include="Gold.h">
       <Filter>Header Files\Game\Game Object</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Surface.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteEffect.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Codex.h">
-      <Filter>Header Files\Game\ResourceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="ChiliUtil.h">
-      <Filter>Header Files\Game</Filter>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files\Resource</Filter>
     </ClInclude>
     <ClInclude Include="GDIPlusManager.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Codex.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="ChiliUtil.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteEffect.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Surface.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -230,23 +236,26 @@
     <ClCompile Include="ButtonState.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Surface.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="SurfaceOD.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsOD.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="GDIPlusManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SoundEffect.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsOD.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceOD.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Surface.cpp">
+      <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

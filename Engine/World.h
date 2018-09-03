@@ -3,6 +3,7 @@
 #include <memory>
 #include <assert.h>
 #include <limits>
+#include "ChiliUtil.h"
 #include "Box2D/Box2D.h"
 #include "IWorldMediator.h"
 #include "IComponent.h"

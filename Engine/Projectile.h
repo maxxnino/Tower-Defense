@@ -22,7 +22,7 @@ public:
 	{
 		return targetID;
 	}
-	inline bool IsRemove()
+	inline bool IsRemove() const
 	{
 		return isDead;
 	}

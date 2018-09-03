@@ -22,17 +22,20 @@ public:
 		{
 			if (towerIndex == -1)
 			{
+				//view world object
 				if (mediator->CanAffordTower())
 				{
 					BuildTower(typeDame, mediator);
 				}
 				else
 				{
+					//view menumanager warning text
 					mediator->ActiveWarningText(0);
 				}
 			}
 			else
 			{
+				//view menumanager warning text
 				mediator->ActiveWarningText(1);
 			}
 		}

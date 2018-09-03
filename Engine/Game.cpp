@@ -49,7 +49,7 @@ Game::Game( MainWindow& wnd )
 
 	mrLister.CaseLeave<Tower, Enemy>([](PhysicObject& t, PhysicObject& e)
 	{
-		if (t.isRemove())
+		if (!t.isRemove())
 		{
 			t.RemoveEnemyID(e.GetID());
 		}

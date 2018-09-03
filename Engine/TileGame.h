@@ -6,6 +6,7 @@
 #include "Tower.h"
 #include "IMediator.h"
 #include "TypeDame.h"
+#include "Codex.h"
 class TileGame
 {
 public:
@@ -14,6 +15,6 @@ public:
 	virtual void RemoveTowerIndex() {}
 	void DrawActive(Graphics& gfx, VecI pos, int width, int height, const Color& c) const
 	{
-		gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, c);
+		gfx.DrawRectDim(pos, width , height , c);
 	}
 };

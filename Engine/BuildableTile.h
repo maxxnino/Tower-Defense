@@ -3,17 +3,16 @@
 class BuildableTile : public TileGame
 {
 public:
-	BuildableTile(VecI pos,int tileIndex)
+	BuildableTile(VecI pos,int tileIndex, const Surface* surf)
 		:
 		pos(pos),
-		tileIndex(tileIndex)
+		tileIndex(tileIndex),
+		surf(surf)
 	{}
 	void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept override
 	{
-		if (towerIndex == -1)
-		{
-			gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, defaultColor);
-		}
+		//gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, defaultColor);
+		gfx.DrawSprite(pos.x, pos.y, *surf, SpriteEffect::Copy{});
 	}
 	void MouseClick(const VecI& mousePos, IMediator* mediator) override
 	{
@@ -61,6 +60,7 @@ public:
 	}
 private:
 	static constexpr Color defaultColor = Colors::Gray;
+	const Surface* surf;
 	int towerIndex = -1;
 	const int tileIndex;
 	VecI pos;

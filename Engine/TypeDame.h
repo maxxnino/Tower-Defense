@@ -1,14 +1,16 @@
 #pragma once
 #include "Projectile.h"
 #include "Colors.h"
+#include "Codex.h"
 class TypeDame
 {
 public:
-	TypeDame(float attackSpeedMultiply, float dameMultiply, Color c)
+	TypeDame(float attackSpeedMultiply, float dameMultiply, Color c, const Surface* surf)
 		:
 		attackSpeedMultiply(attackSpeedMultiply),
 		dameMultiply(dameMultiply),
-		c(c)
+		c(c),
+		surf(surf)
 	{}
 	virtual float getDame() = 0;
 	virtual float getAttackSpeed() = 0;
@@ -21,6 +23,10 @@ public:
 	{
 		return c;
 	}
+	const Surface* GetSurface()
+	{
+		return surf;
+	}
 protected:
 	float baseAttackSpeed = 1.0f;
 	int baseGold = 5;
@@ -28,13 +34,14 @@ protected:
 	float attackSpeedMultiply;
 	float dameMultiply;
 	Color c;
+	const Surface* surf;
 };
 class FireDame : public TypeDame
 {
 public:
 	FireDame()
 		:
-		TypeDame(1.0f, 2.0f,Colors::Red)
+		TypeDame(1.0f, 2.0f,Colors::Red, Codex<Surface>::Retrieve(L"Images\\pm_tower_01.png"))
 	{}
 	float getDame() override
 	{
@@ -54,7 +61,7 @@ class IceDame : public TypeDame
 public:
 	IceDame()
 		:
-		TypeDame(1.5f, 1.5f, Colors::Green)
+		TypeDame(1.5f, 1.5f, Colors::Green, Codex<Surface>::Retrieve(L"Images\\pm_tower_02.png"))
 	{}
 	float getDame() override
 	{
@@ -74,7 +81,7 @@ class LightingDame : public TypeDame
 public:
 	LightingDame()
 		:
-		TypeDame(0.5f, 0.75f, Colors::Blue)
+		TypeDame(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_03.png"))
 	{}
 	float getDame() override
 	{

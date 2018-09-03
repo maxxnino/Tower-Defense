@@ -118,7 +118,7 @@ public:
 	}
 	void MarkDead()
 	{
-		isDestroyed = false;
+		isDestroyed = true;
 	}
 	
 	b2Body& getBody()

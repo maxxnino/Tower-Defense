@@ -192,11 +192,9 @@ public:
 	{
 		assert(curTowerIndex >= 0);
 		assert(towerMgr.find(curTowerIndex) != towerMgr.end());
-		{
-			auto t = towerMgr.find(curTowerIndex);
-			gold.AddGold(int((float)(t->second->GetGold()) * sellRate + 0.5f));
-			t->second->MarkDead();
-		}
+		auto t = towerMgr.find(curTowerIndex);
+		gold.AddGold(int((float)(t->second->GetGold()) * sellRate + 0.5f));
+		t->second->MarkDead();
 		towerMgr.erase(curTowerIndex);
 	}
 	bool IsTowerMaxLv(int towerIndex) override

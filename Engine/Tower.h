@@ -11,14 +11,17 @@ public:
 	Tower(b2World& box2DEngine,TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f )
 		:
 		c(c),
-		PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::ENEMY, worldPos, true, true, size, b2Vec2( 0.0f,0.0f ))
+		PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::ENEMY, worldPos, true, true, size, b2Vec2( 0.0f,0.0f )),
+		surf(typeDame->GetSurface())
 	{
 		Upgrade(typeDame);
 		body->SetUserData(this);
 	}
 	void Draw(Graphics& gfx, int tileWidth, int tileHeight)
 	{
-		gfx.DrawRectDim(gfx.ToScreenSpace(body->GetPosition()) + VecI(2, 2), tileWidth - 2, tileHeight - 2, c);
+		//gfx.DrawRectDim(gfx.ToScreenSpace(body->GetPosition()) + VecI(2, 2), tileWidth - 2, tileHeight - 2, c);
+		const VecI pos = gfx.ToScreenSpace(body->GetPosition());
+		gfx.DrawSprite(pos.x, pos.y, *surf, SpriteEffect::AlphaBlendBaked{});
 	}
 	inline const Color& GetColor() const noexcept
 	{
@@ -141,6 +144,7 @@ public:
 	/***********************************/
 private:
 	Color c;
+	const Surface* surf;
 	float timer = 0;
 	IWorldMediator* wordMediator = nullptr;
 	std::vector<TypeDame*> typeDames;

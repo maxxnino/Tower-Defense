@@ -22,14 +22,26 @@ public:
 		{
 			for (int x = 0; x < nWidth; x++)
 			{
+				const VecI pos = VecI(x * tileWidth, y  * tileHeight);
 				if (y == mid - 1 || y == mid || y == mid + 1)
 				{
-					tiles.emplace_back(std::make_unique<WalkableTile>());
+					tiles.emplace_back(std::make_unique<WalkableTile>(pos, x + y * nWidth, Codex<Surface>::Retrieve(L"Images\\ground_01.png")));
 				}
 				else
 				{
-					VecI pos = VecI(x * tileWidth, y  * tileHeight);
-					tiles.emplace_back(std::make_unique<BuildableTile>(pos, x + y * nWidth));
+					std::uniform_int_distribution<int> seed(2,3);
+					switch (seed(rng))
+					{
+					case 1:
+						tiles.emplace_back(std::make_unique<BuildableTile>(pos, x + y * nWidth, Codex<Surface>::Retrieve(L"Images\\ground_02.png")));
+						break;
+					case 2:
+						tiles.emplace_back(std::make_unique<BuildableTile>(pos, x + y * nWidth, Codex<Surface>::Retrieve(L"Images\\ground_03.png")));
+						break;
+					default:
+						tiles.emplace_back(std::make_unique<BuildableTile>(pos, x + y * nWidth, Codex<Surface>::Retrieve(L"Images\\ground_02.png")));
+						break;
+					}
 				}
 			}
 		}

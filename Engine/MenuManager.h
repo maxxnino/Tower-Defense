@@ -6,22 +6,25 @@
 #include "IComponent.h"
 #include "Font.h"
 #include "Codex.h"
+#include "Animation.h"
 class MenuManager : public IComponent
 {
 public:
 	MenuManager()
 		:
 		font(Codex<Surface>::Retrieve(L"Images\\Fixedsys16x28.bmp")),
-		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::Cyan),
-		mainMenuBtn01(VecF(100.0f + 100.0f , 500.0f + 7.0f), 60.0f, 60.0f),
-		mainMenuBtn02(VecF(100.0f + 100.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		mainMenuBtn03(VecF(100.0f + 100.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
+		surf(Codex<Surface>::Retrieve(L"Images\\menu_02.png")),
+		coinAnimation(0,0,40,40,25, Codex<Surface>::Retrieve(L"Images\\pm_coin_40_40_25.png"), 0.04f, Colors::Black),
+		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Codex<Surface>::Retrieve(L"Images\\menu_01.png")),
+		mainMenuBtn01(VecF(150.0f + 100.0f , 513.0f), 50.0f, 50.0f),
+		mainMenuBtn02(VecF(150.0f + 100.0f + 100.0f, 513.0f), 50.0f, 50.0f),
+		mainMenuBtn03(VecF(150.0f + 100.0f + 2.0f * 100.0f, 513.0f), 50.0f, 50.0f),
 		
-		upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Colors::MakeRGB(172u, 115u, 57u)),
-		upgradeMenuBtn01(VecF(100.0f + 150.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 500.0f + 7.0f), 60.0f, 60.0f),
-		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f), 
-		deleteTowerBtn04(VecF(100.0f + 150.0f + 3.0f * 100.0f, 500.0f + 7.0f), 60.0f, 60.0f)
+		upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Codex<Surface>::Retrieve(L"Images\\menu_01.png")),
+		upgradeMenuBtn01(VecF(100.0f + 150.0f, 515.0f), 50.0f, 50.0f),
+		upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 513.0f), 50.0f, 50.0f),
+		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 513.0f), 50.0f, 50.0f),
+		deleteTowerBtn04(VecF(100.0f + 150.0f + 3.0f * 100.0f, 513.0f), 50.0f, 50.0f)
 	{
 		activeMenu = &mainMenu;
 		//main menu
@@ -91,6 +94,7 @@ public:
 	{
 		ProcessCommand(mouse);
 		activeMenu->Update(dt, mouse);
+		coinAnimation.Update(dt);
 		if (isWarning)
 		{
 			timer += dt;
@@ -103,7 +107,9 @@ public:
 	void Draw(Graphics& gfx)
 	{
 		activeMenu->Draw(gfx);
-		font.DrawText("Gold: " + std::to_string(mediator->GetGold()), {10,10},Colors::Green,gfx);
+		gfx.DrawSprite(0, 0, *surf, SpriteEffect::Copy{});
+		coinAnimation.DrawAlpha({ 10,5 }, gfx);
+		font.DrawText(std::to_string(mediator->GetGold()), {60,10},Colors::Green,gfx);
 		DrawWaringText(gfx);
 	}
 	void ChangeMainMenu()
@@ -167,6 +173,8 @@ private:
 	}
 private:
 	Font font;
+	const Surface* surf;
+	Animation coinAnimation;
 	Menu* activeMenu = nullptr;
 	IMediator* mediator = nullptr;
 	bool isWarning = false;

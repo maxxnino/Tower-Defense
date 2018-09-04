@@ -45,10 +45,14 @@ public:
 	int GetGold() { return gold; }
 	void Update(float dt)
 	{
+		const b2Vec2 vel = body->GetLinearVelocity();
+		const float velChange = 6 - vel.x;
+		const float impulse = body->GetMass() * velChange * dt; //disregard time factor
+		body->ApplyLinearImpulse(b2Vec2(impulse, 0), body->GetWorldCenter(),true);
 		if (isGetHit)
 		{
 			timerGetHit += dt;
-			if (timerGetHit >= 0.02f)
+			if (timerGetHit >= 0.03f)
 			{
 				timerGetHit = 0.0f;
 				isGetHit = false;
@@ -75,7 +79,7 @@ private:
 	bool isReachBase = false;
 	bool isGetHit = false;
 	float timerGetHit = 0.0f;
-
+	b2Vec2 speed = {6.0f,0.0f};
 	const Surface* surf;
 	int offSet;
 	int Hp = 10;

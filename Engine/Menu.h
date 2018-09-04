@@ -1,19 +1,20 @@
 #pragma once
-#include "Colors.h"
 #include "MenuItem.h"
+#include "Codex.h"
 class Menu
 {
 public:
-	Menu(VecF pos, float width, float height, Color color)
+	Menu(VecF pos, float width, float height, const Surface* surf)
 		:
 		pos(pos),
 		width(width),
 		height(height),
-		color(color)
+		surf(surf)
 	{}
 	void Draw(Graphics& gfx) const noexcept
 	{
-		gfx.DrawRectDim((VecI)pos, (int)width, (int)height, color);
+		//gfx.DrawRectDim((VecI)pos, (int)width, (int)height, color);
+		gfx.DrawSprite((int)pos.x, (int)pos.y, *surf, SpriteEffect::Copy{});
 		for (auto i : items)
 		{
 			i->Draw(gfx);
@@ -66,6 +67,6 @@ private:
 	VecF pos;
 	float width;
 	float height;
-	Color color;
+	const Surface* surf;
 	std::vector<MenuItem*> items;
 };

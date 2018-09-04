@@ -10,7 +10,7 @@ Animation::Animation(int x, int y, int width, int height, int count,
 {
 	for (int i = 0; i < count; i++)
 	{
-		frames.emplace_back(x + i * width, x + (i + 1) * width, y, y + height);
+		frames.emplace_back(x + i * width, y, x + (i + 1) * width, y + height);
 	}
 }
 
@@ -24,6 +24,12 @@ void Animation::DrawColor(const VecI& pos, Graphics& gfx, Color c, bool mirrored
 {
 	gfx.DrawSprite(pos.x, pos.y, frames[iCurFrame], *sprite,
 		SpriteEffect::Substitution{ chroma,c }, mirrored);
+}
+
+void Animation::DrawAlpha(const VecI & pos, Graphics & gfx, bool mirrored) const
+{
+	gfx.DrawSprite(pos.x, pos.y, frames[iCurFrame], *sprite,
+		SpriteEffect::AlphaBlendBaked{}, mirrored);
 }
 
 void Animation::Update(float dt)

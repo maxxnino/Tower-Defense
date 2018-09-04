@@ -11,6 +11,8 @@ public:
 	void Draw(const VecI& pos, Graphics& gfx, bool mirrored = false) const;
 	// this version of draw replaces all opaque pixels with specified color
 	void DrawColor(const VecI& pos, Graphics& gfx, Color c, bool mirrored = false) const;
+	// this version of draw replaces all opaque pixels with specified color
+	void DrawAlpha(const VecI& pos, Graphics& gfx, bool mirrored = false) const;
 	void Update(float dt);
 private:
 	void Advance();

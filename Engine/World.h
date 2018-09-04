@@ -89,6 +89,7 @@ public:
 			}
 			else
 			{
+				bulletMgr[i]->Update(dt);
 				i++;
 			}
 		}
@@ -126,6 +127,7 @@ public:
 				}
 				else
 				{
+					noTargetBullet[i]->Update(dt);
 					i++;
 				}
 			}
@@ -247,7 +249,7 @@ private:
 	int tileHeight;
 	b2Vec2 posOffSet;
 	float timer = 0.0f;
-	static constexpr float bulletSize = 0.2f;
+	static constexpr float bulletSize = 0.3f;
 	static constexpr float sellRate = 0.66667f;
 	b2World& box2DEngine;
 	IMediator* guiAndBoardMediator = nullptr;

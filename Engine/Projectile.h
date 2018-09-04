@@ -2,25 +2,33 @@
 #include "PhysicObject.h"
 #include "Graphics.h"
 #include "Element.h"
+#include "Animation.h"
 class Projectile : public PhysicObject
 {
 public:
-	Projectile(b2World& box2DEngine, int curTarget, const b2Vec2& worldPos,float size = 0.2f, const b2Vec2& linVel = { 0.0f,0.0f })
+	Projectile(b2World& box2DEngine, int curTarget, const b2Vec2& worldPos,float size = 0.2f,const b2Vec2& linVel = { 0.0f,0.0f })
 		:
 		PhysicObject(box2DEngine, CollisionFillter::BULLET, CollisionFillter::ENEMY,worldPos, true, false, size, linVel),
 		targetID(curTarget),
-		size(size)
+		size(size),
+		offSet(int(size  * 2.0f * Graphics::scalePixel), int(size  * 2.0f * Graphics::scalePixel)),
+		projectileAnimation(0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\pm_pro_30_30_2.png"), 0.1f, Colors::Black)
 	{
 		body->SetUserData(this);
 	}
 
 	void Draw(Graphics& gfx) const
 	{
-		gfx.DrawCircle(body->GetPosition(), size, Colors::Magenta);
+		//gfx.DrawCircle(body->GetPosition(), size, Colors::Magenta);
+		projectileAnimation.Draw(gfx.ToScreenSpace(body->GetPosition()) - offSet, gfx);
 	}
 	inline int GetEnemyID() noexcept
 	{
 		return targetID;
+	}
+	void Update(float dt)
+	{
+		projectileAnimation.Update(dt);
 	}
 	bool CooldownToDead(float dt) noexcept
 	{
@@ -52,6 +60,8 @@ public:
 	/***********************************/
 private:
 	static constexpr float deadTimer = 3.0f;
+	Animation projectileAnimation;
+	VecI offSet;
 	int dame = 2;
 	int targetID = -1;
 	float maxSpeedSq = 50.0f;

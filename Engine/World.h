@@ -54,6 +54,7 @@ public:
 	void Update(float dt)
 	{
 		std::for_each(towerMgr.begin(), towerMgr.end(), [dt,this](auto& t) {t.second->Update(dt); });
+		std::for_each(enemyMgr.begin(), enemyMgr.end(), [dt,this](auto& e) {e.second->Update(dt); });
 		for (int i = 0; i < bulletMgr.size();)
 		{
 			auto enemy = enemyMgr.find(bulletMgr[i]->GetEnemyID());

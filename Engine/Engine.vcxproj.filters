@@ -117,9 +117,6 @@
     <ClInclude Include="Tower.h">
       <Filter>Header Files\Game\Tower</Filter>
     </ClInclude>
-    <ClInclude Include="TypeDame.h">
-      <Filter>Header Files\Game\Tower</Filter>
-    </ClInclude>
     <ClInclude Include="TypeArmor.h">
       <Filter>Header Files\Game\Tower</Filter>
     </ClInclude>
@@ -196,6 +193,15 @@
       <Filter>Header Files\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="ElementFactory.h">
+      <Filter>Header Files\Game\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="Element.h">
+      <Filter>Header Files\Game\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="BuilderMatching.h">
       <Filter>Header Files\Resource</Filter>
     </ClInclude>
   </ItemGroup>

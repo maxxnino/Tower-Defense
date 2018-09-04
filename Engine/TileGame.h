@@ -5,7 +5,7 @@
 #include "Graphics.h"
 #include "Tower.h"
 #include "IMediator.h"
-#include "TypeDame.h"
+#include "Element.h"
 #include "Codex.h"
 class TileGame
 {

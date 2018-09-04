@@ -1,59 +1,59 @@
 #pragma once
-#include "TypeDame.h"
+#include "Element.h"
 class TypeArmor
 {
 public:
-	virtual float CalculateDame(FireDame& typeDame) = 0;
-	virtual float CalculateDame(IceDame& typeDame) = 0;
-	virtual float CalculateDame(LightingDame& typeDame) = 0;
+	virtual float CalculateDame(FireDame& element) = 0;
+	virtual float CalculateDame(IceDame& element) = 0;
+	virtual float CalculateDame(LightingDame& element) = 0;
 	
 };
 
 class FireArmor : public TypeArmor
 {
 public:
-	float CalculateDame(FireDame& typeDame) override
+	float CalculateDame(FireDame& element) override
 	{
-		return typeDame.getDame();
+		return element.getDame();
 	}
-	float CalculateDame(IceDame& typeDame) override
+	float CalculateDame(IceDame& element) override
 	{
-		return 1.5f * typeDame.getDame();
+		return 1.5f * element.getDame();
 	}
-	float CalculateDame(LightingDame& typeDame) override
+	float CalculateDame(LightingDame& element) override
 	{
-		return 0.5f * typeDame.getDame();
+		return 0.5f * element.getDame();
 	}
 };
 class IceArmor : public TypeArmor
 {
 public:
-	float CalculateDame(FireDame& typeDame) override
+	float CalculateDame(FireDame& element) override
 	{
-		return 0.5f * typeDame.getDame();
+		return 0.5f * element.getDame();
 	}
-	float CalculateDame(IceDame& typeDame) override
+	float CalculateDame(IceDame& element) override
 	{
-		return typeDame.getDame();
+		return element.getDame();
 	}
-	float CalculateDame(LightingDame& typeDame) override
+	float CalculateDame(LightingDame& element) override
 	{
-		return 1.5 * typeDame.getDame();
+		return 1.5 * element.getDame();
 	}
 };
 class LightingArmor : public TypeArmor
 {
 public:
-	float CalculateDame(FireDame& typeDame) override
+	float CalculateDame(FireDame& element) override
 	{
-		return 1.5f * typeDame.getDame();
+		return 1.5f * element.getDame();
 	}
-	float CalculateDame(IceDame& typeDame) override
+	float CalculateDame(IceDame& element) override
 	{
-		return 0.5 * typeDame.getDame();
+		return 0.5 * element.getDame();
 	}
-	float CalculateDame(LightingDame& typeDame) override
+	float CalculateDame(LightingDame& element) override
 	{
-		return typeDame.getDame();
+		return element.getDame();
 	}
 };

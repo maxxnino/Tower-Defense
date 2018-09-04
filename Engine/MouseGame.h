@@ -1,29 +1,29 @@
 #pragma once
-#include "TypeDame.h"
-
+#include "Element.h"
+#include "ElementFactory.h"
 class MouseGame
 {
 public:
 	
-	TypeDame* getTypeDame()
+	Element* getElement()
 	{
-		return typeDame;
+		return element;
 	}
 	inline void Clear() noexcept
 	{
-		typeDame = nullptr;
+		element = nullptr;
 	}
 	inline void ChangeToFire() noexcept
 	{
-		typeDame = &fire;
+		element = &fire;
 	}
 	inline void ChangeToIce() noexcept
 	{
-		typeDame = &ice;
+		element = &ice;
 	}
 	inline void ChangeToLighting() noexcept
 	{
-		typeDame = &lighting;
+		element = &lighting;
 	}
 	inline const Color& GetFireColor() const noexcept
 	{
@@ -39,12 +39,13 @@ public:
 	}
 	inline int GetGold() const
 	{
-		assert(typeDame);
-		return typeDame->GetGold();
+		assert(element);
+		return element->GetGold();
 	}
 private:
-	TypeDame * typeDame = nullptr;
-	FireDame fire;
-	IceDame ice;
-	LightingDame lighting;
+	Element* element = nullptr;
+	Fire fire;
+	Ice ice;
+	Lighting lighting;
+	ElementFactory factory;
 };

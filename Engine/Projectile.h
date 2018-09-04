@@ -1,7 +1,7 @@
 #pragma once
 #include "PhysicObject.h"
 #include "Graphics.h"
-#include "TypeDame.h"
+#include "Element.h"
 class Projectile : public PhysicObject
 {
 public:

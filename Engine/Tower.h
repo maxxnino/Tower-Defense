@@ -2,19 +2,19 @@
 #include <vector>
 #include <set>
 #include "PhysicObject.h"
-#include "TypeDame.h"
+#include "Element.h"
 #include "Colors.h"
 #include "IWordComponent.h"
 class Tower : public PhysicObject, public IWorldComponent
 {
 public:
-	Tower(b2World& box2DEngine,TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f )
+	Tower(b2World& box2DEngine,Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f )
 		:
 		c(c),
 		PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::ENEMY, worldPos, true, true, size, b2Vec2( 0.0f,0.0f )),
-		surf(typeDame->GetSurface())
+		surf(element->GetSurface())
 	{
-		Upgrade(typeDame);
+		Upgrade(element);
 		body->SetUserData(this);
 	}
 	void Draw(Graphics& gfx, int tileWidth, int tileHeight)
@@ -53,7 +53,7 @@ public:
 			}
 		}
 	}
-	void Upgrade(TypeDame* newType)
+	void Upgrade(Element* newType)
 	{
 		if (typeDames.size() >= 3)
 		{
@@ -147,7 +147,7 @@ private:
 	const Surface* surf;
 	float timer = 0;
 	IWorldMediator* wordMediator = nullptr;
-	std::vector<TypeDame*> typeDames;
+	std::vector<Element*> typeDames;
 	std::set<int> enemyIDs;
 	int curTarget = -1;
 };

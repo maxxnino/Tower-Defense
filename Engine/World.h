@@ -135,7 +135,7 @@ public:
 
 	/**********************************/
 	/*          Bullet Control        */
-	void MakeBullet(int curTarget, TypeDame* typeDame, Color c, const b2Vec2& worldPos) override
+	void MakeBullet(int curTarget, Element* element, Color c, const b2Vec2& worldPos) override
 	{
 		auto e = enemyMgr.find(curTarget);
 		if (e != enemyMgr.end())
@@ -179,10 +179,10 @@ public:
 	/**********************************/
 	/**********************************/
 	/*          Tower Control         */
-	int MakeTower(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f) override
+	int MakeTower(Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f) override
 	{
-		gold.RemoveGold(typeDame->GetGold());
-		auto tower = std::make_unique<Tower>(box2DEngine, typeDame, c, worldPos, size);
+		gold.RemoveGold(element->GetGold());
+		auto tower = std::make_unique<Tower>(box2DEngine, element, c, worldPos, size);
 		tower->AddMediator(this);
 		towerMgr.emplace(indexTower, std::move(tower));
 		indexTower++;
@@ -210,11 +210,11 @@ public:
 			return true;
 		}
 	}
-	void UpgradeTower(TypeDame* typeDame, int towerIndex) override
+	void UpgradeTower(Element* element, int towerIndex) override
 	{
 		auto t = towerMgr.find(towerIndex);
 		assert(t != towerMgr.end());
-		t->second->Upgrade(typeDame);
+		t->second->Upgrade(element);
 	}
 	int GetTargetEnemy(std::set<int>& enemyIDs,const b2Vec2& towerPos)
 	{

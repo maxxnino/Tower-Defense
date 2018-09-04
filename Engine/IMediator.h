@@ -22,7 +22,7 @@ public:
 
 	/**********************************/
 	/*      Control World Bbject      */
-	virtual int MakeTower(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f) = 0;
+	virtual int MakeTower(Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f) = 0;
 	virtual int GetGold() const = 0;
 	virtual bool CanAffordTower() const = 0;
 	/**********************************/

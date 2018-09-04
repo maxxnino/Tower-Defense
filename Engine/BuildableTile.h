@@ -16,15 +16,15 @@ public:
 	}
 	void MouseClick(const VecI& mousePos, IMediator* mediator) override
 	{
-		auto typeDame = mediator->GetMouseGame()->getTypeDame();
-		if (typeDame)
+		auto element = mediator->GetMouseGame()->getElement();
+		if (element)
 		{
 			if (towerIndex == -1)
 			{
 				//view world object
 				if (mediator->CanAffordTower())
 				{
-					BuildTower(typeDame, mediator);
+					BuildTower(element, mediator);
 				}
 				else
 				{
@@ -51,7 +51,7 @@ public:
 	{
 		towerIndex = -1;
 	}
-	void BuildTower(TypeDame* type, IMediator* mediator)
+	void BuildTower(Element* type, IMediator* mediator)
 	{
 		assert(towerIndex == -1);
 		b2Vec2 worldPos = b2Vec2((float32)(pos.x - Graphics::offSetX) / (float32)Graphics::scalePixel, (float32)(Graphics::offSetY - pos.y) / (float32)Graphics::scalePixel);

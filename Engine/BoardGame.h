@@ -58,11 +58,11 @@ public:
 				tileAt(w, h).Draw(gfx, tilePos, tileWidth, tileHeight);
 			}
 		}
-		auto typeDame = mediator->GetMouseGame()->getTypeDame();
-		if (typeDame)
+		auto element = mediator->GetMouseGame()->getElement();
+		if (element)
 		{
 			const VecI tilePos = (VecI)pos + VecI(curTile.x * tileWidth, curTile.y * tileHeight);
-			tileAt(curTile).DrawActive(gfx, tilePos, tileWidth, tileHeight, typeDame->getColor());
+			tileAt(curTile).DrawActive(gfx, tilePos, tileWidth, tileHeight, element->getColor());
 		}
 	}
 

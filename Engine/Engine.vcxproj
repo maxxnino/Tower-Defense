@@ -142,6 +142,8 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="BoardGame.h" />
+    <ClInclude Include="ElementFactory.h" />
+    <ClInclude Include="BuilderMatching.h" />
     <ClInclude Include="ChiliUtil.h" />
     <ClInclude Include="Codex.h" />
     <ClInclude Include="Font.h" />
@@ -181,7 +183,7 @@
     <ClInclude Include="TileGame.h" />
     <ClInclude Include="Tower.h" />
     <ClInclude Include="TypeArmor.h" />
-    <ClInclude Include="TypeDame.h" />
+    <ClInclude Include="Element.h" />
     <ClInclude Include="WalkableTile.h" />
     <ClInclude Include="IWorldMediator.h" />
     <ClInclude Include="World.h" />

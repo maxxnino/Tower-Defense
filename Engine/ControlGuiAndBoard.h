@@ -30,7 +30,7 @@ public:
 	}
 	void UpgradeTower() override
 	{
-		world.UpgradeTower(mouseGame.getTypeDame(), towerIndexInWorld);
+		world.UpgradeTower(mouseGame.getElement(), towerIndexInWorld);
 		towerIndexInWorld = -1;
 		trackingTile = -1;
 		mouseGame.Clear();
@@ -51,9 +51,9 @@ public:
 
 	/**********************************/
 	/*      Control World Object      */
-	int MakeTower(TypeDame* typeDame, Color c, const b2Vec2& worldPos, float size = 1.0f) override
+	int MakeTower(Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f) override
 	{
-		return world.MakeTower(typeDame, c, worldPos, size);
+		return world.MakeTower(element, c, worldPos, size);
 	}
 	int GetGold() const override
 	{

@@ -15,7 +15,7 @@ public:
 	virtual float getDame() = 0;
 	virtual float getAttackSpeed() = 0;
 	virtual int GetGold() const = 0;
-	virtual std::unique_ptr<Element> Clone() = 0;
+	virtual int GetLv() { return 0; };
 	inline const Color& getColor() const noexcept
 	{
 		return c;
@@ -42,7 +42,7 @@ class Fire : public Element
 public:
 	Fire()
 		:
-		Element(1.0f, 2.0f,Colors::Red, Codex<Surface>::Retrieve(L"Images\\pm_tower_01.png"))
+		Element(1.0f, 2.0f,Colors::Red, Codex<Surface>::Retrieve(L"Images\\pm_tower_lv01_01.png"))
 	{}
 	float getDame() override
 	{
@@ -56,17 +56,16 @@ public:
 	{
 		return baseGold - 3;
 	}
-	std::unique_ptr<Element> Clone() override
-	{
-		return std::make_unique<Fire>();
-	}
+	int GetLv() override { return lv; };
+private:
+	static constexpr int lv = 1;
 };
 class Ice : public Element
 {
 public:
 	Ice()
 		:
-		Element(1.5f, 1.5f, Colors::Green, Codex<Surface>::Retrieve(L"Images\\pm_tower_02.png"))
+		Element(1.5f, 1.5f, Colors::Green, Codex<Surface>::Retrieve(L"Images\\pm_tower_lv01_02.png"))
 	{}
 	float getDame() override
 	{
@@ -80,17 +79,16 @@ public:
 	{
 		return baseGold - 2;
 	}
-	std::unique_ptr<Element> Clone() override
-	{
-		return std::make_unique<Ice>();
-	}
+	int GetLv() override { return lv; };
+private:
+	static constexpr int lv = 1;
 };
 class Lighting : public Element
 {
 public:
 	Lighting()
 		:
-		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_03.png"))
+		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_lv01_03.png"))
 	{}
 	float getDame() override
 	{
@@ -104,17 +102,16 @@ public:
 	{
 		return baseGold;
 	}
-	std::unique_ptr<Element> Clone() override
-	{
-		return std::make_unique<Lighting>();
-	}
+	int GetLv() override { return lv; };
+private:
+	static constexpr int lv = 1;
 };
 class FireIce : public Element
 {
 public:
 	FireIce()
 		:
-		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_03.png"))
+		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_01.png"))
 	{}
 	float getDame() override
 	{
@@ -128,17 +125,16 @@ public:
 	{
 		return baseGold;
 	}
-	std::unique_ptr<Element> Clone() override
-	{
-		return std::make_unique<FireIce>();
-	}
+	int GetLv() override { return lv; };
+private:
+	static constexpr int lv = 2;
 };
 class FireFire : public Element
 {
 public:
 	FireFire()
 		:
-		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_03.png"))
+		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_02.png"))
 	{}
 	float getDame() override
 	{
@@ -152,17 +148,16 @@ public:
 	{
 		return baseGold;
 	}
-	std::unique_ptr<Element> Clone() override
-	{
-		return std::make_unique<FireFire>();
-	}
+	int GetLv() override { return lv; };
+private:
+	static constexpr int lv = 2;
 };
 class IceIce : public Element
 {
 public:
 	IceIce()
 		:
-		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_03.png"))
+		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_03.png"))
 	{}
 	float getDame() override
 	{
@@ -176,17 +171,16 @@ public:
 	{
 		return baseGold;
 	}
-	std::unique_ptr<Element> Clone() override
-	{
-		return std::make_unique<IceIce>();
-	}
+	int GetLv() override { return lv; };
+private:
+	static constexpr int lv = 2;
 };
 class FireLight : public Element
 {
 public:
 	FireLight()
 		:
-		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_03.png"))
+		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_04.png"))
 	{}
 	float getDame() override
 	{
@@ -200,17 +194,16 @@ public:
 	{
 		return baseGold;
 	}
-	std::unique_ptr<Element> Clone() override
-	{
-		return std::make_unique<FireLight>();
-	}
+	int GetLv() override { return lv; };
+private:
+	static constexpr int lv = 1;
 };
 class IceLight : public Element
 {
 public:
 	IceLight()
 		:
-		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_03.png"))
+		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_05.png"))
 	{}
 	float getDame() override
 	{
@@ -224,17 +217,16 @@ public:
 	{
 		return baseGold;
 	}
-	std::unique_ptr<Element> Clone() override
-	{
-		return std::make_unique<IceLight>();
-	}
+	int GetLv() override { return lv; };
+private:
+	static constexpr int lv = 2;
 };
 class LightLight : public Element
 {
 public:
 	LightLight()
 		:
-		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_03.png"))
+		Element(0.5f, 0.75f, Colors::Blue, Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_06.png"))
 	{}
 	float getDame() override
 	{
@@ -248,8 +240,7 @@ public:
 	{
 		return baseGold;
 	}
-	std::unique_ptr<Element> Clone() override
-	{
-		return std::make_unique<LightLight>();
-	}
+	int GetLv() override { return lv; };
+private:
+	static constexpr int lv = 2;
 };

@@ -1,10 +1,36 @@
 #pragma once
 #include "Element.h"
-#include "ElementFactory.h"
+#include "BuilderMatching.h"
 class MouseGame
 {
 public:
-	
+	MouseGame()
+	{
+		builder.Case<Fire, Ice>([this](Element& f, Element& i)
+		{
+			return &fireIce;
+		});
+		builder.Case<Fire, Fire>([this](Element& f, Element& i)
+		{
+			return &fireFire;
+		});
+		builder.Case<Ice, Ice>([this](Element& f, Element& i)
+		{
+			return &iceIce;
+		});
+		builder.Case<Ice, Lighting>([this](Element& f, Element& i)
+		{
+			return &iceLight;
+		});
+		builder.Case<Lighting, Lighting>([this](Element& f, Element& i)
+		{
+			return &lightLight;
+		});
+		builder.Case<Fire, Lighting>([this](Element& f, Element& i)
+		{
+			return &fireLight;
+		});
+	}
 	Element* getElement()
 	{
 		return element;
@@ -42,10 +68,20 @@ public:
 		assert(element);
 		return element->GetGold();
 	}
+	Element* MakeElement(Element* a, Element* b)
+	{
+		return builder.Create(a, b);
+	}
 private:
 	Element* element = nullptr;
 	Fire fire;
+	FireFire fireFire;
+	FireIce fireIce;
 	Ice ice;
+	IceIce iceIce;
+	IceLight iceLight;
 	Lighting lighting;
-	ElementFactory factory;
+	LightLight lightLight;
+	FireLight fireLight;
+	BuilderMatching<Element> builder;
 };

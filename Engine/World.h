@@ -21,7 +21,7 @@ public:
 		box2DEngine(box2DEngine),
 		border(box2DEngine),
 		base(box2DEngine, {18.0f,0.0f}, {2,4}),
-		gold(20),
+		gold(200),
 		tileWidth(tileWidth),
 		tileHeight(tileHeight),
 		posOffSet(float32(tileWidth / (Graphics::scalePixel * 2)), float32(-tileHeight / (Graphics::scalePixel * 2))),
@@ -214,7 +214,8 @@ public:
 	{
 		auto t = towerMgr.find(towerIndex);
 		assert(t != towerMgr.end());
-		t->second->Upgrade(element);
+		auto newElement = guiAndBoardMediator->GetMouseGame()->MakeElement(t->second->getCurElement(), element);
+		t->second->Upgrade(newElement);
 	}
 	int GetTargetEnemy(std::set<int>& enemyIDs,const b2Vec2& towerPos)
 	{

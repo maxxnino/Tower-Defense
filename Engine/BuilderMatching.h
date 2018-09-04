@@ -5,10 +5,6 @@
 #include <type_traits>
 #include <assert.h>
 
-/*********************************************************************************/
-/*      Must have Clone fuction in your parent class for default contructor      */
-/*********************************************************************************/
-
 template <class Object>
 class BuilderMatching
 {
@@ -43,12 +39,12 @@ public:
 	{
 		def = f;
 	}*/
-	std::unique_ptr<Object> Create(Object* Obj01, Object* Obj02)
+	Object* Create(Object* Obj01, Object* Obj02)
 	{
-		return std::move(Switch(*Obj01, *Obj02));
+		return Switch(*Obj01, *Obj02);
 	}
 private:
-	std::unique_ptr<Object> Switch(Object& a, Object& b)
+	Object* Switch(Object& a, Object& b)
 	{
 		auto i = Handlers.find({
 			&typeid(a),
@@ -61,11 +57,10 @@ private:
 		else
 		{
 			assert(false);
-			return std::move(a.Clone());
+			return &a;
 		}
 	}
-
 private:
-	std::unordered_map<TypePair, std::function<std::unique_ptr<Object> (Object&, Object&)>> Handlers;
+	std::unordered_map<TypePair, std::function<Object*(Object&, Object&)>> Handlers;
 	//std::function<std::unique_ptr<Object>(Object&, Object&)> def = [](Object&, Object&) {};
 };

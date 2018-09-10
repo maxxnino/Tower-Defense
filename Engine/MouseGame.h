@@ -1,12 +1,22 @@
 #pragma once
 #include "Element.h"
-#include "ElementFactory.h"
 class MouseGame
 {
 public:
 	MouseGame()
 	{
-		
+		//lv01
+		factory.emplace(fire.getType(), &fire);
+		factory.emplace(water.getType(), &water);
+		factory.emplace(nature.getType(), &nature);
+
+		//lv02
+		factory.emplace(fireFire.getType(), &fireFire);
+		factory.emplace(fireWater.getType(), &fireWater);
+		factory.emplace(fireNature.getType(), &fireNature);
+		factory.emplace(waterWater.getType(), &waterWater);
+		factory.emplace(waterNature.getType(), &waterNature);
+		factory.emplace(natureNature.getType(), &natureNature);
 	}
 	Element* getElement()
 	{
@@ -18,27 +28,27 @@ public:
 	}
 	inline void ChangeToFire() noexcept
 	{
-		element = elementFactory.MakeElement(Element::Type::Fire);
+		element = &fire;
 	}
 	inline void ChangeToIce() noexcept
 	{
-		element = elementFactory.MakeElement(Element::Type::Water);
+		element = &water;
 	}
 	inline void ChangeToLighting() noexcept
 	{
-		element = elementFactory.MakeElement(Element::Type::Nature);
+		element = &nature;
 	}
 	Color GetFireColor() noexcept
 	{
-		return elementFactory.MakeElement(Element::Type::Fire)->getColor();
+		return fire.getColor();
 	}
 	Color GetIceColor() noexcept
 	{
-		return elementFactory.MakeElement(Element::Type::Water)->getColor();;
+		return water.getColor();
 	}
 	Color GetLightingColor() noexcept
 	{
-		return elementFactory.MakeElement(Element::Type::Nature)->getColor();;
+		return nature.getColor();
 	}
 	inline int GetGold() const
 	{
@@ -47,9 +57,33 @@ public:
 	}
 	Element* MakeElement(Element* a, Element* b)
 	{
-		return elementFactory.MakeElement(a->getType() + b->getType());
+		const int type = a->getType() + b->getType();
+		auto it = factory.find(type);
+		if (it != factory.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			assert(false);
+			return &def;
+		}
 	}
 private:
 	Element* element = nullptr;
-	ElementFactory elementFactory;
+	std::unordered_map<int, Element*> factory;
+	Element def = { Element::Type::Fire, 1, 1, 1, Colors::Magenta, Codex<Surface>::Retrieve(L"Images\\pm_tower_lv01_01.png") };
+
+	//lv01
+	Element fire = { Element::Type::Fire, 1, 1,1,Colors::Red,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv01_01.png") };
+	Element water = { Element::Type::Water, 1, 1,1,Colors::Blue,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv01_02.png") };
+	Element nature = { Element::Type::Nature, 1, 1,1,Colors::Yellow,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv01_03.png") };
+
+	//lv02
+	Element fireFire = { Element::Type::Fire + Element::Type::Fire, 2, 1,1,Colors::Magenta,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_01.png") };
+	Element fireWater = { Element::Type::Fire + Element::Type::Water, 2, 1,1,Colors::Magenta,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_02.png") };
+	Element fireNature = { Element::Type::Fire + Element::Type::Nature, 2, 1,1,Colors::Magenta,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_03.png") };
+	Element waterWater = { Element::Type::Water + Element::Type::Water, 2, 1,1,Colors::Magenta,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_04.png") };
+	Element waterNature = { Element::Type::Water + Element::Type::Nature, 2, 1,1,Colors::Magenta,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_05.png") };
+	Element natureNature = { Element::Type::Nature + Element::Type::Nature, 2, 1,1,Colors::Magenta,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_06.png") };
 };

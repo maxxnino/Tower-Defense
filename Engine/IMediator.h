@@ -9,6 +9,7 @@ public:
 	virtual void UpgradeTower() = 0;
 	virtual void ActiveWarningText(int newType) = 0;
 	virtual void SellTower() = 0;
+	virtual void OnRightClickFromGUI() = 0;
 	MouseGame* GetMouseGame()
 	{
 		return &mouseGame;

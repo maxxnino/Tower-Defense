@@ -142,7 +142,6 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="BoardGame.h" />
-    <ClInclude Include="ElementFactory.h" />
     <ClInclude Include="BuilderMatching.h" />
     <ClInclude Include="ChiliUtil.h" />
     <ClInclude Include="Codex.h" />

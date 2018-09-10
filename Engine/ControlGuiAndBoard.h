@@ -21,7 +21,7 @@ public:
 	void OpenUpgradeMenu(int towerIndex, int tileIndex) override
 	{
 		assert(towerIndex != -1);
-		if (!world.IsTowerMaxLv(towerIndex))
+		if (menuMgr.isUpgradeMenuOpen() && !world.IsTowerMaxLv(towerIndex))
 		{
 			towerIndexInWorld = towerIndex;
 			trackingTile = tileIndex;
@@ -45,6 +45,16 @@ public:
 	void ActiveWarningText(int newType) override
 	{
 		menuMgr.ActiveWarningText(newType);
+	}
+	void OnRightClickFromGUI() override
+	{
+		mouseGame.Clear();
+		if (!menuMgr.isUpgradeMenuOpen())
+		{
+			menuMgr.ChangeMainMenu();
+			towerIndexInWorld = -1;
+			trackingTile = -1;
+		}
 	}
 	/**********************************/
 

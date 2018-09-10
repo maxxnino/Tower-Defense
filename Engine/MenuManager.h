@@ -21,7 +21,7 @@ public:
 		mainMenuBtn03(VecF(150.0f + 100.0f + 2.0f * 100.0f, 513.0f), 50.0f, 50.0f),
 		
 		upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Codex<Surface>::Retrieve(L"Images\\menu_01.png")),
-		upgradeMenuBtn01(VecF(100.0f + 150.0f, 515.0f), 50.0f, 50.0f),
+		upgradeMenuBtn01(VecF(100.0f + 150.0f, 513.0f), 50.0f, 50.0f),
 		upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 513.0f), 50.0f, 50.0f),
 		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 513.0f), 50.0f, 50.0f),
 		deleteTowerBtn04(VecF(100.0f + 150.0f + 3.0f * 100.0f, 513.0f), 50.0f, 50.0f)
@@ -67,10 +67,10 @@ public:
 			mediator->SellTower();
 			ChangeMainMenu();
 		};
-		upgradeMenuBtn01.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
-		upgradeMenuBtn02.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
-		upgradeMenuBtn03.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
-		deleteTowerBtn04.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
+		upgradeMenuBtn01.GetRightClickFunc() = [this]() {mediator->OnRightClickFromGUI(); };
+		upgradeMenuBtn02.GetRightClickFunc() = [this]() {mediator->OnRightClickFromGUI(); };
+		upgradeMenuBtn03.GetRightClickFunc() = [this]() {mediator->OnRightClickFromGUI(); };
+		deleteTowerBtn04.GetRightClickFunc() = [this]() {mediator->OnRightClickFromGUI(); };
 		upgradeMenu.AddItem(&upgradeMenuBtn01);
 		upgradeMenu.AddItem(&upgradeMenuBtn02);
 		upgradeMenu.AddItem(&upgradeMenuBtn03);
@@ -120,6 +120,10 @@ public:
 			upgradeMenu.ResetItem();
 		}
 	}
+	bool isUpgradeMenuOpen()
+	{
+		return activeMenu != &upgradeMenu;
+	}
 	void ChangeUpgradeMenu()
 	{
 		if (activeMenu != &upgradeMenu)
@@ -162,7 +166,7 @@ private:
 				auto e = mouse.Read().GetType();
 				if (e == Mouse::Event::Type::RPress)
 				{
-					mediator->GetMouseGame()->Clear();
+					mediator->OnRightClickFromGUI();
 				}
 			}
 		}

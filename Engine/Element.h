@@ -10,13 +10,14 @@ public:
 		Nature = 100
 	};
 public:
-	Element(int type,float attackSpeedMultiply, float dameMultiply, Color c, const Surface* surf)
+	Element(int type,int lv, float attackSpeedMultiply, float dameMultiply, Color c, const Surface* surf)
 		:
 		attackSpeedMultiply(attackSpeedMultiply),
 		dameMultiply(dameMultiply),
 		c(c),
 		surf(surf),
-		type(type)
+		type(type),
+		lv(lv)
 	{}
 	float getDame()
 	{
@@ -32,7 +33,7 @@ public:
 	}
 	int GetLv() 
 	{ 
-		return 0; 
+		return lv;
 	}
 	int getType()
 	{

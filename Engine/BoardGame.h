@@ -82,7 +82,7 @@ public:
 				curTile = { (mousePos.x - (int)pos.x) / tileWidth ,(mousePos.y - (int)pos.y) / tileHeight };
 				break;
 			case Mouse::Event::Type::RPress:
-				mediator->GetMouseGame()->Clear();
+				mediator->OnRightClickFromGUI();
 				break;
 			default:
 				break;

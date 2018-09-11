@@ -13,8 +13,4 @@ public:
 	virtual void MouseClick(const VecI& mousePos, IMediator* mediator) {}
 	virtual void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept {}
 	virtual void RemoveTowerIndex() {}
-	void DrawActive(Graphics& gfx, VecI pos, int width, int height, const Color& c) const
-	{
-		gfx.DrawRectDim(pos, width , height , c);
-	}
 };

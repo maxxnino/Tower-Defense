@@ -38,6 +38,18 @@ public:
 	{
 		element = &nature;
 	}
+	const Surface* GetFireSurface()
+	{
+		return fire.GetSurface();
+	}
+	const Surface* GetWaterSurface()
+	{
+		return water.GetSurface();
+	}
+	const Surface* GetNatureSurface()
+	{
+		return nature.GetSurface();
+	}
 	Color GetFireColor() noexcept
 	{
 		return fire.getColor();

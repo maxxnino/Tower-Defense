@@ -2,7 +2,12 @@
 
 void Button::Draw(Graphics & gfx) const
 {
-	gfx.DrawRectDim((VecI)pos, (int)width, (int)height, color);
+	const VecI intPos = (VecI)pos;
+	gfx.DrawRectDim(intPos, (int)width, (int)height, color);
+	if (surf != nullptr)
+	{
+		gfx.DrawSprite(intPos.x + offSetX, intPos.y + offSetY, *surf, SpriteEffect::AlphaBlendBaked{});
+	}
 }
 
 void Button::Update(float dt, Mouse& mouse)

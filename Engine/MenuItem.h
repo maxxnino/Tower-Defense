@@ -32,6 +32,12 @@ public:
 		color = c;
 		baseColor = c;
 	}
+	void SetSprite(const Surface* surf)
+	{
+		this->surf = surf;
+		offSetX = ((int)width - surf->GetWidth()) / 2;
+		offSetY = ((int)height - surf->GetHeight()) / 2;
+	}
 protected:
 	MenuItem(VecF pos, float width, float height)
 		:
@@ -42,6 +48,9 @@ protected:
 	VecF pos;
 	float width;
 	float height;
+	int offSetX = 0;
+	int offSetY = 0;
 	Color color;
 	Color baseColor;
+	const Surface* surf = nullptr;
 };

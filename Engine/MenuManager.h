@@ -31,9 +31,6 @@ public:
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToFire();
 		});
-		mainMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
-			mediator->GetMouseGame()->ChangeToFire();
-		});
 		mainMenuBtn02.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToIce();
 		});
@@ -86,12 +83,25 @@ public:
 		this->mediator = mediator;
 		auto mouseGame = this->mediator->GetMouseGame();
 		mainMenuBtn01.setColor(mouseGame->GetFireColor());
+		mainMenuBtn01.SetSprite(mouseGame->GetFireSurface());
+
 		mainMenuBtn02.setColor(mouseGame->GetIceColor());
+		mainMenuBtn02.SetSprite(mouseGame->GetWaterSurface());
+
 		mainMenuBtn03.setColor(mouseGame->GetLightingColor());
+		mainMenuBtn03.SetSprite(mouseGame->GetNatureSurface());
+
 		upgradeMenuBtn01.setColor(mouseGame->GetFireColor());
+		upgradeMenuBtn01.SetSprite(mouseGame->GetFireSurface());
+
 		upgradeMenuBtn02.setColor(mouseGame->GetIceColor());
+		upgradeMenuBtn02.SetSprite(mouseGame->GetWaterSurface());
+
 		upgradeMenuBtn03.setColor(mouseGame->GetLightingColor());
+		upgradeMenuBtn03.SetSprite(mouseGame->GetNatureSurface());
+
 		deleteTowerBtn04.setColor(Colors::White);
+		deleteTowerBtn04.SetSprite(Codex<Surface>::Retrieve(L"Images\\pm_delete_button_50_50.png"));
 	}
 	void Update(float dt, Mouse& mouse)
 	{

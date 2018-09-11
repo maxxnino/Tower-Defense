@@ -175,6 +175,7 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SharedAnimation.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SpriteEffect.h" />
@@ -189,7 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\menu\Engine\FrameTimer.cpp" />
-    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonState.cpp" />
     <ClCompile Include="COMInitializer.cpp" />

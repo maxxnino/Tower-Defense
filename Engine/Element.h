@@ -5,6 +5,7 @@ class Element
 public:
 	enum Type
 	{
+		None = 0,
 		Fire = 1,
 		Water = 10,
 		Nature = 100

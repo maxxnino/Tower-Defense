@@ -28,19 +28,22 @@ public:
 	{
 		activeMenu = &mainMenu;
 		//main menu
-		mainMenuBtn01.GetLeftClickFunc() = [this]() {
+		mainMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToFire();
-		};
-		mainMenuBtn02.GetLeftClickFunc() = [this]() {
+		});
+		mainMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
+			mediator->GetMouseGame()->ChangeToFire();
+		});
+		mainMenuBtn02.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToIce();
-		};
-		mainMenuBtn03.GetLeftClickFunc() = [this]() {
+		});
+		mainMenuBtn03.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToLighting();
-		};
+		});
 		
-		mainMenuBtn01.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
-		mainMenuBtn02.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
-		mainMenuBtn03.GetRightClickFunc() = [this]() {mediator->GetMouseGame()->Clear(); };
+		mainMenuBtn01.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
+		mainMenuBtn02.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
+		mainMenuBtn03.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
 		
 		mainMenu.AddItem(&mainMenuBtn01);
 		mainMenu.AddItem(&mainMenuBtn02);
@@ -48,29 +51,29 @@ public:
 		//mainMenu.AddItem(&deleteTowerBtn04);
 
 		//upgrademenu
-		upgradeMenuBtn01.GetLeftClickFunc() = [this]() {
+		upgradeMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToFire();
 			mediator->UpgradeTower();
 			ChangeMainMenu();
-		};
-		upgradeMenuBtn02.GetLeftClickFunc() = [this]() {
+		});
+		upgradeMenuBtn02.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToIce();
 			mediator->UpgradeTower();
 			ChangeMainMenu();
-		};
-		upgradeMenuBtn03.GetLeftClickFunc() = [this]() {
+		});
+		upgradeMenuBtn03.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToLighting();
 			mediator->UpgradeTower();
 			ChangeMainMenu();
-		};
-		deleteTowerBtn04.GetLeftClickFunc() = [this]() {
+		});
+		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->SellTower();
 			ChangeMainMenu();
-		};
-		upgradeMenuBtn01.GetRightClickFunc() = [this]() {mediator->OnRightClickFromGUI(); };
-		upgradeMenuBtn02.GetRightClickFunc() = [this]() {mediator->OnRightClickFromGUI(); };
-		upgradeMenuBtn03.GetRightClickFunc() = [this]() {mediator->OnRightClickFromGUI(); };
-		deleteTowerBtn04.GetRightClickFunc() = [this]() {mediator->OnRightClickFromGUI(); };
+		});
+		upgradeMenuBtn01.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
+		upgradeMenuBtn02.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
+		upgradeMenuBtn03.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
+		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
 		upgradeMenu.AddItem(&upgradeMenuBtn01);
 		upgradeMenu.AddItem(&upgradeMenuBtn02);
 		upgradeMenu.AddItem(&upgradeMenuBtn03);

@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include <map>
 #include "MenuItem.h"
 #include "ButtonState.h"
 class Button : public MenuItem
@@ -14,13 +15,9 @@ public:
 	void MouseIn(Mouse& mouse) override;
 	void MouseLeave() override;
 	void ResetState() override;
-	std::function<void()>& GetLeftClickFunc()
+	void AddEventListener(Mouse::Event::Type type, std::function<void()> pFunc)
 	{
-		return LeftClickFunc;
-	}
-	std::function<void()>& GetRightClickFunc()
-	{
-		return RightClickFunc;
+		handlers.emplace(type, pFunc);
 	}
 private:
 	friend BtnClickState;
@@ -30,7 +27,6 @@ private:
 	BtnSleepState sleepState;
 	BtnMouseHoverState hoverState;
 	ButtonState* btnState = &sleepState;
-	std::function<void()> LeftClickFunc = []() {};
-	std::function<void()> RightClickFunc = []() {};
+	std::map<Mouse::Event::Type, std::function<void()>> handlers;
 	float timer = 0.0f;
 };

@@ -42,7 +42,15 @@ void BtnSleepState::MouseIn(Button * btn, Mouse& mouse)
 		}
 		else if (e == Mouse::Event::Type::RPress)
 		{
-			btn->RightClickFunc();
+			auto it = btn->handlers.find(Mouse::Event::Type::RPress);
+			if (it != btn->handlers.end())
+			{
+				it->second();
+			}
+			else
+			{
+				assert(false);
+			}
 		}
 	}
 	if (isclicked)
@@ -52,7 +60,15 @@ void BtnSleepState::MouseIn(Button * btn, Mouse& mouse)
 	}
 	else
 	{
-		btn->LeftClickFunc();
+		auto it = btn->handlers.find(Mouse::Event::Type::LPress);
+		if (it != btn->handlers.end())
+		{
+			it->second();
+		}
+		else
+		{
+			assert(false);
+		}
 	}
 }
 
@@ -81,7 +97,15 @@ void BtnMouseHoverState::MouseIn(Button * btn, Mouse & mouse)
 		}
 		else if(e == Mouse::Event::Type::RPress)
 		{
-			btn->RightClickFunc();
+			auto it = btn->handlers.find(Mouse::Event::Type::RPress);
+			if (it != btn->handlers.end())
+			{
+				it->second();
+			}
+			else
+			{
+				assert(false);
+			}
 		}
 	}
 	if (isclicked)
@@ -91,6 +115,14 @@ void BtnMouseHoverState::MouseIn(Button * btn, Mouse & mouse)
 	}
 	else
 	{
-		btn->LeftClickFunc();
+		auto it = btn->handlers.find(Mouse::Event::Type::LPress);
+		if (it != btn->handlers.end())
+		{
+			it->second();
+		}
+		else
+		{
+			assert(false);
+		}
 	}
 }

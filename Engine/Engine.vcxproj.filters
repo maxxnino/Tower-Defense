@@ -37,9 +37,6 @@
     <Filter Include="Header Files\Game\Gui and Board">
       <UniqueIdentifier>{31e175ba-ac78-452d-90c4-ab9b1a528ffd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Game\Physic">
-      <UniqueIdentifier>{28f3edd9-e9e4-423e-9692-a4345e91bae1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Game\Game Object">
       <UniqueIdentifier>{fc447c83-354d-4067-aa70-eed568e01400}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,9 @@
     </Filter>
     <Filter Include="Source Files\Resource">
       <UniqueIdentifier>{f6f0fc2b-ec86-4d4a-8e39-500ce5271a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resource\Physic">
+      <UniqueIdentifier>{28f3edd9-e9e4-423e-9692-a4345e91bae1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -160,13 +160,10 @@
       <Filter>Header Files\Game\World Mediator</Filter>
     </ClInclude>
     <ClInclude Include="MyBox2DListener.h">
-      <Filter>Header Files\Game\Physic</Filter>
+      <Filter>Header Files\Resource\Physic</Filter>
     </ClInclude>
     <ClInclude Include="PhysicObject.h">
-      <Filter>Header Files\Game\Physic</Filter>
-    </ClInclude>
-    <ClInclude Include="LineWall.h">
-      <Filter>Header Files\Game\Physic</Filter>
+      <Filter>Header Files\Resource\Physic</Filter>
     </ClInclude>
     <ClInclude Include="Base.h">
       <Filter>Header Files\Game\Game Object</Filter>
@@ -200,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="BuilderMatching.h">
       <Filter>Header Files\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="LineWall.h">
+      <Filter>Header Files\Game\Game Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

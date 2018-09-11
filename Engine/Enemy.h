@@ -47,7 +47,7 @@ public:
 	{
 		const b2Vec2 vel = body->GetLinearVelocity();
 		const float velChange = 6 - vel.x;
-		const float impulse = body->GetMass() * velChange * dt; //disregard time factor
+		const float impulse = body->GetMass() * velChange; //disregard time factor
 		body->ApplyLinearImpulse(b2Vec2(impulse, 0), body->GetWorldCenter(),true);
 		if (isGetHit)
 		{
@@ -82,7 +82,7 @@ private:
 	b2Vec2 speed = {6.0f,0.0f};
 	const Surface* surf;
 	int offSet;
-	int Hp = 10;
+	int Hp = 100;
 	int gold = 1;
 	int dame = 1;
 	int id;

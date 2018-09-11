@@ -5,6 +5,9 @@ class MouseGame
 public:
 	MouseGame()
 	{
+		fire.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\pm_fire_50_50.png"));
+		water.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\pm_water_50_50.png"));
+		nature.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\pm_nature_50_50.png"));
 		//lv01
 		factory.emplace(fire.getType(), &fire);
 		factory.emplace(water.getType(), &water);
@@ -40,15 +43,15 @@ public:
 	}
 	const Surface* GetFireSurface()
 	{
-		return fire.GetSurface();
+		return fire.GetElementSurface();
 	}
 	const Surface* GetWaterSurface()
 	{
-		return water.GetSurface();
+		return water.GetElementSurface();
 	}
 	const Surface* GetNatureSurface()
 	{
-		return nature.GetSurface();
+		return nature.GetElementSurface();
 	}
 	Color GetFireColor() noexcept
 	{
@@ -89,7 +92,7 @@ private:
 	//lv01
 	Element fire = { Element::Type::Fire, 1, 1,1,Colors::Red,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv01_01.png") };
 	Element water = { Element::Type::Water, 1, 1,1,Colors::Blue,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv01_02.png") };
-	Element nature = { Element::Type::Nature, 1, 1,1,Colors::Yellow,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv01_03.png") };
+	Element nature = { Element::Type::Nature, 1, 1,1,Colors::Green,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv01_03.png") };
 
 	//lv02
 	Element fireFire = { Element::Type::Fire + Element::Type::Fire, 2, 1,1,Colors::Magenta,Codex<Surface>::Retrieve(L"Images\\pm_tower_lv02_01.png") };

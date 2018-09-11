@@ -52,6 +52,14 @@ public:
 	{
 		return surf;
 	}
+	const Surface* GetElementSurface()
+	{
+		return element;
+	}
+	void SetElementSurface(const Surface* surf)
+	{
+		element = surf;
+	}
 protected:
 	float baseAttackSpeed = 1.0f;
 	int baseGold = 5;
@@ -60,6 +68,7 @@ protected:
 	float dameMultiply;
 	Color c;
 	const Surface* surf;
+	const Surface* element;
 	int type;
 	int lv;
 };

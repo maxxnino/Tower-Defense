@@ -100,14 +100,14 @@ private:
 	SharedAnimationData towerAni09 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv09_40_40_6.png"), 0.1f, Colors::Black };
 
 	//explosion animation pm_explosion_02_40_40_5
-	SharedAnimationData explosion01 = { 0,0,40,40,8, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_40_40_8.png"), 0.1f, Colors::Black };
-	SharedAnimationData explosion02 = { 0,0,40,40,19, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_01_40_40_19.png"), 0.1f, Colors::Black };
+	SharedAnimationData explosion01 = { 0,0,40,40,8, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_40_40_8.png"), 0.06f, Colors::Black };
+	SharedAnimationData explosion02 = { 0,0,40,40,19, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_01_40_40_19.png"), 0.03f, Colors::Black };
 	SharedAnimationData explosion03 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_02_40_40_5.png"), 0.1f, Colors::Black };
 
 	//projectile animation data
 	SharedAnimationData pro01 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_2.png"), 0.1f, Colors::Black };
 	SharedAnimationData pro02 = { 30,0,30,30,8, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_9.png"), 0.1f, Colors::Black };
-	SharedAnimationData pro03 = { 0,0,30,30,14, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_14.png"), 0.1f, Colors::Black };
+	SharedAnimationData pro03 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_14.png"), 0.1f, Colors::Black };
 
 	Element def = { Element::Type::Fire, 1, 1, 1, Colors::Magenta, &towerAni01, &pro01, &explosion01 };
 

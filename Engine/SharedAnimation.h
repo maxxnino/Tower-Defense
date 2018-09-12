@@ -47,6 +47,10 @@ public:
 	{
 		return holdTime;
 	}
+	const Surface* GetSurface() const
+	{
+		return sprite;
+	}
 private:
 	Color chroma;
 	const Surface* sprite;
@@ -114,7 +118,7 @@ public:
 	OnetimeAnimation(const SharedAnimationData* data, const VecI& pos)
 		:
 		data(data),
-		pos(pos)
+		pos(pos - VecI(data->GetSurface()->GetHeight() / 2, data->GetSurface()->GetHeight() / 2))
 	{}
 	void Draw(Graphics& gfx) const
 	{

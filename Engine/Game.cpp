@@ -37,6 +37,8 @@ Game::Game( MainWindow& wnd )
 	});
 	mrLister.CaseContact<Projectile, Enemy>([](PhysicObject& p, PhysicObject& e)
 	{
+		const b2Vec2 pos = 0.5 * (e.getBody().GetPosition() + p.getBody().GetPosition());
+		p.SetExplosionPos(Graphics::ToScreenSpace(pos));
 		p.MarkDead();
 		e.ApplyDame(p.GetDame());
 	});

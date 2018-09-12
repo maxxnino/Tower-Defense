@@ -102,7 +102,7 @@ public:
 		{
 			if (bulletMgr[i]->isRemove())
 			{
-				explosionMgr.emplace_back(std::make_unique<OnetimeAnimation>(bulletMgr[i]->getElement()->GetExplosionAnimation(), bulletMgr[i]->GetPos()));
+				explosionMgr.emplace_back(std::make_unique<OnetimeAnimation>(bulletMgr[i]->getElement()->GetExplosionAnimation(), bulletMgr[i]->GetExplosionPos()));
 				std::swap(bulletMgr[i], bulletMgr.back());
 				bulletMgr.pop_back();
 			}

@@ -135,6 +135,7 @@ public:
 	virtual void ApplyDame(int dame) { assert(false); }
 	virtual int GetDame() { assert(false); return -1; }
 	virtual void MarkReachBase() { assert(false); }
+	virtual void SetExplosionPos(const VecI& pos) {}
 	/***********************************/
 protected:
 	bool isDestroyed = false;

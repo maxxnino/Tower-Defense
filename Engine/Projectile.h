@@ -44,9 +44,9 @@ public:
 	{
 		return element;
 	}
-	VecI GetPos()
+	VecI GetExplosionPos()
 	{
-		return Graphics::ToScreenSpace(body->GetPosition()) - offSet * 2;
+		return explosionPos;
 	}
 	/**********************************/
 	/*Virtual function for PhysiObject*/
@@ -65,12 +65,17 @@ public:
 	{
 		return dame;
 	}
+	void SetExplosionPos(const VecI& pos) override
+	{
+		explosionPos = pos;
+	}
 	/***********************************/
 private:
 	static constexpr float deadTimer = 3.0f;
 	SharedAnimation projectileAnimation;
 	Element* element;
 	VecI offSet;
+	VecI explosionPos = { 0,0 };
 	int dame = 2;
 	int targetID = -1;
 	float maxSpeedSq = 50.0f;

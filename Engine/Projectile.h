@@ -12,7 +12,8 @@ public:
 		targetID(curTarget),
 		size(size),
 		offSet(int(size  * 2.0f * Graphics::scalePixel), int(size  * 2.0f * Graphics::scalePixel)),
-		projectileAnimation(element->GetProjectileAnimation())
+		projectileAnimation(element->GetProjectileAnimation()),
+		element(element)
 	{
 		body->SetUserData(this);
 	}
@@ -39,7 +40,14 @@ public:
 		}
 		return false;
 	}
-
+	Element* getElement()
+	{
+		return element;
+	}
+	VecI GetPos()
+	{
+		return Graphics::ToScreenSpace(body->GetPosition()) - offSet * 2;
+	}
 	/**********************************/
 	/*Virtual function for PhysiObject*/
 	void SetVelocity(const b2Vec2& dir) override
@@ -61,6 +69,7 @@ public:
 private:
 	static constexpr float deadTimer = 3.0f;
 	SharedAnimation projectileAnimation;
+	Element* element;
 	VecI offSet;
 	int dame = 2;
 	int targetID = -1;

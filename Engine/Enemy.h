@@ -79,7 +79,7 @@ private:
 	bool isReachBase = false;
 	bool isGetHit = false;
 	float timerGetHit = 0.0f;
-	b2Vec2 speed = {6.0f,0.0f};
+	b2Vec2 speed = {5.0f,0.0f};
 	const Surface* surf;
 	int offSet;
 	int Hp = 100;

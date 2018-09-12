@@ -99,23 +99,28 @@ private:
 	SharedAnimationData towerAni08 = { 0,0,40,40,8, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv08_40_40_8.png"), 0.1f, Colors::Black };
 	SharedAnimationData towerAni09 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv09_40_40_6.png"), 0.1f, Colors::Black };
 
+	//explosion animation pm_explosion_02_40_40_5
+	SharedAnimationData explosion01 = { 0,0,40,40,8, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_40_40_8.png"), 0.1f, Colors::Black };
+	SharedAnimationData explosion02 = { 0,0,40,40,19, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_01_40_40_19.png"), 0.1f, Colors::Black };
+	SharedAnimationData explosion03 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_02_40_40_5.png"), 0.1f, Colors::Black };
+
 	//projectile animation data
 	SharedAnimationData pro01 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_2.png"), 0.1f, Colors::Black };
 	SharedAnimationData pro02 = { 30,0,30,30,8, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_9.png"), 0.1f, Colors::Black };
 	SharedAnimationData pro03 = { 0,0,30,30,14, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_14.png"), 0.1f, Colors::Black };
 
-	Element def = { Element::Type::Fire, 1, 1, 1, Colors::Magenta, &towerAni01, &pro01 };
+	Element def = { Element::Type::Fire, 1, 1, 1, Colors::Magenta, &towerAni01, &pro01, &explosion01 };
 
 	//lv01
-	Element fire = { Element::Type::Fire, 1, 1,1,Colors::Red, &towerAni01, &pro01 };
-	Element water = { Element::Type::Water, 1, 1,1,Colors::Blue, &towerAni02, &pro02 };
-	Element nature = { Element::Type::Nature, 1, 1,1,Colors::Green, &towerAni03, &pro03 };
+	Element fire = { Element::Type::Fire, 1, 1,1,Colors::Red, &towerAni01, &pro01, &explosion01 };
+	Element water = { Element::Type::Water, 1, 1,1,Colors::Blue, &towerAni02, &pro02, &explosion02 };
+	Element nature = { Element::Type::Nature, 1, 1,1,Colors::Green, &towerAni03, &pro03, &explosion03 };
 
 	//lv02
-	Element fireFire = { Element::Type::Fire + Element::Type::Fire, 2, 1, 1, Colors::Magenta, &towerAni04, &pro01 };
-	Element fireWater = { Element::Type::Fire + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni05, &pro02 };
-	Element fireNature = { Element::Type::Fire + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni06, &pro03 };
-	Element waterWater = { Element::Type::Water + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni07, &pro01 };
-	Element waterNature = { Element::Type::Water + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni08, &pro02 };
-	Element natureNature = { Element::Type::Nature + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni09, &pro03 };
+	Element fireFire = { Element::Type::Fire + Element::Type::Fire, 2, 1, 1, Colors::Magenta, &towerAni04, &pro01, &explosion01 };
+	Element fireWater = { Element::Type::Fire + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni05, &pro02, &explosion02 };
+	Element fireNature = { Element::Type::Fire + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni06, &pro03, &explosion03 };
+	Element waterWater = { Element::Type::Water + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni07, &pro01, &explosion01 };
+	Element waterNature = { Element::Type::Water + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni08, &pro02, &explosion02 };
+	Element natureNature = { Element::Type::Nature + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni09, &pro03, &explosion03 };
 };

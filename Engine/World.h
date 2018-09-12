@@ -49,6 +49,11 @@ public:
 		{
 			b->Draw(gfx);
 		}
+		for (auto& e : explosionMgr)
+		{
+			e->DrawAlpha(gfx);
+		}
+		
 		
 	}
 	void Update(float dt)
@@ -79,11 +84,25 @@ public:
 	}
 	void CleanWorld(float dt)
 	{
+		//update and remove explosion effect
+		for (int i = 0; i < explosionMgr.size();)
+		{
+			if (explosionMgr[i]->Update(dt))
+			{
+				std::swap(explosionMgr[i], explosionMgr.back());
+				explosionMgr.pop_back();
+			}
+			else
+			{
+				i++;
+			}
+		}
 		//clear dead bullet
 		for (int i = 0; i < bulletMgr.size();)
 		{
 			if (bulletMgr[i]->isRemove())
 			{
+				explosionMgr.emplace_back(std::make_unique<OnetimeAnimation>(bulletMgr[i]->getElement()->GetExplosionAnimation(), bulletMgr[i]->GetPos()));
 				std::swap(bulletMgr[i], bulletMgr.back());
 				bulletMgr.pop_back();
 			}
@@ -261,6 +280,7 @@ private:
 	std::unordered_map<int, std::unique_ptr<Enemy>> enemyMgr;
 	std::vector<std::unique_ptr<Projectile>> bulletMgr;
 	std::vector<std::unique_ptr<Projectile>> noTargetBullet;
+	std::vector<std::unique_ptr<OnetimeAnimation>> explosionMgr;
 	int indexTower;
 	int indexEnemy;
 };

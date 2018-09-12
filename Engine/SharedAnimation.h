@@ -107,3 +107,64 @@ private:
 	int iCurFrame = 0;
 	float curFrameTime = 0.0f;
 };
+
+class OnetimeAnimation
+{
+public:
+	OnetimeAnimation(const SharedAnimationData* data, const VecI& pos)
+		:
+		data(data),
+		pos(pos)
+	{}
+	void Draw(Graphics& gfx) const
+	{
+		data->Draw(pos, gfx, iCurFrame);
+	}
+	// this version of draw replaces all opaque pixels with specified color
+	void DrawColor(Graphics& gfx, Color c) const
+	{
+		data->DrawColor(pos, gfx, iCurFrame, c);
+	}
+	// this version of draw replaces all opaque pixels with specified color
+	void DrawAlpha(Graphics& gfx) const
+	{
+		data->DrawAlpha(pos, gfx, iCurFrame);
+	}
+	bool Update(float dt)
+	{
+		curFrameTime += dt;
+		while (curFrameTime >= data->GetHoldFrame())
+		{
+			curFrameTime -= data->GetHoldFrame();
+			if (++iCurFrame >= data->GetFrameSize())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void ChangeAnimation(const SharedAnimationData* newData)
+	{
+		data = newData;
+		ResetAnimation();
+	}
+private:
+	void ResetAnimation()
+	{
+		iCurFrame = 0;
+		curFrameTime = 0;
+	}
+	void Advance()
+	{
+		if (++iCurFrame >= data->GetFrameSize())
+		{
+			iCurFrame = 0;
+		}
+	}
+private:
+	const SharedAnimationData* data;
+	VecI pos;
+	int iCurFrame = 0;
+	float curFrameTime = 0.0f;
+};

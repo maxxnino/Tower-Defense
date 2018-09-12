@@ -149,7 +149,7 @@ namespace SpriteEffect
 			// this will give a huge speedup if there are large sections
 			// of blank space (pretty common), but slower if unpredictable
 			// patters of transparency in a 50/50 mix (not really forseeable)
-			if (cAlpha != 255)
+			if (cAlpha < 240)
 			{
 				const Color dst = gfx.GetPixel(xDest, yDest);
 				// blend channels by linear interpolation using integer math
@@ -164,11 +164,16 @@ namespace SpriteEffect
 				// because the results will not overflow into neighboring channels
 				// after, we shift to divide, and then mask to clear out the shifted garbo
 				// channels are left in their byte position for easy combining with an add
-				const int rb = (((dst.dword & 0xFF00FFu) * cAlpha) >> 16) & 0xFF00FFu;
-				const int g = (((dst.dword & 0x00FF00u) * cAlpha) >> 16) & 0x00FF00u;
+				//const int rb = (((dst.dword & 0xFF00FFu) * cAlpha) >> 8) & 0xFF00FFu;
+				//const int g = (((dst.dword & 0x00FF00u) * cAlpha) >> 8) & 0x00FF00u;
 				// add multiplied dst channels together with premultiplied src channels
 				// and write the resulting interpolated color to the screen
-				gfx.PutPixel(xDest, yDest, rb + g + src.dword);
+				const Color blend = {
+					unsigned char((src.GetR() + dst.GetR()) / 2),
+					unsigned char((src.GetG() + dst.GetG()) / 2),
+					unsigned char((src.GetB() + dst.GetB()) / 2)
+				};
+				gfx.PutPixel(xDest, yDest, blend);
 			}
 		}
 	};

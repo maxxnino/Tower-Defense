@@ -20,7 +20,7 @@ public:
 	void Draw(Graphics& gfx, int tileWidth, int tileHeight)
 	{
 		const VecI pos = gfx.ToScreenSpace(body->GetPosition());
-		animation.Draw(pos, gfx, mirrored);
+		animation.DrawAlpha(pos, gfx, mirrored);
 	}
 	inline const Color& GetColor() const noexcept
 	{

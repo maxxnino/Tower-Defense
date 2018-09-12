@@ -201,4 +201,6 @@ extern template
 void Graphics::DrawSprite<SpriteEffect::DissolveHalfTint>(int x, int y, RectI srcRect, const RectI& clip, const Surface& s, SpriteEffect::DissolveHalfTint effect, bool reversed);
 extern template
 void Graphics::DrawSprite<SpriteEffect::AlphaBlendBaked>(int x, int y, RectI srcRect, const RectI& clip, const Surface& s, SpriteEffect::AlphaBlendBaked effect, bool reversed);
+extern template
+void Graphics::DrawSprite<SpriteEffect::AlphaBlendBakedAndGhost>(int x, int y, RectI srcRect, const RectI& clip, const Surface& s, SpriteEffect::AlphaBlendBakedAndGhost effect, bool reversed);
 #endif

@@ -88,16 +88,16 @@ private:
 	Element* element = nullptr;
 	std::unordered_map<int, Element*> factory;
 
-	//tower animation data tower_lv09_40_40_6
-	SharedAnimationData towerAni01 = { 0,0,40,40,9, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv01_40_40_9.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni02 = { 0,0,40,40,11, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv02_40_40_11.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni03 = { 0,0,40,40,12, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv03_40_40_12.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni04 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv04_40_40_5.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni05 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv05_40_40_5.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni06 = { 0,0,40,40,12, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv06_40_40_12.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni07 = { 0,0,40,40,8, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv07_40_40_8.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni08 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv08_40_40_6.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni09 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv09_40_40_6.bmp"), 0.1f, Colors::Magenta };
+	//tower animation data pm_tower_lv09_40_40_6 pm_tower_lv03_40_40_12
+	SharedAnimationData towerAni01 = { 0,0,40,40,9, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv01_40_40_9.png"), 0.1f, Colors::Black };
+	SharedAnimationData towerAni02 = { 0,0,40,40,11, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv02_40_40_11.png"), 0.1f, Colors::Black };
+	SharedAnimationData towerAni03 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv03_40_40_6.png"), 0.1f, Colors::Black };
+	SharedAnimationData towerAni04 = { 0,0,40,40,12, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv04_40_40_12.png"), 0.1f, Colors::Black };
+	SharedAnimationData towerAni05 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv05_40_40_5.png"), 0.1f, Colors::Black };
+	SharedAnimationData towerAni06 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv06_40_40_5.png"), 0.1f, Colors::Black };
+	SharedAnimationData towerAni07 = { 0,0,40,40,12, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv07_40_40_12.png"), 0.1f, Colors::Black };
+	SharedAnimationData towerAni08 = { 0,0,40,40,8, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv08_40_40_8.png"), 0.1f, Colors::Black };
+	SharedAnimationData towerAni09 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv09_40_40_6.png"), 0.1f, Colors::Black };
 
 	//projectile animation data
 	SharedAnimationData pro01 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_2.png"), 0.1f, Colors::Black };

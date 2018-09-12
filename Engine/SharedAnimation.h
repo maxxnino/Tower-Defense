@@ -20,7 +20,7 @@ public:
 	void DrawGhost(const VecI& pos, Graphics& gfx, int iCurFrame, bool mirrored = false) const
 	{
 		gfx.DrawSprite(pos.x, pos.y, frames[iCurFrame], *sprite,
-			SpriteEffect::Ghost{ chroma }, mirrored);
+			SpriteEffect::AlphaBlendBakedAndGhost{}, mirrored);
 	}
 	void Draw(const VecI& pos, Graphics& gfx, int iCurFrame, bool mirrored = false) const
 	{

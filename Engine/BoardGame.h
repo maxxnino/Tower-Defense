@@ -25,7 +25,7 @@ public:
 				const VecI pos = VecI(x * tileWidth, y  * tileHeight);
 				if (y == mid - 1 || y == mid || y == mid + 1)
 				{
-					tiles.emplace_back(std::make_unique<WalkableTile>(pos, x + y * nWidth, Codex<Surface>::Retrieve(L"Images\\ground_01.png")));
+					tiles.emplace_back(std::make_unique<WalkableTile>(pos, x + y * nWidth, Codex<Surface>::Retrieve(L"Images\\Tile\\ground_01.png")));
 				}
 				else
 				{
@@ -33,13 +33,13 @@ public:
 					switch (seed(rng))
 					{
 					case 1:
-						tiles.emplace_back(std::make_unique<BuildableTile>(pos, x + y * nWidth, Codex<Surface>::Retrieve(L"Images\\ground_02.png")));
+						tiles.emplace_back(std::make_unique<BuildableTile>(pos, x + y * nWidth, Codex<Surface>::Retrieve(L"Images\\Tile\\ground_02.png")));
 						break;
 					case 2:
-						tiles.emplace_back(std::make_unique<BuildableTile>(pos, x + y * nWidth, Codex<Surface>::Retrieve(L"Images\\ground_03.png")));
+						tiles.emplace_back(std::make_unique<BuildableTile>(pos, x + y * nWidth, Codex<Surface>::Retrieve(L"Images\\Tile\\ground_03.png")));
 						break;
 					default:
-						tiles.emplace_back(std::make_unique<BuildableTile>(pos, x + y * nWidth, Codex<Surface>::Retrieve(L"Images\\ground_02.png")));
+						tiles.emplace_back(std::make_unique<BuildableTile>(pos, x + y * nWidth, Codex<Surface>::Retrieve(L"Images\\Tile\\ground_02.png")));
 						break;
 					}
 				}

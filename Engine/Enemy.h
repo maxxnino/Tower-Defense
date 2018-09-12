@@ -15,15 +15,15 @@ public:
 	{
 		if ((id % 3) == 0)
 		{
-			surf = Codex<Surface>::Retrieve(L"Images\\pm_enemy_03.png");
+			surf = Codex<Surface>::Retrieve(L"Images\\Enemy\\pm_enemy_03.png");
 		}
 		else if ((id % 2) == 0)
 		{
-			surf = Codex<Surface>::Retrieve(L"Images\\pm_enemy_02.png");
+			surf = Codex<Surface>::Retrieve(L"Images\\Enemy\\pm_enemy_02.png");
 		}
 		else
 		{
-			surf = Codex<Surface>::Retrieve(L"Images\\pm_enemy_01.png");
+			surf = Codex<Surface>::Retrieve(L"Images\\Enemy\\pm_enemy_01.png");
 		}
 		body->SetUserData(this);
 	}

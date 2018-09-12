@@ -12,15 +12,15 @@ class MenuManager : public IComponent
 public:
 	MenuManager()
 		:
-		font(Codex<Surface>::Retrieve(L"Images\\Fixedsys16x28.bmp")),
-		surf(Codex<Surface>::Retrieve(L"Images\\menu_02.png")),
-		coinAnimation(0,0,40,40,25, Codex<Surface>::Retrieve(L"Images\\pm_coin_40_40_25.png"), 0.04f, Colors::Black),
-		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Codex<Surface>::Retrieve(L"Images\\menu_01.png")),
+		font(Codex<Surface>::Retrieve(L"Images\\GUI\\Fixedsys16x28.bmp")),
+		surf(Codex<Surface>::Retrieve(L"Images\\GUI\\menu_02.png")),
+		coinAnimation(0,0,40,40,25, Codex<Surface>::Retrieve(L"Images\\GUI\\pm_coin_40_40_25.png"), 0.04f, Colors::Black),
+		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
 		mainMenuBtn01(VecF(150.0f + 100.0f , 513.0f), 50.0f, 50.0f),
 		mainMenuBtn02(VecF(150.0f + 100.0f + 100.0f, 513.0f), 50.0f, 50.0f),
 		mainMenuBtn03(VecF(150.0f + 100.0f + 2.0f * 100.0f, 513.0f), 50.0f, 50.0f),
 		
-		upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Codex<Surface>::Retrieve(L"Images\\menu_01.png")),
+		upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
 		upgradeMenuBtn01(VecF(100.0f + 150.0f, 513.0f), 50.0f, 50.0f),
 		upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 513.0f), 50.0f, 50.0f),
 		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 513.0f), 50.0f, 50.0f),
@@ -101,7 +101,7 @@ public:
 		upgradeMenuBtn03.SetSprite(mouseGame->GetNatureSurface());
 
 		deleteTowerBtn04.setColor(Colors::White);
-		deleteTowerBtn04.SetSprite(Codex<Surface>::Retrieve(L"Images\\pm_delete_button_50_50.png"));
+		deleteTowerBtn04.SetSprite(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_delete_button_50_50.png"));
 	}
 	void Update(float dt, Mouse& mouse)
 	{

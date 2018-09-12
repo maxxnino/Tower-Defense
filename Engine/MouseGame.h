@@ -5,9 +5,9 @@ class MouseGame
 public:
 	MouseGame()
 	{
-		fire.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\pm_fire_50_50.png"));
-		water.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\pm_water_50_50.png"));
-		nature.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\pm_nature_50_50.png"));
+		fire.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_fire_50_50.png"));
+		water.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_water_50_50.png"));
+		nature.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_nature_50_50.png"));
 		//lv01
 		factory.emplace(fire.getType(), &fire);
 		factory.emplace(water.getType(), &water);
@@ -89,20 +89,20 @@ private:
 	std::unordered_map<int, Element*> factory;
 
 	//tower animation data tower_lv09_40_40_6
-	SharedAnimationData towerAni01 = { 0,0,40,40,9, Codex<Surface>::Retrieve(L"Images\\tower_lv01_40_40_9.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni02 = { 0,0,40,40,11, Codex<Surface>::Retrieve(L"Images\\tower_lv02_40_40_11.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni03 = { 0,0,40,40,12, Codex<Surface>::Retrieve(L"Images\\tower_lv03_40_40_12.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni04 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\tower_lv04_40_40_5.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni05 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\tower_lv05_40_40_5.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni06 = { 0,0,40,40,12, Codex<Surface>::Retrieve(L"Images\\tower_lv06_40_40_12.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni07 = { 0,0,40,40,8, Codex<Surface>::Retrieve(L"Images\\tower_lv07_40_40_8.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni08 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\tower_lv08_40_40_6.bmp"), 0.1f, Colors::Magenta };
-	SharedAnimationData towerAni09 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\tower_lv09_40_40_6.bmp"), 0.1f, Colors::Magenta };
+	SharedAnimationData towerAni01 = { 0,0,40,40,9, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv01_40_40_9.bmp"), 0.1f, Colors::Magenta };
+	SharedAnimationData towerAni02 = { 0,0,40,40,11, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv02_40_40_11.bmp"), 0.1f, Colors::Magenta };
+	SharedAnimationData towerAni03 = { 0,0,40,40,12, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv03_40_40_12.bmp"), 0.1f, Colors::Magenta };
+	SharedAnimationData towerAni04 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv04_40_40_5.bmp"), 0.1f, Colors::Magenta };
+	SharedAnimationData towerAni05 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv05_40_40_5.bmp"), 0.1f, Colors::Magenta };
+	SharedAnimationData towerAni06 = { 0,0,40,40,12, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv06_40_40_12.bmp"), 0.1f, Colors::Magenta };
+	SharedAnimationData towerAni07 = { 0,0,40,40,8, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv07_40_40_8.bmp"), 0.1f, Colors::Magenta };
+	SharedAnimationData towerAni08 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv08_40_40_6.bmp"), 0.1f, Colors::Magenta };
+	SharedAnimationData towerAni09 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\tower_lv09_40_40_6.bmp"), 0.1f, Colors::Magenta };
 
 	//projectile animation data
-	SharedAnimationData pro01 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\pm_pro_30_30_2.png"), 0.1f, Colors::Black };
-	SharedAnimationData pro02 = { 30,0,30,30,8, Codex<Surface>::Retrieve(L"Images\\pm_pro_30_30_9.png"), 0.1f, Colors::Black };
-	SharedAnimationData pro03 = { 0,0,30,30,14, Codex<Surface>::Retrieve(L"Images\\pm_pro_30_30_14.png"), 0.1f, Colors::Black };
+	SharedAnimationData pro01 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_2.png"), 0.1f, Colors::Black };
+	SharedAnimationData pro02 = { 30,0,30,30,8, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_9.png"), 0.1f, Colors::Black };
+	SharedAnimationData pro03 = { 0,0,30,30,14, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_14.png"), 0.1f, Colors::Black };
 
 	Element def = { Element::Type::Fire, 1, 1, 1, Colors::Magenta, &towerAni01, &pro01 };
 

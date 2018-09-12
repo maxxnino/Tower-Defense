@@ -62,7 +62,7 @@ public:
 		if (element)
 		{
 			const VecI tilePos = (VecI)pos + VecI(curTile.x * tileWidth, curTile.y * tileHeight);
-			gfx.DrawSprite(tilePos.x, tilePos.y, *element->GetSurface(), SpriteEffect::AlphaBlendBaked{});
+			element->GetTowerAnimation()->DrawGhost(tilePos, gfx, 0);
 		}
 	}
 

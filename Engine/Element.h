@@ -12,12 +12,12 @@ public:
 		Nature = 100
 	};
 public:
-	Element(int type,int lv, float attackSpeedMultiply, float dameMultiply, Color c, const Surface* surf, const SharedAnimationData* projectileAnimation)
+	Element(int type,int lv, float attackSpeedMultiply, float dameMultiply, Color c, const SharedAnimationData* towerAnimation, const SharedAnimationData* projectileAnimation)
 		:
 		attackSpeedMultiply(attackSpeedMultiply),
 		dameMultiply(dameMultiply),
 		c(c),
-		surf(surf),
+		towerAnimation(towerAnimation),
 		projectileAnimation(projectileAnimation),
 		type(type),
 		lv(lv)
@@ -50,9 +50,9 @@ public:
 	{
 		return c;
 	}
-	const Surface* GetSurface()
+	const SharedAnimationData* GetTowerAnimation()
 	{
-		return surf;
+		return towerAnimation;
 	}
 	const Surface* GetElementSurface()
 	{
@@ -73,8 +73,8 @@ protected:
 	float attackSpeedMultiply;
 	float dameMultiply;
 	Color c;
-	const Surface* surf;
 	const Surface* element;
+	const SharedAnimationData* towerAnimation;
 	const SharedAnimationData* projectileAnimation;
 	const 
 	int type;

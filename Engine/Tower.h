@@ -11,16 +11,16 @@ public:
 	Tower(b2World& box2DEngine,Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f )
 		:
 		c(c),
-		PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::ENEMY, worldPos, true, true, size, b2Vec2( 0.0f,0.0f ))
+		PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::ENEMY, worldPos, true, true, size, b2Vec2( 0.0f,0.0f )),
+		animation(element->GetTowerAnimation())
 	{
 		Upgrade(element);
 		body->SetUserData(this);
 	}
 	void Draw(Graphics& gfx, int tileWidth, int tileHeight)
 	{
-		//gfx.DrawRectDim(gfx.ToScreenSpace(body->GetPosition()) + VecI(2, 2), tileWidth - 2, tileHeight - 2, c);
 		const VecI pos = gfx.ToScreenSpace(body->GetPosition());
-		gfx.DrawSprite(pos.x, pos.y, *element->GetSurface(), SpriteEffect::AlphaBlendBaked{});
+		animation.Draw(pos, gfx, mirrored);
 	}
 	inline const Color& GetColor() const noexcept
 	{
@@ -29,6 +29,7 @@ public:
 	void Update(float dt) noexcept
 	{
 		timer += dt;
+		animation.Update(dt);
 		if (timer >= element->getAttackSpeed())
 		{
 			timer = 0.0f;
@@ -52,6 +53,7 @@ public:
 	void Upgrade(Element* newType)
 	{
 		element = newType;
+		animation.ChangeAnimation(element->GetTowerAnimation());
 	}
 	bool IsMaxLv()
 	{
@@ -73,8 +75,8 @@ public:
 			this->wordMediator = wordMediator;
 		}
 	}
-
-
+	void Mirrored() { mirrored = true; }
+	void UnMirrored() { mirrored = false; }
 	/**********************************/
 	/*Virtual function for PhysiObject*/
 	void RemoveEnemyID(int id) override
@@ -96,6 +98,8 @@ private:
 	float timer = 0;
 	IWorldMediator* wordMediator = nullptr;
 	Element* element;
+	SharedAnimation animation;
 	std::set<int> enemyIDs;
 	int curTarget = -1;
+	bool mirrored = false;
 };

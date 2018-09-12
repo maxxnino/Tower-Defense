@@ -1,8 +1,8 @@
 #pragma once
-
 #include "Surface.h"
 #include "Graphics.h"
 #include <vector>
+
 class SharedAnimationData
 {
 public:
@@ -16,6 +16,11 @@ public:
 		{
 			frames.emplace_back(x + i * width, y, x + (i + 1) * width, y + height);
 		}
+	}
+	void DrawGhost(const VecI& pos, Graphics& gfx, int iCurFrame, bool mirrored = false) const
+	{
+		gfx.DrawSprite(pos.x, pos.y, frames[iCurFrame], *sprite,
+			SpriteEffect::Ghost{ chroma }, mirrored);
 	}
 	void Draw(const VecI& pos, Graphics& gfx, int iCurFrame, bool mirrored = false) const
 	{
@@ -78,7 +83,18 @@ public:
 			curFrameTime -= data->GetHoldFrame();
 		}
 	}
+	
+	void ChangeAnimation(const SharedAnimationData* newData)
+	{
+		data = newData;
+		ResetAnimation();
+	}
 private:
+	void ResetAnimation()
+	{
+		iCurFrame = 0;
+		curFrameTime = 0;
+	}
 	void Advance()
 	{
 		if (++iCurFrame >= data->GetFrameSize())

@@ -1,5 +1,6 @@
 #pragma once
 #include "Colors.h"
+#include "SharedAnimation.h"
 class Element
 {
 public:
@@ -11,12 +12,13 @@ public:
 		Nature = 100
 	};
 public:
-	Element(int type,int lv, float attackSpeedMultiply, float dameMultiply, Color c, const Surface* surf)
+	Element(int type,int lv, float attackSpeedMultiply, float dameMultiply, Color c, const Surface* surf, const SharedAnimationData* projectileAnimation)
 		:
 		attackSpeedMultiply(attackSpeedMultiply),
 		dameMultiply(dameMultiply),
 		c(c),
 		surf(surf),
+		projectileAnimation(projectileAnimation),
 		type(type),
 		lv(lv)
 	{}
@@ -56,6 +58,10 @@ public:
 	{
 		return element;
 	}
+	const SharedAnimationData* GetProjectileAnimation()
+	{
+		return projectileAnimation;
+	}
 	void SetElementSurface(const Surface* surf)
 	{
 		element = surf;
@@ -69,6 +75,8 @@ protected:
 	Color c;
 	const Surface* surf;
 	const Surface* element;
+	const SharedAnimationData* projectileAnimation;
+	const 
 	int type;
 	int lv;
 };

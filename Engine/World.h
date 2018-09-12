@@ -144,7 +144,7 @@ public:
 		if (e != enemyMgr.end())
 		{
 			const b2Vec2 enemyPos =  e->second->getBody().GetPosition();
-			auto b = std::make_unique<Projectile>(box2DEngine, curTarget, worldPos + posOffSet, bulletSize);
+			auto b = std::make_unique<Projectile>(box2DEngine, element, curTarget, worldPos + posOffSet, bulletSize);
 			b->SetVelocity(enemyPos - worldPos);
 			bulletMgr.emplace_back(std::move(b));
 		}

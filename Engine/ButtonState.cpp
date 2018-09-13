@@ -30,29 +30,7 @@ void BtnClickState::Reset(Button* btn)
 void BtnSleepState::MouseIn(Button * btn, Mouse& mouse)
 {
 	bool isclicked = true;
-	while (!mouse.IsEmpty())
-	{
-		auto e = mouse.Read().GetType();
-		if (e == Mouse::Event::Type::LPress)
-		{
-			isclicked = false;
-			
-			btn->color = Colors::Magenta;
-			btn->btnState = &btn->clickedState;
-		}
-		else if (e == Mouse::Event::Type::RPress)
-		{
-			auto it = btn->handlers.find(Mouse::Event::Type::RPress);
-			if (it != btn->handlers.end())
-			{
-				it->second();
-			}
-			else
-			{
-				assert(false);
-			}
-		}
-	}
+	btn->SwitchMouseCommand(mouse, isclicked);
 	if (isclicked)
 	{
 		btn->color = Colors::Yellow;
@@ -86,28 +64,7 @@ void BtnMouseHoverState::MouseLeave(Button * btn)
 void BtnMouseHoverState::MouseIn(Button * btn, Mouse & mouse)
 {
 	bool isclicked = true;
-	while (!mouse.IsEmpty())
-	{
-		auto e = mouse.Read().GetType();
-		if (e == Mouse::Event::Type::LPress)
-		{
-			isclicked = false;
-			btn->color = Colors::Magenta;
-			btn->btnState = &btn->clickedState;
-		}
-		else if(e == Mouse::Event::Type::RPress)
-		{
-			auto it = btn->handlers.find(Mouse::Event::Type::RPress);
-			if (it != btn->handlers.end())
-			{
-				it->second();
-			}
-			else
-			{
-				assert(false);
-			}
-		}
-	}
+	btn->SwitchMouseCommand(mouse, isclicked);
 	if (isclicked)
 	{
 		btn->color = Colors::Yellow;

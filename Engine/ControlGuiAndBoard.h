@@ -3,6 +3,7 @@
 #include "BoardGame.h"
 #include "MenuManager.h"
 #include "World.h"
+#include "GameSettings.h"
 class ControlGuiAndBoard : public IMediator
 {
 public:

@@ -3,17 +3,19 @@
 #include "Graphics.h"
 #include "Element.h"
 #include "SharedAnimation.h"
+#include "GameSettings.h"
 class Projectile : public PhysicObject
 {
 public:
-	Projectile(b2World& box2DEngine, Element* element,int curTarget, const b2Vec2& worldPos,float size = 0.2f,const b2Vec2& linVel = { 0.0f,0.0f })
+	Projectile(b2World& box2DEngine, Element* element,int curTarget, const b2Vec2& worldPos,float size = 0.2f, float maxSpeedSq = 50.0f, const b2Vec2& linVel = { 0.0f,0.0f })
 		:
 		PhysicObject(box2DEngine, CollisionFillter::BULLET, CollisionFillter::ENEMY,worldPos, true, false, size, linVel),
 		targetID(curTarget),
 		size(size),
 		offSet(int(size  * 2.0f * Graphics::scalePixel), int(size  * 2.0f * Graphics::scalePixel)),
 		projectileAnimation(element->GetProjectileAnimation()),
-		element(element)
+		element(element),
+		maxSpeedSq(maxSpeedSq)
 	{
 		body->SetUserData(this);
 	}
@@ -63,7 +65,7 @@ public:
 	}
 	int GetDame() override
 	{
-		return dame;
+		return (int)element->getDame();
 	}
 	void SetExplosionPos(const VecI& pos) override
 	{
@@ -76,9 +78,8 @@ private:
 	Element* element;
 	VecI offSet;
 	VecI explosionPos = { 0,0 };
-	int dame = 2;
 	int targetID = -1;
-	float maxSpeedSq = 50.0f;
+	float maxSpeedSq;
 	float timer = 0.0f;
 	float size;
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "Colors.h"
 #include "SharedAnimation.h"
+#include "GameSettings.h"
 class Element
 {
 public:
@@ -26,7 +27,7 @@ public:
 	{}
 	float getDame()
 	{
-		return baseAttackSpeed * dameMultiply;
+		return baseDame * dameMultiply;
 	}
 	float getAttackSpeed()
 	{
@@ -73,9 +74,9 @@ public:
 		element = surf;
 	}
 protected:
-	float baseAttackSpeed = 1.0f;
-	int baseGold = 5;
-	float baseDame = 10.0f;
+	float baseAttackSpeed = GameSettings::Get().GetData("[Tower Base Attack Speed]");
+	int baseGold = (int)GameSettings::Get().GetData("[Tower Base Gold Cost]");
+	float baseDame = GameSettings::Get().GetData("[Tower Base Dame]");
 	float attackSpeedMultiply;
 	float dameMultiply;
 	Color c;

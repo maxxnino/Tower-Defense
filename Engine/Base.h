@@ -1,5 +1,6 @@
 #pragma once
 #include "PhysicObject.h"
+#include "GameSettings.h"
 class Base : public PhysicObject
 {
 public:
@@ -23,6 +24,6 @@ public:
 		}
 	}
 private:
-	int Hp = 10;
+	int Hp = (int)GameSettings::Get().GetData("[Base Hp]");
 	VecF size;
 };

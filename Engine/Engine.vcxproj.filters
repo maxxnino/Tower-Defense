@@ -204,6 +204,9 @@
     <ClInclude Include="SharedAnimation.h">
       <Filter>Header Files\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="GameSettings.h">
+      <Filter>Header Files\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">

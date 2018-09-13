@@ -146,6 +146,7 @@
     <ClInclude Include="ChiliUtil.h" />
     <ClInclude Include="Codex.h" />
     <ClInclude Include="Font.h" />
+    <ClInclude Include="GameSettings.h" />
     <ClInclude Include="GDIPlusManager.h" />
     <ClInclude Include="Gold.h" />
     <ClInclude Include="LineWall.h" />

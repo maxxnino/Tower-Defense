@@ -1,9 +1,12 @@
 #pragma once
 #include "Element.h"
+#include "GameSettings.h"
 class MouseGame
 {
 public:
 	MouseGame()
+		:
+		animationSpeed(GameSettings::Get().GetData("[Animation Speed]"))
 	{
 		fire.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_fire_50_50.png"));
 		water.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_water_50_50.png"));
@@ -86,28 +89,29 @@ public:
 	}
 private:
 	Element* element = nullptr;
+	float animationSpeed;
 	std::unordered_map<int, Element*> factory;
 
 	//tower animation data pm_tower_lv09_40_40_6 pm_tower_lv03_40_40_12
-	SharedAnimationData towerAni01 = { 0,0,40,40,9, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv01_40_40_9.png"), 0.1f, Colors::Black };
-	SharedAnimationData towerAni02 = { 0,0,40,40,11, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv02_40_40_11.png"), 0.1f, Colors::Black };
-	SharedAnimationData towerAni03 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv03_40_40_6.png"), 0.1f, Colors::Black };
-	SharedAnimationData towerAni04 = { 0,0,40,40,12, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv04_40_40_12.png"), 0.1f, Colors::Black };
-	SharedAnimationData towerAni05 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv05_40_40_5.png"), 0.1f, Colors::Black };
-	SharedAnimationData towerAni06 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv06_40_40_5.png"), 0.1f, Colors::Black };
-	SharedAnimationData towerAni07 = { 0,0,40,40,12, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv07_40_40_12.png"), 0.1f, Colors::Black };
-	SharedAnimationData towerAni08 = { 0,0,40,40,8, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv08_40_40_8.png"), 0.1f, Colors::Black };
-	SharedAnimationData towerAni09 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv09_40_40_6.png"), 0.1f, Colors::Black };
+	SharedAnimationData towerAni01 = { 0,0,40,40,9, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv01_40_40_9.png"), animationSpeed, Colors::Black };
+	SharedAnimationData towerAni02 = { 0,0,40,40,11, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv02_40_40_11.png"), animationSpeed, Colors::Black };
+	SharedAnimationData towerAni03 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv03_40_40_6.png"), animationSpeed, Colors::Black };
+	SharedAnimationData towerAni04 = { 0,0,40,40,12, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv04_40_40_12.png"), animationSpeed, Colors::Black };
+	SharedAnimationData towerAni05 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv05_40_40_5.png"), animationSpeed, Colors::Black };
+	SharedAnimationData towerAni06 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv06_40_40_5.png"), animationSpeed, Colors::Black };
+	SharedAnimationData towerAni07 = { 0,0,40,40,12, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv07_40_40_12.png"), animationSpeed, Colors::Black };
+	SharedAnimationData towerAni08 = { 0,0,40,40,8, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv08_40_40_8.png"), animationSpeed, Colors::Black };
+	SharedAnimationData towerAni09 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv09_40_40_6.png"), animationSpeed, Colors::Black };
 
 	//explosion animation pm_explosion_02_40_40_5
-	SharedAnimationData explosion01 = { 0,0,40,40,8, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_40_40_8.png"), 0.06f, Colors::Black };
-	SharedAnimationData explosion02 = { 0,0,40,40,19, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_01_40_40_19.png"), 0.03f, Colors::Black };
-	SharedAnimationData explosion03 = { 0,0,40,40,5, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_02_40_40_5.png"), 0.1f, Colors::Black };
+	SharedAnimationData explosion01 = { 0,0,40,40,19, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_01_40_40_19.png"), 0.3f * animationSpeed, Colors::Black };
+	SharedAnimationData explosion02 = { 0,0,40,40,19, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_02_40_40_19.png"), 0.3f * animationSpeed, Colors::Black };
+	SharedAnimationData explosion03 = { 0,0,40,40,17, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_03_40_40_17.png"), 0.35f * animationSpeed, Colors::Black };
 
 	//projectile animation data
-	SharedAnimationData pro01 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_2.png"), 0.1f, Colors::Black };
-	SharedAnimationData pro02 = { 30,0,30,30,8, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_9.png"), 0.1f, Colors::Black };
-	SharedAnimationData pro03 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_14.png"), 0.1f, Colors::Black };
+	SharedAnimationData pro01 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_2.png"), animationSpeed, Colors::Black };
+	SharedAnimationData pro02 = { 30,0,30,30,8, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_9.png"), animationSpeed, Colors::Black };
+	SharedAnimationData pro03 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_14.png"), animationSpeed, Colors::Black };
 
 	Element def = { Element::Type::Fire, 1, 1, 1, Colors::Magenta, &towerAni01, &pro01, &explosion01 };
 

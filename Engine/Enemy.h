@@ -2,6 +2,7 @@
 #include "PhysicObject.h"
 #include "Graphics.h"
 #include "Codex.h"
+#include "GameSettings.h"
 class Enemy : public PhysicObject
 {
 public:
@@ -30,7 +31,7 @@ public:
 	void Draw(Graphics& gfx)
 	{
 		const VecI pos = gfx.ToScreenSpace(body->GetPosition());
-		
+
 		if (isGetHit)
 		{
 			gfx.DrawSprite(pos.x - offSet, pos.y - offSet, *surf, SpriteEffect::Substitution{ Colors::Black,Colors::Red });
@@ -39,6 +40,9 @@ public:
 		{
 			gfx.DrawSprite(pos.x - offSet, pos.y - offSet, *surf, SpriteEffect::AlphaBlendBaked{});
 		}
+
+		//draw collsion circle
+		//gfx.DrawCircle(body->GetPosition(), size, Colors::Blue);
 	}
 	
 	bool IsReachtBase() { return isReachBase; }
@@ -78,13 +82,13 @@ public:
 private:
 	bool isReachBase = false;
 	bool isGetHit = false;
-	float timerGetHit = 0.0f;
-	b2Vec2 speed = {5.0f,0.0f};
+	float timerGetHit = GameSettings::Get().GetData("[Flash Time When Get Hit]");
+	b2Vec2 speed = { GameSettings::Get().GetData("[Enemy Speed]"),0.0f};
 	const Surface* surf;
 	int offSet;
-	int Hp = 100;
-	int gold = 1;
-	int dame = 1;
+	int Hp = (int)GameSettings::Get().GetData("[Enemy Hp]");
+	int gold = (int)GameSettings::Get().GetData("[Gold When Killed]");
+	int dame = (int)GameSettings::Get().GetData("[Dame To Base]");
 	int id;
 	float size;
 };

@@ -20,6 +20,36 @@ public:
 		handlers.emplace(type, pFunc);
 	}
 private:
+	void SwitchMouseCommand(Mouse& mouse, bool& isclicked)
+	{
+		while (!mouse.IsEmpty())
+		{
+			auto e = mouse.Read().GetType();
+			switch (e)
+			{
+			case Mouse::Event::Type::LPress:
+			{
+				isclicked = false;
+
+				color = Colors::Magenta;
+				btnState = &clickedState;
+			}
+			break;
+			case Mouse::Event::Type::RPress:
+			{
+				auto it = handlers.find(Mouse::Event::Type::RPress);
+				if (it != handlers.end())
+				{
+					it->second();
+				}
+			}
+			break;
+			default:
+				break;
+			}
+		}
+	}
+private:
 	friend BtnClickState;
 	friend BtnSleepState;
 	friend BtnMouseHoverState;

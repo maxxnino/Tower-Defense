@@ -13,6 +13,7 @@
 #include "LineWall.h"
 #include "Base.h"
 #include "Gold.h"
+#include "GameSettings.h"
 class World : public IWorldMediator, public IComponent
 {
 public:
@@ -21,7 +22,8 @@ public:
 		box2DEngine(box2DEngine),
 		border(box2DEngine),
 		base(box2DEngine, {18.0f,0.0f}, {2,4}),
-		gold(200),
+		maxSpeedSq(GameSettings::Get().GetData("[Max Speed Projectile]")),
+		gold((int)GameSettings::Get().GetData("[Gold]")),
 		tileWidth(tileWidth),
 		tileHeight(tileHeight),
 		posOffSet(float32(tileWidth / (Graphics::scalePixel * 2)), float32(-tileHeight / (Graphics::scalePixel * 2))),
@@ -134,6 +136,7 @@ public:
 		{
 			if (noTargetBullet[i]->isRemove())
 			{
+				explosionMgr.emplace_back(std::make_unique<OnetimeAnimation>(noTargetBullet[i]->getElement()->GetExplosionAnimation(), noTargetBullet[i]->GetExplosionPos()));
 				std::swap(noTargetBullet[i], noTargetBullet.back());
 				noTargetBullet.pop_back();
 			}
@@ -164,7 +167,7 @@ public:
 		{
 			const b2Vec2 enemyPos =  e->second->getBody().GetPosition();
 			const b2Vec2 dir = enemyPos - worldPos;
-			auto b = std::make_unique<Projectile>(box2DEngine, element, curTarget, worldPos + posOffSet, bulletSize);
+			auto b = std::make_unique<Projectile>(box2DEngine, element, curTarget, worldPos + posOffSet, bulletSize, maxSpeedSq);
 			b->SetVelocity(dir);
 			bulletMgr.emplace_back(std::move(b));
 		}
@@ -265,6 +268,7 @@ public:
 	/**********************************/
 
 private:
+	float maxSpeedSq;
 	int tileWidth;
 	int tileHeight;
 	b2Vec2 posOffSet;

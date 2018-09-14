@@ -49,6 +49,9 @@
     <Filter Include="Header Files\Resource\Physic">
       <UniqueIdentifier>{28f3edd9-e9e4-423e-9692-a4345e91bae1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game\Skill Effect">
+      <UniqueIdentifier>{45603fd6-f1f7-473f-bd90-4d0cb12e70da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChiliWin.h">
@@ -207,6 +210,12 @@
     <ClInclude Include="GameSettings.h">
       <Filter>Header Files\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>Header Files\Game\Skill Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillState.h">
+      <Filter>Header Files\Game\Skill Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">
@@ -262,6 +271,9 @@
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillState.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

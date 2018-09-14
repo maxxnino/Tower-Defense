@@ -87,7 +87,10 @@ public:
 			curFrameTime -= data->GetHoldFrame();
 		}
 	}
-	
+	const SharedAnimationData* GetAnimationData() const
+	{
+		return data;
+	}
 	void ChangeAnimation(const SharedAnimationData* newData)
 	{
 		data = newData;
@@ -147,7 +150,6 @@ public:
 		}
 		return false;
 	}
-
 	void ChangeAnimation(const SharedAnimationData* newData)
 	{
 		data = newData;

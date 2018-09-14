@@ -3,6 +3,7 @@
 #include <memory>
 #include <assert.h>
 #include <limits>
+#include <random>
 #include "ChiliUtil.h"
 #include "Box2D/Box2D.h"
 #include "IWorldMediator.h"
@@ -41,6 +42,10 @@ public:
 	void Draw(Graphics& gfx)
 	{
 		std::for_each(enemyMgr.begin(), enemyMgr.end(), [&gfx](auto& e) {e.second->Draw(gfx); });
+		for (auto& s : skillMgr)
+		{
+			s->Draw(gfx);
+		}
 		std::for_each(towerMgr.begin(), towerMgr.end(), [&gfx,this](auto& t) {t.second->Draw(gfx, tileWidth, tileHeight); });
 		base.Draw(gfx);
 		for (auto& b : bulletMgr)
@@ -99,12 +104,32 @@ public:
 				i++;
 			}
 		}
+		
 		//clear dead bullet
 		for (int i = 0; i < bulletMgr.size();)
 		{
 			if (bulletMgr[i]->isRemove())
 			{
+				//spwan explosion
 				explosionMgr.emplace_back(std::make_unique<OnetimeAnimation>(bulletMgr[i]->getElement()->GetExplosionAnimation(), bulletMgr[i]->GetExplosionPos()));
+
+				//apply skill
+				std::uniform_int_distribution<int> rate(0, 10);
+				if (rate(rng) > 8)
+				{
+					auto e = enemyMgr.find(bulletMgr[i]->GetEnemyID());
+					if (e != enemyMgr.end())
+					{
+						auto skill = bulletMgr[i]->getElement()->CloneSkill();
+						skill->AddEnemyID(bulletMgr[i]->GetEnemyID());
+						std::uniform_real_distribution<float> pos(-1.0f, 1.0f);
+						skill->AddOffSet(b2Vec2(pos(rng), -2.0f));
+						skillMgr.emplace_back(std::move(skill));
+					}
+				}
+				
+
+				//remove dead bullet
 				std::swap(bulletMgr[i], bulletMgr.back());
 				bulletMgr.pop_back();
 			}
@@ -114,6 +139,8 @@ public:
 				i++;
 			}
 		}
+		
+		
 		//clear dead enemy
 		for (auto e = enemyMgr.begin(); e != enemyMgr.end();)
 		{
@@ -131,12 +158,32 @@ public:
 				e++;
 			}
 		}
+		
 		//clear no target dead bullet
 		for (int i = 0; i < noTargetBullet.size();)
 		{
 			if (noTargetBullet[i]->isRemove())
 			{
+				//spawn explosion
 				explosionMgr.emplace_back(std::make_unique<OnetimeAnimation>(noTargetBullet[i]->getElement()->GetExplosionAnimation(), noTargetBullet[i]->GetExplosionPos()));
+
+				//apply skill
+				std::uniform_int_distribution<int> rate(0, 10);
+				if (rate(rng) > 8)
+				{
+					auto e = enemyMgr.find(noTargetBullet[i]->GetEnemyID());
+					if (e != enemyMgr.end())
+					{
+
+						auto skill = noTargetBullet[i]->getElement()->CloneSkill();
+						skill->AddEnemyID(noTargetBullet[i]->GetEnemyID());
+						std::uniform_real_distribution<float> pos(-1.0f, 1.0f);
+						skill->AddOffSet(b2Vec2(pos(rng) + 1.0f,-2.0f));
+						skillMgr.emplace_back(std::move(skill));
+					}
+				}
+
+				//remove dead bullet
 				std::swap(noTargetBullet[i], noTargetBullet.back());
 				noTargetBullet.pop_back();
 			}
@@ -151,6 +198,29 @@ public:
 				{
 					noTargetBullet[i]->Update(dt);
 					i++;
+				}
+			}
+		}
+
+		for (int i = 0; i < skillMgr.size();)
+		{
+			if (skillMgr[i]->GetIsRemove())
+			{
+				std::swap(skillMgr[i], skillMgr.back());
+				skillMgr.pop_back();
+			}
+			else
+			{
+				auto enemy = enemyMgr.find(skillMgr[i]->GetEnemyID());
+				if (enemy != enemyMgr.end())
+				{
+					skillMgr[i]->Update(dt, *enemy->second);
+					i++;
+				}
+				else
+				{
+					std::swap(skillMgr[i], skillMgr.back());
+					skillMgr.pop_back();
 				}
 			}
 		}
@@ -268,6 +338,7 @@ public:
 	/**********************************/
 
 private:
+	std::mt19937 rng = std::mt19937( std::random_device{}() );
 	float maxSpeedSq;
 	int tileWidth;
 	int tileHeight;
@@ -285,6 +356,7 @@ private:
 	std::vector<std::unique_ptr<Projectile>> bulletMgr;
 	std::vector<std::unique_ptr<Projectile>> noTargetBullet;
 	std::vector<std::unique_ptr<OnetimeAnimation>> explosionMgr;
+	std::vector<std::unique_ptr<Skill>> skillMgr;
 	int indexTower;
 	int indexEnemy;
 };

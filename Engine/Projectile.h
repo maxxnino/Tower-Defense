@@ -71,6 +71,10 @@ public:
 	{
 		explosionPos = pos;
 	}
+	void AddEnemyID(int id)
+	{
+		targetID = id;
+	}
 	/***********************************/
 private:
 	static constexpr float deadTimer = 3.0f;

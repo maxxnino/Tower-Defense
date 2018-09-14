@@ -39,6 +39,7 @@ Game::Game( MainWindow& wnd )
 	{
 		p.SetExplosionPos(Graphics::ToScreenSpace(p.getBody().GetPosition()));
 		p.MarkDead();
+		p.AddEnemyID(e.GetID());
 		e.ApplyDame(p.GetDame());
 	});
 	mrLister.CaseContact<Base, Enemy>([](PhysicObject& b, PhysicObject& e)

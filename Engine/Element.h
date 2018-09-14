@@ -2,6 +2,7 @@
 #include "Colors.h"
 #include "SharedAnimation.h"
 #include "GameSettings.h"
+#include "Skill.h"
 class Element
 {
 public:
@@ -13,8 +14,8 @@ public:
 		Nature = 100
 	};
 public:
-	Element(int type,int lv, float attackSpeedMultiply, float dameMultiply, Color c, 
-		const SharedAnimationData* towerAnimation, const SharedAnimationData* projectileAnimation, const SharedAnimationData* explosionAnimation)
+	Element(int type,int lv, float attackSpeedMultiply, float dameMultiply, Color c, const SharedAnimationData* towerAnimation, 
+		const SharedAnimationData* projectileAnimation, const SharedAnimationData* explosionAnimation, std::unique_ptr<SkillState> state)
 		:
 		attackSpeedMultiply(attackSpeedMultiply),
 		dameMultiply(dameMultiply),
@@ -23,7 +24,8 @@ public:
 		projectileAnimation(projectileAnimation),
 		explosionAnimation(explosionAnimation),
 		type(type),
-		lv(lv)
+		lv(lv),
+		skill(std::move(state))
 	{}
 	float getDame()
 	{
@@ -69,6 +71,10 @@ public:
 	{
 		return explosionAnimation;
 	}
+	std::unique_ptr<Skill> CloneSkill() const 
+	{
+		return skill.Clone();
+	}
 	void SetElementSurface(const Surface* surf)
 	{
 		element = surf;
@@ -84,6 +90,7 @@ protected:
 	const SharedAnimationData* towerAnimation;
 	const SharedAnimationData* projectileAnimation;
 	const SharedAnimationData* explosionAnimation;
+	const Skill skill;
 	const 
 	int type;
 	int lv;

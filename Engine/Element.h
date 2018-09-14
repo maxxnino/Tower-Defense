@@ -3,6 +3,7 @@
 #include "SharedAnimation.h"
 #include "GameSettings.h"
 #include "Skill.h"
+#include "SoundEffect.h"
 class Element
 {
 public:
@@ -79,6 +80,10 @@ public:
 	{
 		element = surf;
 	}
+	void PlayShotSound()
+	{
+		shoteffect->Play(0.3f);
+	}
 protected:
 	float baseAttackSpeed = GameSettings::Get().GetData("[Tower Base Attack Speed]");
 	int baseGold = (int)GameSettings::Get().GetData("[Tower Base Gold Cost]");
@@ -91,6 +96,7 @@ protected:
 	const SharedAnimationData* projectileAnimation;
 	const SharedAnimationData* explosionAnimation;
 	const Skill skill;
+	const SoundEffect* shoteffect = Codex<SoundEffect>::Retrieve(L"Data\\Sounds\\shot.sfx");
 	const 
 	int type;
 	int lv;

@@ -118,6 +118,7 @@ private:
 	SharedAnimationData effect02 = { 0,0,20,20,35, Codex<Surface>::Retrieve(L"Images\\Effect\\pm_effect02_20_20_35.png"), 0.35f * animationSpeed, Colors::Black };
 	SharedAnimationData effect03 = { 0,0,20,20,28, Codex<Surface>::Retrieve(L"Images\\Effect\\pm_effect03_20_20_28.png"), 0.35f * animationSpeed, Colors::Black };
 
+
 	//Skill State 
 	DameOverTime dameOverTimeFire = { 1.0f, 3.0f, &effect01 };
 	DameOverTime dameOverTimeIce = { 1.0f, 3.0f, &effect02 };

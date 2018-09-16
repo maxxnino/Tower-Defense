@@ -15,14 +15,13 @@ public:
 	};
 public:
 	Element(int type,int lv, float attackSpeedMultiply, float dameMultiply, Color c, const SharedAnimationData* towerAnimation, 
-		const SharedAnimationData* projectileAnimation, const SharedAnimationData* explosionAnimation, std::unique_ptr<SkillState> state)
+		const SharedAnimationData* projectileAnimation, std::unique_ptr<SkillState> state)
 		:
 		attackSpeedMultiply(attackSpeedMultiply),
 		dameMultiply(dameMultiply),
 		c(c),
 		towerAnimation(towerAnimation),
 		projectileAnimation(projectileAnimation),
-		explosionAnimation(explosionAnimation),
 		type(type),
 		lv(lv),
 		skill(std::move(state))
@@ -67,10 +66,6 @@ public:
 	{
 		return projectileAnimation;
 	}
-	const SharedAnimationData* GetExplosionAnimation()
-	{
-		return explosionAnimation;
-	}
 	std::unique_ptr<Skill> CloneSkill() const 
 	{
 		return skill.Clone();
@@ -89,7 +84,6 @@ protected:
 	std::shared_ptr<Surface> element;
 	const SharedAnimationData* towerAnimation;
 	const SharedAnimationData* projectileAnimation;
-	const SharedAnimationData* explosionAnimation;
 	const Skill skill;
 	const 
 	int type;

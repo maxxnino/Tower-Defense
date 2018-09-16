@@ -14,7 +14,7 @@
 #include "LineWall.h"
 #include "Base.h"
 #include "Gold.h"
-#include "GameSettings.h"
+#include "Explosion.h"
 
 
 class World : public IWorldMediator, public IComponent
@@ -58,12 +58,7 @@ public:
 		{
 			b->Draw(gfx);
 		}
-		for (auto& e : explosionMgr)
-		{
-			e->DrawAlpha(gfx);
-		}
-		
-		
+		explosion.Draw(gfx);
 	}
 	void Update(float dt)
 	{
@@ -93,19 +88,8 @@ public:
 	}
 	void CleanWorld(float dt)
 	{
-		//update and remove explosion effect
-		for (int i = 0; i < explosionMgr.size();)
-		{
-			if (explosionMgr[i]->Update(dt))
-			{
-				std::swap(explosionMgr[i], explosionMgr.back());
-				explosionMgr.pop_back();
-			}
-			else
-			{
-				i++;
-			}
-		}
+		//update explosion effect
+		explosion.Update(dt);
 		
 		//clear dead bullet
 		for (int i = 0; i < bulletMgr.size();)
@@ -113,7 +97,7 @@ public:
 			if (bulletMgr[i]->isRemove())
 			{
 				//spwan explosion
-				explosionMgr.emplace_back(std::make_unique<OnetimeAnimation>(bulletMgr[i]->getElement()->GetExplosionAnimation(), bulletMgr[i]->GetExplosionPos()));
+				explosion.AddExplosion(rng, bulletMgr[i]->GetExplosionPos());
 
 				//apply skill
 				std::uniform_int_distribution<int> rate(0, 10);
@@ -167,7 +151,7 @@ public:
 			if (noTargetBullet[i]->isRemove())
 			{
 				//spawn explosion
-				explosionMgr.emplace_back(std::make_unique<OnetimeAnimation>(noTargetBullet[i]->getElement()->GetExplosionAnimation(), noTargetBullet[i]->GetExplosionPos()));
+				explosion.AddExplosion(rng, noTargetBullet[i]->GetExplosionPos());
 
 				//apply skill
 				std::uniform_int_distribution<int> rate(0, 10);
@@ -357,8 +341,8 @@ private:
 	std::unordered_map<int, std::unique_ptr<Enemy>> enemyMgr;
 	std::vector<std::unique_ptr<Projectile>> bulletMgr;
 	std::vector<std::unique_ptr<Projectile>> noTargetBullet;
-	std::vector<std::unique_ptr<OnetimeAnimation>> explosionMgr;
 	std::vector<std::unique_ptr<Skill>> skillMgr;
+	Explosion explosion;
 	int indexTower;
 	int indexEnemy;
 };

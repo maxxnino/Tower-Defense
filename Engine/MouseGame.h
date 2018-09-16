@@ -103,11 +103,6 @@ private:
 	SharedAnimationData towerAni08 = { 0,0,40,40,8, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv08_40_40_8.png"), animationSpeed, Colors::Black };
 	SharedAnimationData towerAni09 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv09_40_40_6.png"), animationSpeed, Colors::Black };
 
-	//explosion animation pm_explosion_02_40_40_5
-	SharedAnimationData explosion01 = { 0,0,40,40,19, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_01_40_40_19.png"), 0.3f * animationSpeed, Colors::Black };
-	SharedAnimationData explosion02 = { 0,0,40,40,19, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_02_40_40_19.png"), 0.3f * animationSpeed, Colors::Black };
-	SharedAnimationData explosion03 = { 0,0,40,40,17, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_03_40_40_17.png"), 0.35f * animationSpeed, Colors::Black };
-
 	//projectile animation data
 	SharedAnimationData pro01 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_2.png"), animationSpeed, Colors::Black };
 	SharedAnimationData pro02 = { 30,0,30,30,8, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_9.png"), animationSpeed, Colors::Black };
@@ -124,18 +119,18 @@ private:
 	DameOverTime dameOverTimeIce = { 1.0f, 3.0f, &effect02 };
 	DameOverTime dameOverTimeNature = { 1.0f, 3.0f, &effect03 };
 
-	Element def = { Element::Type::Fire, 1, 1, 1, Colors::Magenta, &towerAni01, &pro01, &explosion01, dameOverTimeFire.Clone() };
+	Element def = { Element::Type::Fire, 1, 1, 1, Colors::Magenta, &towerAni01, &pro01, dameOverTimeFire.Clone() };
 
 	//lv01
-	Element fire = { Element::Type::Fire, 1, 1,1,Colors::Red, &towerAni01, &pro01, &explosion01, dameOverTimeFire.Clone() };
-	Element water = { Element::Type::Water, 1, 1,1,Colors::Blue, &towerAni02, &pro02, &explosion02, dameOverTimeIce.Clone() };
-	Element nature = { Element::Type::Nature, 1, 1,1,Colors::Green, &towerAni03, &pro03, &explosion03, dameOverTimeNature.Clone() };
+	Element fire = { Element::Type::Fire, 1, 1,1,Colors::Red, &towerAni01, &pro01, dameOverTimeFire.Clone() };
+	Element water = { Element::Type::Water, 1, 1,1,Colors::Blue, &towerAni02, &pro02, dameOverTimeIce.Clone() };
+	Element nature = { Element::Type::Nature, 1, 1,1,Colors::Green, &towerAni03, &pro03, dameOverTimeNature.Clone() };
 
 	//lv02
-	Element fireFire = { Element::Type::Fire + Element::Type::Fire, 2, 1, 1, Colors::Magenta, &towerAni04, &pro01, &explosion01, dameOverTimeFire.Clone() };
-	Element fireWater = { Element::Type::Fire + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni05, &pro02, &explosion02, dameOverTimeFire.Clone() };
-	Element fireNature = { Element::Type::Fire + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni06, &pro03, &explosion03, dameOverTimeFire.Clone() };
-	Element waterWater = { Element::Type::Water + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni07, &pro01, &explosion01, dameOverTimeFire.Clone() };
-	Element waterNature = { Element::Type::Water + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni08, &pro02, &explosion02, dameOverTimeFire.Clone() };
-	Element natureNature = { Element::Type::Nature + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni09, &pro03, &explosion03, dameOverTimeFire.Clone() };
+	Element fireFire = { Element::Type::Fire + Element::Type::Fire, 2, 1, 1, Colors::Magenta, &towerAni04, &pro01, dameOverTimeFire.Clone() };
+	Element fireWater = { Element::Type::Fire + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni05, &pro02, dameOverTimeFire.Clone() };
+	Element fireNature = { Element::Type::Fire + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni06, &pro03, dameOverTimeFire.Clone() };
+	Element waterWater = { Element::Type::Water + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni07, &pro01, dameOverTimeFire.Clone() };
+	Element waterNature = { Element::Type::Water + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni08, &pro02, dameOverTimeFire.Clone() };
+	Element natureNature = { Element::Type::Nature + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni09, &pro03, dameOverTimeFire.Clone() };
 };

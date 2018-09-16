@@ -26,10 +26,6 @@ public:
 	{
 		enemyID = id;
 	}
-	void ChangeState(std::unique_ptr<SkillState> newState)
-	{
-		state = std::move(newState);
-	}
 	void MarkRemove()
 	{
 		isRemove = true;

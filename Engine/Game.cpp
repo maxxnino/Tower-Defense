@@ -20,7 +20,6 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
-
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
@@ -30,6 +29,7 @@ Game::Game( MainWindow& wnd )
 	world(*box2DEngine,BoardGame::tileWidth,BoardGame::tileHeight),
 	mediatorGuiAndBrd(&brd,&gui,&world)
 {
+	bgm.Play(1.0f, 0.5f);
 	static MyBox2DListener mrLister;
 	mrLister.CaseContact<Tower, Enemy>([](PhysicObject& t, PhysicObject& e)
 	{
@@ -75,7 +75,6 @@ void Game::UpdateModel()
 	{
 		dt = 0.01666667f;
 	}
-	Codex<SoundEffect>::Retrieve(L"Data\\Sounds\\shot.sfx")->Play(0.1f);
 	gui.Update(dt, wnd.mouse);
 	brd.ProcessComand(wnd.mouse);
 	world.Update(dt);

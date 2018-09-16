@@ -27,6 +27,7 @@
 #include "MyBox2DListener.h"
 #include "ControlGuiAndBoard.h"
 #include <random>
+#include "Sound.h"
 class Game
 {
 public:
@@ -48,6 +49,7 @@ private:
 	FrameTimer ft;
 	int32 velocityIterations = 8;
 	int32 positionIterations = 3;
+	Sound bgm = Sound(L"Data\\Sounds\\that girl.mp3", Sound::LoopType::AutoFullSound);
 	std::unique_ptr<b2World> box2DEngine;
 	BoardGame brd;
 	World world;

@@ -4,6 +4,7 @@
 #include "Element.h"
 #include "SharedAnimation.h"
 #include "GameSettings.h"
+#include "SoundEffect.h"
 class Projectile : public PhysicObject
 {
 public:
@@ -17,6 +18,7 @@ public:
 		element(element),
 		maxSpeedSq(maxSpeedSq)
 	{
+		Codex<SoundEffect>::Retrieve(L"Data\\Sounds\\shot.sfx")->Play(0.1f);
 		body->SetUserData(this);
 	}
 

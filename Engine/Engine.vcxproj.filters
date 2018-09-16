@@ -40,68 +40,23 @@
     <Filter Include="Header Files\Game\Game Object">
       <UniqueIdentifier>{fc447c83-354d-4067-aa70-eed568e01400}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Resource">
-      <UniqueIdentifier>{e08c7718-b699-43fb-b8d1-12e7e9ac76a7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Resource">
       <UniqueIdentifier>{f6f0fc2b-ec86-4d4a-8e39-500ce5271a08}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Resource\Physic">
-      <UniqueIdentifier>{28f3edd9-e9e4-423e-9692-a4345e91bae1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Game\Skill Effect">
       <UniqueIdentifier>{45603fd6-f1f7-473f-bd90-4d0cb12e70da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Framework">
+      <UniqueIdentifier>{67d1a85b-29f7-4bcc-836b-d150ef54f6cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Framework\Resource">
+      <UniqueIdentifier>{e08c7718-b699-43fb-b8d1-12e7e9ac76a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Physic">
+      <UniqueIdentifier>{28f3edd9-e9e4-423e-9692-a4345e91bae1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ChiliWin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Colors.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DXErr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MainWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ChiliException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sound.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundEffect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="COMInitializer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\menu\Engine\FrameTimer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\menu\Engine\Rect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\menu\Engine\Vec2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
@@ -163,10 +118,10 @@
       <Filter>Header Files\Game\World Mediator</Filter>
     </ClInclude>
     <ClInclude Include="MyBox2DListener.h">
-      <Filter>Header Files\Resource\Physic</Filter>
+      <Filter>Header Files\Game\Physic</Filter>
     </ClInclude>
     <ClInclude Include="PhysicObject.h">
-      <Filter>Header Files\Resource\Physic</Filter>
+      <Filter>Header Files\Game\Physic</Filter>
     </ClInclude>
     <ClInclude Include="Base.h">
       <Filter>Header Files\Game\Game Object</Filter>
@@ -175,46 +130,94 @@
       <Filter>Header Files\Game\Game Object</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
-      <Filter>Header Files\Resource</Filter>
+      <Filter>Header Files\Framework\Resource</Filter>
     </ClInclude>
     <ClInclude Include="GDIPlusManager.h">
-      <Filter>Header Files\Resource</Filter>
+      <Filter>Header Files\Framework\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Codex.h">
-      <Filter>Header Files\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="ChiliUtil.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Framework\Resource</Filter>
     </ClInclude>
     <ClInclude Include="SpriteEffect.h">
-      <Filter>Header Files\Resource</Filter>
+      <Filter>Header Files\Framework\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Surface.h">
-      <Filter>Header Files\Resource</Filter>
+      <Filter>Header Files\Framework\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
-      <Filter>Header Files\Resource</Filter>
+      <Filter>Header Files\Framework\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Element.h">
       <Filter>Header Files\Game\Tower</Filter>
     </ClInclude>
     <ClInclude Include="BuilderMatching.h">
-      <Filter>Header Files\Resource</Filter>
+      <Filter>Header Files\Framework\Resource</Filter>
     </ClInclude>
     <ClInclude Include="LineWall.h">
       <Filter>Header Files\Game\Game Object</Filter>
     </ClInclude>
     <ClInclude Include="SharedAnimation.h">
-      <Filter>Header Files\Resource</Filter>
+      <Filter>Header Files\Framework\Resource</Filter>
     </ClInclude>
     <ClInclude Include="GameSettings.h">
-      <Filter>Header Files\Resource</Filter>
+      <Filter>Header Files\Framework\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Skill.h">
       <Filter>Header Files\Game\Skill Effect</Filter>
     </ClInclude>
     <ClInclude Include="SkillState.h">
       <Filter>Header Files\Game\Skill Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="ChiliException.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="ChiliUtil.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="ChiliWin.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Colors.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="COMInitializer.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="DXErr.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\menu\Engine\FrameTimer.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="MainWindow.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\menu\Engine\Rect.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEffect.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\menu\Engine\Vec2.h">
+      <Filter>Header Files\Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

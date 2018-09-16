@@ -190,7 +190,7 @@ private:
 	}
 private:
 	Font font;
-	const Surface* surf;
+	const std::shared_ptr<Surface> surf;
 	Animation coinAnimation;
 	Menu* activeMenu = nullptr;
 	IMediator* mediator = nullptr;

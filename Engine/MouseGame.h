@@ -44,15 +44,15 @@ public:
 	{
 		element = &nature;
 	}
-	const Surface* GetFireSurface()
+	const std::shared_ptr<Surface> GetFireSurface()
 	{
 		return fire.GetElementSurface();
 	}
-	const Surface* GetWaterSurface()
+	const std::shared_ptr<Surface> GetWaterSurface()
 	{
 		return water.GetElementSurface();
 	}
-	const Surface* GetNatureSurface()
+	const std::shared_ptr<Surface> GetNatureSurface()
 	{
 		return nature.GetElementSurface();
 	}

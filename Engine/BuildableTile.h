@@ -3,7 +3,7 @@
 class BuildableTile : public TileGame
 {
 public:
-	BuildableTile(VecI pos,int tileIndex, const Surface* surf)
+	BuildableTile(VecI pos,int tileIndex, const std::shared_ptr<Surface> surf)
 		:
 		pos(pos),
 		tileIndex(tileIndex),
@@ -60,7 +60,7 @@ public:
 	}
 private:
 	static constexpr Color defaultColor = Colors::Gray;
-	const Surface* surf;
+	std::shared_ptr<Surface> surf;
 	int towerIndex = -1;
 	const int tileIndex;
 	VecI pos;

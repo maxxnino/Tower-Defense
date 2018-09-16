@@ -6,7 +6,7 @@
 class SharedAnimationData
 {
 public:
-	SharedAnimationData(int x, int y, int width, int height, int count, const Surface* sprite, float holdTime, Color chroma = Colors::Magenta)
+	SharedAnimationData(int x, int y, int width, int height, int count, const std::shared_ptr<Surface> sprite, float holdTime, Color chroma = Colors::Magenta)
 		:
 		sprite(sprite),
 		holdTime(holdTime),
@@ -47,13 +47,13 @@ public:
 	{
 		return holdTime;
 	}
-	const Surface* GetSurface() const
+	const std::shared_ptr<Surface> GetSurface() const
 	{
 		return sprite;
 	}
 private:
 	Color chroma;
-	const Surface* sprite;
+	std::shared_ptr<Surface> sprite;
 	std::vector<RectI> frames;
 	float holdTime;
 };

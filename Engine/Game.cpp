@@ -75,6 +75,7 @@ void Game::UpdateModel()
 	{
 		dt = 0.01666667f;
 	}
+	Codex<SoundEffect>::Retrieve(L"Data\\Sounds\\shot.sfx")->Play(0.1f);
 	gui.Update(dt, wnd.mouse);
 	brd.ProcessComand(wnd.mouse);
 	world.Update(dt);

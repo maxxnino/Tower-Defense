@@ -15,6 +15,7 @@
 #include "Base.h"
 #include "Gold.h"
 #include "GameSettings.h"
+#include "SoundEffect.h"
 class World : public IWorldMediator, public IComponent
 {
 public:
@@ -240,6 +241,7 @@ public:
 			auto b = std::make_unique<Projectile>(box2DEngine, element, curTarget, worldPos + posOffSet, bulletSize, maxSpeedSq);
 			b->SetVelocity(dir);
 			bulletMgr.emplace_back(std::move(b));
+			//sound->Play(rng,0.1f);
 		}
 	}
 	/**********************************/
@@ -359,4 +361,5 @@ private:
 	std::vector<std::unique_ptr<Skill>> skillMgr;
 	int indexTower;
 	int indexEnemy;
+	//const SoundEffect* sound = Codex<SoundEffect>::Retrieve(L"Data\\Sounds\\shot.sfx");
 };

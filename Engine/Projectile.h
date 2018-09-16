@@ -4,7 +4,6 @@
 #include "Element.h"
 #include "SharedAnimation.h"
 #include "GameSettings.h"
-#include "SoundEffect.h"
 class Projectile : public PhysicObject
 {
 public:
@@ -18,7 +17,6 @@ public:
 		element(element),
 		maxSpeedSq(maxSpeedSq)
 	{
-		element->PlayShotSound();
 		body->SetUserData(this);
 	}
 

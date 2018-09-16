@@ -84,7 +84,7 @@ private:
 	bool isGetHit = false;
 	float timerGetHit = GameSettings::Get().GetData("[Flash Time When Get Hit]");
 	b2Vec2 speed = { GameSettings::Get().GetData("[Enemy Speed]"),0.0f};
-	const Surface* surf;
+	std::shared_ptr<Surface> surf;
 	int offSet;
 	int Hp = (int)GameSettings::Get().GetData("[Enemy Hp]");
 	int gold = (int)GameSettings::Get().GetData("[Gold When Killed]");

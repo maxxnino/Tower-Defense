@@ -4,7 +4,7 @@
 class Menu
 {
 public:
-	Menu(VecF pos, float width, float height, const Surface* surf)
+	Menu(VecF pos, float width, float height, const std::shared_ptr<Surface> surf)
 		:
 		pos(pos),
 		width(width),
@@ -67,6 +67,6 @@ private:
 	VecF pos;
 	float width;
 	float height;
-	const Surface* surf;
+	const std::shared_ptr<Surface> surf;
 	std::vector<MenuItem*> items;
 };

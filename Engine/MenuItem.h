@@ -32,7 +32,7 @@ public:
 		color = c;
 		baseColor = c;
 	}
-	void SetSprite(const Surface* surf)
+	void SetSprite(const std::shared_ptr<Surface> surf)
 	{
 		this->surf = surf;
 		offSetX = ((int)width - surf->GetWidth()) / 2;
@@ -52,5 +52,5 @@ protected:
 	int offSetY = 0;
 	Color color;
 	Color baseColor;
-	const Surface* surf = nullptr;
+	std::shared_ptr<Surface> surf;
 };

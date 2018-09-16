@@ -3,7 +3,6 @@
 #include "SharedAnimation.h"
 #include "GameSettings.h"
 #include "Skill.h"
-#include "SoundEffect.h"
 class Element
 {
 public:
@@ -60,7 +59,7 @@ public:
 	{
 		return towerAnimation;
 	}
-	const Surface* GetElementSurface()
+	const std::shared_ptr<Surface> GetElementSurface()
 	{
 		return element;
 	}
@@ -76,13 +75,9 @@ public:
 	{
 		return skill.Clone();
 	}
-	void SetElementSurface(const Surface* surf)
+	void SetElementSurface(const std::shared_ptr<Surface> surf)
 	{
 		element = surf;
-	}
-	void PlayShotSound()
-	{
-		shoteffect->Play(0.3f);
 	}
 protected:
 	float baseAttackSpeed = GameSettings::Get().GetData("[Tower Base Attack Speed]");
@@ -91,12 +86,11 @@ protected:
 	float attackSpeedMultiply;
 	float dameMultiply;
 	Color c;
-	const Surface* element;
+	std::shared_ptr<Surface> element;
 	const SharedAnimationData* towerAnimation;
 	const SharedAnimationData* projectileAnimation;
 	const SharedAnimationData* explosionAnimation;
 	const Skill skill;
-	const SoundEffect* shoteffect = Codex<SoundEffect>::Retrieve(L"Data\\Sounds\\shot.sfx");
 	const 
 	int type;
 	int lv;

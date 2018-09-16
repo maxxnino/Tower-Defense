@@ -3,7 +3,7 @@
 class WalkableTile : public TileGame
 {
 public:
-	WalkableTile(VecI pos, int tileIndex, const Surface* surf)
+	WalkableTile(VecI pos, int tileIndex, const std::shared_ptr<Surface> surf)
 		:
 		pos(pos),
 		tileIndex(tileIndex),
@@ -15,7 +15,7 @@ public:
 		gfx.DrawSprite(pos.x, pos.y, *surf, SpriteEffect::Copy{});
 	}
 private:
-	const Surface* surf;
+	std::shared_ptr<Surface> surf;
 	const int tileIndex;
 	VecI pos;
 };

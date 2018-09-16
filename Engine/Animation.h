@@ -7,7 +7,7 @@
 class Animation
 {
 public:
-	Animation(int x, int y, int width, int height, int count, const Surface* sprite, float holdTime, Color chroma = Colors::Magenta)
+	Animation(int x, int y, int width, int height, int count, const std::shared_ptr<Surface> sprite, float holdTime, Color chroma = Colors::Magenta)
 		:
 		sprite(sprite),
 		holdTime(holdTime),
@@ -54,7 +54,7 @@ private:
 	}
 private:
 	Color chroma;
-	const Surface* sprite;
+	std::shared_ptr<Surface> sprite;
 	std::vector<RectI> frames;
 	int iCurFrame = 0;
 	float holdTime;

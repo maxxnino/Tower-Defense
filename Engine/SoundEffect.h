@@ -1,5 +1,5 @@
-/******************************************************************************************
- *	Chili DirectX Framework Sound Pack Version 16.11.11									  *
+/****************************************************************************************** 
+ *	Chili DirectX Framework Sound Pack Version 16.11.11									  *	
  *	SoundEffect.h																		  *
  *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
  *																						  *
@@ -30,37 +30,37 @@ class SoundEffect
 {
 public:
 	// this ctor reads from a .sfx file to configure/load a sound effect
-	SoundEffect(const std::wstring& filename)
+	SoundEffect( const std::wstring& filename )
 	{
-		std::wifstream sfxFile(filename);
+		std::wifstream sfxFile( filename );
 		// first line is the freq stddev
 		float freqStdDevFactor;
 		sfxFile >> freqStdDevFactor;
 		sfxFile.ignore();
 		// remaining lines are the sound files
 		std::vector<std::wstring> soundFileNames;
-		for (std::wstring s; std::getline(sfxFile, s); )
+		for( std::wstring s; std::getline( sfxFile,s ); )
 		{
-			soundFileNames.push_back(std::move(s));
+			soundFileNames.push_back( std::move( s ) );
 		}
 		// now load the dumb sound effect matrix
-		*this = SoundEffect(std::move(soundFileNames), true, freqStdDevFactor);
+		*this = SoundEffect( std::move( soundFileNames ),true,freqStdDevFactor );
 	}
-	SoundEffect(std::vector<std::wstring> wavFiles, bool soft_fail = false, float freqStdDevFactor = 0.06f)
+	SoundEffect( std::vector<std::wstring> wavFiles,bool soft_fail = false,float freqStdDevFactor = 0.06f )
 		:
-		freqDist(0.0f, freqStdDevFactor),
-		soundDist(0, unsigned int(wavFiles.size() - 1))
+		freqDist( 0.0f,freqStdDevFactor ),
+		soundDist( 0,unsigned int( wavFiles.size() - 1 ) )
 	{
-		sounds.reserve(wavFiles.size());
-		for (auto& f : wavFiles)
+		sounds.reserve( wavFiles.size() );
+		for( auto& f : wavFiles )
 		{
 			try
 			{
-				sounds.emplace_back(f);
+				sounds.emplace_back( f );
 			}
-			catch (const SoundSystem::FileException& e)
+			catch( const SoundSystem::FileException& e )
 			{
-				if (soft_fail)
+				if( soft_fail )
 				{
 #ifndef NDEBUG
 					// throw anyways if in debug (we devs wanna know!)
@@ -76,15 +76,15 @@ public:
 		}
 	}
 	template<class T>
-	void Play(T& rng, float vol = 1.0f) const
+	void Play( T& rng,float vol = 1.0f ) const
 	{
-		sounds[soundDist(rng)].Play(exp2(freqDist(rng)), vol);
+		sounds[soundDist( rng )].Play( exp2( freqDist( rng ) ),vol );
 	}
 	// NOT THREAD SAFE!
 	// calls main play function with default rng
-	void Play(float vol = 1.0f) const
+	void Play( float vol = 1.0f ) const
 	{
-		Play(defaultRng, vol);
+		Play( defaultRng,vol );
 	}
 private:
 	// make distribs mutable so that Play can be const

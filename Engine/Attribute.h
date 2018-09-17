@@ -14,7 +14,7 @@ public:
 	Attribute(float moveSpeed, float hp, float baseDame, float fireResistant, float waterResistant, float natureResistant)
 		:
 		fireResistant(fireResistant), waterResistant(waterResistant), natureResistant(natureResistant),
-		moveSpeed(moveSpeed), hp(hp), baseDame(baseDame)
+		moveSpeed(moveSpeed), maxHp(maxHp), baseDame(baseDame)
 	{}
 	void ChangeAttribute(TypeAttribute typeAttribute, float value)
 	{
@@ -42,7 +42,7 @@ public:
 			return moveSpeed + changeMoveSpeed;
 			break;
 		case Health:
-			return hp + changeHp;
+			return maxHp + changeHp;
 			break;
 		case BaseDame:
 			return baseDame + changeBaseDame;
@@ -55,9 +55,18 @@ public:
 	}
 	
 	void ApplyDame(int type, float value);
+	void Heal(int value)
+	{
+		curHp += value;
+		const float curMaxHp = maxHp + changeHp;
+		if (curHp > curMaxHp)
+		{
+			curHp = curMaxHp;
+		}
+	}
 	bool IsDead() const
 	{
-		if (hp + changeHp <= 0)
+		if (curHp <= 0)
 		{
 			return true;
 		}
@@ -72,7 +81,8 @@ public:
 	float waterResistant;
 	float natureResistant;
 	float moveSpeed;
-	float hp;
+	float maxHp;
+	float curHp = maxHp;
 	float baseDame;
 
 	//modified stat

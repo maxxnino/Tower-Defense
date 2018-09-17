@@ -91,7 +91,6 @@ private:
 	Element* element = nullptr;
 	float animationSpeed;
 	std::unordered_map<int, Element*> factory;
-
 	//tower animation data pm_tower_lv09_40_40_6 pm_tower_lv03_40_40_12
 	SharedAnimationData towerAni01 = { 0,0,40,40,9, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv01_40_40_9.png"), animationSpeed, Colors::Black };
 	SharedAnimationData towerAni02 = { 0,0,40,40,11, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv02_40_40_11.png"), animationSpeed, Colors::Black };

@@ -1,6 +1,4 @@
 #pragma once
-#include <map>
-#include <algorithm>
 #include "Element.h"
 
 enum TypeAttribute
@@ -56,32 +54,7 @@ public:
 		}
 	}
 	
-	void ApplyDame(int type, float value)
-	{
-		/*switch (type)
-		{
-		case 1:
-		{
-			float resisValue = 1.0f - (fireResistant + mFireResistant) / 100.0f;
-			hp += value * resisValue;
-		}
-			break;
-		case 10:
-		{
-			float resisValue = 1.0f - (waterResistant + mWaterResistant) / 100.0f;
-			hp += value * resisValue;
-		}
-			break;
-		case 100:
-		{
-			float resisValue = 1.0f - (natureResistant + mNatureResistant) / 100.0f;
-			hp += value * resisValue;
-		}
-			break;
-		default:
-			break;
-		}*/
-	}
+	void ApplyDame(int type, float value);
 	bool IsDead() const
 	{
 		if (hp + changeHp <= 0)
@@ -93,7 +66,7 @@ public:
 			return false;
 		}
 	}
-private:
+public:
 	//base stat
 	float fireResistant;
 	float waterResistant;

@@ -231,6 +231,9 @@
     <ClInclude Include="SpellFactory.h">
       <Filter>Header Files\Game\Spell</Filter>
     </ClInclude>
+    <ClInclude Include="DameCalculator.h">
+      <Filter>Header Files\Game\Spell</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">
@@ -286,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Source Files\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Attribute.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

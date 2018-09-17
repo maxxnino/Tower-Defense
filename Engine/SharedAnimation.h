@@ -118,10 +118,11 @@ private:
 class OnetimeAnimation
 {
 public:
-	OnetimeAnimation(const SharedAnimationData* data, const VecI& pos)
+	OnetimeAnimation(const SharedAnimationData* data, const VecI& pos, bool mirrored = false)
 		:
 		data(data),
-		pos(pos - VecI(data->GetSurface()->GetHeight() / 2, data->GetSurface()->GetHeight() / 2))
+		pos(pos - VecI(data->GetSurface()->GetHeight() / 2, data->GetSurface()->GetHeight() / 2)),
+		mirrored(mirrored)
 	{}
 	void Draw(Graphics& gfx) const
 	{
@@ -130,12 +131,12 @@ public:
 	// this version of draw replaces all opaque pixels with specified color
 	void DrawColor(Graphics& gfx, Color c) const
 	{
-		data->DrawColor(pos, gfx, iCurFrame, c);
+		data->DrawColor(pos, gfx, iCurFrame, c, mirrored);
 	}
 	// this version of draw replaces all opaque pixels with specified color
 	void DrawAlpha(Graphics& gfx) const
 	{
-		data->DrawAlpha(pos, gfx, iCurFrame);
+		data->DrawAlpha(pos, gfx, iCurFrame, mirrored);
 	}
 	bool Update(float dt)
 	{
@@ -173,4 +174,5 @@ private:
 	VecI pos;
 	int iCurFrame = 0;
 	float curFrameTime = 0.0f;
+	bool mirrored;
 };

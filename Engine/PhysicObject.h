@@ -5,6 +5,7 @@
 #include <string>
 #include "Box2D/Box2D.h"
 #include "Rect.h"
+#include "Attribute.h"
 enum CollisionFillter {
 	BORDER = 0x0001,
 	ENEMY = 0x0002,
@@ -130,12 +131,16 @@ public:
 	/*Virtual function for PhysiObject*/
 	virtual void SetVelocity(const b2Vec2& dir) { assert(false); }
 	virtual void AddEnemyID(int id) { assert(false); }
-	virtual int GetID() { assert(false); return -1; }
 	virtual void RemoveEnemyID(int id) { assert(false); }
-	virtual void ApplyDame(int dame) { assert(false); }
-	virtual int GetDame() { assert(false); return -1; }
+	virtual void ApplyDame(int type, float dame) { assert(false); }
+	virtual void ChangeAttribute(TypeAttribute typeAttribute, float value) { assert(false); }
+	virtual void AddSpell(int spellID) { assert(false); };
 	virtual void MarkReachBase() { assert(false); }
-	virtual void SetExplosionPos(const VecI& pos) {}
+	virtual void SetExplosionPos(const VecI& pos) { assert(false); }
+
+	virtual int GetElementType() { assert(false); return 0; }
+	virtual int GetID() { assert(false); return -1; }
+	virtual float GetDame() { assert(false); return -1; }
 	/***********************************/
 protected:
 	bool isDestroyed = false;

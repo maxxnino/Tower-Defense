@@ -114,23 +114,20 @@ private:
 	SharedAnimationData effect03 = { 0,0,20,20,28, Codex<Surface>::Retrieve(L"Images\\Effect\\pm_effect03_20_20_28.png"), 0.35f * animationSpeed, Colors::Black };
 
 
-	//Skill State 
-	DameOverTime dameOverTimeFire = { 1.0f, 3.0f, &effect01 };
-	DameOverTime dameOverTimeIce = { 1.0f, 3.0f, &effect02 };
-	DameOverTime dameOverTimeNature = { 1.0f, 3.0f, &effect03 };
+	//Skill State
 
-	Element def = { Element::Type::Fire, 1, 1, 1, Colors::Magenta, &towerAni01, &pro01, dameOverTimeFire.Clone() };
+	Element def = { Element::Type::Fire, 1, 1, 1, Colors::Magenta, &towerAni01, &pro01};
 
 	//lv01
-	Element fire = { Element::Type::Fire, 1, 1,1,Colors::Red, &towerAni01, &pro01, dameOverTimeFire.Clone() };
-	Element water = { Element::Type::Water, 1, 1,1,Colors::Blue, &towerAni02, &pro02, dameOverTimeIce.Clone() };
-	Element nature = { Element::Type::Nature, 1, 1,1,Colors::Green, &towerAni03, &pro03, dameOverTimeNature.Clone() };
+	Element fire = { Element::Type::Fire, 1, 1,1,Colors::Red, &towerAni01, &pro01 };
+	Element water = { Element::Type::Water, 1, 1,1,Colors::Blue, &towerAni02, &pro02 };
+	Element nature = { Element::Type::Nature, 1, 1,1,Colors::Green, &towerAni03, &pro03 };
 
 	//lv02
-	Element fireFire = { Element::Type::Fire + Element::Type::Fire, 2, 1, 1, Colors::Magenta, &towerAni04, &pro01, dameOverTimeFire.Clone() };
-	Element fireWater = { Element::Type::Fire + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni05, &pro02, dameOverTimeFire.Clone() };
-	Element fireNature = { Element::Type::Fire + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni06, &pro03, dameOverTimeFire.Clone() };
-	Element waterWater = { Element::Type::Water + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni07, &pro01, dameOverTimeFire.Clone() };
-	Element waterNature = { Element::Type::Water + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni08, &pro02, dameOverTimeFire.Clone() };
-	Element natureNature = { Element::Type::Nature + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni09, &pro03, dameOverTimeFire.Clone() };
+	Element fireFire = { Element::Type::Fire + Element::Type::Fire, 2, 1, 1, Colors::Magenta, &towerAni04, &pro01};
+	Element fireWater = { Element::Type::Fire + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni05, &pro02};
+	Element fireNature = { Element::Type::Fire + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni06, &pro03};
+	Element waterWater = { Element::Type::Water + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni07, &pro01};
+	Element waterNature = { Element::Type::Water + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni08, &pro02};
+	Element natureNature = { Element::Type::Nature + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni09, &pro03};
 };

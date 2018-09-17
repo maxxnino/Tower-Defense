@@ -3,16 +3,19 @@
 #include "Graphics.h"
 #include "Codex.h"
 #include "GameSettings.h"
+#include "SpellFactory.h"
 class Enemy : public PhysicObject
 {
 public:
 	Enemy(b2World& box2DEngine, int id, float size)
 		:
 		PhysicObject(box2DEngine, CollisionFillter::ENEMY, CollisionFillter::BORDER |CollisionFillter::BULLET | CollisionFillter::BASE | CollisionFillter::TOWER,
-			{ -20.0f,0.0f }, true, false, size, {6.0f,0.0f}),
+			{ -20.0f,0.0f }, true, false, size, {0.0f,0.0f}),
 		id(id),
 		size(size),
-		offSet(int(size * Graphics::scalePixel))
+		offSet(int(size * Graphics::scalePixel)),
+		att(GameSettings::Get().GetData("[Enemy Speed]"), GameSettings::Get().GetData("[Enemy Hp]"), GameSettings::Get().GetData("[Dame To Base]"),
+			10,10,10)
 	{
 		if ((id % 3) == 0)
 		{
@@ -50,7 +53,7 @@ public:
 	void Update(float dt)
 	{
 		const b2Vec2 vel = body->GetLinearVelocity();
-		const float velChange = 6 - vel.x;
+		const float velChange = (float)att.GetStat(TypeAttribute::MoveSpeed) - vel.x;
 		const float impulse = body->GetMass() * velChange; //disregard time factor
 		body->ApplyLinearImpulse(b2Vec2(impulse, 0), body->GetWorldCenter(),true);
 		if (isGetHit)
@@ -62,33 +65,57 @@ public:
 				isGetHit = false;
 			}
 		}
+		for (int i = 0; i < spells.size();)
+		{
+			if (spells[i]->GetIsRemove())
+			{
+				std::swap(spells[i], spells.back());
+				spells.pop_back();
+			}
+			else
+			{
+				spells[i]->Update(dt, *this);
+				i++;
+			}
+		}
 	}
 	/**********************************/
 	/*Virtual function for PhysiObject*/
 	int GetID() override { return id; }
-	void ApplyDame(int dame) override
+	void ChangeAttribute(TypeAttribute typeAttribute, float value) override
 	{
-		Hp -= dame;
+		att.ChangeAttribute(typeAttribute, value);
+		for (auto& s : spells)
+		{
+			s->EntityChangeData(*this);
+		}
+	}
+	void ApplyDame(int type, float dame) override
+	{
+		att.ApplyDame(type, dame);
 		isGetHit = true;
-		if (Hp <= 0)
+		if (att.IsDead())
 		{
 			isDestroyed = true;
 		}
 	}
-	int GetDame() override { return dame; }
+	void AddSpell(int spellID) override
+	{
+		spells.emplace_back(std::move(SpellFactory::MakeSpell(spellID)));
+	}
+	float GetDame() override { return att.GetStat(TypeAttribute::BaseDame); }
 	void MarkReachBase() override { isReachBase = true; }
 	/***********************************/
 	
 private:
 	bool isReachBase = false;
 	bool isGetHit = false;
-	float timerGetHit = GameSettings::Get().GetData("[Flash Time When Get Hit]");
-	b2Vec2 speed = { GameSettings::Get().GetData("[Enemy Speed]"),0.0f};
+	Attribute att;
 	std::shared_ptr<Surface> surf;
-	int offSet;
-	int Hp = (int)GameSettings::Get().GetData("[Enemy Hp]");
 	int gold = (int)GameSettings::Get().GetData("[Gold When Killed]");
-	int dame = (int)GameSettings::Get().GetData("[Dame To Base]");
+	float timerGetHit = GameSettings::Get().GetData("[Flash Time When Get Hit]");
+	int offSet;
 	int id;
 	float size;
+	std::vector<std::unique_ptr<ISpell>> spells;
 };

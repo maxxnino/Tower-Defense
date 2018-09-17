@@ -65,9 +65,9 @@ public:
 		}
 		body->SetLinearVelocity(vel);
 	}
-	int GetDame() override
+	float GetDame() override
 	{
-		return (int)element->getDame();
+		return element->getDame();
 	}
 	void SetExplosionPos(const VecI& pos) override
 	{
@@ -76,6 +76,10 @@ public:
 	void AddEnemyID(int id)
 	{
 		targetID = id;
+	}
+	int GetElementType() override
+	{
+		return element->getType();
 	}
 	/***********************************/
 private:

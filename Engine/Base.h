@@ -15,7 +15,7 @@ public:
 	{
 		gfx.DrawRectDim(body->GetPosition(), size, Colors::Blue);
 	}
-	void ApplyDame(int dame) override
+	void ApplyDame(int type, float dame) override
 	{
 		Hp -= dame;
 		if (Hp <= 0)
@@ -24,6 +24,6 @@ public:
 		}
 	}
 private:
-	int Hp = (int)GameSettings::Get().GetData("[Base Hp]");
+	float Hp = GameSettings::Get().GetData("[Base Hp]");
 	VecF size;
 };

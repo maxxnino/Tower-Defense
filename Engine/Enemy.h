@@ -52,10 +52,7 @@ public:
 	int GetGold() { return gold; }
 	void Update(float dt)
 	{
-		const b2Vec2 vel = body->GetLinearVelocity();
-		const float velChange = (float)att.GetTotalAttribute(TypeAttribute::MoveSpeed) - vel.x;
-		const float impulse = body->GetMass() * velChange; //disregard time factor
-		body->ApplyLinearImpulse(b2Vec2(impulse, 0), body->GetWorldCenter(),true);
+		UpdateSpeed(dt);
 		if (isGetHit)
 		{
 			timerGetHit += dt;
@@ -107,7 +104,20 @@ public:
 	float GetDame() override { return att.GetBaseAttribute(TypeAttribute::BaseDame); }
 	void MarkReachBase() override { isReachBase = true; }
 	/***********************************/
-	
+private:
+	void UpdateSpeed(float dt)
+	{
+		const float totalSpeed = att.GetTotalAttribute(TypeAttribute::MoveSpeed);
+		const float impulse = body->GetMass() * (totalSpeed - body->GetLinearVelocity().x); //disregard time factor
+		body->ApplyLinearImpulse(b2Vec2(impulse, 0), body->GetWorldCenter(), true);
+		const float maxSpeed = totalSpeed * totalSpeed;
+		const float curSpeed = (float)body->GetLinearVelocity().LengthSquared();
+		if (curSpeed > maxSpeed)
+		{
+			body->SetLinearVelocity(sqrt(maxSpeed / curSpeed) * body->GetLinearVelocity());
+		}
+		
+	}
 private:
 	bool isReachBase = false;
 	bool isGetHit = false;

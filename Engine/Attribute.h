@@ -127,7 +127,7 @@ public:
 	void ApplyDame(int type, float value);
 	void Heal(int value);
 private:
-	static constexpr float minMoveSpeed = 3.0f;
+	static constexpr float minMoveSpeed = 2.0f;
 	static constexpr float maxMoveSpeed = 15.0f;
 	float baseMoveSpeed;
 	float baseDame;

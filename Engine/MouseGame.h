@@ -107,13 +107,6 @@ private:
 	SharedAnimationData pro02 = { 30,0,30,30,8, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_9.png"), animationSpeed, Colors::Black };
 	SharedAnimationData pro03 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_14.png"), animationSpeed, Colors::Black };
 
-	//effect animation data pm_effect03_20_20_28
-	SharedAnimationData effect01 = { 0,0,20,20,10, Codex<Surface>::Retrieve(L"Images\\Effect\\pm_effect01_20_20_10.png"), animationSpeed, Colors::Black };
-	SharedAnimationData effect02 = { 0,0,20,20,35, Codex<Surface>::Retrieve(L"Images\\Effect\\pm_effect02_20_20_35.png"), 0.35f * animationSpeed, Colors::Black };
-	SharedAnimationData effect03 = { 0,0,20,20,28, Codex<Surface>::Retrieve(L"Images\\Effect\\pm_effect03_20_20_28.png"), 0.35f * animationSpeed, Colors::Black };
-
-
-	//Skill State
 
 	Element def = { Element::Type::Fire, 1, 1, 1, Colors::Magenta, &towerAni01, &pro01};
 

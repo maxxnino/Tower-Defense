@@ -234,6 +234,9 @@
     <ClInclude Include="DameCalculator.h">
       <Filter>Header Files\Game\Spell</Filter>
     </ClInclude>
+    <ClInclude Include="ChiliMath.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">

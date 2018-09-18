@@ -53,7 +53,7 @@ public:
 	void Update(float dt)
 	{
 		const b2Vec2 vel = body->GetLinearVelocity();
-		const float velChange = (float)att.GetStat(TypeAttribute::MoveSpeed) - vel.x;
+		const float velChange = (float)att.GetMoveSpeedAndDame(TypeAttribute::MoveSpeed) - vel.x;
 		const float impulse = body->GetMass() * velChange; //disregard time factor
 		body->ApplyLinearImpulse(b2Vec2(impulse, 0), body->GetWorldCenter(),true);
 		if (isGetHit)
@@ -85,10 +85,10 @@ public:
 	void ChangeAttribute(TypeAttribute typeAttribute, float value) override
 	{
 		att.ChangeAttribute(typeAttribute, value);
-		for (auto& s : spells)
-		{
-			s->EntityChangeData(*this);
-		}
+	}
+	void AddSpell(int spellID) override
+	{
+		spells.emplace_back(SpellFactory::MakeSpell(spellID));
 	}
 	void ApplyDame(int type, float dame) override
 	{
@@ -98,12 +98,13 @@ public:
 		{
 			isDestroyed = true;
 		}
+		AddSpell(type);
 	}
-	void AddSpell(int spellID) override
+	float GetMoveSpeedAndDame(TypeAttribute type) const override
 	{
-		spells.emplace_back(std::move(SpellFactory::MakeSpell(spellID)));
+		return att.GetMoveSpeedAndDame(type);
 	}
-	float GetDame() override { return att.GetStat(TypeAttribute::BaseDame); }
+	float GetDame() override { return att.GetMoveSpeedAndDame(TypeAttribute::BaseDame); }
 	void MarkReachBase() override { isReachBase = true; }
 	/***********************************/
 	

@@ -25,7 +25,7 @@ public:
 		}
 		else
 		{
-			MarkRemove();
+			MarkRemove(entity);
 		}
 		
 	}
@@ -47,13 +47,26 @@ public:
 			s->Draw(gfx, offSet);
 		}
 	}
-	void MarkRemove()
+	void MarkRemove(PhysicObject& entity)
 	{
 		isRemove = true;
+		for (auto& s : spellMgr)
+		{
+			s->MarkRemove(entity);
+		}
 	}
 	bool GetIsRemove() const override
 	{
 		return isRemove;
+	}
+	std::unique_ptr<ISpell> Clone() const override
+	{
+		auto spell = std::make_unique<Spell>();
+		for (auto& s : spellMgr)
+		{
+			spell->AddSpellComponent(s->Clone());
+		}
+		return spell;
 	}
 	void AddOffSet(const b2Vec2& pos)
 	{

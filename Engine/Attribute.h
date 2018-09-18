@@ -1,6 +1,6 @@
 #pragma once
 #include "Element.h"
-
+#include "GameSettings.h"
 enum TypeAttribute
 {
 	MoveSpeed,
@@ -11,84 +11,41 @@ enum TypeAttribute
 class Attribute
 {
 public:	
-	Attribute(float moveSpeed, float hp, float baseDame, float fireResistant, float waterResistant, float natureResistant)
+	Attribute(float moveSpeed, float maxHp, float baseDame, float fireResistant, float waterResistant, float natureResistant)
 		:
 		fireResistant(fireResistant), waterResistant(waterResistant), natureResistant(natureResistant),
 		moveSpeed(moveSpeed), maxHp(maxHp), baseDame(baseDame)
 	{}
-	void ChangeAttribute(TypeAttribute typeAttribute, float value)
+	inline float GetMaxHealth() const
 	{
-		switch (typeAttribute)
-		{
-		case MoveSpeed:
-			changeMoveSpeed += value;
-			break;
-		case Health:
-			changeHp += value;
-			break;
-		case BaseDame:
-			changeBaseDame += value;
-			break;
-		default:
-			assert(false);
-			break;
-		}
+		return maxHp + changeHp;
 	}
-	float GetStat(TypeAttribute typeAttribute) const
+	inline float GetCurHealth() const
 	{
-		switch (typeAttribute)
-		{
-		case MoveSpeed:
-			return moveSpeed + changeMoveSpeed;
-			break;
-		case Health:
-			return maxHp + changeHp;
-			break;
-		case BaseDame:
-			return baseDame + changeBaseDame;
-			break;
-		default:
-			assert(false);
-			return 0;
-			break;
-		}
+		return curHp;
 	}
-	
+	float GetMoveSpeedAndDame(TypeAttribute typeAttribute) const;
+	bool IsDead() const;
+	void ChangeAttribute(TypeAttribute typeAttribute, float value);
 	void ApplyDame(int type, float value);
-	void Heal(int value)
-	{
-		curHp += value;
-		const float curMaxHp = maxHp + changeHp;
-		if (curHp > curMaxHp)
-		{
-			curHp = curMaxHp;
-		}
-	}
-	bool IsDead() const
-	{
-		if (curHp <= 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+	void Heal(int value);
+	
 public:
 	//base stat
 	float fireResistant;
 	float waterResistant;
 	float natureResistant;
+	float mFireResistant = 0;
+	float mWaterResistant = 0;
+	float mNatureResistant = 0;
+private:
+	static constexpr float minMoveSpeed = 1.0f;
+	static constexpr float maxMoveSpeed = 15.0f;
 	float moveSpeed;
 	float maxHp;
 	float curHp = maxHp;
 	float baseDame;
 
-	//modified stat
-	float mFireResistant = 0;
-	float mWaterResistant = 0;
-	float mNatureResistant = 0;
 	float changeMoveSpeed = 0;
 	float changeHp = 0;
 	float changeBaseDame = 0;

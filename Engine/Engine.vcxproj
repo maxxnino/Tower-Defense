@@ -144,6 +144,7 @@
     <ClInclude Include="Base.h" />
     <ClInclude Include="BoardGame.h" />
     <ClInclude Include="BuilderMatching.h" />
+    <ClInclude Include="ChiliMath.h" />
     <ClInclude Include="ChiliUtil.h" />
     <ClInclude Include="Codex.h" />
     <ClInclude Include="DameCalculator.h" />

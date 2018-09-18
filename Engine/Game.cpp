@@ -35,12 +35,17 @@ Game::Game( MainWindow& wnd )
 	{
 		t.AddEnemyID(e.GetID());
 	});
-	mrLister.CaseContact<Projectile, Enemy>([](PhysicObject& p, PhysicObject& e)
+	mrLister.CaseContact<Projectile, Enemy>([this](PhysicObject& p, PhysicObject& e)
 	{
 		p.SetExplosionPos(Graphics::ToScreenSpace(p.getBody().GetPosition()));
 		p.MarkDead();
-		p.AddEnemyID(e.GetID());
 		e.ApplyDame(p.GetElementType(), p.GetDame());
+		std::uniform_int_distribution<int> change(0, 10);
+		if (change(rng) <= 1)
+		{
+			e.AddSpell(p.GetElementType());
+		}
+		
 	});
 	mrLister.CaseContact<Base, Enemy>([](PhysicObject& b, PhysicObject& e)
 	{

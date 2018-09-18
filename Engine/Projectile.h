@@ -73,10 +73,6 @@ public:
 	{
 		explosionPos = pos;
 	}
-	void AddEnemyID(int id)
-	{
-		targetID = id;
-	}
 	int GetElementType() override
 	{
 		return element->getType();

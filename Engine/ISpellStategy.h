@@ -17,16 +17,15 @@ public:
 		if (timerDuration <= duration)
 		{
 			DoSomethingToEnemy(dt, entity);
-			pos = entity.getBody().GetPosition();
 		}
 		else
 		{
 			MarkRemove(entity);
 		}
 	}
-	void Draw(Graphics& gfx, const b2Vec2& offSet) const
+	void Draw(Graphics& gfx, const VecI& pos) const
 	{
-		animation.DrawAlpha(Graphics::ToScreenSpace(pos - offSet), gfx);
+		animation.DrawAlpha(pos, gfx);
 	}
 	bool IsRemove() const
 	{
@@ -58,8 +57,6 @@ protected:
 	SharedAnimation animation;
 private:
 	bool isRemove = false;
-	b2Vec2 pos;
-	
 };
 
 class DameOverTime : public ISpellStategy

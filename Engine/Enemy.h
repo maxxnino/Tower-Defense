@@ -44,8 +44,10 @@ public:
 			gfx.DrawSprite(pos.x - offSet, pos.y - offSet, *surf, SpriteEffect::AlphaBlendBaked{});
 		}
 
-		//draw collsion circle
-		//gfx.DrawCircle(body->GetPosition(), size, Colors::Blue);
+		for (auto& s : spells)
+		{
+			s->Draw(gfx, pos);
+		}
 	}
 	
 	bool IsReachtBase() { return isReachBase; }
@@ -95,7 +97,6 @@ public:
 		{
 			isDestroyed = true;
 		}
-		AddSpell(type);
 	}
 	float GetBaseAttribute(TypeAttribute type) const override
 	{

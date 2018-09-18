@@ -44,7 +44,7 @@ public:
 	{
 		for (auto& s : spellMgr)
 		{
-			s->Draw(gfx, offSet);
+			s->Draw(gfx, pos);
 		}
 	}
 	void MarkRemove(PhysicObject& entity)
@@ -68,12 +68,7 @@ public:
 		}
 		return spell;
 	}
-	void AddOffSet(const b2Vec2& pos)
-	{
-		offSet = pos;
-	}
 private:
-	b2Vec2 offSet;
 	int enemyID = 0;
 	bool isRemove = false;
 	std::vector<std::unique_ptr<ISpellStategy>> spellMgr;

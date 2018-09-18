@@ -9,35 +9,35 @@ public:
 	DameCalculator()
 	{
 		dameCalculator.emplace(Element::Fire, [this](const float value, const Attribute& att) {
-			return value * DameMultiply(att.fireResistant, att.mFireResistant);
+			return value * DameMultiply(att.GetTotalResistant(Element::Fire));
 		});
 		dameCalculator.emplace(Element::Water, [this](const float value, const Attribute& att) {
-			return value * DameMultiply(att.waterResistant, att.mWaterResistant);
+			return value * DameMultiply(att.GetTotalResistant(Element::Water));
 		});
 		dameCalculator.emplace(Element::Nature, [this](const float value, const Attribute& att) {
-			return value * DameMultiply(att.natureResistant, att.mNatureResistant);
+			return value * DameMultiply(att.GetTotalResistant(Element::Nature));
 		});
 
 
 		dameCalculator.emplace(Element::Fire + Element::Fire, [this](const float value, const Attribute& att) {
-			return value * DameMultiply(att.fireResistant, att.mFireResistant);
+			return value * DameMultiply(att.GetTotalResistant(Element::Fire));
 		});
 		dameCalculator.emplace(Element::Water + Element::Water, [this](const float value, const Attribute& att) {
-			return value * DameMultiply(att.waterResistant, att.mWaterResistant);
+			return value * DameMultiply(att.GetTotalResistant(Element::Water));
 		});
 		dameCalculator.emplace(Element::Nature + Element::Nature, [this](const float value, const Attribute& att) {
-			return value * DameMultiply(att.natureResistant, att.mNatureResistant);
+			return value * DameMultiply(att.GetTotalResistant(Element::Nature));
 		});
 
 
 		dameCalculator.emplace(Element::Fire + Element::Water, [this](const float value, const Attribute& att) {
-			return value * (DameMultiply(att.fireResistant, att.mFireResistant) + DameMultiply(att.waterResistant, att.mWaterResistant)) / 2;
+			return value * (DameMultiply(att.GetTotalResistant(Element::Fire)) + DameMultiply(att.GetTotalResistant(Element::Water))) / 2;
 		});
 		dameCalculator.emplace(Element::Fire + Element::Nature, [this](const float value, const Attribute& att) {
-			return value * (DameMultiply(att.fireResistant, att.mFireResistant) + DameMultiply(att.natureResistant, att.mNatureResistant)) / 2;
+			return value * (DameMultiply(att.GetTotalResistant(Element::Fire)) + DameMultiply(att.GetTotalResistant(Element::Nature))) / 2;
 		});
 		dameCalculator.emplace(Element::Water + Element::Nature, [this](const float value, const Attribute& att) {
-			return value * (DameMultiply(att.waterResistant, att.mWaterResistant) + DameMultiply(att.natureResistant, att.mNatureResistant)) / 2;
+			return value * (DameMultiply(att.GetTotalResistant(Element::Water)) + DameMultiply(att.GetTotalResistant(Element::Nature))) / 2;
 		});
 	}
 	static float GetDame(int type, float value, Attribute& att)

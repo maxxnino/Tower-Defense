@@ -2,6 +2,11 @@
 #include "PhysicObject.h"
 #include "SharedAnimation.h"
 #include "ChiliMath.h"
+enum SpellState
+{
+	Begin,
+	Update
+};
 class ISpellStategy
 {
 public:
@@ -73,7 +78,7 @@ public:
 private:
 	void DoSomethingToEnemy(float dt, PhysicObject& entity) override
 	{
-		const float moveSpeed = entity.GetMoveSpeedAndDame(TypeAttribute::MoveSpeed);
+		const float moveSpeed = entity.GetBaseAttribute(TypeAttribute::MoveSpeed);
 		timer += dt;
 		while (timer >= 1.0f)
 		{
@@ -93,7 +98,6 @@ public:
 	SlowMovementSpeed(const SharedAnimationData* data, float slowPercent, float duration)
 		:
 		ISpellStategy(data, duration),
-		type(type),
 		slowPercent(slowPercent)
 	{}
 	std::unique_ptr<ISpellStategy> Clone() const override
@@ -103,17 +107,27 @@ public:
 private:
 	void DoSomethingToEnemy(float dt, PhysicObject& entity) override
 	{
-		const float changeInValue = slowPercent * entity.GetMoveSpeedAndDame(TypeAttribute::MoveSpeed);
-		const float slowAmount = EaseOut(timerDuration, 0.0f, changeInValue, duration);
-		entity.ChangeAttribute(TypeAttribute::MoveSpeed, -slowAmount);
-		curTotalSpeedSlow += slowAmount;
+		switch (state)
+		{
+		case Begin:
+		{
+			const float slowAmount = slowPercent * entity.GetBaseAttribute(TypeAttribute::MoveSpeed);
+			entity.ChangeAttribute(TypeAttribute::MoveSpeed, -slowAmount);
+			totalSpeedSlow = slowAmount;
+			state = SpellState::Update;
+			break;
+		}
+		default:
+			break;
+		}
+		
 	}
 	void OnRemove(PhysicObject& entity) override
 	{
-		entity.ChangeAttribute(TypeAttribute::MoveSpeed, curTotalSpeedSlow);
+		entity.ChangeAttribute(TypeAttribute::MoveSpeed, totalSpeedSlow);
 	}
 private:
+	SpellState state = SpellState::Begin;
 	float slowPercent;
-	float curTotalSpeedSlow = 0.0f;
-	Element::Type type;
+	float totalSpeedSlow = 0.0f;
 };

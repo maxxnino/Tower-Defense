@@ -11,7 +11,7 @@ constexpr float EaseOut(T curTime, T startValue, T changeInValue, T duration) no
 };
 
 //1 - (0.05 × resistant ÷ (1 + 0.05 × |resistant|))
-inline float DameMultiply(float a1, float a2) noexcept
+inline float DameMultiply(float value) noexcept
 {
-	return 1.0f - 0.05f * (a1 + a2) / (1.0f + 0.05f * abs(a1 + a2));
+	return 1.0f - 0.05f * value / (1.0f + 0.05f * abs(value));
 }

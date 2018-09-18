@@ -140,7 +140,7 @@ public:
 
 	virtual int GetElementType() { assert(false); return 0; }
 	virtual int GetID() { assert(false); return -1; }
-	virtual float GetMoveSpeedAndDame(TypeAttribute type) const { assert(false); return -1.0f; }
+	virtual float GetBaseAttribute(TypeAttribute type) const { assert(false); return -1.0f; }
 	virtual float GetDame() { assert(false); return -1; }
 	/***********************************/
 protected:

@@ -24,7 +24,8 @@ public:
 		:
 		box2DEngine(box2DEngine),
 		border(box2DEngine),
-		base(box2DEngine, {18.0f,0.0f}, {2,4}),
+		base(box2DEngine, {16.0f,-14.0f}, {4,2}),
+		guidingMgr(box2DEngine),
 		maxSpeedSq(GameSettings::Get().GetData("[Max Speed Projectile]")),
 		gold((int)GameSettings::Get().GetData("[Gold]")),
 		tileWidth(tileWidth),
@@ -55,6 +56,8 @@ public:
 			b->Draw(gfx);
 		}
 		explosion.Draw(gfx);
+		border.DrawDebug(gfx);
+		guidingMgr.DrawDebug(gfx);
 	}
 	void Update(float dt)
 	{
@@ -278,6 +281,7 @@ private:
 	Gold gold;
 	Border border;
 	Base base;
+	GuidingManager guidingMgr;
 	std::unordered_map<int, std::unique_ptr<Tower>> towerMgr;
 	std::unordered_map<int, std::unique_ptr<Enemy>> enemyMgr;
 	std::vector<std::unique_ptr<Projectile>> bulletMgr;

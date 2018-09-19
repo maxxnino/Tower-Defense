@@ -317,8 +317,8 @@ void Graphics::DrawRect(VecI p0, VecI p1, Color c)
 	}
 	p0.x = std::max(0, p0.x);
 	p0.y = std::max(0, p0.y);
-	p1.x = std::min(Graphics::ScreenWidth, p1.x);
-	p1.y = std::min(Graphics::ScreenHeight, p1.y);
+	p1.x = std::min(Graphics::ScreenWidth - 1, p1.x);
+	p1.y = std::min(Graphics::ScreenHeight - 1, p1.y);
 	for (int y = p0.y; y < p1.y; ++y)
 	{
 		for (int x = p0.x; x < p1.x; ++x)
@@ -327,7 +327,7 @@ void Graphics::DrawRect(VecI p0, VecI p1, Color c)
 		}
 	}
 }
-void Graphics::DrawCircle(b2Vec2 worldPos, float worldSize, const Color& c)
+void Graphics::DrawCircle(b2Vec2 worldPos, float worldSize, Color c)
 {
 	const int rad = int(worldSize * scalePixel);
 	const VecI pos = ToScreenSpace(worldPos);
@@ -360,6 +360,41 @@ void Graphics::DrawRectDim(const b2Vec2& worldPos, float worldSize, const Color 
 	const VecI pos = ToScreenSpace(worldPos);
 	const VecI expand = { size, size };
 	DrawRect(pos - expand, pos + expand, c);
+}
+
+void Graphics::DrawLine(const b2Vec2 & worldP0, const b2Vec2 & worldP1, Color c)
+{
+	VecI p0 = ToScreenSpace(worldP0);
+	VecI p1 = ToScreenSpace(worldP1);
+	p0.x = std::max(0, p0.x);
+	p0.y = std::max(0, p0.y);
+	p1.x = std::min(Graphics::ScreenWidth - 1, p1.x);
+	p1.y = std::min(Graphics::ScreenHeight - 1, p1.y);
+	const int dx = p0.x - p1.x;
+	const int dy = p0.y - p1.y;
+
+	if (abs(dy) > abs(dx))
+	{
+		if (dy > 0)
+		{
+			std::swap(p0.y, p1.y);
+		}
+		for (int y = p0.y; y <= p1.y; y++)
+		{
+			PutPixel(p0.x, y, c);
+		}
+	}
+	else
+	{
+		if (dx > 0)
+		{
+			std::swap(p0.x, p1.x);
+		}
+		for (int x = p0.x; x <= p1.x; x++)
+		{
+			PutPixel(x, p0.y, c);
+		}
+	}
 }
 
 

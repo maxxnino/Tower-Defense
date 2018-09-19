@@ -60,7 +60,12 @@ Game::Game( MainWindow& wnd )
 		base->ApplyDame(0, enemy->GetDame());
 		enemy->MarkReachBase();
 	});
-
+	mrLister.CaseContact<DirectionGuiding, Enemy>([](PhysicObject* d, PhysicObject* e)
+	{
+		auto guiding = static_cast<DirectionGuiding*>(d);
+		auto enemy = static_cast<Enemy*>(e);
+		guiding->Guiding(enemy);
+	});
 
 	mrLister.CaseLeave<Tower, Enemy>([](PhysicObject* t, PhysicObject* e)
 	{
@@ -71,10 +76,7 @@ Game::Game( MainWindow& wnd )
 			tower->RemoveEnemyID(enemy->GetID());
 		}
 	});
-	mrLister.CaseLeave<DirectionGuiding, Enemy>([](PhysicObject* d, PhysicObject* e)
-	{
-		static_cast<DirectionGuiding*>(d)->Guiding(static_cast<Enemy&>(*e));
-	});
+	
 	
 	box2DEngine->SetContactListener(&mrLister);
 }

@@ -78,27 +78,17 @@ public:
 	}
 	void BeginContact(b2Contact* contact) override
 	{
-		const b2Body* bodyPtrs[] = { contact->GetFixtureA()->GetBody(),contact->GetFixtureB()->GetBody() };
-		if (bodyPtrs[0]->GetType() == b2BodyType::b2_dynamicBody &&
-			bodyPtrs[1]->GetType() == b2BodyType::b2_dynamicBody)
-		{
-			SwitchContact(
-				*reinterpret_cast<PhysicObject*>(bodyPtrs[0]->GetUserData()),
-				*reinterpret_cast<PhysicObject*>(bodyPtrs[1]->GetUserData())
-			);
-		}
+		SwitchContact(
+			*reinterpret_cast<PhysicObject*>(contact->GetFixtureA()->GetBody()->GetUserData()),
+			*reinterpret_cast<PhysicObject*>(contact->GetFixtureB()->GetBody()->GetUserData())
+		);
 	}
 	void EndContact(b2Contact* contact)
 	{
-		const b2Body* bodyPtrs[] = { contact->GetFixtureA()->GetBody(),contact->GetFixtureB()->GetBody() };
-		if (bodyPtrs[0]->GetType() == b2BodyType::b2_dynamicBody &&
-			bodyPtrs[1]->GetType() == b2BodyType::b2_dynamicBody)
-		{
-			SwitchLeave(
-				*reinterpret_cast<PhysicObject*>(bodyPtrs[0]->GetUserData()),
-				*reinterpret_cast<PhysicObject*>(bodyPtrs[1]->GetUserData())
-			);
-		}
+		SwitchLeave(
+			*reinterpret_cast<PhysicObject*>(contact->GetFixtureA()->GetBody()->GetUserData()),
+			*reinterpret_cast<PhysicObject*>(contact->GetFixtureB()->GetBody()->GetUserData())
+		);
 	}
 private:
 	void SwitchContact(PhysicObject& a, PhysicObject& b)
@@ -111,10 +101,10 @@ private:
 		{
 			i->second(&a, &b);
 		}
-		else
+		/*else
 		{
 			def(a, b);
-		}
+		}*/
 	}
 	void SwitchLeave(PhysicObject& a, PhysicObject& b)
 	{
@@ -126,10 +116,10 @@ private:
 		{
 			i->second(&a, &b);
 		}
-		else
+		/*else
 		{
 			def(a, b);
-		}
+		}*/
 	}
 
 private:

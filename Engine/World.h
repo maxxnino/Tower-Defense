@@ -13,9 +13,9 @@
 #include "Projectile.h"
 #include "LineWall.h"
 #include "Base.h"
+#include "DirectionGuiding.h"
 #include "Gold.h"
 #include "Explosion.h"
-
 
 class World : public IWorldMediator, public IComponent
 {

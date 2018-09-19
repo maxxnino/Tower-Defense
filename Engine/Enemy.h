@@ -15,7 +15,8 @@ public:
 		size(size),
 		offSet(int(size * Graphics::scalePixel)),
 		att(GameSettings::Get().GetData("[Enemy Speed]"), GameSettings::Get().GetData("[Enemy Hp]"), GameSettings::Get().GetData("[Dame To Base]"),
-			10,10,10)
+			10,10,10),
+		dir(1.0f,0.0f)
 	{
 		if ((id % 3) == 0)
 		{
@@ -84,6 +85,10 @@ public:
 	}
 	float GetDame() { return att.GetBaseAttribute(TypeAttribute::BaseDame); }
 	void MarkReachBase() { isReachBase = true; }
+	void SetDir(const b2Vec2& newDir)
+	{
+		dir = newDir;
+	}
 	/**********************************/
 	/*Virtual function for PhysiObject*/
 	int GetID() { return id; }
@@ -110,8 +115,7 @@ private:
 	void UpdateSpeed(float dt)
 	{
 		const float totalSpeed = att.GetTotalAttribute(TypeAttribute::MoveSpeed);
-		const float impulse = body->GetMass() * (totalSpeed - body->GetLinearVelocity().x); //disregard time factor
-		body->ApplyLinearImpulse(b2Vec2(impulse, 0), body->GetWorldCenter(), true);
+		body->ApplyLinearImpulse(body->GetMass() * dir, body->GetWorldCenter(), true);
 		const float maxSpeed = totalSpeed * totalSpeed;
 		const float curSpeed = (float)body->GetLinearVelocity().LengthSquared();
 		if (curSpeed > maxSpeed)
@@ -131,4 +135,5 @@ private:
 	int id;
 	float size;
 	std::vector<std::unique_ptr<ISpell>> spells;
+	b2Vec2 dir;
 };

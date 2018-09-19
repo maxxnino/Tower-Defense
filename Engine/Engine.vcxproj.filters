@@ -237,6 +237,9 @@
     <ClInclude Include="ChiliMath.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
+    <ClInclude Include="DirectionGuiding.h">
+      <Filter>Header Files\Game\Game Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">

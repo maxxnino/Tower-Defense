@@ -71,6 +71,10 @@ Game::Game( MainWindow& wnd )
 			tower->RemoveEnemyID(enemy->GetID());
 		}
 	});
+	mrLister.CaseLeave<DirectionGuiding, Enemy>([](PhysicObject* d, PhysicObject* e)
+	{
+		static_cast<DirectionGuiding*>(d)->Guiding(static_cast<Enemy&>(*e));
+	});
 	
 	box2DEngine->SetContactListener(&mrLister);
 }

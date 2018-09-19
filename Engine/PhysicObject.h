@@ -11,11 +11,13 @@ enum CollisionFillter {
 	ENEMY = 0x0002,
 	TOWER = 0x0004,
 	BASE = 0x0008,
-	BULLET = 0x0010
+	BULLET = 0x0010,
+	GUIDING = 0x0020,
 };
 class PhysicObject
 {
 public:
+	//create a dynamic box/circle sensor/non-sensor 
 	PhysicObject(b2World& box2DEngine, uint16 categoryBits, uint16 maskBits, const b2Vec2& worldPos, 
 		bool isCircle = false, bool isSensor = false,float size = 1.0f, const b2Vec2& linVel = { 0.0f,0.0f } )
 	{
@@ -58,6 +60,7 @@ public:
 			body->CreateFixture(&fixtureDef);
 		}
 	}
+	//create a border line
 	PhysicObject(b2World& box2DEngine, uint16 categoryBits, uint16 maskBits, const b2Vec2& posBegin, const b2Vec2& posEnd)
 	{
 		{
@@ -81,11 +84,13 @@ public:
 			body->CreateFixture(&fixtureDef);
 		}
 	}
+
+	//create a kinematic circle/box sensor
 	PhysicObject(b2World& box2DEngine, uint16 categoryBits, uint16 maskBits, const b2Vec2& worldPos, float width, float height, bool isCircle = false)
 	{
 		{
 			b2BodyDef bodyDef;
-			bodyDef.type = b2_dynamicBody; //change body type
+			bodyDef.type = b2_kinematicBody; //change body type
 			bodyDef.position.Set(worldPos.x, worldPos.y); //middle, bottom
 			body = { box2DEngine.CreateBody(&bodyDef),[&box2DEngine](b2Body* pBody) {box2DEngine.DestroyBody(pBody); } };
 		}
@@ -102,10 +107,10 @@ public:
 			body->CreateFixture(&fixtureDef);
 		}
 		{
-			b2PolygonShape kinematicBBox;
-			kinematicBBox.SetAsBox(width, height);
+			b2PolygonShape kinematicBox;
+			kinematicBox.SetAsBox(width, height);
 			b2FixtureDef fixtureDef;
-			fixtureDef.shape = &kinematicBBox;
+			fixtureDef.shape = &kinematicBox;
 			fixtureDef.isSensor = true;
 			//collision fillter
 			fixtureDef.filter.categoryBits = categoryBits;

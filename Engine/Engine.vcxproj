@@ -148,6 +148,7 @@
     <ClInclude Include="ChiliUtil.h" />
     <ClInclude Include="Codex.h" />
     <ClInclude Include="DameCalculator.h" />
+    <ClInclude Include="DirectionGuiding.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameSettings.h" />

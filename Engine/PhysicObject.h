@@ -129,19 +129,9 @@ public:
 
 	/**********************************/
 	/*Virtual function for PhysiObject*/
-	virtual void SetVelocity(const b2Vec2& dir) { assert(false); }
-	virtual void AddEnemyID(int id) { assert(false); }
-	virtual void RemoveEnemyID(int id) { assert(false); }
 	virtual void ApplyDame(int type, float dame) { assert(false); }
 	virtual void ChangeAttribute(TypeAttribute typeAttribute, float value) { assert(false); }
-	virtual void AddSpell(int spellID) { assert(false); };
-	virtual void MarkReachBase() { assert(false); }
-	virtual void SetExplosionPos(const VecI& pos) { assert(false); }
-
-	virtual int GetElementType() { assert(false); return 0; }
-	virtual int GetID() { assert(false); return -1; }
 	virtual float GetBaseAttribute(TypeAttribute type) const { assert(false); return -1.0f; }
-	virtual float GetDame() { assert(false); return -1; }
 	/***********************************/
 protected:
 	bool isDestroyed = false;

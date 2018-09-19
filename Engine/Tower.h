@@ -77,9 +77,7 @@ public:
 	}
 	void Mirrored() { mirrored = true; }
 	void UnMirrored() { mirrored = false; }
-	/**********************************/
-	/*Virtual function for PhysiObject*/
-	void RemoveEnemyID(int id) override
+	void RemoveEnemyID(int id)
 	{
 		assert(enemyIDs.find(id) != enemyIDs.end());
 		enemyIDs.erase(id);
@@ -88,11 +86,10 @@ public:
 			curTarget = -1;
 		}
 	}
-	void AddEnemyID(int id) override
+	void AddEnemyID(int id)
 	{
 		enemyIDs.insert(id);
 	}
-	/***********************************/
 private:
 	Color c;
 	float timer = 0;

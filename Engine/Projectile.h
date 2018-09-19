@@ -52,9 +52,7 @@ public:
 	{
 		return explosionPos;
 	}
-	/**********************************/
-	/*Virtual function for PhysiObject*/
-	void SetVelocity(const b2Vec2& dir) override
+	void SetVelocity(const b2Vec2& dir)
 	{
 		b2Vec2 vel = body->GetLinearVelocity() + dir;
 		const float curSpeedSq = std::pow(vel.x, 2) + std::pow(vel.y, 2);
@@ -65,19 +63,18 @@ public:
 		}
 		body->SetLinearVelocity(vel);
 	}
-	float GetDame() override
+	float GetDame()
 	{
 		return element->getDame();
 	}
-	void SetExplosionPos(const VecI& pos) override
+	void SetExplosionPos(const VecI& pos)
 	{
 		explosionPos = pos;
 	}
-	int GetElementType() override
+	int GetElementType()
 	{
 		return element->getType();
 	}
-	/***********************************/
 private:
 	static constexpr float deadTimer = 3.0f;
 	SharedAnimation projectileAnimation;

@@ -109,7 +109,7 @@ private:
 			});
 		if (i != ContactHandlers.end())
 		{
-			i->second(a, b);
+			i->second(&a, &b);
 		}
 		else
 		{
@@ -124,7 +124,7 @@ private:
 			});
 		if (i != LeaveHandlers.end())
 		{
-			i->second(a, b);
+			i->second(&a, &b);
 		}
 		else
 		{
@@ -133,7 +133,7 @@ private:
 	}
 
 private:
-	std::unordered_map<TypePair, std::function<void(PhysicObject&, PhysicObject&)>> ContactHandlers;
-	std::unordered_map<TypePair, std::function<void(PhysicObject&, PhysicObject&)>> LeaveHandlers;
+	std::unordered_map<TypePair, std::function<void(PhysicObject*, PhysicObject*)>> ContactHandlers;
+	std::unordered_map<TypePair, std::function<void(PhysicObject*, PhysicObject*)>> LeaveHandlers;
 	std::function<void(PhysicObject&, PhysicObject&)> def = [](PhysicObject&, PhysicObject&) {};
 };

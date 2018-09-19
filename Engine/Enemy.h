@@ -78,17 +78,20 @@ public:
 			}
 		}
 	}
+	void AddSpell(int spellID)
+	{
+		spells.emplace_back(SpellFactory::MakeSpell(spellID));
+	}
+	float GetDame() { return att.GetBaseAttribute(TypeAttribute::BaseDame); }
+	void MarkReachBase() { isReachBase = true; }
 	/**********************************/
 	/*Virtual function for PhysiObject*/
-	int GetID() override { return id; }
+	int GetID() { return id; }
 	void ChangeAttribute(TypeAttribute typeAttribute, float value) override
 	{
 		att.ChangeAttribute(typeAttribute, value);
 	}
-	void AddSpell(int spellID) override
-	{
-		spells.emplace_back(SpellFactory::MakeSpell(spellID));
-	}
+	
 	void ApplyDame(int type, float dame) override
 	{
 		att.ApplyDame(type, dame);
@@ -102,8 +105,6 @@ public:
 	{
 		return att.GetBaseAttribute(type);
 	}
-	float GetDame() override { return att.GetBaseAttribute(TypeAttribute::BaseDame); }
-	void MarkReachBase() override { isReachBase = true; }
 	/***********************************/
 private:
 	void UpdateSpeed(float dt)

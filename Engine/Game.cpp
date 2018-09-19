@@ -31,34 +31,44 @@ Game::Game( MainWindow& wnd )
 {
 	bgm.Play(1.0f, 0.5f);
 	static MyBox2DListener mrLister;
-	mrLister.CaseContact<Tower, Enemy>([](PhysicObject& t, PhysicObject& e)
+	mrLister.CaseContact<Tower, Enemy>([](PhysicObject* t, PhysicObject* e)
 	{
-		t.AddEnemyID(e.GetID());
+		auto tower = static_cast<Tower*>(t);
+		auto enemy = static_cast<Enemy*>(e);
+		tower->AddEnemyID(enemy->GetID());
 	});
-	mrLister.CaseContact<Projectile, Enemy>([this](PhysicObject& p, PhysicObject& e)
+	mrLister.CaseContact<Projectile, Enemy>([this](PhysicObject* p, PhysicObject* e)
 	{
-		p.SetExplosionPos(Graphics::ToScreenSpace(p.getBody().GetPosition()));
-		p.MarkDead();
-		e.ApplyDame(p.GetElementType(), p.GetDame());
+		auto projectile = static_cast<Projectile*>(p);
+		auto enemy = static_cast<Enemy*>(e);
+
+		projectile->SetExplosionPos(Graphics::ToScreenSpace(projectile->getBody().GetPosition()));
+		projectile->MarkDead();
+		enemy->ApplyDame(projectile->GetElementType(), projectile->GetDame());
 		std::uniform_int_distribution<int> change(0, 10);
 		if (change(rng) <= 1)
 		{
-			e.AddSpell(p.GetElementType());
+			enemy->AddSpell(projectile->GetElementType());
 		}
 		
 	});
-	mrLister.CaseContact<Base, Enemy>([](PhysicObject& b, PhysicObject& e)
+	mrLister.CaseContact<Base, Enemy>([](PhysicObject* b, PhysicObject* e)
 	{
-		b.ApplyDame(0, e.GetDame());
-		e.MarkReachBase();
+		auto base = static_cast<Base*>(b);
+		auto enemy = static_cast<Enemy*>(e);
+
+		base->ApplyDame(0, enemy->GetDame());
+		enemy->MarkReachBase();
 	});
 
 
-	mrLister.CaseLeave<Tower, Enemy>([](PhysicObject& t, PhysicObject& e)
+	mrLister.CaseLeave<Tower, Enemy>([](PhysicObject* t, PhysicObject* e)
 	{
-		if (!t.isRemove())
+		if (!t->isRemove())
 		{
-			t.RemoveEnemyID(e.GetID());
+			auto tower = static_cast<Tower*>(t);
+			auto enemy = static_cast<Enemy*>(e);
+			tower->RemoveEnemyID(enemy->GetID());
 		}
 	});
 	

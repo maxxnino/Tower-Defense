@@ -26,6 +26,7 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	box2DEngine(std::make_unique<b2World>(b2Vec2(0.0f, 0.0f))),
 	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight),
+	brd2(L"Data\\map.ini"),
 	world(*box2DEngine,BoardGame::tileWidth,BoardGame::tileHeight),
 	mediatorGuiAndBrd(&brd,&gui,&world)
 {
@@ -91,7 +92,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	float dt = ft.Mark();
+	/*float dt = ft.Mark();
 	if (dt > 0.01666666666667f * 5.0f)
 	{
 		dt = 0.01666667f;
@@ -100,12 +101,13 @@ void Game::UpdateModel()
 	brd.ProcessComand(wnd.mouse);
 	world.Update(dt);
 	box2DEngine->Step(dt, velocityIterations, positionIterations);
-	world.CleanWorld(dt);
+	world.CleanWorld(dt);*/
 }
 
 void Game::ComposeFrame()
 {
-	brd.Draw(gfx);
+	/*brd.Draw(gfx);
 	world.Draw(gfx);
-	gui.Draw(gfx);
+	gui.Draw(gfx);*/
+	brd2.DrawTest(gfx);
 }

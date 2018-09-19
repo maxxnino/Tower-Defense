@@ -159,9 +159,6 @@
     <ClInclude Include="SharedAnimation.h">
       <Filter>Header Files\Framework\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="GameSettings.h">
-      <Filter>Header Files\Framework\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="ChiliException.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
@@ -239,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="DirectionGuiding.h">
       <Filter>Header Files\Game\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSettings.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -53,6 +53,7 @@ private:
 	Sound bgm = Sound(L"Data\\Sounds\\that girl.mp3", Sound::LoopType::AutoFullSound);
 	std::unique_ptr<b2World> box2DEngine;
 	BoardGame brd;
+	BoardGame brd2;
 	World world;
 	MenuManager gui;
 	ControlGuiAndBoard mediatorGuiAndBrd;

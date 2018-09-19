@@ -17,8 +17,6 @@ Font::Font(const std::shared_ptr<Surface> sprite, Color chroma)
 
 void Font::DrawText(const std::string& text, const VecI& pos, Color color, Graphics& gfx) const
 {
-	// create effect functor
-	SpriteEffect::Substitution e{ chroma,color };
 	// curPos is the pos that we are drawing to on the screen
 	auto curPos = pos;
 	for (auto c : text)
@@ -38,7 +36,7 @@ void Font::DrawText(const std::string& text, const VecI& pos, Color color, Graph
 		else if (c >= firstChar + 1 && c <= lastChar)
 		{
 			// use DrawSpriteSubstitute so that we can choose the color of the font rendered
-			gfx.DrawSprite(curPos.x, curPos.y, MapGlyphRect(c), *surface, e);
+			gfx.DrawSprite(curPos.x, curPos.y, MapGlyphRect(c), *surface, SpriteEffect::Substitution{ chroma,color });
 		}
 		// advance screen pos for next character
 		curPos.x += glyphWidth;

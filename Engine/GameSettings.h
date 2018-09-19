@@ -8,31 +8,11 @@ class GameSettings
 public:
 	GameSettings(const std::wstring& filename)
 	{
-		std::fstream file(filename);
-		assert(file);
-		for (std::string line; std::getline(file, line); )
-		{
-			if (line[0] == '[')
-			{
-				float data;
-				file >> data;
-				settingData.emplace(std::move(line), data);
-			}
-		}
+		AddData(filename);
 	}
 	GameSettings()
 	{
-		std::fstream file(L"Data\\setting.ini");
-		assert(file);
-		for (std::string line; std::getline(file, line); )
-		{
-			if (line[0] == '[')
-			{
-				float data;
-				file >> data;
-				settingData.emplace(std::move(line), data);
-			}
-		}
+		AddData(L"Data\\setting.ini");
 	}
 	float GetData(const std::string& dataName)
 	{
@@ -46,11 +26,59 @@ public:
 			return 10;
 		}
 	}
+	std::string GetMapData(const std::string& dataName)
+	{
+		auto it = mapData.find(dataName);
+		if (it != mapData.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			return "";
+		}
+	}
 	static GameSettings& Get()
 	{
 		static GameSettings gameSetting;
 		return gameSetting;
 	}
+	void AddMapData(const std::wstring& filename)
+	{
+		std::fstream file(filename);
+		assert(file);
+		for (std::string line; std::getline(file, line); )
+		{
+			if (line[0] == '[')
+			{
+				float data;
+				file >> data;
+				settingData.emplace(std::move(line), data);
+			}
+			else if (line[0] == 'M')
+			{
+				std::string data;
+				file >> data;
+				mapData.emplace(std::move(line), std::move(data));
+			}
+		}
+	}
+private:
+	void AddData(const std::wstring& filename)
+	{
+		std::fstream file(filename);
+		assert(file);
+		for (std::string line; std::getline(file, line); )
+		{
+			if (line[0] == '[')
+			{
+				float data;
+				file >> data;
+				settingData.emplace(std::move(line), data);
+			}
+		}
+	}
 private:
 	std::unordered_map<std::string, float> settingData;
+	std::unordered_map<std::string, std::string> mapData;
 };

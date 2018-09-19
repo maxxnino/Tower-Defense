@@ -6,17 +6,42 @@
 #include "WalkableTile.h"
 #include "BuildableTile.h"
 #include "Mouse.h"
+#include "GameSettings.h"
 class BoardGame : public IComponent
 {
 public:
-	BoardGame(VecF pos, float menuW, float menuH)
+	BoardGame(const std::wstring& filename)
+	{
+		GameSettings::Get().AddMapData(filename);
+		pos = { GameSettings::Get().GetData("[PosX]"),GameSettings::Get().GetData("[PosY]") };
+		nWidth = (int)GameSettings::Get().GetData("[nWidth]");
+		nHeight = (int)GameSettings::Get().GetData("[nHeight]");
+		for (int h = 0; h < nHeight; h++)
+		{
+			auto data = GameSettings::Get().GetMapData("M01" + std::to_string(h));
+			int w = 0;
+			for (auto d : data)
+			{
+				if (d == 'W')
+				{
+					tiles.emplace_back(std::make_unique<WalkableTile>(pos, w + h * nWidth, Codex<Surface>::Retrieve(L"Images\\Tile\\ground_01.png")));
+				}
+				else if (d == 'Y')
+				{
+					tiles.emplace_back(std::make_unique<BuildableTile>(pos, w + h * nWidth, Codex<Surface>::Retrieve(L"Images\\Tile\\ground_02.png")));
+				}
+				w++;
+			}
+		}
+	}
+	BoardGame(VecF pos, float boardW, float boardH)
 		:
 		pos(pos)
 	{
-		const int r = ((int)menuW % tileWidth >= 1) ? 1 : 0;
-		const int b = ((int)menuH % tileHeight >= 1) ? 1 : 0;
-		nWidth = r + (int)menuW / tileWidth;
-		nHeight = b + (int)menuH / tileHeight;
+		const int r = ((int)boardW % tileWidth >= 1) ? 1 : 0;
+		const int b = ((int)boardH % tileHeight >= 1) ? 1 : 0;
+		nWidth = r + (int)boardW / tileWidth;
+		nHeight = b + (int)boardH / tileHeight;
 		const int mid = nHeight / 2;
 		for (int y = 0; y < nHeight; y++)
 		{
@@ -65,7 +90,17 @@ public:
 			element->GetTowerAnimation()->DrawGhost(tilePos, gfx, 0);
 		}
 	}
-
+	void DrawTest(Graphics& gfx) const
+	{
+		for (int h = 0; h < nHeight; h++)
+		{
+			for (int w = 0; w < nWidth; w++)
+			{
+				const VecI tilePos = (VecI)pos + VecI(w * tileWidth, h * tileHeight);
+				tileAt(w, h).Draw(gfx, tilePos, tileWidth, tileHeight);
+			}
+		}
+	}
 	// for game logic
 	void ProcessComand(Mouse& mouse)
 	{

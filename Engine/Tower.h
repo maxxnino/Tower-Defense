@@ -17,9 +17,9 @@ public:
 		Upgrade(element);
 		body->SetUserData(this);
 	}
-	void Draw(Graphics& gfx, int tileWidth, int tileHeight)
+	void Draw(Graphics& gfx, const VecI& camPos, int tileWidth, int tileHeight)
 	{
-		const VecI pos = gfx.ToScreenSpace(body->GetPosition());
+		const VecI pos = gfx.ToScreenSpace(body->GetPosition()) + camPos;
 		animation.DrawAlpha(pos, gfx, mirrored);
 	}
 	inline const Color& GetColor() const noexcept

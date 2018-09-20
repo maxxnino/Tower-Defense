@@ -7,6 +7,7 @@
 #include "BuildableTile.h"
 #include "Mouse.h"
 #include "GameSettings.h"
+#include "MouseCameraController.h"
 class BoardGame : public IComponent
 {
 public:
@@ -16,6 +17,8 @@ public:
 		pos = { GameSettings::Get().GetData("[PosX]"),GameSettings::Get().GetData("[PosY]") };
 		nWidth = (int)GameSettings::Get().GetData("[nWidth]");
 		nHeight = (int)GameSettings::Get().GetData("[nHeight]");
+		boardWidth = nWidth * tileWidth;
+		boardHeight = nHeight * tileHeight;
 		for (int h = 0; h < nHeight; h++)
 		{
 			auto data = GameSettings::Get().GetMapData("M01" + std::to_string(h));
@@ -42,6 +45,8 @@ public:
 		const int b = ((int)boardH % tileHeight >= 1) ? 1 : 0;
 		nWidth = r + (int)boardW / tileWidth;
 		nHeight = b + (int)boardH / tileHeight;
+		boardWidth = nWidth * tileWidth;
+		boardHeight = nHeight * tileHeight;
 		const int mid = nHeight / 2;
 		for (int y = 0; y < nHeight; y++)
 		{
@@ -73,48 +78,75 @@ public:
 	}
 
 	// for game graphic
-	void Draw(Graphics& gfx) const noexcept
+	void Draw(Graphics& gfx, const VecI& camPos) const noexcept
 	{
 		for (int h = 0; h < nHeight; h++)
 		{
 			for (int w = 0; w < nWidth; w++)
 			{
-				const VecI tilePos = (VecI)pos + VecI(w * tileWidth, h * tileHeight);
+				const VecI tilePos = (VecI)pos + VecI(w * tileWidth, h * tileHeight) + camPos;
 				tileAt(w, h).Draw(gfx, tilePos, tileWidth, tileHeight);
 			}
 		}
 		auto element = mediator->GetMouseGame()->getElement();
 		if (element)
 		{
-			const VecI tilePos = (VecI)pos + VecI(curTile.x * tileWidth, curTile.y * tileHeight);
-			element->GetTowerAnimation()->DrawGhost(tilePos, gfx, 0);
+			if (isInsideBoard)
+			{
+				const VecI tilePos = (VecI)pos + VecI(curTile.x * tileWidth, curTile.y * tileHeight) + camPos;
+				element->GetTowerAnimation()->DrawGhost(tilePos, gfx, 0);
+			}
+			else
+			{
+				element->GetTowerAnimation()->DrawGhostOffSet(mousePos, gfx, 0);
+			}
 		}
 	}
-	void DrawTest(Graphics& gfx) const
+	void DrawTest(Graphics& gfx,const VecI& camPos) const
 	{
 		for (int h = 0; h < nHeight; h++)
 		{
 			for (int w = 0; w < nWidth; w++)
 			{
-				const VecI tilePos = (VecI)pos + VecI(w * tileWidth, h * tileHeight);
+				const VecI tilePos = (VecI)pos + VecI(w * tileWidth, h * tileHeight) + camPos;
 				tileAt(w, h).Draw(gfx, tilePos, tileWidth, tileHeight);
 			}
 		}
 	}
 	// for game logic
-	void ProcessComand(Mouse& mouse)
+	void ProcessComand(Mouse& mouse,const VecI& camPos)
 	{
-		const VecI mousePos = mouse.GetPos();
+		mousePos = mouse.GetPos();
+		const int posX = mousePos.x - (int)pos.x - camPos.x;
+		const int posY = mousePos.y - (int)pos.y - camPos.y;
+		if (posX >= 0 && posX < boardWidth && posY >= 0 && posY < boardHeight)
+		{
+			curTile = { posX / tileWidth ,posY / tileHeight };
+			isInsideBoard = true;
+		}
+		else
+		{
+			isInsideBoard = false;
+		}
 		while (!mouse.IsEmpty())
 		{
 			const auto e = mouse.Read().GetType();
 			switch (e)
 			{
 			case Mouse::Event::Type::LPress:
-				MouseClick(mousePos);
+			{
+				if (isInsideBoard)
+				{
+					MouseClick(mousePos);
+				}
+				if (mediator->GetMouseGame()->IsEmptyCommand())
+				{
+					mouseController->ProcessCommand(true, mousePos);
+				}
 				break;
-			case Mouse::Event::Type::Move:
-				curTile = { (mousePos.x - (int)pos.x) / tileWidth ,(mousePos.y - (int)pos.y) / tileHeight };
+			}
+			case Mouse::Event::Type::LRelease:
+				mouseController->ProcessCommand(false, mousePos);
 				break;
 			case Mouse::Event::Type::RPress:
 				mediator->OnRightClickFromGUI();
@@ -123,8 +155,12 @@ public:
 				break;
 			}
 		}
+		mouseController->Update(mouse);
 	}
-	
+	void AddMouseController(MouseCameraController* mouse)
+	{
+		mouseController = mouse;
+	}
 	//for mediator controler
 	void AddMediator(IMediator* mediator) override
 	{
@@ -168,9 +204,14 @@ public:
 private:
 	int nWidth = -1;
 	int nHeight = -1;
+	int boardWidth;
+	int boardHeight;
 	VecF pos;
 	std::mt19937 rng = std::mt19937(std::random_device{}());
 	std::vector<std::unique_ptr<TileGame>> tiles;
 	IMediator* mediator = nullptr;
 	VecI curTile = {0,0};
+	MouseCameraController* mouseController = nullptr;
+	bool isInsideBoard = true;
+	VecI mousePos;
 };

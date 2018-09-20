@@ -10,7 +10,8 @@ public:
 		:
 		sprite(sprite),
 		holdTime(holdTime),
-		chroma(chroma)
+		chroma(chroma),
+		offSet(height / 2)
 	{
 		for (int i = 0; i < count; i++)
 		{
@@ -22,9 +23,19 @@ public:
 		gfx.DrawSprite(pos.x, pos.y, frames[iCurFrame], *sprite,
 			SpriteEffect::AlphaBlendBakedAndGhost{}, mirrored);
 	}
+	void DrawGhostOffSet(const VecI& pos, Graphics& gfx, int iCurFrame, bool mirrored = false) const
+	{
+		gfx.DrawSprite(pos.x - offSet, pos.y - offSet, frames[iCurFrame], *sprite,
+			SpriteEffect::AlphaBlendBakedAndGhost{}, mirrored);
+	}
 	void Draw(const VecI& pos, Graphics& gfx, int iCurFrame, bool mirrored = false) const
 	{
 		gfx.DrawSprite(pos.x, pos.y, frames[iCurFrame], *sprite,
+			SpriteEffect::Chroma{ chroma }, mirrored);
+	}
+	void DrawOffset(const VecI& pos, Graphics& gfx, int iCurFrame, bool mirrored = false) const
+	{
+		gfx.DrawSprite(pos.x - offSet, pos.y - offSet, frames[iCurFrame], *sprite,
 			SpriteEffect::Chroma{ chroma }, mirrored);
 	}
 	// this version of draw replaces all opaque pixels with specified color
@@ -37,6 +48,11 @@ public:
 	void DrawAlpha(const VecI& pos, Graphics& gfx, int iCurFrame, bool mirrored = false) const
 	{
 		gfx.DrawSprite(pos.x, pos.y, frames[iCurFrame], *sprite,
+			SpriteEffect::AlphaBlendBaked{}, mirrored);
+	}
+	void DrawAlphaOffSet(const VecI& pos, Graphics& gfx, int iCurFrame, bool mirrored = false) const
+	{
+		gfx.DrawSprite(pos.x - offSet, pos.y - offSet, frames[iCurFrame], *sprite,
 			SpriteEffect::AlphaBlendBaked{}, mirrored);
 	}
 	inline const int GetFrameSize() const
@@ -53,6 +69,7 @@ public:
 	}
 private:
 	Color chroma;
+	int offSet;
 	std::shared_ptr<Surface> sprite;
 	std::vector<RectI> frames;
 	float holdTime;
@@ -68,6 +85,10 @@ public:
 	{
 		data->Draw(pos, gfx, iCurFrame, mirrored);
 	}
+	void DrawOffset(const VecI& pos, Graphics& gfx, bool mirrored = false) const
+	{
+		data->DrawOffset(pos, gfx, iCurFrame, mirrored);
+	}
 	// this version of draw replaces all opaque pixels with specified color
 	void DrawColor(const VecI& pos, Graphics& gfx, Color c, bool mirrored = false) const
 	{
@@ -77,6 +98,9 @@ public:
 	void DrawAlpha(const VecI& pos, Graphics& gfx, bool mirrored = false) const
 	{
 		data->DrawAlpha(pos, gfx, iCurFrame, mirrored);
+	}void DrawAlphaOffSet(const VecI& pos, Graphics& gfx, bool mirrored = false) const
+	{
+		data->DrawAlphaOffSet(pos, gfx, iCurFrame, mirrored);
 	}
 	void Update(float dt)
 	{
@@ -121,22 +145,26 @@ public:
 	OnetimeAnimation(const SharedAnimationData* data, const VecI& pos, bool mirrored = false)
 		:
 		data(data),
-		pos(pos - VecI(data->GetSurface()->GetHeight() / 2, data->GetSurface()->GetHeight() / 2)),
+		pos(pos),
 		mirrored(mirrored)
 	{}
-	void Draw(Graphics& gfx) const
+	void Draw(Graphics& gfx, const VecI& camPos) const
 	{
-		data->Draw(pos, gfx, iCurFrame);
+		data->Draw(pos + camPos, gfx, iCurFrame);
 	}
 	// this version of draw replaces all opaque pixels with specified color
-	void DrawColor(Graphics& gfx, Color c) const
+	void DrawColor(Graphics& gfx, Color c, const VecI& camPos) const
 	{
-		data->DrawColor(pos, gfx, iCurFrame, c, mirrored);
+		data->DrawColor(pos + camPos, gfx, iCurFrame, c, mirrored);
 	}
 	// this version of draw replaces all opaque pixels with specified color
-	void DrawAlpha(Graphics& gfx) const
+	void DrawAlpha(Graphics& gfx, const VecI& camPos) const
 	{
-		data->DrawAlpha(pos, gfx, iCurFrame, mirrored);
+		data->DrawAlpha(pos + camPos, gfx, iCurFrame, mirrored);
+	}
+	void DrawAlphaOffSet(Graphics& gfx, const VecI& camPos) const
+	{
+		data->DrawAlphaOffSet(pos + camPos, gfx, iCurFrame, mirrored);
 	}
 	bool Update(float dt)
 	{

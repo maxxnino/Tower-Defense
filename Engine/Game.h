@@ -26,8 +26,9 @@
 #include "FrameTimer.h"
 #include "MyBox2DListener.h"
 #include "ControlGuiAndBoard.h"
+#include "Camera.h"
+#include "MouseCameraController.h"
 #include <random>
-#include "Sound.h"
 class Game
 {
 public:
@@ -52,6 +53,9 @@ private:
 	int32 positionIterations = 3;
 	Sound bgm = Sound(L"Data\\Sounds\\that girl.mp3", Sound::LoopType::AutoFullSound);
 	std::unique_ptr<b2World> box2DEngine;
+	Camera cam;
+	MouseCameraController mouseController;
+	float cameraSpeed = 200.0f;
 	BoardGame brd;
 	BoardGame brd2;
 	World world;

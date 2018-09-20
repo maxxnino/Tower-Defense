@@ -25,12 +25,15 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd ),
 	box2DEngine(std::make_unique<b2World>(b2Vec2(0.0f, 0.0f))),
+	cam({0.0f,0.0f}),
+	mouseController(cam),
 	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight),
 	brd2(L"Data\\map.ini"),
 	world(*box2DEngine,BoardGame::tileWidth,BoardGame::tileHeight),
 	mediatorGuiAndBrd(&brd,&gui,&world)
 {
 	bgm.Play(1.0f, 0.5f);
+	brd.AddMouseController(&mouseController);
 	static MyBox2DListener mrLister;
 	mrLister.CaseContact<Tower, Enemy>([](PhysicObject* t, PhysicObject* e)
 	{
@@ -43,7 +46,7 @@ Game::Game( MainWindow& wnd )
 		auto projectile = static_cast<Projectile*>(p);
 		auto enemy = static_cast<Enemy*>(e);
 
-		projectile->SetExplosionPos(Graphics::ToScreenSpace(projectile->getBody().GetPosition()));
+		projectile->SetExplosionPos(Graphics::ToScreenSpace(0.2f * projectile->getBody().GetPosition() + 0.8f * enemy->getBody().GetPosition()));
 		projectile->MarkDead();
 		enemy->ApplyDame(projectile->GetElementType(), projectile->GetDame());
 		std::uniform_int_distribution<int> change(0, 10);
@@ -92,22 +95,19 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	/*float dt = ft.Mark();
-	if (dt > 0.01666666666667f * 5.0f)
-	{
-		dt = 0.01666667f;
-	}
+	float dt = ft.Mark();
 	gui.Update(dt, wnd.mouse);
-	brd.ProcessComand(wnd.mouse);
+	brd.ProcessComand(wnd.mouse, cam.GetPos());
 	world.Update(dt);
 	box2DEngine->Step(dt, velocityIterations, positionIterations);
-	world.CleanWorld(dt);*/
+	world.CleanWorld(dt);
 }
 
 void Game::ComposeFrame()
 {
-	/*brd.Draw(gfx);
-	world.Draw(gfx);
-	gui.Draw(gfx);*/
-	brd2.DrawTest(gfx);
+	const VecI camPos = cam.GetPos();
+	brd.Draw(gfx, camPos);
+	world.Draw(gfx, camPos);
+	gui.Draw(gfx);
+	//brd2.DrawTest(gfx, camPos);
 }

@@ -13,7 +13,6 @@ public:
 		PhysicObject(box2DEngine, CollisionFillter::BULLET, CollisionFillter::ENEMY,worldPos, true, false, size, linVel),
 		targetID(curTarget),
 		size(size),
-		offSet(int(size  * 2.0f * Graphics::scalePixel), int(size  * 2.0f * Graphics::scalePixel)),
 		projectileAnimation(element->GetProjectileAnimation()),
 		element(element),
 		maxSpeedSq(maxSpeedSq)
@@ -22,10 +21,10 @@ public:
 		body->SetUserData(this);
 	}
 
-	void Draw(Graphics& gfx) const
+	void Draw(Graphics& gfx, const VecI& camPos) const
 	{
 		//gfx.DrawCircle(body->GetPosition(), size, Colors::Magenta);
-		projectileAnimation.Draw(gfx.ToScreenSpace(body->GetPosition()) - offSet, gfx);
+		projectileAnimation.DrawOffset(gfx.ToScreenSpace(body->GetPosition()) + camPos, gfx);
 	}
 	inline int GetEnemyID() noexcept
 	{
@@ -79,7 +78,6 @@ private:
 	static constexpr float deadTimer = 3.0f;
 	SharedAnimation projectileAnimation;
 	Element* element;
-	VecI offSet;
 	VecI explosionPos = { 0,0 };
 	int targetID = -1;
 	float maxSpeedSq;

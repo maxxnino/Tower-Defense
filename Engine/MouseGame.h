@@ -87,6 +87,10 @@ public:
 			return &def;
 		}
 	}
+	bool IsEmptyCommand() const
+	{
+		return element == nullptr;
+	}
 private:
 	Element* element = nullptr;
 	float animationSpeed;

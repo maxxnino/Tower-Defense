@@ -18,9 +18,9 @@ public:
 	{
 		enemy->SetDir(dir);
 	}
-	void DrawDebug(Graphics& gfx)
+	void DrawDebug(Graphics& gfx, const VecI& camPos)
 	{
-		gfx.DrawCircle(worldPos, radian, Colors::Magenta);
+		gfx.DrawCircle(worldPos, radian, camPos, Colors::Magenta);
 	}
 private:
 	const b2Vec2 worldPos;
@@ -35,9 +35,9 @@ public:
 		:
 		guiding01(box2DEngine, {16.0f,9.0f}, 1.0f, { 0.0f,-1.0f })
 	{}
-	void DrawDebug(Graphics& gfx)
+	void DrawDebug(Graphics& gfx, const VecI& camPos)
 	{
-		guiding01.DrawDebug(gfx);
+		guiding01.DrawDebug(gfx, camPos);
 	}
 private:
 	DirectionGuiding guiding01;

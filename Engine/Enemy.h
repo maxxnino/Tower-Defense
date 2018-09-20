@@ -33,9 +33,9 @@ public:
 		}
 		body->SetUserData(this);
 	}
-	void Draw(Graphics& gfx)
+	void Draw(Graphics& gfx, const VecI& camPos)
 	{
-		const VecI pos = gfx.ToScreenSpace(body->GetPosition());
+		const VecI pos = gfx.ToScreenSpace(body->GetPosition()) + camPos;
 
 		if (isGetHit)
 		{

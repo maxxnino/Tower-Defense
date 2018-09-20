@@ -42,22 +42,22 @@ public:
 	{
 		guiAndBoardMediator = mediator;
 	}
-	void Draw(Graphics& gfx)
+	void Draw(Graphics& gfx, const VecI& camPos)
 	{
-		std::for_each(enemyMgr.begin(), enemyMgr.end(), [&gfx](auto& e) {e.second->Draw(gfx); });
-		std::for_each(towerMgr.begin(), towerMgr.end(), [&gfx,this](auto& t) {t.second->Draw(gfx, tileWidth, tileHeight); });
-		base.Draw(gfx);
+		std::for_each(enemyMgr.begin(), enemyMgr.end(), [&gfx, &camPos](auto& e) {e.second->Draw(gfx, camPos); });
+		std::for_each(towerMgr.begin(), towerMgr.end(), [&gfx, &camPos, this](auto& t) {t.second->Draw(gfx, camPos, tileWidth, tileHeight); });
+		base.Draw(gfx, camPos);
 		for (auto& b : bulletMgr)
 		{
-			b->Draw(gfx);
+			b->Draw(gfx, camPos);
 		}
 		for (auto& b : noTargetBullet)
 		{
-			b->Draw(gfx);
+			b->Draw(gfx, camPos);
 		}
-		explosion.Draw(gfx);
-		border.DrawDebug(gfx);
-		guidingMgr.DrawDebug(gfx);
+		explosion.Draw(gfx, camPos);
+		border.DrawDebug(gfx, camPos);
+		guidingMgr.DrawDebug(gfx, camPos);
 	}
 	void Update(float dt)
 	{

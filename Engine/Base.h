@@ -11,9 +11,9 @@ public:
 	{
 		body->SetUserData(this);
 	}
-	void Draw(Graphics& gfx) const
+	void Draw(Graphics& gfx, const VecI& camPos) const
 	{
-		gfx.DrawRectDim(body->GetPosition(), size, Colors::Blue);
+		//gfx.DrawRectDim(body->GetPosition(), camPos ,size, Colors::Blue);
 	}
 	void ApplyDame(int type, float dame) override
 	{

@@ -66,7 +66,7 @@ public:
 		return VecI((int)(worldPosition.x * scalePixel) + offSetX,
 			-(int)(worldPosition.y * scalePixel) + offSetY);
 	}
-	void DrawCircle(b2Vec2 worldPos, float worldSize, Color c);
+	void DrawCircle(b2Vec2 worldPos, float worldSize, const VecI& camPos, Color c);
 	void DrawRect(VecI p0, VecI p1, Color c);
 	void DrawRectDim(VecI p, int width, int height, Color c)
 	{
@@ -74,7 +74,7 @@ public:
 	}
 	void DrawRectDim(const b2Vec2& worldPos, const VecF& size, const Color& c);
 	void DrawRectDim(const b2Vec2& worldPos, float worldSize, const Color& c);
-	void DrawLine(const b2Vec2& worldP0, const b2Vec2& worldP1, Color c);
+	void DrawLine(const b2Vec2& worldP0, const b2Vec2& worldP1, const VecI& camPos, Color c);
 	template<typename E>
 	void DrawSprite(int x, int y, const Surface& s, E effect, bool reversed = false)
 	{

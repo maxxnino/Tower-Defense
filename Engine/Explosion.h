@@ -43,11 +43,11 @@ public:
 			}
 		}
 	}
-	void Draw(Graphics& gfx)
+	void Draw(Graphics& gfx, const VecI& camPos)
 	{
 		for (auto& e : explosionMgr)
 		{
-			e->DrawAlpha(gfx);
+			e->DrawAlphaOffSet(gfx, camPos);
 		}
 	}
 private:

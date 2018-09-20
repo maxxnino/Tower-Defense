@@ -144,6 +144,7 @@
     <ClInclude Include="Base.h" />
     <ClInclude Include="BoardGame.h" />
     <ClInclude Include="BuilderMatching.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="ChiliMath.h" />
     <ClInclude Include="ChiliUtil.h" />
     <ClInclude Include="Codex.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="IMediator.h" />
     <ClInclude Include="ControlGuiAndBoard.h" />
     <ClInclude Include="IWordComponent.h" />
+    <ClInclude Include="MouseCameraController.h" />
     <ClInclude Include="MouseGame.h" />
     <ClInclude Include="MyBox2DListener.h" />
     <ClInclude Include="PhysicObject.h" />

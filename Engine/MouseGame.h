@@ -107,9 +107,13 @@ private:
 	SharedAnimationData towerAni09 = { 0,0,40,40,6, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv09_40_40_6.png"), animationSpeed, Colors::Black };
 
 	//projectile animation data
-	SharedAnimationData pro01 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_2.png"), animationSpeed, Colors::Black };
-	SharedAnimationData pro02 = { 30,0,30,30,8, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_9.png"), animationSpeed, Colors::Black };
-	SharedAnimationData pro03 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_30_30_14.png"), animationSpeed, Colors::Black };
+	SharedAnimationData pro01 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_01_30_30_2.png"), animationSpeed, Colors::Black };
+	SharedAnimationData pro02 = { 30,0,30,30,8, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_02_30_30_9.png"), animationSpeed, Colors::Black };
+	SharedAnimationData pro03 = { 0,0,30,30,2, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_03_30_30_14.png"), animationSpeed, Colors::Black };
+	SharedAnimationData pro04 = { 0,0,30,30,8, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_04_30_30_8.png"), animationSpeed, Colors::Black };
+	SharedAnimationData pro05 = { 0,0,30,30,4, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_05_30_30_4.png"), animationSpeed, Colors::Black };
+	SharedAnimationData pro06 = { 0,0,30,30,4, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_06_30_30_4.png"), animationSpeed, Colors::Black };
+	SharedAnimationData pro07 = { 0,0,30,30,4, Codex<Surface>::Retrieve(L"Images\\Projectile\\pm_pro_07_30_30_4.png"), animationSpeed, Colors::Black };
 
 
 	Element def = { Element::Type::Fire, 1, 1, 1, Colors::Magenta, &towerAni01, &pro01};
@@ -120,10 +124,10 @@ private:
 	Element nature = { Element::Type::Nature, 1, 1,1,Colors::Green, &towerAni03, &pro03 };
 
 	//lv02
-	Element fireFire = { Element::Type::Fire + Element::Type::Fire, 2, 1, 1, Colors::Magenta, &towerAni04, &pro01};
-	Element fireWater = { Element::Type::Fire + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni05, &pro02};
-	Element fireNature = { Element::Type::Fire + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni06, &pro03};
-	Element waterWater = { Element::Type::Water + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni07, &pro01};
+	Element fireFire = { Element::Type::Fire + Element::Type::Fire, 2, 1, 1, Colors::Magenta, &towerAni04, &pro06 };
+	Element fireWater = { Element::Type::Fire + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni05, &pro05};
+	Element fireNature = { Element::Type::Fire + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni06, &pro07};
+	Element waterWater = { Element::Type::Water + Element::Type::Water, 2, 1, 1, Colors::Magenta, &towerAni07, &pro04};
 	Element waterNature = { Element::Type::Water + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni08, &pro02};
 	Element natureNature = { Element::Type::Nature + Element::Type::Nature, 2, 1, 1, Colors::Magenta, &towerAni09, &pro03};
 };

@@ -1,6 +1,6 @@
 #pragma once
-#include "MenuItem.h"
 #include "Codex.h"
+#include "Button.h"
 class Menu
 {
 public:
@@ -48,7 +48,7 @@ public:
 			}
 		}
 	}	
-	void AddItem(MenuItem* item)
+	void AddItem(Button* item)
 	{
 		items.emplace_back(item);
 	}
@@ -68,5 +68,5 @@ private:
 	float width;
 	float height;
 	const std::shared_ptr<Surface> surf;
-	std::vector<MenuItem*> items;
+	std::vector<Button*> items;
 };

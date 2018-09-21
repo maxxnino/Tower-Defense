@@ -35,14 +35,12 @@ public:
 			}
 		}
 	}
-	BoardGame(VecF pos, float boardW, float boardH)
+	BoardGame(VecF pos, int nWidth, int nHeight)
 		:
-		pos(pos)
+		pos(pos),
+		nWidth(nWidth),
+		nHeight(nHeight)
 	{
-		const int r = ((int)boardW % tileWidth >= 1) ? 1 : 0;
-		const int b = ((int)boardH % tileHeight >= 1) ? 1 : 0;
-		nWidth = r + (int)boardW / tileWidth;
-		nHeight = b + (int)boardH / tileHeight;
 		boardWidth = nWidth * tileWidth;
 		boardHeight = nHeight * tileHeight;
 		const int mid = nHeight / 2;
@@ -88,9 +86,16 @@ public:
 	// for game graphic
 	void Draw(Graphics& gfx, const VecI& camPos) const noexcept
 	{
-		for (int h = 0; h < nHeight; h++)
+		const RectF boardRect = RectF(pos, (float)boardWidth, (float)boardHeight);
+		const RectF rect = mouseController->GetRect().GetClippedTo(boardRect);
+
+		const int left = (int)rect.left / tileWidth;
+		const int top = (int)rect.top / tileHeight;
+		const int right = std::min((int)rect.right / tileWidth + 1, nWidth);
+		const int bottom = std::min((int)rect.bottom / tileHeight + 1, nHeight);
+		for (int h = top; h < bottom; h++)
 		{
-			for (int w = 0; w < nWidth; w++)
+			for (int w = left; w < right; w++)
 			{
 				const VecI tilePos = (VecI)pos + VecI(w * tileWidth, h * tileHeight) + camPos;
 				tileAt(w, h).Draw(gfx, tilePos, tileWidth, tileHeight);
@@ -175,6 +180,8 @@ public:
 	void AddMouseController(MouseCameraController* mouse)
 	{
 		mouseController = mouse;
+		const RectF rect = { (float)pos.x,(float)pos.y, (float)pos.x + (float)boardWidth, (float)pos.y + (float)boardHeight};
+		mouse->SetCameraBorder(rect.GetExpanded((float)tileWidth * 4.0f));
 	}
 	//for mediator controler
 	void AddMediator(IMediator* mediator) override

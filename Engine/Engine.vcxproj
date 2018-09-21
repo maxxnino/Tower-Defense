@@ -137,8 +137,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\menu\Engine\FrameTimer.h" />
-    <ClInclude Include="..\..\menu\Engine\Rect.h" />
-    <ClInclude Include="..\..\menu\Engine\Vec2.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Base.h" />
@@ -183,6 +181,7 @@
     <ClInclude Include="MenuManager.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SharedAnimation.h" />
     <ClInclude Include="Spell.h" />
@@ -196,6 +195,7 @@
     <ClInclude Include="Tower.h" />
     <ClInclude Include="TypeArmor.h" />
     <ClInclude Include="Element.h" />
+    <ClInclude Include="Vec2.h" />
     <ClInclude Include="WalkableTile.h" />
     <ClInclude Include="IWorldMediator.h" />
     <ClInclude Include="World.h" />

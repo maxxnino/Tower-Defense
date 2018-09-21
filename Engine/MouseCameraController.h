@@ -29,6 +29,14 @@ public:
 			lastPos = curPos;
 		}
 	}
+	void SetCameraBorder(const RectF& extend)
+	{
+		cam.SetExtend(extend);
+	}
+	RectF GetRect() const
+	{
+		return cam.GetRect();
+	}
 private:
 	bool engaged = false;
 	VecF lastPos;

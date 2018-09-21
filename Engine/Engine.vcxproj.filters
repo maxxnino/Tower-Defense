@@ -195,9 +195,6 @@
     <ClInclude Include="Mouse.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\menu\Engine\Rect.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
@@ -205,9 +202,6 @@
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="SoundEffect.h">
-      <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\menu\Engine\Vec2.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Explosion.h">
@@ -245,6 +239,12 @@
     </ClInclude>
     <ClInclude Include="MouseCameraController.h">
       <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

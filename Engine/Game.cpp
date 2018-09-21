@@ -25,9 +25,9 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd ),
 	box2DEngine(std::make_unique<b2World>(b2Vec2(0.0f, 0.0f))),
-	cam({0.0f,0.0f}),
+	cam({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight),
 	mouseController(cam),
-	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight),
+	brd({0.0f,0.0f},60,60),
 	//brd2(L"Data\\map01.ini"),
 	world(*box2DEngine,BoardGame::tileWidth,BoardGame::tileHeight),
 	mediatorGuiAndBrd(&brd,&gui,&world)

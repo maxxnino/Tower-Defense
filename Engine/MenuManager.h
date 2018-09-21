@@ -30,15 +30,12 @@ public:
 		//main menu
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToFire();
-			mediator->GetMouseGame()->ChangeState(MouseState::BuildTower);
 		});
 		mainMenuBtn02.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToIce();
-			mediator->GetMouseGame()->ChangeState(MouseState::BuildTower);
 		});
 		mainMenuBtn03.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToLighting();
-			mediator->GetMouseGame()->ChangeState(MouseState::BuildTower);
 		});
 		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeState(MouseState::DeleteTower);
@@ -124,6 +121,7 @@ public:
 		gfx.DrawSprite(0, 0, *surf, SpriteEffect::Copy{});
 		coinAnimation.DrawAlpha({ 10,5 }, gfx);
 		font.DrawText(std::to_string(mediator->GetGold()), {60,10},Colors::Green,gfx);
+		mediator->GetMouseGame()->Draw(gfx);
 		DrawWaringText(gfx);
 	}
 	void ChangeMainMenu()

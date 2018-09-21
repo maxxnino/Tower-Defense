@@ -44,14 +44,17 @@ public:
 	inline void ChangeToFire() noexcept
 	{
 		element = &fire;
+		state = MouseState::BuildTower;
 	}
 	inline void ChangeToIce() noexcept
 	{
 		element = &water;
+		state = MouseState::BuildTower;
 	}
 	inline void ChangeToLighting() noexcept
 	{
 		element = &nature;
+		state = MouseState::BuildTower;
 	}
 	const std::shared_ptr<Surface> GetFireSurface()
 	{
@@ -108,8 +111,33 @@ public:
 	{
 		state = newState;
 	}
+	void SetPos(const VecI& newPos)
+	{
+		pos = newPos;
+	}
+	void Draw(Graphics& gfx)
+	{
+		switch (state)
+		{
+		case None:
+			break;
+		case BuildTower:
+			//gfx.DrawSprite(pos.x, pos.y, *element->GetElementSurface(), SpriteEffect::Ghost(Colors::Magenta));
+			element->GetTowerAnimation()->DrawGhost(pos, gfx, 0);
+			break;
+		case DeleteTower:
+			break;
+		case SwapTower:
+			break;
+		case DropItem:
+			break;
+		default:
+			break;
+		}
+	}
 private:
 	Element* element = nullptr;
+	VecI pos = { 0,0 };
 	MouseState state = MouseState::None;
 	float animationSpeed;
 	std::unordered_map<int, Element*> factory;

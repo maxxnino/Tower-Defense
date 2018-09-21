@@ -96,23 +96,6 @@ public:
 				tileAt(w, h).Draw(gfx, tilePos, tileWidth, tileHeight);
 			}
 		}
-		auto element = mediator->GetMouseGame()->getElement();
-		if (element)
-		{
-			if (isInsideBoard)
-			{
-				const VecI tilePos = (VecI)pos + VecI(curTile.x * tileWidth, curTile.y * tileHeight) + camPos;
-				element->GetTowerAnimation()->DrawGhost(tilePos, gfx, 0);
-			}
-			else
-			{
-				element->GetTowerAnimation()->DrawGhostOffSet(mousePos, gfx, 0);
-			}
-		}
-		else
-		{
-			
-		}
 	}
 	void DrawTest(Graphics& gfx,const VecI& camPos) const
 	{
@@ -134,11 +117,13 @@ public:
 		if (posX >= 0 && posX < boardWidth && posY >= 0 && posY < boardHeight)
 		{
 			curTile = { posX / tileWidth ,posY / tileHeight };
+			mediator->GetMouseGame()->SetPos({ curTile.x * tileWidth + camPos.x,curTile.y * tileHeight + camPos.y });
 			isInsideBoard = true;
 		}
 		else
 		{
 			isInsideBoard = false;
+			mediator->GetMouseGame()->SetPos({ mousePos.x - tileWidth / 2, mousePos.y - tileHeight / 2 });
 		}
 		auto mouseState = mediator->GetMouseGame()->GetMouseState();
 		

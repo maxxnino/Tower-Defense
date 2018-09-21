@@ -17,6 +17,7 @@ public:
 		explosionDatas.emplace_back(&explosion05);
 		explosionDatas.emplace_back(&explosion06);
 		explosionDatas.emplace_back(&explosion07);
+		explosionDatas.emplace_back(&explosion08);
 	}
 	template<class T>
 	void AddExplosion(T& rng, const VecI& pos)
@@ -63,6 +64,7 @@ private:
 	SharedAnimationData explosion05 = { 0,0,40,40,24, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_05_40_40_24.png"), 0.5f * animationSpeed, Colors::Black };
 	SharedAnimationData explosion06 = { 0,0,40,40,24, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_06_40_40_24.png"), 0.5f * animationSpeed, Colors::Black };
 	SharedAnimationData explosion07 = { 0,0,40,40,24, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_07_40_40_24.png"), 0.6f * animationSpeed, Colors::Black };
+	SharedAnimationData explosion08 = { 0,0,40,40,7, Codex<Surface>::Retrieve(L"Images\\Explosion\\pm_explosion_08_40_40_7.png"), 0.9f * animationSpeed, Colors::Black };
 	std::vector<SharedAnimationData*> explosionDatas;
 	std::vector<std::unique_ptr<OnetimeAnimation>> explosionMgr;
 };

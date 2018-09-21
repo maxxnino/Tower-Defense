@@ -58,6 +58,10 @@ public:
 		float size = 10.0f;
 		towerIndex = mediator->MakeTower(type, type->getColor(), worldPos, size);
 	}
+	int GetTileData() const override
+	{
+		return 1;
+	}
 private:
 	static constexpr Color defaultColor = Colors::Gray;
 	std::shared_ptr<Surface> surf;

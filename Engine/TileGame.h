@@ -13,4 +13,5 @@ public:
 	virtual void MouseClick(const VecI& mousePos, IMediator* mediator) {}
 	virtual void Draw(Graphics& gfx, VecI pos, int width, int height) const noexcept {}
 	virtual void RemoveTowerIndex() {}
+	virtual int GetTileData() const = 0;
 };

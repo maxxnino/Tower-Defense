@@ -14,6 +14,10 @@ public:
 		//gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, defaultColor);
 		gfx.DrawSprite(pos.x, pos.y, *surf, SpriteEffect::Copy{});
 	}
+	int GetTileData() const override
+	{
+		return 0;
+	}
 private:
 	std::shared_ptr<Surface> surf;
 	const int tileIndex;

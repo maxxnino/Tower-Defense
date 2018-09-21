@@ -55,10 +55,14 @@ public:
 				file >> data;
 				settingData.emplace(std::move(line), data);
 			}
-			else if (line[0] == 'M')
+			else if (line[0] == '*')
 			{
 				std::string data;
-				file >> data;
+				std::string c;
+				while (file >> c)
+				{
+					data += c;
+				}
 				mapData.emplace(std::move(line), std::move(data));
 			}
 		}

@@ -19,21 +19,19 @@ public:
 		nHeight = (int)GameSettings::Get().GetData("[nHeight]");
 		boardWidth = nWidth * tileWidth;
 		boardHeight = nHeight * tileHeight;
-		for (int h = 0; h < nHeight; h++)
+		auto data = GameSettings::Get().GetMapData("*MAP*");
+		for (int i= 0; i < nWidth * nHeight; i++)
 		{
-			auto data = GameSettings::Get().GetMapData("M01" + std::to_string(h));
-			int w = 0;
 			for (auto d : data)
 			{
-				if (d == 'W')
+				if (d == '1')
 				{
-					tiles.emplace_back(std::make_unique<WalkableTile>(pos, w + h * nWidth, Codex<Surface>::Retrieve(L"Images\\Tile\\ground_01.png")));
+					tiles.emplace_back(std::make_unique<WalkableTile>(pos, i, Codex<Surface>::Retrieve(L"Images\\Tile\\ground_01.png")));
 				}
-				else if (d == 'Y')
+				else if (d == '0')
 				{
-					tiles.emplace_back(std::make_unique<BuildableTile>(pos, w + h * nWidth, Codex<Surface>::Retrieve(L"Images\\Tile\\ground_02.png")));
+					tiles.emplace_back(std::make_unique<BuildableTile>(pos, i, Codex<Surface>::Retrieve(L"Images\\Tile\\ground_02.png")));
 				}
-				w++;
 			}
 		}
 	}
@@ -76,7 +74,17 @@ public:
 			}
 		}
 	}
-
+	void SaveMap()
+	{
+		std::ofstream file("Data\\map01.ini");
+		file << "[PosX]\n" << 0 << "\n" << "[PosY]\n" << 0 << "\n";
+		file << "[nWidth]\n" << nWidth << "\n" << "[nHeight]\n" << nHeight << "\n";
+		file << "*MAP*\n";
+		for (int i = 0; i < nWidth * nHeight; i++)
+		{
+			file << tiles[i]->GetTileData();
+		}
+	}
 	// for game graphic
 	void Draw(Graphics& gfx, const VecI& camPos) const noexcept
 	{

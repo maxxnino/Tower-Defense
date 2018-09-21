@@ -30,21 +30,28 @@ public:
 		//main menu
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToFire();
+			mediator->GetMouseGame()->ChangeState(MouseState::BuildTower);
 		});
 		mainMenuBtn02.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToIce();
+			mediator->GetMouseGame()->ChangeState(MouseState::BuildTower);
 		});
 		mainMenuBtn03.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToLighting();
+			mediator->GetMouseGame()->ChangeState(MouseState::BuildTower);
 		});
-		
+		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
+			mediator->GetMouseGame()->ChangeState(MouseState::DeleteTower);
+		});
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
 		mainMenuBtn02.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
 		mainMenuBtn03.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
-		
+		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
+
 		mainMenu.AddItem(&mainMenuBtn01);
 		mainMenu.AddItem(&mainMenuBtn02);
 		mainMenu.AddItem(&mainMenuBtn03);
+		mainMenu.AddItem(&deleteTowerBtn04);
 		//mainMenu.AddItem(&deleteTowerBtn04);
 
 		//upgrademenu
@@ -63,18 +70,12 @@ public:
 			mediator->UpgradeTower();
 			ChangeMainMenu();
 		});
-		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
-			mediator->SellTower();
-			ChangeMainMenu();
-		});
 		upgradeMenuBtn01.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
 		upgradeMenuBtn02.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
 		upgradeMenuBtn03.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
-		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
 		upgradeMenu.AddItem(&upgradeMenuBtn01);
 		upgradeMenu.AddItem(&upgradeMenuBtn02);
 		upgradeMenu.AddItem(&upgradeMenuBtn03);
-		upgradeMenu.AddItem(&deleteTowerBtn04);
 	}
 
 	// Remember update color for button after add mediator
@@ -205,12 +206,11 @@ private:
 	Button mainMenuBtn01;
 	Button mainMenuBtn02;
 	Button mainMenuBtn03;
-	
+	Button deleteTowerBtn04;
 
 	//Upgrade Menu
 	Menu upgradeMenu;
 	Button upgradeMenuBtn01;
 	Button upgradeMenuBtn02;
 	Button upgradeMenuBtn03;
-	Button deleteTowerBtn04;
 };

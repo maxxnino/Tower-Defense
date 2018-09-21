@@ -1,6 +1,14 @@
 #pragma once
 #include "Element.h"
 #include "GameSettings.h"
+enum MouseState
+{
+	None,
+	BuildTower,
+	DeleteTower,
+	SwapTower,
+	DropItem,
+};
 class MouseGame
 {
 public:
@@ -31,6 +39,7 @@ public:
 	inline void Clear() noexcept
 	{
 		element = nullptr;
+		state = MouseState::None;
 	}
 	inline void ChangeToFire() noexcept
 	{
@@ -91,8 +100,17 @@ public:
 	{
 		return element == nullptr;
 	}
+	MouseState GetMouseState() const
+	{
+		return state;
+	}
+	void ChangeState(MouseState newState)
+	{
+		state = newState;
+	}
 private:
 	Element* element = nullptr;
+	MouseState state = MouseState::None;
 	float animationSpeed;
 	std::unordered_map<int, Element*> factory;
 	//tower animation data pm_tower_lv09_40_40_6 pm_tower_lv03_40_40_12

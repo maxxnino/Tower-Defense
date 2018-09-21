@@ -61,7 +61,18 @@ public:
 	}
 	void Update(float dt)
 	{
-		std::for_each(towerMgr.begin(), towerMgr.end(), [dt,this](auto& t) {t.second->Update(dt); });
+		for (auto t = towerMgr.begin(); t != towerMgr.end();)
+		{
+			if (t->second->isRemove())
+			{
+				t = towerMgr.erase(t);
+			}
+			else
+			{
+				t->second->Update(dt);
+				t++;
+			}
+		}
 		std::for_each(enemyMgr.begin(), enemyMgr.end(), [dt,this](auto& e) {e.second->Update(dt); });
 		for (int i = 0; i < bulletMgr.size();)
 		{
@@ -218,10 +229,9 @@ public:
 	{
 		assert(curTowerIndex >= 0);
 		assert(towerMgr.find(curTowerIndex) != towerMgr.end());
-		auto t = towerMgr.find(curTowerIndex);
-		gold.AddGold(int((float)(t->second->GetGold()) * sellRate + 0.5f));
-		t->second->MarkDead();
-		towerMgr.erase(curTowerIndex);
+		auto& t = towerMgr.at(curTowerIndex);
+		gold.AddGold(int((float)(t->GetGold()) * sellRate + 0.5f));
+		t->MarkDead();
 	}
 	bool IsTowerMaxLv(int towerIndex) override
 	{
@@ -242,6 +252,7 @@ public:
 		assert(t != towerMgr.end());
 		auto newElement = guiAndBoardMediator->GetMouseGame()->MakeElement(t->second->getCurElement(), element);
 		t->second->Upgrade(newElement);
+		guiAndBoardMediator->GetMouseGame()->Clear();
 	}
 	int GetTargetEnemy(std::set<int>& enemyIDs,const b2Vec2& towerPos)
 	{

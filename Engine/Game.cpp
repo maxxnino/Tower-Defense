@@ -28,7 +28,7 @@ Game::Game( MainWindow& wnd )
 	cam({0.0f,0.0f}),
 	mouseController(cam),
 	brd({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight),
-	brd2(L"Data\\map01.ini"),
+	//brd2(L"Data\\map01.ini"),
 	world(*box2DEngine,BoardGame::tileWidth,BoardGame::tileHeight),
 	mediatorGuiAndBrd(&brd,&gui,&world)
 {
@@ -95,19 +95,19 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	/*float dt = ft.Mark();
+	float dt = ft.Mark();
 	gui.Update(dt, wnd.mouse);
 	brd.ProcessComand(wnd.mouse, cam.GetPos());
 	world.Update(dt);
 	box2DEngine->Step(dt, velocityIterations, positionIterations);
-	world.CleanWorld(dt);*/
+	world.CleanWorld(dt);
 }
 
 void Game::ComposeFrame()
 {
 	const VecI camPos = cam.GetPos();
-	/*brd.Draw(gfx, camPos);
+	brd.Draw(gfx, camPos);
 	world.Draw(gfx, camPos);
-	gui.Draw(gfx);*/
-	brd2.DrawTest(gfx, camPos);
+	gui.Draw(gfx);
+	//brd2.DrawTest(gfx, camPos);
 }

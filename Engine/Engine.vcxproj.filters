@@ -34,9 +34,6 @@
     <Filter Include="Header Files\Game\World Mediator">
       <UniqueIdentifier>{a62d0cfb-8ff0-4487-87a3-26960a580bde}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Game\Gui and Board">
-      <UniqueIdentifier>{31e175ba-ac78-452d-90c4-ab9b1a528ffd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Game\Game Object">
       <UniqueIdentifier>{fc447c83-354d-4067-aa70-eed568e01400}</UniqueIdentifier>
     </Filter>
@@ -54,6 +51,9 @@
     </Filter>
     <Filter Include="Header Files\Game\Spell">
       <UniqueIdentifier>{45603fd6-f1f7-473f-bd90-4d0cb12e70da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Gui and Board">
+      <UniqueIdentifier>{31e175ba-ac78-452d-90c4-ab9b1a528ffd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -79,13 +79,13 @@
       <Filter>Header Files\Game\Tower</Filter>
     </ClInclude>
     <ClInclude Include="IMediator.h">
-      <Filter>Header Files\Game\Gui and Board</Filter>
+      <Filter>Header Files\GUI\Gui and Board</Filter>
     </ClInclude>
     <ClInclude Include="IComponent.h">
-      <Filter>Header Files\Game\Gui and Board</Filter>
+      <Filter>Header Files\GUI\Gui and Board</Filter>
     </ClInclude>
     <ClInclude Include="ControlGuiAndBoard.h">
-      <Filter>Header Files\Game\Gui and Board</Filter>
+      <Filter>Header Files\GUI\Gui and Board</Filter>
     </ClInclude>
     <ClInclude Include="MouseGame.h">
       <Filter>Header Files\GUI</Filter>

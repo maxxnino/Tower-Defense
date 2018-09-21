@@ -14,6 +14,46 @@ public:
 		//gfx.DrawRectDim(pos + VecI(2, 2), width - 2, height - 2, defaultColor);
 		gfx.DrawSprite(pos.x, pos.y, *surf, SpriteEffect::Copy{});
 	}
+	bool MouseNoneClick(IMediator* mediator) override
+	{
+		if (towerIndex != -1)
+		{
+			//nothing in mouse, and this tile have tower, clicked for open upgrade menu from Menumanager
+			mediator->OpenUpgradeMenu(towerIndex, tileIndex);
+			return false;
+		}
+		return true;
+	}
+	void MouseDeleteTowerClick(IMediator* mediator) override
+	{
+		if (towerIndex != -1)
+		{
+			mediator->DeleteTower(towerIndex);
+			towerIndex = -1;
+		}
+		
+	}
+	void MouseBuildTowerClick(IMediator* mediator) override
+	{
+		if (towerIndex == -1)
+		{
+			//view world object
+			if (mediator->CanAffordTower())
+			{
+				BuildTower(mediator->GetMouseGame()->getElement(), mediator);
+			}
+			else
+			{
+				//view menumanager warning text
+				mediator->ActiveWarningText(0);
+			}
+		}
+		else
+		{
+			//view menumanager warning text
+			mediator->ActiveWarningText(1);
+		}
+	}
 	void MouseClick(const VecI& mousePos, IMediator* mediator) override
 	{
 		auto element = mediator->GetMouseGame()->getElement();

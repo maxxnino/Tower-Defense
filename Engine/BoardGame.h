@@ -109,6 +109,10 @@ public:
 				element->GetTowerAnimation()->DrawGhostOffSet(mousePos, gfx, 0);
 			}
 		}
+		else
+		{
+			
+		}
 	}
 	void DrawTest(Graphics& gfx,const VecI& camPos) const
 	{
@@ -136,6 +140,8 @@ public:
 		{
 			isInsideBoard = false;
 		}
+		auto mouseState = mediator->GetMouseGame()->GetMouseState();
+		
 		while (!mouse.IsEmpty())
 		{
 			const auto e = mouse.Read().GetType();
@@ -145,9 +151,25 @@ public:
 			{
 				if (isInsideBoard)
 				{
-					MouseClick(mousePos);
+					switch (mouseState)
+					{
+					case None:
+						if (tileAt(curTile).MouseNoneClick(mediator))
+						{
+							mouseController->ProcessCommand(true, mousePos);
+						}
+						break;
+					case BuildTower:
+						tileAt(curTile).MouseBuildTowerClick(mediator);
+						break;
+					case DeleteTower:
+						tileAt(curTile).MouseDeleteTowerClick(mediator);
+						break;
+					case SwapTower:
+						break;
+					}
 				}
-				if (mediator->GetMouseGame()->IsEmptyCommand())
+				else
 				{
 					mouseController->ProcessCommand(true, mousePos);
 				}

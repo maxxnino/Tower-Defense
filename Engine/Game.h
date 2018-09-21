@@ -57,7 +57,7 @@ private:
 	MouseCameraController mouseController;
 	float cameraSpeed = 200.0f;
 	BoardGame brd;
-	BoardGame brd2;
+	//BoardGame brd2;
 	World world;
 	MenuManager gui;
 	ControlGuiAndBoard mediatorGuiAndBrd;

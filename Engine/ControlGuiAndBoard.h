@@ -36,13 +36,6 @@ public:
 		trackingTile = -1;
 		mouseGame.Clear();
 	}
-	void SellTower() override
-	{
-		world.SellTower(towerIndexInWorld);
-		board.tileAt(trackingTile).RemoveTowerIndex();
-		trackingTile = -1;
-		towerIndexInWorld = -1;
-	}
 	void ActiveWarningText(int newType) override
 	{
 		menuMgr.ActiveWarningText(newType);
@@ -73,6 +66,10 @@ public:
 	bool CanAffordTower() const override
 	{
 		return world.CanAffordTower(GetMouseGame());
+	}
+	void DeleteTower(int towerIndex) override
+	{
+		world.SellTower(towerIndex);
 	}
 	/**********************************/
 private:

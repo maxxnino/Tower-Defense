@@ -25,27 +25,21 @@ private:
 		while (!mouse.IsEmpty())
 		{
 			auto e = mouse.Read().GetType();
+			auto it = handlers.find(e);
+			if (it != handlers.end())
+			{
+				it->second();
+			}
+
 			switch (e)
 			{
 			case Mouse::Event::Type::LPress:
 			{
 				isclicked = false;
-
 				color = Colors::Magenta;
 				btnState = &clickedState;
 			}
 			break;
-			case Mouse::Event::Type::RPress:
-			{
-				auto it = handlers.find(Mouse::Event::Type::RPress);
-				if (it != handlers.end())
-				{
-					it->second();
-				}
-			}
-			break;
-			default:
-				break;
 			}
 		}
 	}

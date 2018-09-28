@@ -43,9 +43,6 @@
     <Filter Include="Header Files\Framework">
       <UniqueIdentifier>{67d1a85b-29f7-4bcc-836b-d150ef54f6cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Framework\Resource">
-      <UniqueIdentifier>{e08c7718-b699-43fb-b8d1-12e7e9ac76a7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Game\Physic">
       <UniqueIdentifier>{28f3edd9-e9e4-423e-9692-a4345e91bae1}</UniqueIdentifier>
     </Filter>
@@ -54,6 +51,12 @@
     </Filter>
     <Filter Include="Header Files\GUI\Gui and Board">
       <UniqueIdentifier>{31e175ba-ac78-452d-90c4-ab9b1a528ffd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Pattern And Alg">
+      <UniqueIdentifier>{2130331c-5810-4b24-8437-9dedc3b90f2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Pattern And Alg\Resource">
+      <UniqueIdentifier>{e08c7718-b699-43fb-b8d1-12e7e9ac76a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -130,34 +133,34 @@
       <Filter>Header Files\Game\Game Object</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
-      <Filter>Header Files\Framework\Resource</Filter>
+      <Filter>Header Files\Game\Pattern And Alg\Resource</Filter>
     </ClInclude>
     <ClInclude Include="GDIPlusManager.h">
-      <Filter>Header Files\Framework\Resource</Filter>
+      <Filter>Header Files\Game\Pattern And Alg\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Codex.h">
-      <Filter>Header Files\Framework\Resource</Filter>
+      <Filter>Header Files\Game\Pattern And Alg\Resource</Filter>
     </ClInclude>
     <ClInclude Include="SpriteEffect.h">
-      <Filter>Header Files\Framework\Resource</Filter>
+      <Filter>Header Files\Game\Pattern And Alg\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Surface.h">
-      <Filter>Header Files\Framework\Resource</Filter>
+      <Filter>Header Files\Game\Pattern And Alg\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
-      <Filter>Header Files\Framework\Resource</Filter>
+      <Filter>Header Files\Game\Pattern And Alg\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Element.h">
       <Filter>Header Files\Game\Tower</Filter>
     </ClInclude>
     <ClInclude Include="BuilderMatching.h">
-      <Filter>Header Files\Framework\Resource</Filter>
+      <Filter>Header Files\Game\Pattern And Alg\Resource</Filter>
     </ClInclude>
     <ClInclude Include="LineWall.h">
       <Filter>Header Files\Game\Game Object</Filter>
     </ClInclude>
     <ClInclude Include="SharedAnimation.h">
-      <Filter>Header Files\Framework\Resource</Filter>
+      <Filter>Header Files\Game\Pattern And Alg\Resource</Filter>
     </ClInclude>
     <ClInclude Include="ChiliException.h">
       <Filter>Header Files\Framework</Filter>

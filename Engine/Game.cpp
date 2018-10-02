@@ -25,15 +25,13 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd ),
 	box2DEngine(std::make_unique<b2World>(b2Vec2(0.0f, 0.0f))),
-	cam({0.0f,0.0f},(float)Graphics::ScreenWidth,(float)Graphics::ScreenHeight),
-	mouseController(cam),
-	brd({0.0f,0.0f},60,60),
+	controler(wnd.mouse, cam),
+	bg({ -100.0f / 2.0f,-100.0f / 2.0f }, 100, 100, 2, rng),
 	//brd2(L"Data\\map01.ini"),
-	world(*box2DEngine,BoardGame::tileWidth,BoardGame::tileHeight),
-	mediatorGuiAndBrd(&brd,&gui,&world)
+	world(*box2DEngine,Camera::scalePixel * 2, Camera::scalePixel * 2),
+	mediatorGuiAndBrd(&bg,&gui,&world)
 {
 	bgm.Play(1.0f, 0.5f);
-	brd.AddMouseController(&mouseController);
 	static MyBox2DListener mrLister;
 	mrLister.CaseContact<Tower, Enemy>([](PhysicObject* t, PhysicObject* e)
 	{
@@ -97,7 +95,8 @@ void Game::UpdateModel()
 {
 	float dt = ft.Mark();
 	gui.Update(dt, wnd.mouse);
-	brd.ProcessComand(wnd.mouse, cam.GetPos());
+	controler.Update();
+	bg.Update(wnd.mouse, cam);
 	world.Update(dt);
 	box2DEngine->Step(dt, velocityIterations, positionIterations);
 	world.CleanWorld(dt);
@@ -106,8 +105,8 @@ void Game::UpdateModel()
 void Game::ComposeFrame()
 {
 	const VecI camPos = cam.GetPos();
-	brd.Draw(gfx, camPos);
-	world.Draw(gfx, camPos);
-	gui.Draw(gfx);
+	bg.Draw(gfx, cam);
+	//world.Draw(gfx, camPos);
+	//gui.Draw(gfx);
 	//brd2.DrawTest(gfx, camPos);
 }

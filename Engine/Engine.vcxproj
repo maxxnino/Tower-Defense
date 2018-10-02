@@ -139,6 +139,7 @@
     <ClInclude Include="..\..\menu\Engine\FrameTimer.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Attribute.h" />
+    <ClInclude Include="Background.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="BoardGame.h" />
     <ClInclude Include="BuilderMatching.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="IMediator.h" />
     <ClInclude Include="ControlGuiAndBoard.h" />
     <ClInclude Include="IWordComponent.h" />
+    <ClInclude Include="MaxxMath.h" />
     <ClInclude Include="MouseCameraController.h" />
     <ClInclude Include="MouseGame.h" />
     <ClInclude Include="MyBox2DListener.h" />

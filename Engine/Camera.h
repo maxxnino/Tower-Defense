@@ -1,45 +1,44 @@
 #pragma once
-#include "Vec2.h"
+#include "Rect.h"
+#include "Graphics.h"
+#include "Box2D/Common/b2Math.h"
 class Camera
 {
 public:
-	Camera(const VecF& pos, float width, float height)
-		:
-		pos(pos),
-		width(width),
-		height(height)
-	{}
-	void MoveBy(const VecF& offset)
-	{
-		pos += offset;
-		pos.x = std::min(pos.x, -extentBoard.left);
-		pos.y = std::min(pos.y, -extentBoard.top);
-		pos.x = std::max(pos.x, -extentBoard.right + width);
-		pos.y = std::max(pos.y, -extentBoard.bottom + height);
-	}
-	void MoveTo(const VecF& newPos)
-	{
-		pos = newPos;
-		pos.x = std::min(pos.x, -extentBoard.left);
-		pos.y = std::min(pos.y, -extentBoard.top);
-		pos.x = std::max(pos.x, -extentBoard.right + width);
-		pos.y = std::max(pos.y, -extentBoard.bottom + height);
-	}
-	VecI GetPos() const
+	VecF GetPos() const
 	{
 		return pos;
 	}
-	void SetExtend(const RectF& extend)
+	b2Vec2 GetWorldPos() const
 	{
-		extentBoard = extend;
+		return b2Vec2(-pos.x / scalePixel, -pos.y / scalePixel);
 	}
-	RectF GetRect() const
+	b2Vec2 ScreenToWorldPos(const VecF& screenPos) const
 	{
-		return RectF(pos * -1.0f,width,height);
+		const auto newPos = VecF(screenPos.x - coordinateOffsetX - pos.x, -screenPos.y + coordinateOffsetY - pos.y);
+		return b2Vec2(newPos.x / scalePixel, newPos.y / scalePixel);
+	}
+	void MoveBy(const VecF& offset)
+	{
+		pos += offset;
+	}
+	void MoveTo(const VecF& pos_in)
+	{
+		pos = pos_in;
+	}
+	VecI GetDrawPosition(const b2Vec2& position) const
+	{
+		return VecI(int(pos.x + coordinateOffsetX + position.x * scalePixel), -int(position.y * scalePixel + pos.y - coordinateOffsetY));
+	}
+	RectF GetViewportRect() const
+	{
+		return RectF(-(pos.x + coordinateOffsetX) / scalePixel, (coordinateOffsetY - pos.y) / scalePixel,
+			(coordinateOffsetX - pos.x) / scalePixel, -(pos.y + coordinateOffsetY) / scalePixel);
 	}
 private:
-	VecF pos;
-	float width;
-	float height;
-	RectF extentBoard;
+	VecF pos = { 0.0f,0.0f };
+public:
+	static constexpr float coordinateOffsetX = float(Graphics::ScreenWidth / 2);
+	static constexpr float coordinateOffsetY = float(Graphics::ScreenHeight / 2);
+	static constexpr int scalePixel = 20;
 };

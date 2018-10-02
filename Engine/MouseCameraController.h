@@ -5,40 +5,40 @@
 class MouseCameraController
 {
 public:
-	MouseCameraController(Camera& cam)
+	MouseCameraController(Mouse& mouse, Camera& cam)
 		:
+		mouse(mouse),
 		cam(cam)
 	{}
-	void ProcessCommand(bool isEngaged, const VecI& mousePos)
+	void Update()
 	{
-		if (isEngaged)
+		while (!mouse.IsEmpty())
 		{
-			lastPos = (VecF)mousePos;
+			const auto e = mouse.Read();
+			switch (e.GetType())
+			{
+			case Mouse::Event::Type::LPress:
+				engaged = true;
+				lastPos = (VecF)e.GetPos();
+				break;
+			case Mouse::Event::Type::LRelease:
+				engaged = false;
+				break;
+			}
 		}
-		engaged = isEngaged;
-	}
-	void Update(Mouse& mouse)
-	{
+
 		if (engaged)
 		{
-
 			const auto curPos = (VecF)mouse.GetPos();
-			auto delta = curPos - lastPos;
-			//delta.x = -delta.x; // fixes the disconnect between screen coords and math coords
+			auto delta = lastPos - curPos;
+			delta.x = -delta.x;
 			cam.MoveBy(delta);
 			lastPos = curPos;
 		}
 	}
-	void SetCameraBorder(const RectF& extend)
-	{
-		cam.SetExtend(extend);
-	}
-	RectF GetRect() const
-	{
-		return cam.GetRect();
-	}
 private:
 	bool engaged = false;
 	VecF lastPos;
+	Mouse& mouse;
 	Camera& cam;
 };

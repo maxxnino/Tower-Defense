@@ -1,19 +1,19 @@
 #pragma once
 #include "IMediator.h"
-#include "BoardGame.h"
+#include "Background.h"
 #include "MenuManager.h"
 #include "World.h"
 #include "GameSettings.h"
 class ControlGuiAndBoard : public IMediator
 {
 public:
-	ControlGuiAndBoard(BoardGame* board, MenuManager* menuMgr, World* world)
+	ControlGuiAndBoard(Background* bg, MenuManager* menuMgr, World* world)
 		:
-		board(*board),
+		bg(*bg),
 		menuMgr(*menuMgr),
 		world(*world)
 	{
-		this->board.AddMediator(this);
+		this->bg.AddMediator(this);
 		this->menuMgr.AddMediator(this);
 		this->world.AddMediator(this);
 	}
@@ -75,7 +75,7 @@ public:
 private:
 	MenuManager& menuMgr;
 	World& world;
-	BoardGame& board;
+	Background& bg;
 	int towerIndexInWorld = -1;
 	int trackingTile = -1;
 };

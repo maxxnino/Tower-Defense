@@ -70,6 +70,18 @@ public:
 	{
 		return Rect_(*this).ClipTo(clip);
 	}
+	Rect_& ClipToBox2D(const Rect_& clip)
+	{
+		left = std::max(left, clip.left);
+		right = std::min(right, clip.right);
+		top = std::min(top, clip.top);
+		bottom = std::max(bottom, clip.bottom);
+		return *this;
+	}
+	Rect_ GetClippedToBox2D(const Rect_& clip) const
+	{
+		return Rect_(*this).ClipToBox2D(clip);
+	}
 	static Rect_ FromCenter(const Vec2_<T>& center, T halfWidth, T halfHeight)
 	{
 		const Vec2_<T> half(halfWidth, halfHeight);

@@ -54,9 +54,9 @@ private:
 	Sound bgm = Sound(L"Data\\Sounds\\that girl.mp3", Sound::LoopType::AutoFullSound);
 	std::unique_ptr<b2World> box2DEngine;
 	Camera cam;
-	MouseCameraController mouseController;
+	MouseCameraController controler;
 	float cameraSpeed = 200.0f;
-	BoardGame brd;
+	Background bg;
 	//BoardGame brd2;
 	World world;
 	MenuManager gui;

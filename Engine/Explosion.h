@@ -5,6 +5,7 @@
 #include "Codex.h"
 #include "SharedAnimation.h"
 #include "GameSettings.h"
+#include "Camera.h"
 class Explosion
 {
 public:
@@ -20,7 +21,7 @@ public:
 		explosionDatas.emplace_back(&explosion08);
 	}
 	template<class T>
-	void AddExplosion(T& rng, const VecI& pos)
+	void AddExplosion(T& rng, const b2Vec2& pos)
 	{
 		std::uniform_int_distribution<unsigned int> typeDist(0, (int)explosionDatas.size() - 1);
 		if (typeDist(rng) < (unsigned int)(explosionDatas.size() - 1) / 2)
@@ -47,11 +48,11 @@ public:
 			}
 		}
 	}
-	void Draw(Graphics& gfx, const VecI& camPos)
+	void Draw(Graphics& gfx, const Camera& cam) const
 	{
 		for (auto& e : explosionMgr)
 		{
-			e->DrawAlphaOffSet(gfx, camPos);
+			e->DrawAlphaOffSet(gfx, cam);
 		}
 	}
 private:

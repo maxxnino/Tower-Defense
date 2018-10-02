@@ -21,10 +21,11 @@ public:
 		body->SetUserData(this);
 	}
 
-	void Draw(Graphics& gfx, const VecI& camPos) const
+	void Draw(Graphics& gfx, const Camera& cam) const
 	{
 		//gfx.DrawCircle(body->GetPosition(), size, Colors::Magenta);
-		projectileAnimation.DrawOffset(gfx.ToScreenSpace(body->GetPosition()) + camPos, gfx);
+		const auto drawPos = cam.GetDrawPosition(body->GetPosition());
+		projectileAnimation.DrawOffset(drawPos, gfx);
 	}
 	inline int GetEnemyID() noexcept
 	{
@@ -47,7 +48,7 @@ public:
 	{
 		return element;
 	}
-	VecI GetExplosionPos()
+	b2Vec2 GetExplosionPos()
 	{
 		return explosionPos;
 	}
@@ -66,7 +67,7 @@ public:
 	{
 		return element->getDame();
 	}
-	void SetExplosionPos(const VecI& pos)
+	void SetExplosionPos(const b2Vec2& pos)
 	{
 		explosionPos = pos;
 	}
@@ -78,7 +79,7 @@ private:
 	static constexpr float deadTimer = 3.0f;
 	SharedAnimation projectileAnimation;
 	Element* element;
-	VecI explosionPos = { 0,0 };
+	b2Vec2 explosionPos = { 0.0f,0.0f };
 	int targetID = -1;
 	float maxSpeedSq;
 	float timer = 0.0f;

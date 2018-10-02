@@ -16,6 +16,7 @@
 #include "DirectionGuiding.h"
 #include "Gold.h"
 #include "Explosion.h"
+#include "Camera.h"
 
 class World : public IWorldMediator, public IComponent
 {
@@ -24,7 +25,7 @@ public:
 		:
 		box2DEngine(box2DEngine),
 		border(box2DEngine),
-		base(box2DEngine, {16.0f,-14.0f}, {4,2}),
+		base(box2DEngine, {16.0f,-14.0f}, 7.0f,3.0f),
 		guidingMgr(box2DEngine),
 		maxSpeedSq(GameSettings::Get().GetData("[Max Speed Projectile]")),
 		gold((int)GameSettings::Get().GetData("[Gold]")),
@@ -42,22 +43,22 @@ public:
 	{
 		guiAndBoardMediator = mediator;
 	}
-	void Draw(Graphics& gfx, const VecI& camPos)
+	void Draw(Graphics& gfx, const Camera& cam) const
 	{
-		std::for_each(enemyMgr.begin(), enemyMgr.end(), [&gfx, &camPos](auto& e) {e.second->Draw(gfx, camPos); });
-		std::for_each(towerMgr.begin(), towerMgr.end(), [&gfx, &camPos, this](auto& t) {t.second->Draw(gfx, camPos, tileWidth, tileHeight); });
-		base.Draw(gfx, camPos);
+		std::for_each(enemyMgr.begin(), enemyMgr.end(), [&gfx, &cam](auto& e) {e.second->Draw(gfx, cam); });
+		std::for_each(towerMgr.begin(), towerMgr.end(), [&gfx, &cam, this](auto& t) {t.second->Draw(gfx, cam, tileWidth, tileHeight); });
+		base.Draw(gfx, cam);
 		for (auto& b : bulletMgr)
 		{
-			b->Draw(gfx, camPos);
+			b->Draw(gfx, cam);
 		}
 		for (auto& b : noTargetBullet)
 		{
-			b->Draw(gfx, camPos);
+			b->Draw(gfx, cam);
 		}
-		explosion.Draw(gfx, camPos);
-		border.DrawDebug(gfx, camPos);
-		guidingMgr.DrawDebug(gfx, camPos);
+		explosion.Draw(gfx, cam);
+		border.DrawDebug(gfx, cam);
+		guidingMgr.DrawDebug(gfx, cam);
 	}
 	void Update(float dt)
 	{

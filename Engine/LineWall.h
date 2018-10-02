@@ -12,9 +12,9 @@ public:
 	{
 		body->SetUserData(this);
 	}
-	void DrawDebug(Graphics& gfx, const VecI& camPos)
+	void DrawDebug(Graphics& gfx, const Camera& cam) const
 	{
-		gfx.DrawLine(beginPos, endPos, camPos, Colors::Blue);
+		gfx.DrawLine(cam.GetDrawPosition(beginPos), cam.GetDrawPosition(endPos), Colors::Blue);
 	}
 	/**********************************/
 	/*Virtual function for PhysiObject*/
@@ -34,12 +34,12 @@ public:
 		bottom(box2DEngine, { -20.0f, 7.0f }, { 13.0f, 7.0f }),
 		left(box2DEngine, { 13.0f, 7.0f }, { 13.0f, -15.0f })
 	{}
-	void DrawDebug(Graphics& gfx, const VecI& camPos)
+	void DrawDebug(Graphics& gfx, const Camera& cam) const
 	{
-		top.DrawDebug(gfx, camPos);
-		right.DrawDebug(gfx, camPos);
-		bottom.DrawDebug(gfx, camPos);
-		left.DrawDebug(gfx, camPos);
+		top.DrawDebug(gfx, cam);
+		right.DrawDebug(gfx, cam);
+		bottom.DrawDebug(gfx, cam);
+		left.DrawDebug(gfx, cam);
 	}
 private:
 	LineWall top;

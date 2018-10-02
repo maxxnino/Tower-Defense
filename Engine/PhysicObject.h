@@ -6,6 +6,7 @@
 #include "Box2D/Box2D.h"
 #include "Rect.h"
 #include "Attribute.h"
+#include "Camera.h"
 enum CollisionFillter {
 	BORDER = 0x0001,
 	ENEMY = 0x0002,

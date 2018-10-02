@@ -1,7 +1,8 @@
 #pragma once
+#include <vector>
 #include "Surface.h"
 #include "Graphics.h"
-#include <vector>
+#include "Camera.h"
 
 class SharedAnimationData
 {
@@ -142,29 +143,33 @@ private:
 class OnetimeAnimation
 {
 public:
-	OnetimeAnimation(const SharedAnimationData* data, const VecI& pos, bool mirrored = false)
+	OnetimeAnimation(const SharedAnimationData* data, const b2Vec2& pos, bool mirrored = false)
 		:
 		data(data),
 		pos(pos),
 		mirrored(mirrored)
 	{}
-	void Draw(Graphics& gfx, const VecI& camPos) const
+	void Draw(Graphics& gfx, const Camera& cam) const
 	{
-		data->Draw(pos + camPos, gfx, iCurFrame);
+		const auto drawPos = cam.GetDrawPosition(pos);
+		data->Draw(drawPos, gfx, iCurFrame);
 	}
 	// this version of draw replaces all opaque pixels with specified color
-	void DrawColor(Graphics& gfx, Color c, const VecI& camPos) const
+	void DrawColor(Graphics& gfx, Color c, const Camera& cam) const
 	{
-		data->DrawColor(pos + camPos, gfx, iCurFrame, c, mirrored);
+		const auto drawPos = cam.GetDrawPosition(pos);
+		data->DrawColor(drawPos, gfx, iCurFrame, c, mirrored);
 	}
 	// this version of draw replaces all opaque pixels with specified color
-	void DrawAlpha(Graphics& gfx, const VecI& camPos) const
+	void DrawAlpha(Graphics& gfx, const Camera& cam) const
 	{
-		data->DrawAlpha(pos + camPos, gfx, iCurFrame, mirrored);
+		const auto drawPos = cam.GetDrawPosition(pos);
+		data->DrawAlpha(drawPos, gfx, iCurFrame, mirrored);
 	}
-	void DrawAlphaOffSet(Graphics& gfx, const VecI& camPos) const
+	void DrawAlphaOffSet(Graphics& gfx, const Camera& cam) const
 	{
-		data->DrawAlphaOffSet(pos + camPos, gfx, iCurFrame, mirrored);
+		const auto drawPos = cam.GetDrawPosition(pos);
+		data->DrawAlphaOffSet(drawPos, gfx, iCurFrame, mirrored);
 	}
 	bool Update(float dt)
 	{
@@ -199,7 +204,7 @@ private:
 	}
 private:
 	const SharedAnimationData* data;
-	VecI pos;
+	b2Vec2 pos;
 	int iCurFrame = 0;
 	float curFrameTime = 0.0f;
 	bool mirrored;

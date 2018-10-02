@@ -42,7 +42,7 @@ public:
 			}
 		}
 	}
-	void Draw(Graphics& gfx, Camera& cam) const
+	void Draw(Graphics& gfx, const Camera& cam) const
 	{
 		auto rectClip = (RectI)cam.GetViewportRect().DisplaceBy(VecF(-pos.x, -pos.y)).ClipToBox2D(RectF(0, float(gridHeight), float(gridWidth), 0));
 		const int top = std::min(1 + rectClip.top / tileWorldSize, nHeight);
@@ -66,7 +66,7 @@ public:
 			}
 		}
 	}
-	void Update(Mouse& mouse, Camera& cam)
+	void Update(Mouse& mouse, const Camera& cam)
 	{
 		const auto mouseWorldPos = cam.ScreenToWorldPos((VecF)mouse.GetPos()) - pos;
 		int x = (int)mouseWorldPos.x;

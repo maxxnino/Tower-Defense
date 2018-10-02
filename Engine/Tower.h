@@ -17,10 +17,10 @@ public:
 		Upgrade(element);
 		body->SetUserData(this);
 	}
-	void Draw(Graphics& gfx, const VecI& camPos, int tileWidth, int tileHeight)
+	void Draw(Graphics& gfx, const Camera& cam, int tileWidth, int tileHeight)
 	{
-		const VecI pos = gfx.ToScreenSpace(body->GetPosition()) + camPos;
-		animation.DrawAlpha(pos, gfx, mirrored);
+		const auto drawPos = cam.GetDrawPosition(body->GetPosition());
+		animation.DrawAlpha(drawPos, gfx, mirrored);
 	}
 	inline const Color& GetColor() const noexcept
 	{

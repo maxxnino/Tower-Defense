@@ -14,7 +14,7 @@ public:
 			{ -20.0f,9.5f }, true, false, size, {0.0f,0.0f}),
 		id(id),
 		size(size),
-		offSet(int(size * Graphics::scalePixel)),
+		offSet(int(size * Camera::scalePixel)),
 		att(GameSettings::Get().GetData("[Enemy Speed]"), GameSettings::Get().GetData("[Enemy Hp]"), GameSettings::Get().GetData("[Dame To Base]"),
 			10,10,10),
 		dir(1.0f,0.0f)
@@ -33,22 +33,21 @@ public:
 		}
 		body->SetUserData(this);
 	}
-	void Draw(Graphics& gfx, const VecI& camPos)
+	void Draw(Graphics& gfx, const Camera& cam)
 	{
-		const VecI pos = gfx.ToScreenSpace(body->GetPosition()) + camPos;
-
+		const auto drawPos = cam.GetDrawPosition(body->GetPosition());
 		if (isGetHit)
 		{
-			gfx.DrawSprite(pos.x - offSet, pos.y - offSet, *surf, SpriteEffect::Substitution{ Colors::Black,Colors::Red });
+			gfx.DrawSprite(drawPos.x - offSet, drawPos.y - offSet, *surf, SpriteEffect::Substitution{ Colors::Black,Colors::Red });
 		}
 		else
 		{
-			gfx.DrawSprite(pos.x - offSet, pos.y - offSet, *surf, SpriteEffect::AlphaBlendBaked{});
+			gfx.DrawSprite(drawPos.x - offSet, drawPos.y - offSet, *surf, SpriteEffect::AlphaBlendBaked{});
 		}
 
 		for (auto& s : spells)
 		{
-			s->Draw(gfx, pos);
+			s->Draw(gfx, drawPos);
 		}
 	}
 	

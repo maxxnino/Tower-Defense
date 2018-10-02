@@ -44,7 +44,7 @@ Game::Game( MainWindow& wnd )
 		auto projectile = static_cast<Projectile*>(p);
 		auto enemy = static_cast<Enemy*>(e);
 
-		projectile->SetExplosionPos(Graphics::ToScreenSpace(0.2f * projectile->getBody().GetPosition() + 0.8f * enemy->getBody().GetPosition()));
+		projectile->SetExplosionPos(0.2f * projectile->getBody().GetPosition() + 0.8f * enemy->getBody().GetPosition());
 		projectile->MarkDead();
 		enemy->ApplyDame(projectile->GetElementType(), projectile->GetDame());
 		std::uniform_int_distribution<int> change(0, 10);
@@ -106,7 +106,7 @@ void Game::ComposeFrame()
 {
 	const VecI camPos = cam.GetPos();
 	bg.Draw(gfx, cam);
-	//world.Draw(gfx, camPos);
+	world.Draw(gfx, cam);
 	gui.Draw(gfx);
 	//brd2.DrawTest(gfx, camPos);
 }

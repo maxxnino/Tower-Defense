@@ -87,13 +87,13 @@ public:
 		this->mediator = mediator;
 		auto mouseGame = this->mediator->GetMouseGame();
 		mainMenuBtn01.setColor(mouseGame->GetFireColor());
-		mainMenuBtn01.SetSprite(mouseGame->GetFireSurface());
+		//mainMenuBtn01.SetSprite(mouseGame->GetFireSurface());
 
 		mainMenuBtn02.setColor(mouseGame->GetIceColor());
-		mainMenuBtn02.SetSprite(mouseGame->GetWaterSurface());
+		//mainMenuBtn02.SetSprite(mouseGame->GetWaterSurface());
 
 		mainMenuBtn03.setColor(mouseGame->GetLightingColor());
-		mainMenuBtn03.SetSprite(mouseGame->GetNatureSurface());
+		//mainMenuBtn03.SetSprite(mouseGame->GetNatureSurface());
 
 		/*upgradeMenuBtn01.setColor(mouseGame->GetFireColor());
 		upgradeMenuBtn01.SetSprite(mouseGame->GetFireSurface());

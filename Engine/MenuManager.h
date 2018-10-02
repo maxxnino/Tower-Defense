@@ -7,25 +7,30 @@
 #include "Font.h"
 #include "Codex.h"
 #include "Animation.h"
+#include "ListenerBox2DGUI.h"
+#include "MouseGui.h"
 class MenuManager : public IComponent
 {
 public:
 	MenuManager()
 		:
+		box2DGUI(std::make_unique<b2World>(b2Vec2(0.0f, 0.0f))),
+		mouseGui(*box2DGUI),
 		font(Codex<Surface>::Retrieve(L"Images\\GUI\\Fixedsys16x28.bmp")),
 		surf(Codex<Surface>::Retrieve(L"Images\\GUI\\menu_02.png")),
 		coinAnimation(0,0,40,40,25, Codex<Surface>::Retrieve(L"Images\\GUI\\pm_coin_40_40_25.png"), 0.04f, Colors::Black),
-		mainMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
-		mainMenuBtn01(VecF(150.0f + 100.0f , 513.0f), 50.0f, 50.0f),
-		mainMenuBtn02(VecF(150.0f + 100.0f + 100.0f, 513.0f), 50.0f, 50.0f),
-		mainMenuBtn03(VecF(150.0f + 100.0f + 2.0f * 100.0f, 513.0f), 50.0f, 50.0f),
+		mainMenu(*box2DGUI, { 0.0f, -12.0f }, 30.0f, 3.5f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
+		mainMenuBtn01(*box2DGUI, {  -10.0f , -12.0f }, 2.5f, 2.5f),
+		mainMenuBtn02(*box2DGUI, { -10.0f + 10.0f, -12.0f }, 2.5f, 2.5f),
+		mainMenuBtn03(*box2DGUI, { -10.0f + 20.0f, -12.0f }, 2.5f, 2.5f)
 		
-		upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
+		/*upgradeMenu({ 100.0f,500.0f }, 600.0f, 75.0f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
 		upgradeMenuBtn01(VecF(100.0f + 150.0f, 513.0f), 50.0f, 50.0f),
 		upgradeMenuBtn02(VecF(100.0f + 150.0f + 100.0f, 513.0f), 50.0f, 50.0f),
 		upgradeMenuBtn03(VecF(100.0f + 150.0f + 2.0f * 100.0f, 513.0f), 50.0f, 50.0f),
-		deleteTowerBtn04(VecF(100.0f + 150.0f + 3.0f * 100.0f, 513.0f), 50.0f, 50.0f)
+		deleteTowerBtn04(VecF(100.0f + 150.0f + 3.0f * 100.0f, 513.0f), 50.0f, 50.0f)*/
 	{
+		box2DGUI->SetContactListener(&listenerGUI);
 		activeMenu = &mainMenu;
 		//main menu
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
@@ -37,22 +42,22 @@ public:
 		mainMenuBtn03.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToLighting();
 		});
-		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
+		/*deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeState(MouseState::DeleteTower);
-		});
+		});*/
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
 		mainMenuBtn02.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
 		mainMenuBtn03.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
-		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
+		//deleteTowerBtn04.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
 
-		mainMenu.AddItem(&mainMenuBtn01);
-		mainMenu.AddItem(&mainMenuBtn02);
-		mainMenu.AddItem(&mainMenuBtn03);
-		mainMenu.AddItem(&deleteTowerBtn04);
+		mainMenu.AddButton(&mainMenuBtn01);
+		mainMenu.AddButton(&mainMenuBtn02);
+		mainMenu.AddButton(&mainMenuBtn03);
+		//mainMenu.AddButton(&deleteTowerBtn04);
 		//mainMenu.AddItem(&deleteTowerBtn04);
 
 		//upgrademenu
-		upgradeMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
+		/*upgradeMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToFire();
 			mediator->UpgradeTower();
 			ChangeMainMenu();
@@ -72,7 +77,8 @@ public:
 		upgradeMenuBtn03.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
 		upgradeMenu.AddItem(&upgradeMenuBtn01);
 		upgradeMenu.AddItem(&upgradeMenuBtn02);
-		upgradeMenu.AddItem(&upgradeMenuBtn03);
+		upgradeMenu.AddItem(&upgradeMenuBtn03);*/
+		menus.emplace_back(&mainMenu);
 	}
 
 	// Remember update color for button after add mediator
@@ -89,22 +95,27 @@ public:
 		mainMenuBtn03.setColor(mouseGame->GetLightingColor());
 		mainMenuBtn03.SetSprite(mouseGame->GetNatureSurface());
 
-		upgradeMenuBtn01.setColor(mouseGame->GetFireColor());
+		/*upgradeMenuBtn01.setColor(mouseGame->GetFireColor());
 		upgradeMenuBtn01.SetSprite(mouseGame->GetFireSurface());
 
 		upgradeMenuBtn02.setColor(mouseGame->GetIceColor());
 		upgradeMenuBtn02.SetSprite(mouseGame->GetWaterSurface());
 
 		upgradeMenuBtn03.setColor(mouseGame->GetLightingColor());
-		upgradeMenuBtn03.SetSprite(mouseGame->GetNatureSurface());
+		upgradeMenuBtn03.SetSprite(mouseGame->GetNatureSurface());*/
 
-		deleteTowerBtn04.setColor(Colors::White);
-		deleteTowerBtn04.SetSprite(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_delete_button_50_50.png"));
+		/*deleteTowerBtn04.setColor(Colors::White);
+		deleteTowerBtn04.SetSprite(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_delete_button_50_50.png"));*/
 	}
 	void Update(float dt, Mouse& mouse)
 	{
-		ProcessCommand(mouse);
-		activeMenu->Update(dt, mouse);
+		mouseGui.Update(dt, mouse);
+		box2DGUI->Step(dt, velocityIterations, positionIterations);
+		for (auto& i : menus)
+		{
+			i->Update(dt, mouse);
+		}
+
 		coinAnimation.Update(dt);
 		if (isWarning)
 		{
@@ -117,11 +128,15 @@ public:
 	}
 	void Draw(Graphics& gfx)
 	{
-		activeMenu->Draw(gfx);
+		for (auto& i : menus)
+		{
+			i->Draw(gfx);
+		}
+		mouseGui.Draw(gfx);
 		gfx.DrawSprite(0, 0, *surf, SpriteEffect::Copy{});
 		coinAnimation.DrawAlpha({ 10,5 }, gfx);
 		font.DrawText(std::to_string(mediator->GetGold()), {60,10},Colors::Green,gfx);
-		mediator->GetMouseGame()->Draw(gfx);
+		//mediator->GetMouseGame()->Draw(gfx);
 		DrawWaringText(gfx);
 	}
 	void ChangeMainMenu()
@@ -129,20 +144,21 @@ public:
 		if (activeMenu != &mainMenu)
 		{
 			activeMenu = &mainMenu;
-			upgradeMenu.ResetItem();
+			//upgradeMenu.ResetItem();
 		}
 	}
 	bool isUpgradeMenuOpen()
 	{
-		return activeMenu != &upgradeMenu;
+		//return activeMenu != &upgradeMenu;
+		return false;
 	}
 	void ChangeUpgradeMenu()
 	{
-		if (activeMenu != &upgradeMenu)
+		/*if (activeMenu != &upgradeMenu)
 		{
 			activeMenu = &upgradeMenu;
 			mainMenu.ResetItem();
-		}
+		}*/
 	}
 	void ActiveWarningText(int newType)
 	{
@@ -170,7 +186,7 @@ private:
 	}
 	void ProcessCommand(Mouse& mouse)
 	{
-		if (activeMenu->GetRect().isContaint(mouse.GetPos()))
+		/*if (activeMenu->GetRect().isContaint(mouse.GetPos()))
 		{
 			activeMenu->ProcessCommand(mouse);
 			while (!mouse.IsEmpty())
@@ -185,9 +201,14 @@ private:
 		else
 		{
 			activeMenu->MouseLeave();
-		}
+		}*/
 	}
 private:
+	static constexpr int32 velocityIterations = 1;
+	static constexpr int32 positionIterations = 1;
+	std::unique_ptr<b2World> box2DGUI;
+	ListenerBox2DGUI listenerGUI;
+	MouseGui mouseGui;
 	Font font;
 	const std::shared_ptr<Surface> surf;
 	Animation coinAnimation;
@@ -204,11 +225,11 @@ private:
 	Button mainMenuBtn01;
 	Button mainMenuBtn02;
 	Button mainMenuBtn03;
-	Button deleteTowerBtn04;
-
+	//Button deleteTowerBtn04;
+	std::vector<Menu*> menus;
 	//Upgrade Menu
-	Menu upgradeMenu;
+	/*Menu upgradeMenu;
 	Button upgradeMenuBtn01;
 	Button upgradeMenuBtn02;
-	Button upgradeMenuBtn03;
+	Button upgradeMenuBtn03;*/
 };

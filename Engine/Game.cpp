@@ -107,6 +107,6 @@ void Game::ComposeFrame()
 	const VecI camPos = cam.GetPos();
 	bg.Draw(gfx, cam);
 	//world.Draw(gfx, camPos);
-	//gui.Draw(gfx);
+	gui.Draw(gfx);
 	//brd2.DrawTest(gfx, camPos);
 }

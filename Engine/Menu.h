@@ -1,72 +1,56 @@
 #pragma once
-#include "Codex.h"
+#include <vector>
 #include "Button.h"
-class Menu
+class Menu : public CollidableUI
 {
 public:
-	Menu(VecF pos, float width, float height, const std::shared_ptr<Surface> surf)
+	Menu(b2World& box2DEngine, const b2Vec2& worldPos, float width, float height, const std::shared_ptr<Surface> surf)
 		:
-		pos(pos),
-		width(width),
-		height(height),
+		CollidableUI(box2DEngine, worldPos, width, height, false),
+		width(width * Camera::scalePixel),
+		height(height* Camera::scalePixel),
 		surf(surf)
-	{}
-	void Draw(Graphics& gfx) const noexcept
 	{
-		//gfx.DrawRectDim((VecI)pos, (int)width, (int)height, color);
-		gfx.DrawSprite((int)pos.x, (int)pos.y, *surf, SpriteEffect::Copy{});
-		for (auto i : items)
+		getBody().SetUserData(this);
+	}
+	void Draw(Graphics& gfx) const
+	{
+		const auto drawPos = ConvertToScreenPos(getBody().GetPosition(), Camera::scalePixel, Camera::coordinateOffsetX, Camera::coordinateOffsetY);
+		gfx.DrawRectDim(drawPos, (int)width, (int)height, Colors::Gray);
+		gfx.DrawSprite(drawPos.x - int(width / 2), drawPos.y - int(height / 2), *surf, SpriteEffect::Copy{});
+		for (auto& b : btns)
 		{
-			i->Draw(gfx);
+			b->Draw(gfx);
 		}
 	}
 	void Update(float dt, Mouse& mouse)
 	{
-		for (auto i : items)
+		if (GetMouseState())
 		{
-			i->Update(dt, mouse);
-		}
-	}
-	void MouseLeave()
-	{
-		for (auto i : items)
-		{
-			i->MouseLeave();
-		}
-	}
-	void ProcessCommand(Mouse& mouse)
-	{
-		for (auto i : items)
-		{
-			if (i->GetRect().isContaint(mouse.GetPos()))
+			for (auto& b : btns)
 			{
-				i->MouseIn(mouse);
+				b->UpdateMouseIn(dt, mouse);
 			}
-			else
+			while (!mouse.IsEmpty())
 			{
-				i->MouseLeave();
+				auto e = mouse.Read().GetType();
 			}
 		}
-	}	
-	void AddItem(Button* item)
-	{
-		items.emplace_back(item);
-	}
-	void ResetItem()
-	{
-		for (auto i : items)
+		else
 		{
-			i->ResetState();
+			for (auto& b : btns)
+			{
+				b->UpdateMouseLeave(dt);
+			}
 		}
 	}
-	inline RectF GetRect() { return RectF(pos, width, height); }
-	inline VecF GetPos() { return pos; }
-	inline float GetWidth() { return width; }
-	inline float GetHeight() { return height; }
+	void AddButton(Button* btn)
+	{
+		btns.emplace_back(btn);
+	}
 private:
-	VecF pos;
-	float width;
-	float height;
+	const float width;
+	const float height;
 	const std::shared_ptr<Surface> surf;
-	std::vector<Button*> items;
+	std::vector<Button*> btns;
 };

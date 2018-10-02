@@ -70,7 +70,8 @@ public:
 	void DrawRect(VecI p0, VecI p1, Color c);
 	void DrawRectDim(VecI p, int width, int height, Color c)
 	{
-		DrawRect(p, p + VecI(width, height), c);
+		VecI offSet = { int(width / 2), int(height / 2) };
+		DrawRect(p - offSet, p + offSet, c);
 	}
 	void DrawRectDim(const b2Vec2& worldPos, const VecF& size, const Color& c);
 	void DrawRectDim(const b2Vec2& worldPos, float worldSize, const Color& c);

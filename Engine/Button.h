@@ -1,56 +1,126 @@
 #pragma once
 #include <functional>
 #include <map>
-#include "MenuItem.h"
-#include "ButtonState.h"
-class Button : public MenuItem
+#include "CollidableUI.h"
+#include "Surface.h"
+class Button : public CollidableUI
 {
 public:
-	Button(VecF pos, float width, float height)
+	Button(b2World& box2DEngine, const b2Vec2& worldPos, float width, float height,bool isCircle = false)
 		:
-		MenuItem(pos, width, height)
-	{}
-	void Draw(Graphics& gfx) const override;
-	void Update(float dt, Mouse& mouse) override;
-	void MouseIn(Mouse& mouse) override;
-	void MouseLeave() override;
-	void ResetState() override;
+		CollidableUI(box2DEngine, worldPos, width, height, isCircle),
+		width(width * Camera::scalePixel),
+		height(height* Camera::scalePixel),
+		surf(surf)
+	{
+		getBody().SetUserData(this);
+	}
+	void Draw(Graphics& gfx) const
+	{
+		Color color;
+		if (GetMouseState())
+		{
+			if (disable)
+			{
+				color = Colors::Black;
+			}
+			else
+			{
+				color = Colors::Green;
+			}
+		}
+		else
+		{
+			if (disable)
+			{
+				color = Colors::Black;
+			}
+			else
+			{
+				color = Colors::Yellow;
+			}
+		}
+		const auto drawPos = ConvertToScreenPos(getBody().GetPosition(), Camera::scalePixel, Camera::coordinateOffsetX, Camera::coordinateOffsetY);
+		if (surf)
+		{
+			gfx.DrawSprite(drawPos.x - int(width / 2), drawPos.y - int(height / 2), *surf, SpriteEffect::AlphaBlendBaked{});
+		}
+		else
+		{
+			gfx.DrawRectDim(drawPos, (int)width, (int)height, color);
+		}
+	}
+	void UpdateMouseIn(float dt, Mouse& mouse)
+	{
+		if (disable)
+		{
+			UpdateDisableState(dt);
+		}
+		else
+		{
+			if (GetMouseState())
+			{
+				SwitchMouseCommand(mouse);
+			}
+		}
+	}
+	void UpdateMouseLeave(float dt)
+	{
+		if (disable)
+		{
+			UpdateDisableState(dt);
+		}
+	}
 	void AddEventListener(Mouse::Event::Type type, std::function<void()> pFunc)
 	{
 		handlers.emplace(type, pFunc);
 	}
+	void Enable()
+	{
+		disable = false;
+		timer = 0.0f;
+	}
+	void Disable(float duration)
+	{
+		disable = true;
+		this->duration = duration;
+	}
+	void setColor(const Color& color)
+	{
+		c = color;
+	}
+	void SetSprite(const std::shared_ptr<Surface> surface)
+	{
+		surf = surface;
+	}
 private:
-	void SwitchMouseCommand(Mouse& mouse, bool& isclicked)
+	void SwitchMouseCommand(Mouse& mouse)
 	{
 		while (!mouse.IsEmpty())
 		{
 			auto e = mouse.Read().GetType();
-			auto it = handlers.find(e);
-			if (it != handlers.end())
+			auto h = handlers.find(e);
+			if (h != handlers.end())
 			{
-				it->second();
-			}
-
-			switch (e)
-			{
-			case Mouse::Event::Type::LPress:
-			{
-				isclicked = false;
-				color = Colors::Magenta;
-				btnState = &clickedState;
-			}
-			break;
+				h->second();
 			}
 		}
 	}
+	void UpdateDisableState(float dt)
+	{
+		timer += dt;
+		if (timer >= duration)
+		{
+			Enable();
+		}
+	}
 private:
-	friend BtnClickState;
-	friend BtnSleepState;
-	friend BtnMouseHoverState;
-	BtnClickState clickedState;
-	BtnSleepState sleepState;
-	BtnMouseHoverState hoverState;
-	ButtonState* btnState = &sleepState;
 	std::map<Mouse::Event::Type, std::function<void()>> handlers;
+	const float width;
+	const float height;
+	Color c;
+	std::shared_ptr<Surface> surf;
+	bool disable = false;
 	float timer = 0.0f;
+	float duration = 1.0f;
 };

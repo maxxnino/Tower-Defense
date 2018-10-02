@@ -24,63 +24,13 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	box2DEngine(std::make_unique<b2World>(b2Vec2(0.0f, 0.0f))),
 	controler(wnd.mouse, cam),
 	bg({ -100.0f / 2.0f,-100.0f / 2.0f }, 100, 100, 2, rng),
 	//brd2(L"Data\\map01.ini"),
-	world(*box2DEngine,Camera::scalePixel * 2, Camera::scalePixel * 2),
+	world(Camera::scalePixel * 2, Camera::scalePixel * 2),
 	mediatorGuiAndBrd(&bg,&gui,&world)
 {
 	bgm.Play(1.0f, 0.5f);
-	static MyBox2DListener mrLister;
-	mrLister.CaseContact<Tower, Enemy>([](PhysicObject* t, PhysicObject* e)
-	{
-		auto tower = static_cast<Tower*>(t);
-		auto enemy = static_cast<Enemy*>(e);
-		tower->AddEnemyID(enemy->GetID());
-	});
-	mrLister.CaseContact<Projectile, Enemy>([this](PhysicObject* p, PhysicObject* e)
-	{
-		auto projectile = static_cast<Projectile*>(p);
-		auto enemy = static_cast<Enemy*>(e);
-
-		projectile->SetExplosionPos(0.2f * projectile->getBody().GetPosition() + 0.8f * enemy->getBody().GetPosition());
-		projectile->MarkDead();
-		enemy->ApplyDame(projectile->GetElementType(), projectile->GetDame());
-		std::uniform_int_distribution<int> change(0, 10);
-		if (change(rng) <= 1)
-		{
-			enemy->AddSpell(projectile->GetElementType());
-		}
-		
-	});
-	mrLister.CaseContact<Base, Enemy>([](PhysicObject* b, PhysicObject* e)
-	{
-		auto base = static_cast<Base*>(b);
-		auto enemy = static_cast<Enemy*>(e);
-
-		base->ApplyDame(0, enemy->GetDame());
-		enemy->MarkReachBase();
-	});
-	mrLister.CaseContact<DirectionGuiding, Enemy>([](PhysicObject* d, PhysicObject* e)
-	{
-		auto guiding = static_cast<DirectionGuiding*>(d);
-		auto enemy = static_cast<Enemy*>(e);
-		guiding->Guiding(enemy);
-	});
-
-	mrLister.CaseLeave<Tower, Enemy>([](PhysicObject* t, PhysicObject* e)
-	{
-		if (!t->isRemove())
-		{
-			auto tower = static_cast<Tower*>(t);
-			auto enemy = static_cast<Enemy*>(e);
-			tower->RemoveEnemyID(enemy->GetID());
-		}
-	});
-	
-	
-	box2DEngine->SetContactListener(&mrLister);
 }
 
 void Game::Go()
@@ -98,8 +48,6 @@ void Game::UpdateModel()
 	controler.Update();
 	bg.Update(wnd.mouse, cam);
 	world.Update(dt);
-	box2DEngine->Step(dt, velocityIterations, positionIterations);
-	world.CleanWorld(dt);
 }
 
 void Game::ComposeFrame()
@@ -108,5 +56,4 @@ void Game::ComposeFrame()
 	bg.Draw(gfx, cam);
 	world.Draw(gfx, cam);
 	gui.Draw(gfx);
-	//brd2.DrawTest(gfx, camPos);
 }

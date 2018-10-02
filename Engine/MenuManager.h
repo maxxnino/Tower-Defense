@@ -35,12 +35,15 @@ public:
 		//main menu
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToFire();
+			mainMenuBtn01.Disable(1.0f);
 		});
 		mainMenuBtn02.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToIce();
+			mainMenuBtn02.Disable(2.0f);
 		});
 		mainMenuBtn03.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeToLighting();
+			mainMenuBtn03.Disable(2.0f);
 		});
 		/*deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetMouseGame()->ChangeState(MouseState::DeleteTower);
@@ -87,13 +90,13 @@ public:
 		this->mediator = mediator;
 		auto mouseGame = this->mediator->GetMouseGame();
 		mainMenuBtn01.setColor(mouseGame->GetFireColor());
-		//mainMenuBtn01.SetSprite(mouseGame->GetFireSurface());
+		mainMenuBtn01.SetSprite(mouseGame->GetFireSurface());
 
 		mainMenuBtn02.setColor(mouseGame->GetIceColor());
-		//mainMenuBtn02.SetSprite(mouseGame->GetWaterSurface());
+		mainMenuBtn02.SetSprite(mouseGame->GetWaterSurface());
 
 		mainMenuBtn03.setColor(mouseGame->GetLightingColor());
-		//mainMenuBtn03.SetSprite(mouseGame->GetNatureSurface());
+		mainMenuBtn03.SetSprite(mouseGame->GetNatureSurface());
 
 		/*upgradeMenuBtn01.setColor(mouseGame->GetFireColor());
 		upgradeMenuBtn01.SetSprite(mouseGame->GetFireSurface());

@@ -49,15 +49,10 @@ private:
 	/*  User Variables              */
 	FrameTimer ft;
 	std::mt19937 rng = std::mt19937(std::random_device{}());
-	int32 velocityIterations = 8;
-	int32 positionIterations = 3;
 	Sound bgm = Sound(L"Data\\Sounds\\that girl.mp3", Sound::LoopType::AutoFullSound);
-	std::unique_ptr<b2World> box2DEngine;
 	Camera cam;
 	MouseCameraController controler;
-	float cameraSpeed = 200.0f;
 	Background bg;
-	//BoardGame brd2;
 	World world;
 	MenuManager gui;
 	ControlGuiAndBoard mediatorGuiAndBrd;

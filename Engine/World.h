@@ -5,7 +5,6 @@
 #include <limits>
 #include <random>
 #include "ChiliUtil.h"
-#include "Box2D/Box2D.h"
 #include "IWorldMediator.h"
 #include "IComponent.h"
 #include "Tower.h"
@@ -21,12 +20,12 @@
 class World : public IWorldMediator, public IComponent
 {
 public:
-	World(b2World& box2DEngine, int tileWidth, int tileHeight)
+	World(int tileWidth, int tileHeight)
 		:
-		box2DEngine(box2DEngine),
-		border(box2DEngine),
-		base(box2DEngine, {16.0f,-14.0f}, 7.0f,3.0f),
-		guidingMgr(box2DEngine),
+		box2DEngine(std::make_unique<b2World>(b2Vec2(0.0f, 0.0f))),
+		border(*box2DEngine),
+		base(*box2DEngine, {16.0f,-14.0f}, 7.0f,3.0f),
+		guidingMgr(*box2DEngine),
 		maxSpeedSq(GameSettings::Get().GetData("[Max Speed Projectile]")),
 		gold((int)GameSettings::Get().GetData("[Gold]")),
 		tileWidth(tileWidth),
@@ -35,7 +34,55 @@ public:
 		indexTower(0),
 		indexEnemy(0)
 	{
+		static MyBox2DListener mrLister;
+		mrLister.CaseContact<Tower, Enemy>([](PhysicObject* t, PhysicObject* e)
+		{
+			auto tower = static_cast<Tower*>(t);
+			auto enemy = static_cast<Enemy*>(e);
+			tower->AddEnemyID(enemy->GetID());
+		});
+		mrLister.CaseContact<Projectile, Enemy>([this](PhysicObject* p, PhysicObject* e)
+		{
+			auto projectile = static_cast<Projectile*>(p);
+			auto enemy = static_cast<Enemy*>(e);
 
+			projectile->SetExplosionPos(0.2f * projectile->getBody().GetPosition() + 0.8f * enemy->getBody().GetPosition());
+			projectile->MarkDead();
+			enemy->ApplyDame(projectile->GetElementType(), projectile->GetDame());
+			std::uniform_int_distribution<int> change(0, 10);
+			if (change(rng) <= 1)
+			{
+				enemy->AddSpell(projectile->GetElementType());
+			}
+
+		});
+		mrLister.CaseContact<Base, Enemy>([](PhysicObject* b, PhysicObject* e)
+		{
+			auto base = static_cast<Base*>(b);
+			auto enemy = static_cast<Enemy*>(e);
+
+			base->ApplyDame(0, enemy->GetDame());
+			enemy->MarkReachBase();
+		});
+		mrLister.CaseContact<DirectionGuiding, Enemy>([](PhysicObject* d, PhysicObject* e)
+		{
+			auto guiding = static_cast<DirectionGuiding*>(d);
+			auto enemy = static_cast<Enemy*>(e);
+			guiding->Guiding(enemy);
+		});
+
+		mrLister.CaseLeave<Tower, Enemy>([](PhysicObject* t, PhysicObject* e)
+		{
+			if (!t->isRemove())
+			{
+				auto tower = static_cast<Tower*>(t);
+				auto enemy = static_cast<Enemy*>(e);
+				tower->RemoveEnemyID(enemy->GetID());
+			}
+		});
+
+
+		box2DEngine->SetContactListener(&mrLister);
 	}
 	/**********************************/
 	/*          World Control         */
@@ -96,6 +143,8 @@ public:
 			timer = 0.0f;
 			MakeEnemy();
 		}
+		box2DEngine->Step(dt, velocityIterations, positionIterations);
+		CleanWorld(dt);
 	}
 	void CleanWorld(float dt)
 	{
@@ -179,7 +228,7 @@ public:
 		{
 			const b2Vec2 enemyPos =  e->second->getBody().GetPosition();
 			const b2Vec2 dir = enemyPos - worldPos;
-			auto b = std::make_unique<Projectile>(box2DEngine, element, curTarget, worldPos + posOffSet, bulletSize, maxSpeedSq);
+			auto b = std::make_unique<Projectile>(*box2DEngine, element, curTarget, worldPos + posOffSet, bulletSize, maxSpeedSq);
 			b->SetVelocity(dir);
 			bulletMgr.emplace_back(std::move(b));
 		}
@@ -191,7 +240,7 @@ public:
 	/*         Enemy Control          */
 	void MakeEnemy() override 
 	{
-		enemyMgr.emplace(indexEnemy, std::make_unique<Enemy>(box2DEngine, indexEnemy, 1.5f));
+		enemyMgr.emplace(indexEnemy, std::make_unique<Enemy>(*box2DEngine, indexEnemy, 1.5f));
 		if (indexEnemy > 10000)
 		{
 			indexEnemy = 0;
@@ -220,7 +269,7 @@ public:
 	int MakeTower(Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f) override
 	{
 		gold.RemoveGold(element->GetGold());
-		auto tower = std::make_unique<Tower>(box2DEngine, element, c, worldPos, size);
+		auto tower = std::make_unique<Tower>(*box2DEngine, element, c, worldPos, size);
 		tower->AddMediator(this);
 		towerMgr.emplace(indexTower, std::move(tower));
 		indexTower++;
@@ -280,25 +329,27 @@ public:
 	/**********************************/
 
 private:
+	static constexpr int32 velocityIterations = 8;
+	static constexpr int32 positionIterations = 3;
+	static constexpr float bulletSize = 0.3f;
+	static constexpr float sellRate = 0.66667f;
+	std::unique_ptr<b2World> box2DEngine;
 	std::mt19937 rng = std::mt19937( std::random_device{}() );
 	float maxSpeedSq;
 	int tileWidth;
 	int tileHeight;
 	b2Vec2 posOffSet;
 	float timer = 0.0f;
-	static constexpr float bulletSize = 0.3f;
-	static constexpr float sellRate = 0.66667f;
-	b2World& box2DEngine;
 	IMediator* guiAndBoardMediator = nullptr;
 	Gold gold;
 	Border border;
-	Base base;
+	Base base; 
 	GuidingManager guidingMgr;
+	Explosion explosion;
 	std::unordered_map<int, std::unique_ptr<Tower>> towerMgr;
 	std::unordered_map<int, std::unique_ptr<Enemy>> enemyMgr;
 	std::vector<std::unique_ptr<Projectile>> bulletMgr;
 	std::vector<std::unique_ptr<Projectile>> noTargetBullet;
-	Explosion explosion;
 	int indexTower;
 	int indexEnemy;
 };

@@ -5,9 +5,9 @@ enum MouseState
 {
 	None,
 	BuildTower,
-	DeleteTower,
+	SellTower,
 	SwapTower,
-	DropItem,
+	BuildEntity
 };
 class MouseGame
 {

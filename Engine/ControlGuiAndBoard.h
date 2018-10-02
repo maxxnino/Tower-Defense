@@ -18,7 +18,7 @@ public:
 		this->world.AddMediator(this);
 	}
 	/**********************************/
-	/*  Control Gui and Board Bbject  */
+	/*  Control Gui and Background    */
 	void OpenUpgradeMenu(int towerIndex, int tileIndex) override
 	{
 		assert(towerIndex != -1);
@@ -48,6 +48,23 @@ public:
 			menuMgr.ChangeMainMenu();
 			towerIndexInWorld = -1;
 			trackingTile = -1;
+		}
+	}
+	void MouseClickOnBackground(MouseState mouseState, VecI worldPos) override
+	{
+		switch (mouseState)
+		{
+		case None:
+
+			break;
+		case BuildTower:
+			break;
+		case SellTower:
+			break;
+		case SwapTower:
+			break;
+		case BuildEntity:
+			break;
 		}
 	}
 	/**********************************/

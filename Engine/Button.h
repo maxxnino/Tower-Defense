@@ -41,13 +41,10 @@ public:
 			}
 		}
 		const auto drawPos = ConvertToScreenPos(getBody().GetPosition(), Camera::scalePixel, Camera::coordinateOffsetX, Camera::coordinateOffsetY);
+		gfx.DrawRectDim(drawPos, (int)width, (int)height, color);
 		if (surf)
 		{
 			gfx.DrawSprite(drawPos.x - int(width / 2), drawPos.y - int(height / 2), *surf, SpriteEffect::AlphaBlendBaked{});
-		}
-		else
-		{
-			gfx.DrawRectDim(drawPos, (int)width, (int)height, color);
 		}
 	}
 	void UpdateMouseIn(float dt, Mouse& mouse)

@@ -76,7 +76,6 @@ public:
 			trackingTile.x = x / tileWorldSize;
 			trackingTile.y = y / tileWorldSize;
 		}
-		auto mouseState = mediator->GetMouseGame()->GetMouseState();
 		while (!mouse.IsEmpty())
 		{
 			const auto e = mouse.Read().GetType();
@@ -84,45 +83,10 @@ public:
 			{
 			case Mouse::Event::Type::LPress:
 			{
-				if (isInsideBoard)
-				{
-					switch (mouseState)
-					{
-					case None:
-						//Todo: tile number > Tile background, box2D click to find if is there a tower open tower menu
-						if (tiles[trackingTile.x + trackingTile.y * gridWidth] > 1)
-						{
-							// if not drag camera
-							//mouseController->ProcessCommand(true, mousePos);
-						}
-						break;
-					case BuildTower:
-						//Todo: tile number > Tile background, mediator and box2D buid tower at here
-						if (tiles[trackingTile.x + trackingTile.y * gridWidth] > 1)
-						{
-
-						}
-						//tileAt(curTile).MouseBuildTowerClick(mediator);
-						break;
-					case DeleteTower:
-						//Todo: tile number > Tile background, mediator and box2D delete tower at here
-						//tileAt(curTile).MouseDeleteTowerClick(mediator);
-						break;
-					case SwapTower:
-						break;
-					}
-				}
-				else
-				{
-					//move camera
-					//mouseController->ProcessCommand(true, mousePos);
-				}
+				if (isInsideBoard && tiles[trackingTile.x + trackingTile.y * gridWidth] > 0)
+					mediator->MouseClickOnBackground(mediator->GetMouseGame()->GetMouseState(), trackingTile * tileWorldSize);
 				break;
 			}
-			case Mouse::Event::Type::LRelease:
-				//move camera
-				//mouseController->ProcessCommand(false, mousePos);
-				break;
 			case Mouse::Event::Type::RPress:
 				mediator->OnRightClickFromGUI();
 				break;
@@ -130,8 +94,6 @@ public:
 				break;
 			}
 		}
-		//update camera
-		//mouseController->Update(mouse);
 	}
 	/*void ProcessComand(Mouse& mouse, const VecI& camPos)
 	{

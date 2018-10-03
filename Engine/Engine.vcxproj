@@ -184,6 +184,7 @@
     <ClInclude Include="MenuManager.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="QuerySelectorBox2D.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SharedAnimation.h" />

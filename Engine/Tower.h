@@ -8,9 +8,10 @@
 class Tower : public PhysicObject, public IWorldComponent
 {
 public:
-	Tower(b2World& box2DEngine,Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f )
+	Tower(b2World& box2DEngine, int indexTower, Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f )
 		:
 		c(c),
+		index(indexTower),
 		PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::ENEMY, worldPos, true, true, size, b2Vec2( 0.0f,0.0f )),
 		animation(element->GetTowerAnimation())
 	{
@@ -90,9 +91,14 @@ public:
 	{
 		enemyIDs.insert(id);
 	}
+	inline int GetTowerIndex() const
+	{
+		return index;
+	}
 private:
 	Color c;
 	float timer = 0;
+	int index;
 	IWorldMediator* wordMediator = nullptr;
 	Element* element;
 	SharedAnimation animation;

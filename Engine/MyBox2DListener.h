@@ -41,6 +41,8 @@ public:
 	{
 		static_assert(std::is_base_of<PhysicObject, T>::value, "Template param type T must be derived from Box::ColorTrait!");
 		static_assert(std::is_base_of<PhysicObject, U>::value, "Template param type U must be derived from Box::ColorTrait!");
+		auto t1 = &typeid(T);
+		auto t2 = &typeid(U);
 		ContactHandlers[{&typeid(T), &typeid(U)}] = f;
 		ContactHandlers[{&typeid(U), &typeid(T)}] = std::bind(
 			f, std::placeholders::_2, std::placeholders::_1

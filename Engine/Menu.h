@@ -48,6 +48,14 @@ public:
 	{
 		btns.emplace_back(btn);
 	}
+	void RemoveCollision()
+	{
+		for (auto& b : btns)
+		{
+			b->RemoveCollision();
+		}
+		getBody().SetActive(false);
+	}
 private:
 	const float width;
 	const float height;

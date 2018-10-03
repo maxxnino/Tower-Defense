@@ -54,7 +54,7 @@ public:
 			for (int x = left; x < right; x++)
 			{
 				const int index = GetTileAt(x, y);
-				const auto drawPos = cam.GetDrawPosition(b2Vec2(float32(x * tileWorldSize), float32(y * tileWorldSize)) + pos) - VecI(0, tileScreenSize);
+				const auto drawPos = cam.GetDrawPosition(b2Vec2(float32(x * tileWorldSize), float32(y * tileWorldSize)) + pos);
 				if (x == trackingTile.x && y == trackingTile.y)
 				{
 					gfx.DrawSprite(drawPos.x, drawPos.y, *surfs[index + 3], SpriteEffect::Copy{});
@@ -68,31 +68,39 @@ public:
 	}
 	void Update(Mouse& mouse, const Camera& cam)
 	{
-		const auto mouseWorldPos = cam.ScreenToWorldPos((VecF)mouse.GetPos()) - pos;
-		int x = (int)mouseWorldPos.x;
-		int y = (int)mouseWorldPos.y;
-		if (x >= 0 && x < gridWidth && y >= 0 && y < gridHeight)
+		const auto mouseWorldPos = cam.ScreenToWorldPos((VecF)mouse.GetPos());
+		const auto mouseTilePos = mouseWorldPos - pos;
+		
+		if (mouseTilePos.x >= 0 && mouseTilePos.x < gridWidth &&
+			mouseTilePos.y >= 0 && mouseTilePos.y < gridHeight)
 		{
-			trackingTile.x = x / tileWorldSize;
-			trackingTile.y = y / tileWorldSize;
+			trackingTile.x = (int)mouseTilePos.x / tileWorldSize;
+			trackingTile.y = std::max((int)mouseTilePos.y / tileWorldSize + 1, 0 );
+
+			const auto worldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float(trackingTile.y * tileWorldSize)) + pos;
+			const auto mouseState = mediator->GetMouseGame()->GetMouseState();
+			while (!mouse.IsEmpty())
+			{
+				const auto e = mouse.Read().GetType();
+				switch (e)
+				{
+				case Mouse::Event::Type::LPress:
+				{
+					if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
+						mediator->MouseClickOnBackground(mouseState, mouseWorldPos, worldTilePos);
+					break;
+				}
+				case Mouse::Event::Type::RPress:
+					mediator->OnRightClickFromGUI();
+					break;
+				default:
+					break;
+				}
+			}
 		}
-		while (!mouse.IsEmpty())
+		else
 		{
-			const auto e = mouse.Read().GetType();
-			switch (e)
-			{
-			case Mouse::Event::Type::LPress:
-			{
-				if (isInsideBoard && tiles[trackingTile.x + trackingTile.y * gridWidth] > 0)
-					mediator->MouseClickOnBackground(mediator->GetMouseGame()->GetMouseState(), trackingTile * tileWorldSize);
-				break;
-			}
-			case Mouse::Event::Type::RPress:
-				mediator->OnRightClickFromGUI();
-				break;
-			default:
-				break;
-			}
+			
 		}
 	}
 	/*void ProcessComand(Mouse& mouse, const VecI& camPos)
@@ -177,7 +185,6 @@ private:
 	int nWidth;
 	int nHeight;
 	VecI trackingTile;
-	bool isInsideBoard = true;
 	// vector of surface
 	std::vector<std::shared_ptr<Surface>> surfs;
 	// grid of tiles (indices into the surfs vector)

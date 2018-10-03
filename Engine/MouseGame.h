@@ -125,14 +125,14 @@ public:
 			//gfx.DrawSprite(pos.x, pos.y, *element->GetElementSurface(), SpriteEffect::Ghost(Colors::Magenta));
 			element->GetTowerAnimation()->DrawGhost(pos, gfx, 0);
 			break;
-		case DeleteTower:
+		/*case DeleteTower:
 			break;
 		case SwapTower:
 			break;
 		case DropItem:
 			break;
 		default:
-			break;
+			break;*/
 		}
 	}
 private:

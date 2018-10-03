@@ -4,7 +4,7 @@
 class IWorldMediator
 {
 public:
-	virtual int MakeTower(Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f) = 0;
+	virtual void MakeTower(Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f) = 0;
 	virtual void MakeEnemy() = 0;
 	virtual void MakeBullet(int curTarget, Element* element, Color c, const b2Vec2& worldPos) = 0;
 	virtual bool IsTowerMaxLv(int towerIndex) = 0;

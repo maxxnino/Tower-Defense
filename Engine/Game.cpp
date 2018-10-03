@@ -45,7 +45,7 @@ void Game::UpdateModel()
 {
 	float dt = ft.Mark();
 	gui.Update(dt, wnd.mouse);
-	controler.Update();
+	//controler.Update();
 	bg.Update(wnd.mouse, cam);
 	world.Update(dt);
 }

@@ -19,13 +19,12 @@ public:
 	}
 	/**********************************/
 	/*  Control Gui and Background    */
-	void OpenUpgradeMenu(int towerIndex, int tileIndex) override
+	void OpenUpgradeMenu(int towerIndex) override
 	{
 		assert(towerIndex != -1);
 		if (menuMgr.isUpgradeMenuOpen() && !world.IsTowerMaxLv(towerIndex))
 		{
 			towerIndexInWorld = towerIndex;
-			trackingTile = tileIndex;
 			menuMgr.ChangeUpgradeMenu();
 		}
 	}
@@ -33,7 +32,6 @@ public:
 	{
 		world.UpgradeTower(mouseGame.getElement(), towerIndexInWorld);
 		towerIndexInWorld = -1;
-		trackingTile = -1;
 		mouseGame.Clear();
 	}
 	void ActiveWarningText(int newType) override
@@ -47,24 +45,42 @@ public:
 		{
 			menuMgr.ChangeMainMenu();
 			towerIndexInWorld = -1;
-			trackingTile = -1;
 		}
 	}
-	void MouseClickOnBackground(MouseState mouseState, VecI worldPos) override
+	void MouseClickOnBackground(MouseState mouseState, const b2Vec2& mousePos, const b2Vec2& worldTilePos) override
 	{
 		switch (mouseState)
 		{
 		case None:
-
+		{
+			std::vector<Tower*> towerList = world.GetBodyList<Tower>(mousePos, mouseQuerySize);
+			if (!towerList.empty())
+			{
+				OpenUpgradeMenu(towerList[0]->GetTowerIndex());
+			}
 			break;
+		}
 		case BuildTower:
+		{
+			std::vector<Tower*> towerList = world.GetBodyList<Tower>(mousePos, mouseQuerySize);
+			if (towerList.empty())
+			{
+				world.MakeTower(mouseGame.getElement(), mouseGame.getElement()->getColor(), worldTilePos,5.0f);
+			}
 			break;
-		case SellTower:
+		}
+		/*case SellTower:
+		{
+			auto bodyList = world.GetBodyList(worldTilePos, mouseQuerySize);
 			break;
+		}
 		case SwapTower:
+		{
+			auto bodyList = world.GetBodyList(worldTilePos, mouseQuerySize);
 			break;
+		}
 		case BuildEntity:
-			break;
+			break;*/
 		}
 	}
 	/**********************************/
@@ -72,9 +88,9 @@ public:
 
 	/**********************************/
 	/*      Control World Object      */
-	int MakeTower(Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f) override
+	void MakeTower(Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f) override
 	{
-		return world.MakeTower(element, c, worldPos, size);
+		world.MakeTower(element, c, worldPos, size);
 	}
 	int GetGold() const override
 	{
@@ -94,5 +110,5 @@ private:
 	World& world;
 	Background& bg;
 	int towerIndexInWorld = -1;
-	int trackingTile = -1;
+	float mouseQuerySize = 0.1f;
 };

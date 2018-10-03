@@ -90,6 +90,14 @@ public:
 	{
 		surf = surface;
 	}
+	void RemoveCollision()
+	{
+		getBody().SetActive(false);
+		timer = 0.0f;
+		duration = 0.0f;
+		disable = false;
+		MouseLeave();
+	}
 private:
 	void SwitchMouseCommand(Mouse& mouse)
 	{

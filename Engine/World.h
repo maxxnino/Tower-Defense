@@ -16,6 +16,7 @@
 #include "Gold.h"
 #include "Explosion.h"
 #include "Camera.h"
+#include "QuerySelectorBox2D.h"
 
 class World : public IWorldMediator, public IComponent
 {
@@ -34,7 +35,6 @@ public:
 		indexTower(0),
 		indexEnemy(0)
 	{
-		static MyBox2DListener mrLister;
 		mrLister.CaseContact<Tower, Enemy>([](PhysicObject* t, PhysicObject* e)
 		{
 			auto tower = static_cast<Tower*>(t);
@@ -216,6 +216,11 @@ public:
 			}
 		}
 	}
+	template <class T>
+	std::vector<T*> GetBodyList(const b2Vec2& worldPos, float size)
+	{
+		return std::move(myQuerySelector.GetBodyList<T>(*box2DEngine, worldPos, size));
+	}
 	/**********************************/
 
 
@@ -266,14 +271,13 @@ public:
 	/**********************************/
 	/**********************************/
 	/*          Tower Control         */
-	int MakeTower(Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f) override
+	void MakeTower(Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f) override
 	{
 		gold.RemoveGold(element->GetGold());
-		auto tower = std::make_unique<Tower>(*box2DEngine, element, c, worldPos, size);
+		auto tower = std::make_unique<Tower>(*box2DEngine, indexTower, element, c, worldPos, size);
 		tower->AddMediator(this);
 		towerMgr.emplace(indexTower, std::move(tower));
 		indexTower++;
-		return indexTower - 1;
 	}
 	void SellTower(int curTowerIndex) 
 	{
@@ -334,6 +338,8 @@ private:
 	static constexpr float bulletSize = 0.3f;
 	static constexpr float sellRate = 0.66667f;
 	std::unique_ptr<b2World> box2DEngine;
+	MyBox2DListener mrLister;
+	QuerySelectorBox2D myQuerySelector;
 	std::mt19937 rng = std::mt19937( std::random_device{}() );
 	float maxSpeedSq;
 	int tileWidth;

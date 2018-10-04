@@ -47,50 +47,14 @@ public:
 			towerIndexInWorld = -1;
 		}
 	}
-	void MouseClickOnBackground(MouseState mouseState, const b2Vec2& mousePos, const b2Vec2& worldTilePos) override
-	{
-		switch (mouseState)
-		{
-		case None:
-		{
-			std::vector<Tower*> towerList = world.GetBodyList<Tower>(mousePos, mouseQuerySize);
-			if (!towerList.empty())
-			{
-				OpenUpgradeMenu(towerList[0]->GetTowerIndex());
-			}
-			break;
-		}
-		case BuildTower:
-		{
-			std::vector<Tower*> towerList = world.GetBodyList<Tower>(mousePos, mouseQuerySize);
-			if (towerList.empty())
-			{
-				world.MakeTower(mouseGame.getElement(), mouseGame.getElement()->getColor(), worldTilePos,5.0f);
-			}
-			break;
-		}
-		/*case SellTower:
-		{
-			auto bodyList = world.GetBodyList(worldTilePos, mouseQuerySize);
-			break;
-		}
-		case SwapTower:
-		{
-			auto bodyList = world.GetBodyList(worldTilePos, mouseQuerySize);
-			break;
-		}
-		case BuildEntity:
-			break;*/
-		}
-	}
 	/**********************************/
 
 
 	/**********************************/
 	/*      Control World Object      */
-	void MakeTower(Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f) override
+	int MakeTower(const b2Vec2& worldPos) override
 	{
-		world.MakeTower(element, c, worldPos, size);
+		return world.MakeTower(mouseGame.getElement(), mouseGame.getElement()->getColor(), worldPos);
 	}
 	int GetGold() const override
 	{

@@ -137,8 +137,9 @@ public:
 	{
 		if (activeMenu != &mainMenu)
 		{
-			activeMenu = &mainMenu;
 			upgradeMenu.RemoveCollision();
+			mainMenu.EnableCollision();
+			activeMenu = &mainMenu;
 		}
 	}
 	bool isUpgradeMenuOpen()
@@ -149,8 +150,9 @@ public:
 	{
 		if (activeMenu != &upgradeMenu)
 		{
-			activeMenu = &upgradeMenu;
 			mainMenu.RemoveCollision();
+			upgradeMenu.EnableCollision();
+			activeMenu = &upgradeMenu;
 		}
 	}
 	void ActiveWarningText(int newType)

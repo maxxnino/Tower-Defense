@@ -141,7 +141,6 @@
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Base.h" />
-    <ClInclude Include="BoardGame.h" />
     <ClInclude Include="BuilderMatching.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChiliMath.h" />
@@ -157,7 +156,6 @@
     <ClInclude Include="Gold.h" />
     <ClInclude Include="ISpell.h" />
     <ClInclude Include="LineWall.h" />
-    <ClInclude Include="BuildableTile.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ChiliException.h" />
     <ClInclude Include="ChiliWin.h" />
@@ -195,12 +193,10 @@
     <ClInclude Include="SpellFactory.h" />
     <ClInclude Include="SpriteEffect.h" />
     <ClInclude Include="Surface.h" />
-    <ClInclude Include="TileGame.h" />
     <ClInclude Include="Tower.h" />
     <ClInclude Include="TypeArmor.h" />
     <ClInclude Include="Element.h" />
     <ClInclude Include="Vec2.h" />
-    <ClInclude Include="WalkableTile.h" />
     <ClInclude Include="IWorldMediator.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

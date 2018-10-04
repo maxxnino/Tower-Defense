@@ -10,7 +10,7 @@ public:
 		worldPos(worldPos),
 		dir(dir),
 		radian(radian),
-		PhysicObject(box2DEngine, CollisionFillter::GUIDING, CollisionFillter::ENEMY, worldPos, radian, radian, true)
+		PhysicObject(box2DEngine, CollisionFillter::GUIDING, CollisionFillter::ENEMY, worldPos, radian, radian, true,true)
 	{
 		body->SetUserData(this);
 	}

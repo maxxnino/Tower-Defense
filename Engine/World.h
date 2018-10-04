@@ -31,15 +31,14 @@ public:
 		gold((int)GameSettings::Get().GetData("[Gold]")),
 		tileWidth(tileWidth),
 		tileHeight(tileHeight),
-		posOffSet(float32(tileWidth / (Graphics::scalePixel * 2)), float32(-tileHeight / (Graphics::scalePixel * 2))),
-		indexTower(0),
-		indexEnemy(0)
+		posOffSet(float32(tileWidth / (Graphics::scalePixel * 2)), float32(-tileHeight / (Graphics::scalePixel * 2)))
 	{
+		static MyBox2DListener mrLister;
 		mrLister.CaseContact<Tower, Enemy>([](PhysicObject* t, PhysicObject* e)
 		{
-			auto tower = static_cast<Tower*>(t);
+			auto towerSensor = static_cast<Tower*>(t);
 			auto enemy = static_cast<Enemy*>(e);
-			tower->AddEnemyID(enemy->GetID());
+			towerSensor->AddEnemyID(enemy->GetID());
 		});
 		mrLister.CaseContact<Projectile, Enemy>([this](PhysicObject* p, PhysicObject* e)
 		{
@@ -75,9 +74,9 @@ public:
 		{
 			if (!t->isRemove())
 			{
-				auto tower = static_cast<Tower*>(t);
+				auto towerSensor = static_cast<Tower*>(t);
 				auto enemy = static_cast<Enemy*>(e);
-				tower->RemoveEnemyID(enemy->GetID());
+				towerSensor->RemoveEnemyID(enemy->GetID());
 			}
 		});
 
@@ -109,6 +108,12 @@ public:
 	}
 	void Update(float dt)
 	{
+		timer += dt;
+		if (timer >= 1.5f)
+		{
+			timer = 0.0f;
+			MakeEnemy();
+		}
 		for (auto t = towerMgr.begin(); t != towerMgr.end();)
 		{
 			if (t->second->isRemove())
@@ -136,12 +141,6 @@ public:
 				noTargetBullet.emplace_back(std::move(bulletMgr.back()));
 				bulletMgr.pop_back();
 			}
-		}
-		timer += dt;
-		if (timer >= 1.5f)
-		{
-			timer = 0.0f;
-			MakeEnemy();
 		}
 		box2DEngine->Step(dt, velocityIterations, positionIterations);
 		CleanWorld(dt);
@@ -233,7 +232,7 @@ public:
 		{
 			const b2Vec2 enemyPos =  e->second->getBody().GetPosition();
 			const b2Vec2 dir = enemyPos - worldPos;
-			auto b = std::make_unique<Projectile>(*box2DEngine, element, curTarget, worldPos + posOffSet, bulletSize, maxSpeedSq);
+			auto b = std::make_unique<Projectile>(*box2DEngine, element, curTarget, worldPos, bulletSize, maxSpeedSq);
 			b->SetVelocity(dir);
 			bulletMgr.emplace_back(std::move(b));
 		}
@@ -246,14 +245,7 @@ public:
 	void MakeEnemy() override 
 	{
 		enemyMgr.emplace(indexEnemy, std::make_unique<Enemy>(*box2DEngine, indexEnemy, 1.5f));
-		if (indexEnemy > 10000)
-		{
-			indexEnemy = 0;
-		}
-		else
-		{
-			indexEnemy++;
-		}
+		indexEnemy++;
 	}
 	/**********************************/
 
@@ -271,13 +263,14 @@ public:
 	/**********************************/
 	/**********************************/
 	/*          Tower Control         */
-	void MakeTower(Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f) override
+	int MakeTower(Element* element, Color c, const b2Vec2& worldPos) override
 	{
 		gold.RemoveGold(element->GetGold());
-		auto tower = std::make_unique<Tower>(*box2DEngine, indexTower, element, c, worldPos, size);
+		auto tower = std::make_unique<Tower>(*box2DEngine, indexTower, element, c, worldPos);
 		tower->AddMediator(this);
 		towerMgr.emplace(indexTower, std::move(tower));
 		indexTower++;
+		return indexTower - 1;
 	}
 	void SellTower(int curTowerIndex) 
 	{
@@ -338,7 +331,6 @@ private:
 	static constexpr float bulletSize = 0.3f;
 	static constexpr float sellRate = 0.66667f;
 	std::unique_ptr<b2World> box2DEngine;
-	MyBox2DListener mrLister;
 	QuerySelectorBox2D myQuerySelector;
 	std::mt19937 rng = std::mt19937( std::random_device{}() );
 	float maxSpeedSq;
@@ -356,6 +348,6 @@ private:
 	std::unordered_map<int, std::unique_ptr<Enemy>> enemyMgr;
 	std::vector<std::unique_ptr<Projectile>> bulletMgr;
 	std::vector<std::unique_ptr<Projectile>> noTargetBullet;
-	int indexTower;
-	int indexEnemy;
+	int indexTower = 0;
+	int indexEnemy = 0;
 };

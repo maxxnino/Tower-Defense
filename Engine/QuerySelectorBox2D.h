@@ -23,7 +23,7 @@ public:
 	template <class T>
 	std::vector<T*> GetBodyList(b2World& box2DEngine, const b2Vec2& pos, float size)
 	{
-		static_assert(std::is_base_of<PhysicObject, T>::value, "Template param type T must be derived from PhysicObject!");
+		queryCallback.foundBodies.clear();
 		b2AABB aabb;
 		aabb.lowerBound = { pos.x - size, pos.y - size};
 		aabb.upperBound = { pos.x + size, pos.y + size };
@@ -31,15 +31,15 @@ public:
 
 		std::vector<T*> bodyList;
 		
-		auto ti2 = &typeid(T);
 		for (size_t i = 0; i < queryCallback.foundBodies.size(); i++)
 		{
-			auto b = static_cast<PhysicObject*>(queryCallback.foundBodies[i]->GetUserData());
-			if (&typeid(b) == ti2)
+			auto p = static_cast<PhysicObject*>(queryCallback.foundBodies[i]->GetUserData());
+			if (auto b = dynamic_cast<T*>(p))
 			{
 				bodyList.emplace_back(static_cast<T*>(b));
 			}
 		}
+		queryCallback.foundBodies.clear();
 		return std::move(bodyList);
 	}
 private:

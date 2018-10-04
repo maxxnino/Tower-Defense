@@ -61,7 +61,7 @@ public:
 			body->CreateFixture(&fixtureDef);
 		}
 	}
-	//create a border line
+	//create a static border line
 	PhysicObject(b2World& box2DEngine, uint16 categoryBits, uint16 maskBits, const b2Vec2& posBegin, const b2Vec2& posEnd)
 	{
 		{
@@ -86,8 +86,8 @@ public:
 		}
 	}
 
-	//create a kinematic circle/box sensor
-	PhysicObject(b2World& box2DEngine, uint16 categoryBits, uint16 maskBits, const b2Vec2& worldPos, float width, float height, bool isCircle = false)
+	//create a kinematic circle/box sensor/non-sensor 
+	PhysicObject(b2World& box2DEngine, uint16 categoryBits, uint16 maskBits, const b2Vec2& worldPos, float width, float height, bool isCircle = false, bool isSensor = false)
 	{
 		{
 			b2BodyDef bodyDef;
@@ -101,7 +101,7 @@ public:
 			circleShape.m_radius = width;
 			b2FixtureDef fixtureDef;
 			fixtureDef.shape = &circleShape;
-			fixtureDef.isSensor = true;
+			fixtureDef.isSensor = isSensor;
 			//collision fillter
 			fixtureDef.filter.categoryBits = categoryBits;
 			fixtureDef.filter.maskBits = maskBits;
@@ -112,7 +112,7 @@ public:
 			kinematicBox.SetAsBox(width, height);
 			b2FixtureDef fixtureDef;
 			fixtureDef.shape = &kinematicBox;
-			fixtureDef.isSensor = true;
+			fixtureDef.isSensor = isSensor;
 			//collision fillter
 			fixtureDef.filter.categoryBits = categoryBits;
 			fixtureDef.filter.maskBits = maskBits;
@@ -138,6 +138,7 @@ public:
 	virtual void ApplyDame(int type, float dame) { assert(false); }
 	virtual void ChangeAttribute(TypeAttribute typeAttribute, float value) { assert(false); }
 	virtual float GetBaseAttribute(TypeAttribute type) const { assert(false); return -1.0f; }
+	virtual ~PhysicObject() = default;
 	/***********************************/
 protected:
 	bool isDestroyed = false;

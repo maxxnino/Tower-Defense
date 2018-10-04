@@ -98,6 +98,10 @@ public:
 		disable = false;
 		MouseLeave();
 	}
+	void EnableCollision()
+	{
+		getBody().SetActive(true);
+	}
 private:
 	void SwitchMouseCommand(Mouse& mouse)
 	{

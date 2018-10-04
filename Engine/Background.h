@@ -1,6 +1,7 @@
 #pragma once
 #include <algorithm>
 #include <vector>
+#include <unordered_map>
 #include <random>
 #include "Camera.h"
 #include "Mouse.h"
@@ -8,6 +9,29 @@
 #include "GameSettings.h"
 #include "Surface.h"
 #include "Codex.h"
+namespace std
+{
+	template <>
+	struct hash<VecI>
+	{
+		size_t operator()(const VecI& vec) const
+		{
+			std::hash<int> hasher;
+			auto hashx = hasher(vec.x);
+			auto hashy = hasher(vec.y);
+			hashx ^= hashy + 0x9e3779b9 + (hashx << 6) + (hashx >> 2);
+			return hashx;
+		}
+	};
+	template <>
+	struct equal_to<VecI>
+	{
+		size_t operator()(const VecI& lhs, const VecI& rhs) const
+		{
+			return lhs.x == rhs.x && lhs.y == rhs.y;
+		}
+	};
+}
 class Background : public IComponent
 {
 public:
@@ -86,8 +110,35 @@ public:
 				{
 				case Mouse::Event::Type::LPress:
 				{
-					if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
-						mediator->MouseClickOnBackground(mouseState, mouseWorldPos, worldTilePos);
+					switch (mouseState)
+					{
+					case None:
+						{
+							if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
+							{
+								auto tower = towerTiles.find(trackingTile);
+								if (tower != towerTiles.end())
+								{
+									mediator->OpenUpgradeMenu(tower->second);
+								}
+							}
+							break;
+						}
+					
+					case BuildTower:
+						{
+							if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
+							{
+								auto tower = towerTiles.find(trackingTile);
+								if (tower == towerTiles.end())
+								{
+									const auto towerIndex = mediator->MakeTower(worldTilePos);
+									towerTiles.emplace(trackingTile, towerIndex);
+								}
+							}
+							break;
+						}
+					}
 					break;
 				}
 				case Mouse::Event::Type::RPress:
@@ -189,5 +240,7 @@ private:
 	std::vector<std::shared_ptr<Surface>> surfs;
 	// grid of tiles (indices into the surfs vector)
 	std::vector<int> tiles;
+	//tower tile VecI pos, tower index in world
+	std::unordered_map<VecI, int> towerTiles;
 	IMediator* mediator = nullptr;
 };

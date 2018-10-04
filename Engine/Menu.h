@@ -56,6 +56,14 @@ public:
 		}
 		getBody().SetActive(false);
 	}
+	void EnableCollision()
+	{
+		for (auto& b : btns)
+		{
+			b->EnableCollision();
+		}
+		getBody().SetActive(true);
+	}
 private:
 	const float width;
 	const float height;

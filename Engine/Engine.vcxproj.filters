@@ -84,18 +84,6 @@
     <ClInclude Include="MouseGame.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="BoardGame.h">
-      <Filter>Header Files\Game\Board and Tile</Filter>
-    </ClInclude>
-    <ClInclude Include="BuildableTile.h">
-      <Filter>Header Files\Game\Board and Tile</Filter>
-    </ClInclude>
-    <ClInclude Include="TileGame.h">
-      <Filter>Header Files\Game\Board and Tile</Filter>
-    </ClInclude>
-    <ClInclude Include="WalkableTile.h">
-      <Filter>Header Files\Game\Board and Tile</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Header Files\Game\Game Object</Filter>
     </ClInclude>

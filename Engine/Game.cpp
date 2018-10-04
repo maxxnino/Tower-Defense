@@ -26,11 +26,10 @@ Game::Game( MainWindow& wnd )
 	gfx( wnd ),
 	controler(wnd.mouse, cam),
 	bg({ -100.0f / 2.0f,-100.0f / 2.0f }, 100, 100, 2, rng),
-	//brd2(L"Data\\map01.ini"),
 	world(Camera::scalePixel * 2, Camera::scalePixel * 2),
 	mediatorGuiAndBrd(&bg,&gui,&world)
 {
-	bgm.Play(1.0f, 0.5f);
+	bgm.Play(1.0f, 0.3f);
 }
 
 void Game::Go()

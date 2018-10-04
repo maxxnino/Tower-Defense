@@ -8,11 +8,11 @@
 class Tower : public PhysicObject, public IWorldComponent
 {
 public:
-	Tower(b2World& box2DEngine, int indexTower, Element* element, Color c, const b2Vec2& worldPos, float size = 1.0f )
+	Tower(b2World& box2DEngine, int indexTower, Element* element, Color c, const b2Vec2& worldPos)
 		:
 		c(c),
 		index(indexTower),
-		PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::ENEMY, worldPos, true, true, size, b2Vec2( 0.0f,0.0f )),
+		PhysicObject(box2DEngine, CollisionFillter::TOWER, CollisionFillter::ENEMY, worldPos, true, true, 5.0f, b2Vec2( 0.0f,0.0f )),
 		animation(element->GetTowerAnimation())
 	{
 		Upgrade(element);

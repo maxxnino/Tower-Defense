@@ -53,8 +53,8 @@ private:
 	Camera cam;
 	MouseCameraController controler;
 	Background bg;
-	World world;
 	MenuManager gui;
+	World world;
 	ControlGuiAndBoard mediatorGuiAndBrd;
 	/********************************/
 };

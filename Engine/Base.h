@@ -6,7 +6,7 @@ class Base : public PhysicObject
 public:
 	Base(b2World& box2DEngine, const b2Vec2& worldPos, float width, float height, bool isCircle = false)
 		:
-		PhysicObject(box2DEngine, CollisionFillter::BASE, CollisionFillter::ENEMY, worldPos, width, height, isCircle),
+		PhysicObject(box2DEngine, CollisionFillter::BASE, CollisionFillter::ENEMY, worldPos, width, height, isCircle,true),
 		width(width),
 		height(height)
 	{

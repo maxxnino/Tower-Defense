@@ -111,11 +111,11 @@ public:
 	{
 		state = newState;
 	}
-	void SetPos(const VecI& newPos)
+	void SetPos(const b2Vec2& newPos)
 	{
 		pos = newPos;
 	}
-	void Draw(Graphics& gfx)
+	void Draw(Graphics& gfx, const Camera& cam) const
 	{
 		switch (state)
 		{
@@ -123,7 +123,7 @@ public:
 			break;
 		case BuildTower:
 			//gfx.DrawSprite(pos.x, pos.y, *element->GetElementSurface(), SpriteEffect::Ghost(Colors::Magenta));
-			element->GetTowerAnimation()->DrawGhost(pos, gfx, 0);
+			element->GetTowerAnimation()->DrawGhost(cam.GetDrawPosition(pos), gfx, 0);
 			break;
 		/*case DeleteTower:
 			break;
@@ -137,7 +137,7 @@ public:
 	}
 private:
 	Element* element = nullptr;
-	VecI pos = { 0,0 };
+	b2Vec2 pos = { 0.0f,0.0f };
 	MouseState state = MouseState::None;
 	float animationSpeed;
 	std::unordered_map<int, Element*> factory;

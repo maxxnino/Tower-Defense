@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <random>
 #include "Camera.h"
+#include "MouseCameraController.h"
 #include "Mouse.h"
 #include "IComponent.h"
 #include "GameSettings.h"
@@ -90,7 +91,7 @@ public:
 			}
 		}
 	}
-	void Update(Mouse& mouse, const Camera& cam)
+	void Update(Mouse& mouse, const Camera& cam, MouseCameraController& controller)
 	{
 		const auto mouseWorldPos = cam.ScreenToWorldPos((VecF)mouse.GetPos());
 		const auto mouseTilePos = mouseWorldPos - pos;
@@ -121,6 +122,14 @@ public:
 								{
 									mediator->OpenUpgradeMenu(tower->second);
 								}
+								else
+								{
+									controller.ProcessCommand(e);
+								}
+							}
+							else
+							{
+								controller.ProcessCommand(e);
 							}
 							break;
 						}
@@ -144,15 +153,20 @@ public:
 				case Mouse::Event::Type::RPress:
 					mediator->OnRightClickFromGUI();
 					break;
-				default:
+				case Mouse::Event::Type::LRelease:
+					controller.ProcessCommand(e);
 					break;
 				}
 			}
 		}
 		else
 		{
-			
+			while (!mouse.IsEmpty())
+			{
+				controller.ProcessCommand(mouse.Read().GetType());
+			}
 		}
+		controller.Update();
 	}
 	/*void ProcessComand(Mouse& mouse, const VecI& camPos)
 	{

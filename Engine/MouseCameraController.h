@@ -10,23 +10,21 @@ public:
 		mouse(mouse),
 		cam(cam)
 	{}
+	void ProcessCommand(Mouse::Event::Type mouseEvent)
+	{
+		switch (mouseEvent)
+		{
+		case Mouse::Event::Type::LPress:
+			engaged = true;
+			lastPos = (VecF)mouse.GetPos();
+			break;
+		case Mouse::Event::Type::LRelease:
+			engaged = false;
+			break;
+		}
+	}
 	void Update()
 	{
-		while (!mouse.IsEmpty())
-		{
-			const auto e = mouse.Read();
-			switch (e.GetType())
-			{
-			case Mouse::Event::Type::LPress:
-				engaged = true;
-				lastPos = (VecF)e.GetPos();
-				break;
-			case Mouse::Event::Type::LRelease:
-				engaged = false;
-				break;
-			}
-		}
-
 		if (engaged)
 		{
 			const auto curPos = (VecF)mouse.GetPos();

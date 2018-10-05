@@ -21,13 +21,14 @@ public:
 		coinAnimation(0,0,40,40,25, Codex<Surface>::Retrieve(L"Images\\GUI\\pm_coin_40_40_25.png"), 0.04f, Colors::Black),
 		mainMenu(*box2DGUI, { 0.0f, -12.0f }, 30.0f, 3.5f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
 		mainMenuBtn01(*box2DGUI, {  -10.0f , -12.0f }, 2.5f, 2.5f),
-		mainMenuBtn02(*box2DGUI, { -10.0f + 10.0f, -12.0f }, 2.5f, 2.5f),
-		mainMenuBtn03(*box2DGUI, { -10.0f + 20.0f, -12.0f }, 2.5f, 2.5f),
+		mainMenuBtn02(*box2DGUI, { -10.0f + 7.0f, -12.0f }, 2.5f, 2.5f),
+		mainMenuBtn03(*box2DGUI, { -10.0f + 14.0f, -12.0f }, 2.5f, 2.5f),
+		deleteTowerBtn04(*box2DGUI, { -10.0f + 21.0f, -12.0f }, 2.5f, 2.5f),
 		upgradeMenu(*box2DGUI, { 0.0f, -12.0f }, 30.0f, 3.5f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
 		upgradeMenuBtn01(*box2DGUI, { -10.0f , -12.0f }, 2.5f, 2.5f),
 		upgradeMenuBtn02(*box2DGUI, { -10.0f + 10.0f, -12.0f }, 2.5f, 2.5f),
 		upgradeMenuBtn03(*box2DGUI, { -10.0f + 20.0f, -12.0f }, 2.5f, 2.5f)
-		//deleteTowerBtn04(VecF(100.0f + 150.0f + 3.0f * 100.0f, 513.0f), 50.0f, 50.0f)
+		
 	{
 		box2DGUI->SetContactListener(&listenerGUI);
 		activeMenu = &mainMenu;
@@ -44,19 +45,19 @@ public:
 			mediator->GetMouseGame()->ChangeToLighting();
 			mainMenuBtn03.Disable(1.0f);
 		});
-		/*deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
-			mediator->GetMouseGame()->ChangeState(MouseState::DeleteTower);
-		});*/
+		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
+			mediator->GetMouseGame()->ChangeState(MouseState::SellTower);
+		});
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
 		mainMenuBtn02.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
 		mainMenuBtn03.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
-		//deleteTowerBtn04.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
+		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
 
 		mainMenu.AddButton(&mainMenuBtn01);
 		mainMenu.AddButton(&mainMenuBtn02);
 		mainMenu.AddButton(&mainMenuBtn03);
-		//mainMenu.AddButton(&deleteTowerBtn04);
-		//mainMenu.AddItem(&deleteTowerBtn04);
+		mainMenu.AddButton(&deleteTowerBtn04);
+		mainMenu.AddButton(&deleteTowerBtn04);
 
 		//upgrademenu
 		upgradeMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
@@ -104,8 +105,8 @@ public:
 		upgradeMenuBtn03.setColor(mouseGame->GetLightingColor());
 		upgradeMenuBtn03.SetSprite(mouseGame->GetNatureSurface());
 
-		/*deleteTowerBtn04.setColor(Colors::White);
-		deleteTowerBtn04.SetSprite(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_delete_button_50_50.png"));*/
+		deleteTowerBtn04.setColor(Colors::White);
+		deleteTowerBtn04.SetSprite(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_delete_button_50_50.png"));
 	}
 	void Update(float dt, Mouse& mouse)
 	{
@@ -130,7 +131,6 @@ public:
 		gfx.DrawSprite(0, 0, *surf, SpriteEffect::Copy{});
 		coinAnimation.DrawAlpha({ 10,5 }, gfx);
 		font.DrawText(std::to_string(mediator->GetGold()), {60,10},Colors::Green,gfx);
-		//mediator->GetMouseGame()->Draw(gfx);
 		DrawWaringText(gfx);
 	}
 	void ChangeMainMenu()
@@ -220,7 +220,7 @@ private:
 	Button mainMenuBtn01;
 	Button mainMenuBtn02;
 	Button mainMenuBtn03;
-	//Button deleteTowerBtn04;
+	Button deleteTowerBtn04;
 	//Upgrade Menu
 	Menu upgradeMenu;
 	Button upgradeMenuBtn01;

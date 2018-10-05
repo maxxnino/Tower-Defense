@@ -148,6 +148,16 @@ public:
 							}
 							break;
 						}
+					case SellTower:
+						if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
+						{
+							auto tower = towerTiles.find(trackingTile);
+							if (tower != towerTiles.end())
+							{
+								mediator->DeleteTower(tower->second);
+							}
+						}
+						break;
 					}
 					break;
 				}

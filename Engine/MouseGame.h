@@ -40,6 +40,7 @@ public:
 	{
 		element = nullptr;
 		state = MouseState::None;
+		posAndTowerIndex = std::make_pair(VecI(-1, -1), -1);
 	}
 	inline void ChangeToFire() noexcept
 	{
@@ -115,6 +116,18 @@ public:
 	{
 		pos = newPos;
 	}
+	bool isSwapTileEmpty() const
+	{
+		return posAndTowerIndex.second == -1;
+	}
+	const std::pair<VecI, int>& GetSwapPosAndIndex() const
+	{
+		return posAndTowerIndex;
+	}
+	void SetSwapTile(VecI tilePos, int tileIndex)
+	{
+		posAndTowerIndex = std::make_pair(tilePos, tileIndex);
+	}
 	void Draw(Graphics& gfx, const Camera& cam) const
 	{
 		switch (state)
@@ -138,6 +151,7 @@ public:
 private:
 	Element* element = nullptr;
 	b2Vec2 pos = { 0.0f,0.0f };
+	std::pair<VecI, int> posAndTowerIndex = std::make_pair(VecI(-1, -1), -1);
 	MouseState state = MouseState::None;
 	float animationSpeed;
 	std::unordered_map<int, Element*> factory;

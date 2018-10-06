@@ -220,6 +220,19 @@ public:
 	{
 		return std::move(myQuerySelector.GetBodyList<T>(*box2DEngine, worldPos, size));
 	}
+	bool DoSwapTower(int index01, int index02)
+	{
+		auto tower01 = towerMgr.find(index01);
+		auto tower02 = towerMgr.find(index02);
+		assert(tower01 != towerMgr.end());
+		assert(tower02 != towerMgr.end());
+		
+		const auto t01Pos = tower01->second->getBody().GetPosition();
+		const auto t02Pos = tower02->second->getBody().GetPosition();
+		tower01->second->getBody().SetTransform(t02Pos,0.0f);
+		tower02->second->getBody().SetTransform(t01Pos, 0.0f);
+		return true;
+	}
 	/**********************************/
 
 

@@ -18,18 +18,24 @@ public:
 		const auto drawPos = ConvertToScreenPos(getBody().GetPosition(), Camera::scalePixel, Camera::coordinateOffsetX, Camera::coordinateOffsetY);
 		gfx.DrawRectDim(drawPos, (int)width, (int)height, Colors::Gray);
 		gfx.DrawSprite(drawPos.x - int(width / 2), drawPos.y - int(height / 2), *surf, SpriteEffect::Copy{});
-		for (auto& b : btns)
+		if (isUpdateButton)
 		{
-			b->Draw(gfx);
+			for (auto& b : btns)
+			{
+				b->Draw(gfx);
+			}
 		}
 	}
 	void Update(float dt, Mouse& mouse)
 	{
 		if (GetMouseState())
 		{
-			for (auto& b : btns)
+			if (isUpdateButton)
 			{
-				b->UpdateMouseIn(dt, mouse);
+				for (auto& b : btns)
+				{
+					b->UpdateMouseIn(dt, mouse);
+				}
 			}
 			while (!mouse.IsEmpty())
 			{
@@ -64,7 +70,30 @@ public:
 		}
 		getBody().SetActive(true);
 	}
+	void DisableButton()
+	{
+		if (isUpdateButton)
+		{
+			for (auto& b : btns)
+			{
+				b->RemoveCollision();
+			}
+			isUpdateButton = false;
+		}
+	}
+	void EnableButoon()
+	{
+		if (!isUpdateButton)
+		{
+			for (auto& b : btns)
+			{
+				b->EnableCollision();
+			}
+			isUpdateButton = true;
+		}
+	}
 private:
+	bool isUpdateButton = true;
 	const float width;
 	const float height;
 	const std::shared_ptr<Surface> surf;

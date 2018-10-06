@@ -21,9 +21,10 @@ public:
 		coinAnimation(0,0,40,40,25, Codex<Surface>::Retrieve(L"Images\\GUI\\pm_coin_40_40_25.png"), 0.04f, Colors::Black),
 		mainMenu(*box2DGUI, { 0.0f, -12.0f }, 30.0f, 3.5f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
 		mainMenuBtn01(*box2DGUI, {  -10.0f , -12.0f }, 2.5f, 2.5f),
-		mainMenuBtn02(*box2DGUI, { -10.0f + 7.0f, -12.0f }, 2.5f, 2.5f),
-		mainMenuBtn03(*box2DGUI, { -10.0f + 14.0f, -12.0f }, 2.5f, 2.5f),
-		deleteTowerBtn04(*box2DGUI, { -10.0f + 21.0f, -12.0f }, 2.5f, 2.5f),
+		mainMenuBtn02(*box2DGUI, { -10.0f + 5.0f, -12.0f }, 2.5f, 2.5f),
+		mainMenuBtn03(*box2DGUI, { -10.0f + 10.0f, -12.0f }, 2.5f, 2.5f),
+		deleteTowerBtn04(*box2DGUI, { -10.0f + 15.0f, -12.0f }, 2.5f, 2.5f),
+		swapTowerBtn05(*box2DGUI, { -10.0f + 20.0f, -12.0f }, 2.5f, 2.5f),
 		upgradeMenu(*box2DGUI, { 0.0f, -12.0f }, 30.0f, 3.5f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
 		upgradeMenuBtn01(*box2DGUI, { -10.0f , -12.0f }, 2.5f, 2.5f),
 		upgradeMenuBtn02(*box2DGUI, { -10.0f + 10.0f, -12.0f }, 2.5f, 2.5f),
@@ -46,7 +47,14 @@ public:
 			mainMenuBtn03.Disable(1.0f);
 		});
 		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
+			swapTowerBtn05.Disable(1.0f);
+			mainMenu.DisableButton();
 			mediator->GetMouseGame()->ChangeState(MouseState::SellTower);
+		});
+		swapTowerBtn05.AddEventListener(Mouse::Event::Type::LPress, [this]() {
+			swapTowerBtn05.Disable(1.0f);
+			mainMenu.DisableButton();
+			mediator->GetMouseGame()->ChangeState(MouseState::SwapTower);
 		});
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
 		mainMenuBtn02.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
@@ -57,7 +65,7 @@ public:
 		mainMenu.AddButton(&mainMenuBtn02);
 		mainMenu.AddButton(&mainMenuBtn03);
 		mainMenu.AddButton(&deleteTowerBtn04);
-		mainMenu.AddButton(&deleteTowerBtn04);
+		mainMenu.AddButton(&swapTowerBtn05);
 
 		//upgrademenu
 		upgradeMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
@@ -107,6 +115,7 @@ public:
 
 		deleteTowerBtn04.setColor(Colors::White);
 		deleteTowerBtn04.SetSprite(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_delete_button_50_50.png"));
+		swapTowerBtn05.SetSprite(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_swap_button_50_50.png"));
 	}
 	void Update(float dt, Mouse& mouse)
 	{
@@ -144,7 +153,7 @@ public:
 	}
 	bool isUpgradeMenuOpen()
 	{
-		return activeMenu != &upgradeMenu;
+		return activeMenu == &upgradeMenu;
 	}
 	void ChangeUpgradeMenu()
 	{
@@ -154,6 +163,11 @@ public:
 			upgradeMenu.EnableCollision();
 			activeMenu = &upgradeMenu;
 		}
+	}
+	void EnableButton()
+	{
+		assert(activeMenu == &mainMenu);
+		mainMenu.EnableButoon();
 	}
 	void ActiveWarningText(int newType)
 	{
@@ -172,8 +186,10 @@ private:
 				font.DrawText(warningGoldText, { 150,50 }, Colors::Red, gfx);
 				break;
 			case 1:
-				font.DrawText(warningCantBuildText, { 80,50 }, Colors::Red, gfx);
+				font.DrawText(warningCantBuildText, { 80,50 }, Colors::Green, gfx);
 				break;
+			case 2:
+				font.DrawText(warningCantSwapTower, { 80,50 }, Colors::Blue, gfx);
 			default:
 				break;
 			}
@@ -214,6 +230,7 @@ private:
 	int type = 0;
 	std::string warningGoldText = "Yo!!! You poor as fuck !!!";
 	std::string warningCantBuildText = "This tile already have a tower bitch !!!";
+	std::string warningCantSwapTower = "You can't see ? There is no tower to swap";
 	float timer = 0.0f;
 	//Make main menu and button
 	Menu mainMenu;
@@ -221,6 +238,7 @@ private:
 	Button mainMenuBtn02;
 	Button mainMenuBtn03;
 	Button deleteTowerBtn04;
+	Button swapTowerBtn05;
 	//Upgrade Menu
 	Menu upgradeMenu;
 	Button upgradeMenuBtn01;

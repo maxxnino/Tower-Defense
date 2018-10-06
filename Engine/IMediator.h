@@ -9,6 +9,7 @@ public:
 	virtual void UpgradeTower() = 0;
 	virtual void ActiveWarningText(int newType) = 0;
 	virtual void OnRightClickFromGUI() = 0;
+	
 	MouseGame* GetMouseGame()
 	{
 		return &mouseGame;
@@ -26,6 +27,7 @@ public:
 	virtual int GetGold() const = 0;
 	virtual bool CanAffordTower() const = 0;
 	virtual void DeleteTower(int towerIndex) = 0;
+	virtual bool DoSwapTower(int index01, int index02) = 0;
 	/**********************************/
 protected:
 	MouseGame mouseGame;

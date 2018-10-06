@@ -105,6 +105,7 @@ public:
 			const auto worldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float(trackingTile.y * tileWorldSize)) + pos;
 			const auto mouseState = mediator->GetMouseGame()->GetMouseState();
 			mediator->GetMouseGame()->SetPos(worldTilePos);
+			auto mouseGame = mediator->GetMouseGame();
 			while (!mouse.IsEmpty())
 			{
 				const auto e = mouse.Read().GetType();
@@ -134,7 +135,6 @@ public:
 							}
 							break;
 						}
-					
 					case BuildTower:
 						{
 							if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
@@ -149,15 +149,67 @@ public:
 							break;
 						}
 					case SellTower:
-						if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
 						{
-							auto tower = towerTiles.find(trackingTile);
-							if (tower != towerTiles.end())
+							if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
 							{
-								mediator->DeleteTower(tower->second);
+								auto tower = towerTiles.find(trackingTile);
+								if (tower != towerTiles.end())
+								{
+									mediator->DeleteTower(tower->second);
+								}
 							}
+							break;
 						}
-						break;
+					case SwapTower:
+						{
+							if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
+							{
+								auto towerLhs = towerTiles.find(trackingTile);
+								if (towerLhs != towerTiles.end())
+								{
+									if (mouseGame->isSwapTileEmpty())
+									{
+										mouseGame->SetSwapTile(trackingTile , towerLhs->second);
+									}
+									else
+									{
+										
+										const auto& swapPosAndIndex = mouseGame->GetSwapPosAndIndex();
+										if (swapPosAndIndex.second != towerLhs->second)
+										{
+											//swap lhs
+											const int lhsIndex = towerLhs->second;
+											towerLhs->second = swapPosAndIndex.second;
+
+											//swap rhs
+											auto towerRhs = towerTiles.find(swapPosAndIndex.first);
+											if (towerRhs != towerTiles.end())
+											{
+												towerRhs->second = lhsIndex;
+											}
+											else
+											{
+												assert(false);
+											}
+											mediator->DoSwapTower(towerRhs->second, towerLhs->second);
+										}
+										else
+										{
+											mediator->ActiveWarningText(2);
+										}
+									}
+								}
+								else
+								{
+									mediator->ActiveWarningText(2);
+								}
+							}
+							else
+							{
+								mediator->ActiveWarningText(2);
+							}
+							break;
+						}
 					}
 					break;
 				}

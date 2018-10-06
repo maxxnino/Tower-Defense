@@ -41,10 +41,14 @@ public:
 	void OnRightClickFromGUI() override
 	{
 		mouseGame.Clear();
-		if (!menuMgr.isUpgradeMenuOpen())
+		if (menuMgr.isUpgradeMenuOpen())
 		{
 			menuMgr.ChangeMainMenu();
 			towerIndexInWorld = -1;
+		}
+		else
+		{
+			menuMgr.EnableButton();
 		}
 	}
 	/**********************************/
@@ -67,6 +71,15 @@ public:
 	void DeleteTower(int towerIndex) override
 	{
 		world.SellTower(towerIndex);
+	}
+	bool DoSwapTower(int index01, int index02) override
+	{
+		if (world.DoSwapTower(index01, index02))
+		{
+			OnRightClickFromGUI();
+			return true;
+		}
+		return false;
 	}
 	/**********************************/
 private:

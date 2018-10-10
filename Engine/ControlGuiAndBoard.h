@@ -22,7 +22,7 @@ public:
 	void OpenUpgradeMenu(int towerIndex) override
 	{
 		assert(towerIndex != -1);
-		if (menuMgr.isUpgradeMenuOpen() && !world.IsTowerMaxLv(towerIndex))
+		if (!menuMgr.isUpgradeMenuOpen() && !world.IsTowerMaxLv(towerIndex))
 		{
 			towerIndexInWorld = towerIndex;
 			menuMgr.ChangeUpgradeMenu();

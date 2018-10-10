@@ -130,19 +130,29 @@ public:
 	}
 	void Draw(Graphics& gfx, const Camera& cam) const
 	{
+		const auto drawPos = cam.GetDrawPosition(pos);
 		switch (state)
 		{
 		case None:
 			break;
 		case BuildTower:
 			//gfx.DrawSprite(pos.x, pos.y, *element->GetElementSurface(), SpriteEffect::Ghost(Colors::Magenta));
-			element->GetTowerAnimation()->DrawGhost(cam.GetDrawPosition(pos), gfx, 0);
+			element->GetTowerAnimation()->DrawGhost(drawPos, gfx, 0);
 			break;
-		/*case DeleteTower:
+		case SellTower:
+			gfx.DrawSprite(drawPos.x, drawPos.y, *sellTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
 			break;
 		case SwapTower:
+			if (posAndTowerIndex.second != -1)
+			{
+				gfx.DrawSprite(drawPos.x, drawPos.y, *swapTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
+			}
+			else
+			{
+				gfx.DrawSprite(drawPos.x, drawPos.y, *swapTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
+			}
 			break;
-		case DropItem:
+		/*case DropItem:
 			break;
 		default:
 			break;*/
@@ -155,6 +165,8 @@ private:
 	MouseState state = MouseState::None;
 	float animationSpeed;
 	std::unordered_map<int, Element*> factory;
+	std::shared_ptr<Surface> sellTowerSurf = Codex<Surface>::Retrieve(L"Images\\GUI\\pm_delete_button_40_40.png");
+	std::shared_ptr<Surface> swapTowerSurf = Codex<Surface>::Retrieve(L"Images\\GUI\\pm_swap_button_40_40.png");
 	//tower animation data pm_tower_lv09_40_40_6 pm_tower_lv03_40_40_12
 	SharedAnimationData towerAni01 = { 0,0,40,40,9, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv01_40_40_9.png"), animationSpeed, Colors::Black };
 	SharedAnimationData towerAni02 = { 0,0,40,40,11, Codex<Surface>::Retrieve(L"Images\\Tower\\pm_tower_lv02_40_40_11.png"), animationSpeed, Colors::Black };

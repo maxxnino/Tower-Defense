@@ -90,7 +90,7 @@ public:
 				}
 			}
 		}
-		mediator->GetMouseGame()->Draw(gfx, cam);
+		mediator->GetDatabase()->Draw(gfx, cam);
 	}
 	void Update(Mouse& mouse, const Camera& cam, MouseCameraController& controller)
 	{
@@ -103,9 +103,9 @@ public:
 			trackingTile.x = (int)mouseTilePos.x / tileWorldSize;
 			trackingTile.y = std::max((int)mouseTilePos.y / tileWorldSize + 1, 0 );
 			const auto worldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float(trackingTile.y * tileWorldSize)) + pos;
-			const auto mouseState = mediator->GetMouseGame()->GetMouseState();
-			mediator->GetMouseGame()->SetPos(worldTilePos);
-			auto mouseGame = mediator->GetMouseGame();
+			const auto mouseState = mediator->GetDatabase()->GetMouseState();
+			mediator->GetDatabase()->SetPos(worldTilePos);
+			auto mouseGame = mediator->GetDatabase();
 			while (!mouse.IsEmpty())
 			{
 				const auto e = mouse.Read().GetType();

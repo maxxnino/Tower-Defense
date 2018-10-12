@@ -269,9 +269,9 @@ public:
 	{
 		return gold.GetGold();
 	}
-	bool CanAffordTower(const MouseGame& mouseGame) const
+	bool CanAffordTower(const GuiGameDatabase& database) const
 	{
-		return gold.GetGold() >= mouseGame.GetGold();
+		return gold.GetGold() >= database.GetGold();
 	}
 	/**********************************/
 	/**********************************/
@@ -310,9 +310,9 @@ public:
 	{
 		auto t = towerMgr.find(towerIndex);
 		assert(t != towerMgr.end());
-		auto newElement = guiAndBoardMediator->GetMouseGame()->MakeElement(t->second->getCurElement(), element);
+		auto newElement = guiAndBoardMediator->GetDatabase()->MakeElement(t->second->getCurElement(), element);
 		t->second->Upgrade(newElement);
-		guiAndBoardMediator->GetMouseGame()->Clear();
+		guiAndBoardMediator->GetDatabase()->Clear();
 	}
 	int GetTargetEnemy(std::set<int>& enemyIDs,const b2Vec2& towerPos)
 	{

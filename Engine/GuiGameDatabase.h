@@ -9,10 +9,10 @@ enum MouseState
 	SwapTower,
 	BuildEntity
 };
-class MouseGame
+class GuiGameDatabase
 {
 public:
-	MouseGame()
+	GuiGameDatabase()
 		:
 		animationSpeed(GameSettings::Get().GetData("[Animation Speed]"))
 	{

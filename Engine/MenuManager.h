@@ -35,30 +35,30 @@ public:
 		activeMenu = &mainMenu;
 		//main menu
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
-			mediator->GetMouseGame()->ChangeToFire();
+			mediator->GetDatabase()->ChangeToFire();
 			mainMenuBtn01.Disable(1.0f);
 		});
 		mainMenuBtn02.AddEventListener(Mouse::Event::Type::LPress, [this]() {
-			mediator->GetMouseGame()->ChangeToIce();
+			mediator->GetDatabase()->ChangeToIce();
 			mainMenuBtn02.Disable(1.0f);
 		});
 		mainMenuBtn03.AddEventListener(Mouse::Event::Type::LPress, [this]() {
-			mediator->GetMouseGame()->ChangeToLighting();
+			mediator->GetDatabase()->ChangeToLighting();
 			mainMenuBtn03.Disable(1.0f);
 		});
 		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			swapTowerBtn05.Disable(1.0f);
 			mainMenu.DisableButton();
-			mediator->GetMouseGame()->ChangeState(MouseState::SellTower);
+			mediator->GetDatabase()->ChangeState(MouseState::SellTower);
 		});
 		swapTowerBtn05.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			swapTowerBtn05.Disable(1.0f);
 			mainMenu.DisableButton();
-			mediator->GetMouseGame()->ChangeState(MouseState::SwapTower);
+			mediator->GetDatabase()->ChangeState(MouseState::SwapTower);
 		});
-		mainMenuBtn01.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
-		mainMenuBtn02.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
-		mainMenuBtn03.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetMouseGame()->Clear(); });
+		mainMenuBtn01.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetDatabase()->Clear(); });
+		mainMenuBtn02.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetDatabase()->Clear(); });
+		mainMenuBtn03.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetDatabase()->Clear(); });
 		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
 
 		mainMenu.AddButton(&mainMenuBtn01);
@@ -69,17 +69,17 @@ public:
 
 		//upgrademenu
 		upgradeMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
-			mediator->GetMouseGame()->ChangeToFire();
+			mediator->GetDatabase()->ChangeToFire();
 			mediator->UpgradeTower();
 			ChangeMainMenu();
 		});
 		upgradeMenuBtn02.AddEventListener(Mouse::Event::Type::LPress, [this]() {
-			mediator->GetMouseGame()->ChangeToIce();
+			mediator->GetDatabase()->ChangeToIce();
 			mediator->UpgradeTower();
 			ChangeMainMenu();
 		});
 		upgradeMenuBtn03.AddEventListener(Mouse::Event::Type::LPress, [this]() {
-			mediator->GetMouseGame()->ChangeToLighting();
+			mediator->GetDatabase()->ChangeToLighting();
 			mediator->UpgradeTower();
 			ChangeMainMenu();
 		});
@@ -94,7 +94,7 @@ public:
 	void AddMediator(IMediator* mediator) override
 	{
 		this->mediator = mediator;
-		auto mouseGame = this->mediator->GetMouseGame();
+		auto mouseGame = this->mediator->GetDatabase();
 		mainMenuBtn01.setColor(mouseGame->GetFireColor());
 		mainMenuBtn01.SetSprite(mouseGame->GetFireSurface());
 

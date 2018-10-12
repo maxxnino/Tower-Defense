@@ -81,9 +81,6 @@
     <ClInclude Include="ControlGuiAndBoard.h">
       <Filter>Header Files\GUI\Gui and Board</Filter>
     </ClInclude>
-    <ClInclude Include="MouseGame.h">
-      <Filter>Header Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Header Files\Game\Game Object</Filter>
     </ClInclude>
@@ -245,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="QuerySelectorBox2D.h">
       <Filter>Header Files\Game\Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiGameDatabase.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -30,9 +30,9 @@ public:
 	}
 	void UpgradeTower() override
 	{
-		world.UpgradeTower(mouseGame.getElement(), towerIndexInWorld);
+		world.UpgradeTower(database.getElement(), towerIndexInWorld);
 		towerIndexInWorld = -1;
-		mouseGame.Clear();
+		database.Clear();
 	}
 	void ActiveWarningText(int newType) override
 	{
@@ -40,7 +40,7 @@ public:
 	}
 	void OnRightClickFromGUI() override
 	{
-		mouseGame.Clear();
+		database.Clear();
 		if (menuMgr.isUpgradeMenuOpen())
 		{
 			menuMgr.ChangeMainMenu();
@@ -58,7 +58,7 @@ public:
 	/*      Control World Object      */
 	int MakeTower(const b2Vec2& worldPos) override
 	{
-		return world.MakeTower(mouseGame.getElement(), mouseGame.getElement()->getColor(), worldPos);
+		return world.MakeTower(database.getElement(), database.getElement()->getColor(), worldPos);
 	}
 	int GetGold() const override
 	{
@@ -66,7 +66,7 @@ public:
 	}
 	bool CanAffordTower() const override
 	{
-		return world.CanAffordTower(GetMouseGame());
+		return world.CanAffordTower(GetDatabase());
 	}
 	void DeleteTower(int towerIndex) override
 	{

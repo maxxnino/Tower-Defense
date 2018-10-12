@@ -167,7 +167,7 @@
     <ClInclude Include="ListenerBox2DGUI.h" />
     <ClInclude Include="MaxxMath.h" />
     <ClInclude Include="MouseCameraController.h" />
-    <ClInclude Include="MouseGame.h" />
+    <ClInclude Include="GuiGameDatabase.h" />
     <ClInclude Include="MouseGui.h" />
     <ClInclude Include="MyBox2DListener.h" />
     <ClInclude Include="PhysicObject.h" />

@@ -1,5 +1,5 @@
 #pragma once
-#include "MouseGame.h"
+#include "GuiGameDatabase.h"
 class IMediator
 {
 public:
@@ -10,13 +10,13 @@ public:
 	virtual void ActiveWarningText(int newType) = 0;
 	virtual void OnRightClickFromGUI() = 0;
 	
-	MouseGame* GetMouseGame()
+	inline GuiGameDatabase* GetDatabase()
 	{
-		return &mouseGame;
+		return &database;
 	}
-	const MouseGame& GetMouseGame() const
+	inline const GuiGameDatabase& GetDatabase() const
 	{
-		return mouseGame;
+		return database;
 	}
 	/**********************************/
 
@@ -30,5 +30,5 @@ public:
 	virtual bool DoSwapTower(int index01, int index02) = 0;
 	/**********************************/
 protected:
-	MouseGame mouseGame;
+	GuiGameDatabase database;
 };

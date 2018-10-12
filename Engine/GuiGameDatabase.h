@@ -1,6 +1,9 @@
 #pragma once
 #include "Element.h"
 #include "GameSettings.h"
+#include "Codex.h"
+class IMediator;
+
 enum MouseState
 {
 	None,
@@ -32,9 +35,25 @@ public:
 		factory.emplace(waterNature.getType(), &waterNature);
 		factory.emplace(natureNature.getType(), &natureNature);
 	}
+	void AddMediator(IMediator* mediator);
+	void Draw(Graphics& gfx, const Camera& cam) const;
 	Element* getElement()
 	{
 		return element;
+	}
+	Element* MakeElement(Element* a, Element* b)
+	{
+		const int type = a->getType() + b->getType();
+		auto it = factory.find(type);
+		if (it != factory.end())
+		{
+			return it->second;
+		}
+		else
+		{
+			assert(false);
+			return &def;
+		}
 	}
 	inline void Clear() noexcept
 	{
@@ -86,20 +105,6 @@ public:
 		assert(element);
 		return element->GetGold();
 	}
-	Element* MakeElement(Element* a, Element* b)
-	{
-		const int type = a->getType() + b->getType();
-		auto it = factory.find(type);
-		if (it != factory.end())
-		{
-			return it->second;
-		}
-		else
-		{
-			assert(false);
-			return &def;
-		}
-	}
 	bool IsEmptyCommand() const
 	{
 		return element == nullptr;
@@ -128,38 +133,9 @@ public:
 	{
 		posAndTowerIndex = std::make_pair(tilePos, tileIndex);
 	}
-	void Draw(Graphics& gfx, const Camera& cam) const
-	{
-		const auto drawPos = cam.GetDrawPosition(pos);
-		switch (state)
-		{
-		case None:
-			break;
-		case BuildTower:
-			//gfx.DrawSprite(pos.x, pos.y, *element->GetElementSurface(), SpriteEffect::Ghost(Colors::Magenta));
-			element->GetTowerAnimation()->DrawGhost(drawPos, gfx, 0);
-			break;
-		case SellTower:
-			gfx.DrawSprite(drawPos.x, drawPos.y, *sellTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
-			break;
-		case SwapTower:
-			if (posAndTowerIndex.second != -1)
-			{
-				gfx.DrawSprite(drawPos.x, drawPos.y, *swapTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
-			}
-			else
-			{
-				gfx.DrawSprite(drawPos.x, drawPos.y, *swapTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
-			}
-			break;
-		/*case DropItem:
-			break;
-		default:
-			break;*/
-		}
-	}
 private:
 	Element* element = nullptr;
+	IMediator* guiMediator = nullptr;
 	b2Vec2 pos = { 0.0f,0.0f };
 	std::pair<VecI, int> posAndTowerIndex = std::make_pair(VecI(-1, -1), -1);
 	MouseState state = MouseState::None;

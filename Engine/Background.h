@@ -103,9 +103,7 @@ public:
 			trackingTile.x = (int)mouseTilePos.x / tileWorldSize;
 			trackingTile.y = std::max((int)mouseTilePos.y / tileWorldSize + 1, 0 );
 			const auto worldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float(trackingTile.y * tileWorldSize)) + pos;
-			const auto mouseState = mediator->GetDatabase()->GetMouseState();
 			mediator->GetDatabase()->SetPos(worldTilePos);
-			auto mouseGame = mediator->GetDatabase();
 			while (!mouse.IsEmpty())
 			{
 				const auto e = mouse.Read().GetType();
@@ -113,104 +111,21 @@ public:
 				{
 				case Mouse::Event::Type::LPress:
 				{
-					switch (mouseState)
+					if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
 					{
-					case None:
+						auto tower = towerTiles.find(trackingTile);
+						if (tower != towerTiles.end())
 						{
-							if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
-							{
-								auto tower = towerTiles.find(trackingTile);
-								if (tower != towerTiles.end())
-								{
-									mediator->OpenUpgradeMenu(tower->second);
-								}
-								else
-								{
-									controller.ProcessCommand(e);
-								}
-							}
-							else
-							{
-								controller.ProcessCommand(e);
-							}
-							break;
+							mediator->GetDatabase()->UpdateHaveTower(worldTilePos, trackingTile, tower->second);
 						}
-					case BuildTower:
+						else if(mediator->GetDatabase()->UpdateNoTower(worldTilePos))
 						{
-							if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
-							{
-								auto tower = towerTiles.find(trackingTile);
-								if (tower == towerTiles.end())
-								{
-									const auto towerIndex = mediator->MakeTower(worldTilePos);
-									towerTiles.emplace(trackingTile, towerIndex);
-								}
-							}
-							break;
+							controller.ProcessCommand(e);
 						}
-					case SellTower:
-						{
-							if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
-							{
-								auto tower = towerTiles.find(trackingTile);
-								if (tower != towerTiles.end())
-								{
-									mediator->DeleteTower(tower->second);
-								}
-							}
-							break;
-						}
-					case SwapTower:
-						{
-							if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
-							{
-								auto towerLhs = towerTiles.find(trackingTile);
-								if (towerLhs != towerTiles.end())
-								{
-									if (mouseGame->isSwapTileEmpty())
-									{
-										mouseGame->SetSwapTile(trackingTile , towerLhs->second);
-									}
-									else
-									{
-										
-										const auto& swapPosAndIndex = mouseGame->GetSwapPosAndIndex();
-										if (swapPosAndIndex.second != towerLhs->second)
-										{
-											//swap lhs
-											const int lhsIndex = towerLhs->second;
-											towerLhs->second = swapPosAndIndex.second;
-
-											//swap rhs
-											auto towerRhs = towerTiles.find(swapPosAndIndex.first);
-											if (towerRhs != towerTiles.end())
-											{
-												towerRhs->second = lhsIndex;
-											}
-											else
-											{
-												assert(false);
-											}
-											mediator->DoSwapTower(towerRhs->second, towerLhs->second);
-										}
-										else
-										{
-											mediator->ActiveWarningText(2);
-										}
-									}
-								}
-								else
-								{
-									mediator->ActiveWarningText(2);
-								}
-							}
-							else
-							{
-								mediator->ActiveWarningText(2);
-							}
-							break;
-						}
-
+					}
+					else
+					{
+						controller.ProcessCommand(e);
 					}
 					break;
 				}
@@ -232,74 +147,21 @@ public:
 		}
 		controller.Update();
 	}
-	/*void ProcessComand(Mouse& mouse, const VecI& camPos)
+	void SwapTower(const VecI& tilePos01, int newIndex01, const VecI& tilePos02, int newIndex02)
 	{
-		mousePos = mouse.GetPos();
-		const int posX = mousePos.x - (int)pos.x - camPos.x;
-		const int posY = mousePos.y - (int)pos.y - camPos.y;
-		if (posX >= 0 && posX < boardWidth && posY >= 0 && posY < boardHeight)
-		{
-			curTile = { posX / tileWidth ,posY / tileHeight };
-			mediator->GetMouseGame()->SetPos({ curTile.x * tileWidth + camPos.x,curTile.y * tileHeight + camPos.y });
-			isInsideBoard = true;
-		}
-		else
-		{
-			isInsideBoard = false;
-			mediator->GetMouseGame()->SetPos({ mousePos.x - tileWidth / 2, mousePos.y - tileHeight / 2 });
-		}
-		auto mouseState = mediator->GetMouseGame()->GetMouseState();
-
-		while (!mouse.IsEmpty())
-		{
-			const auto e = mouse.Read().GetType();
-			switch (e)
-			{
-			case Mouse::Event::Type::LPress:
-			{
-				if (isInsideBoard)
-				{
-					switch (mouseState)
-					{
-					case None:
-						if (tileAt(curTile).MouseNoneClick(mediator))
-						{
-							mouseController->ProcessCommand(true, mousePos);
-						}
-						break;
-					case BuildTower:
-						tileAt(curTile).MouseBuildTowerClick(mediator);
-						break;
-					case DeleteTower:
-						tileAt(curTile).MouseDeleteTowerClick(mediator);
-						break;
-					case SwapTower:
-						break;
-					}
-				}
-				else
-				{
-					mouseController->ProcessCommand(true, mousePos);
-				}
-				break;
-			}
-			case Mouse::Event::Type::LRelease:
-				mouseController->ProcessCommand(false, mousePos);
-				break;
-			case Mouse::Event::Type::RPress:
-				mediator->OnRightClickFromGUI();
-				break;
-			default:
-				break;
-			}
-		}
-		mouseController->Update(mouse);
-	}*/
+		assert(towerTiles.find(tilePos01) != towerTiles.end());
+		assert(towerTiles.find(tilePos02) != towerTiles.end());
+		towerTiles.find(tilePos01)->second = newIndex01;
+		towerTiles.find(tilePos02)->second = newIndex02;
+	}
 	void AddMediator(IMediator* mediator) override
 	{
 		this->mediator = mediator;
 	}
-
+	void AddTower(int towerIndex)
+	{
+		towerTiles.emplace(trackingTile, towerIndex);
+	}
 private:
 	inline int GetTileAt(int x, int y) const
 	{

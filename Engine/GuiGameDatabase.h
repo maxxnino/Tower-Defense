@@ -3,7 +3,6 @@
 #include "GameSettings.h"
 #include "Codex.h"
 class IMediator;
-
 enum MouseState
 {
 	None,
@@ -59,7 +58,7 @@ public:
 	{
 		element = nullptr;
 		state = MouseState::None;
-		posAndTowerIndex = std::make_pair(VecI(-1, -1), -1);
+		swapSlot01 = std::make_pair(VecI(-1, -1), -1);
 	}
 	inline void ChangeToFire() noexcept
 	{
@@ -121,23 +120,13 @@ public:
 	{
 		pos = newPos;
 	}
-	bool isSwapTileEmpty() const
-	{
-		return posAndTowerIndex.second == -1;
-	}
-	const std::pair<VecI, int>& GetSwapPosAndIndex() const
-	{
-		return posAndTowerIndex;
-	}
-	void SetSwapTile(VecI tilePos, int tileIndex)
-	{
-		posAndTowerIndex = std::make_pair(tilePos, tileIndex);
-	}
+	void UpdateHaveTower(const b2Vec2& worldTilePos, const VecI& trackingTile, int towerIndex);
+	bool UpdateNoTower(const b2Vec2& worldTilePos);
 private:
 	Element* element = nullptr;
-	IMediator* guiMediator = nullptr;
+	IMediator* mediator = nullptr;
 	b2Vec2 pos = { 0.0f,0.0f };
-	std::pair<VecI, int> posAndTowerIndex = std::make_pair(VecI(-1, -1), -1);
+	std::pair<VecI, int> swapSlot01 = std::make_pair(VecI(-1, -1), -1);
 	MouseState state = MouseState::None;
 	float animationSpeed;
 	std::unordered_map<int, Element*> factory;

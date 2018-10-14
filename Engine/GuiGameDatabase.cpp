@@ -2,7 +2,7 @@
 #include "IMediator.h"
 void GuiGameDatabase::AddMediator(IMediator* mediator)
 {
-	guiMediator = mediator;
+	this->mediator = mediator;
 }
 
 void GuiGameDatabase::Draw(Graphics & gfx, const Camera & cam) const
@@ -20,7 +20,7 @@ void GuiGameDatabase::Draw(Graphics & gfx, const Camera & cam) const
 		gfx.DrawSprite(drawPos.x, drawPos.y, *sellTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
 		break;
 	case SwapTower:
-		if (posAndTowerIndex.second != -1)
+		if (swapSlot01.second != -1)
 		{
 			gfx.DrawSprite(drawPos.x, drawPos.y, *swapTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
 		}
@@ -34,4 +34,61 @@ void GuiGameDatabase::Draw(Graphics & gfx, const Camera & cam) const
 		default:
 			break;*/
 	}
+}
+
+void GuiGameDatabase::UpdateHaveTower(const b2Vec2& worldTilePos, const VecI& trackingTile, int towerIndex)
+{
+	switch (state)
+	{
+	case None:
+		mediator->OpenUpgradeMenu(towerIndex);
+		break;
+	case BuildTower:
+		mediator->ActiveWarningText(1);
+		break;
+	case SellTower:
+		mediator->DeleteTower(towerIndex);
+		break;
+	case SwapTower:
+		{
+			if (swapSlot01.second == -1)
+			{
+				swapSlot01.first = trackingTile;
+				swapSlot01.second = towerIndex;
+			}
+			else
+			{
+				if (swapSlot01.second != towerIndex)
+				{
+					mediator->DoSwapTower(swapSlot01.first, swapSlot01.second, trackingTile, towerIndex);
+				}
+				else
+				{
+					mediator->ActiveWarningText(2);
+				}
+			}
+			break;
+		}
+	}
+}
+
+bool GuiGameDatabase::UpdateNoTower(const b2Vec2& worldTilePos)
+{
+	switch (state)
+	{
+	case None:
+		return true;
+	case BuildTower:
+		mediator->MakeTower(worldTilePos);
+		return false;
+	case SellTower:
+		mediator->ActiveWarningText(2);
+		return false;
+	case SwapTower:
+		mediator->ActiveWarningText(2);
+		return false;
+	case BuildEntity:
+		break;
+	}
+	return true;
 }

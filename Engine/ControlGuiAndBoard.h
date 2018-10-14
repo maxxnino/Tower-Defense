@@ -16,6 +16,7 @@ public:
 		this->bg.AddMediator(this);
 		this->menuMgr.AddMediator(this);
 		this->world.AddMediator(this);
+		this->database.AddMediator(this);
 	}
 	/**********************************/
 	/*  Control Gui and Background    */
@@ -56,9 +57,9 @@ public:
 
 	/**********************************/
 	/*      Control World Object      */
-	int MakeTower(const b2Vec2& worldPos) override
+	void MakeTower(const b2Vec2& worldPos) override
 	{
-		return world.MakeTower(database.getElement(), database.getElement()->getColor(), worldPos);
+		bg.AddTower(world.MakeTower(database.getElement(), database.getElement()->getColor(), worldPos));
 	}
 	int GetGold() const override
 	{
@@ -72,10 +73,11 @@ public:
 	{
 		world.SellTower(towerIndex);
 	}
-	bool DoSwapTower(int index01, int index02) override
+	bool DoSwapTower(const VecI& tilePos01, int index01, const VecI& tilePos02, int index02) override
 	{
 		if (world.DoSwapTower(index01, index02))
 		{
+			bg.SwapTower(tilePos01, index02, tilePos02, index01);
 			OnRightClickFromGUI();
 			return true;
 		}

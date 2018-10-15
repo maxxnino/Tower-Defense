@@ -77,8 +77,6 @@ bool GuiGameDatabase::UpdateNoTower(const b2Vec2& worldTilePos, const b2Vec2& mo
 {
 	switch (state)
 	{
-	case None:
-		return true;
 	case BuildTower:
 		mediator->MakeTower(worldTilePos);
 		return false;
@@ -90,7 +88,19 @@ bool GuiGameDatabase::UpdateNoTower(const b2Vec2& worldTilePos, const b2Vec2& mo
 		return false;
 	case BuildDirectionGuiding:
 		mediator->MakeDirectionGuiding(mouseWorldPos);
-		break;
+		return false;
+	case SelectDirGuiding:
+		if (mediator->SelectDirGuiding(mouseWorldPos))
+		{
+			state = MouseState::OnHoldDirGuiding;
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	case OnHoldDirGuiding:
+		return false;
 	}
 	return true;
 }
@@ -101,6 +111,18 @@ bool GuiGameDatabase::UpdateNoBuildTile(const b2Vec2 & worldTilePos, const b2Vec
 	{
 	case BuildDirectionGuiding:
 		mediator->MakeDirectionGuiding(mouseWorldPos);
+		return false;
+	case SelectDirGuiding:
+		if (mediator->SelectDirGuiding(mouseWorldPos))
+		{
+			state = MouseState::OnHoldDirGuiding;
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	case OnHoldDirGuiding:
 		return false;
 	}
 	return true;

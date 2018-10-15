@@ -51,6 +51,18 @@ public:
 		{
 			menuMgr.EnableButton();
 		}
+		for (size_t i = 0; i < dirGuildingSelect.size(); i++)
+		{
+			dirGuildingSelect[i]->OnRelease();
+		}
+	}
+	void ActiveSelectMode()
+	{
+		database.ActiveSelectMode();
+	}
+	void DeactivateSelectMode()
+	{
+		database.DeactivateSelectMode();
 	}
 	/**********************************/
 
@@ -86,6 +98,21 @@ public:
 	void MakeDirectionGuiding(const b2Vec2& worldPos) override
 	{
 		world.MakeDirectionGuiding(worldPos);
+		OnRightClickFromGUI();
+	}
+	bool SelectDirGuiding(const b2Vec2& worldPos) override
+	{
+		dirGuildingSelect.clear();
+		dirGuildingSelect = world.GetBodyList<DirectionGuiding>(worldPos);
+		if (dirGuildingSelect.size() > 0)
+		{
+			for (size_t i = 0; i < dirGuildingSelect.size(); i++)
+			{
+				dirGuildingSelect[i]->OnClick();
+			}
+			return true;
+		}
+		return false;
 	}
 	/**********************************/
 private:
@@ -94,4 +121,5 @@ private:
 	Background& bg;
 	int towerIndexInWorld = -1;
 	float mouseQuerySize = 0.1f;
+	std::vector<DirectionGuiding*> dirGuildingSelect;
 };

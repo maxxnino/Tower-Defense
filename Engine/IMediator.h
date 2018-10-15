@@ -29,6 +29,7 @@ public:
 	virtual void DeleteTower(int towerIndex) = 0;
 	virtual bool DoSwapTower(const VecI& tilePos01, int index01, const VecI& tilePos02, int index02) = 0;
 	virtual void MakeDirectionGuiding(const b2Vec2& worldPos) = 0;
+	virtual bool SelectDirGuiding(const b2Vec2& worldPos) = 0;
 	/**********************************/
 protected:
 	GuiGameDatabase database;

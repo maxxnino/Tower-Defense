@@ -46,6 +46,14 @@ void Game::UpdateModel()
 	gui.Update(dt, wnd.mouse);
 	bg.Update(wnd.mouse, cam, controler);
 	world.Update(dt);
+	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
+	{
+		mediatorGuiAndBrd.ActiveSelectMode();
+	}
+	else
+	{
+		mediatorGuiAndBrd.DeactivateSelectMode();
+	}
 }
 
 void Game::ComposeFrame()

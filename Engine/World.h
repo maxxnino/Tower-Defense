@@ -216,9 +216,9 @@ public:
 		}
 	}
 	template <class T>
-	std::vector<T*> GetBodyList(const b2Vec2& worldPos, float size)
+	std::vector<T*> GetBodyList(const b2Vec2& worldPos)
 	{
-		return std::move(myQuerySelector.GetBodyList<T>(*box2DEngine, worldPos, size));
+		return std::move(myQuerySelector.GetBodyList<T>(*box2DEngine, worldPos));
 	}
 	bool DoSwapTower(int index01, int index02)
 	{

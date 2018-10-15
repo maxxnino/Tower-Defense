@@ -11,22 +11,28 @@ private:
 	public:
 		bool ReportFixture(b2Fixture* fixture) override
 		{
-			if (!fixture->IsSensor())
+			if (fixture->TestPoint(mousePos))
 			{
 				foundBodies.push_back(fixture->GetBody());
 			}
 			return true;//keep going to find all fixtures in the query area
 		}
 		std::vector<b2Body*> foundBodies;
+		b2Vec2 mousePos = { 0.0f,0.0f };
 	};
 public:
+	QuerySelectorBox2D()
+	{
+		aabb.lowerBound = { 0.0f, 0.0f };
+		aabb.upperBound = { 0.0f, 0.0f };
+	}
 	template <class T>
-	std::vector<T*> GetBodyList(b2World& box2DEngine, const b2Vec2& pos, float size)
+	std::vector<T*> GetBodyList(b2World& box2DEngine, const b2Vec2& pos)
 	{
 		queryCallback.foundBodies.clear();
-		b2AABB aabb;
-		aabb.lowerBound = { pos.x - size, pos.y - size};
-		aabb.upperBound = { pos.x + size, pos.y + size };
+		queryCallback.mousePos = pos;
+		aabb.lowerBound = { pos.x - 0.01f, pos.y - 0.01f };
+		aabb.upperBound = { pos.x + 0.01f, pos.y + 0.01f };
 		box2DEngine.QueryAABB(&queryCallback, aabb);
 
 		std::vector<T*> bodyList;
@@ -36,12 +42,12 @@ public:
 			auto p = static_cast<PhysicObject*>(queryCallback.foundBodies[i]->GetUserData());
 			if (auto b = dynamic_cast<T*>(p))
 			{
-				bodyList.emplace_back(static_cast<T*>(b));
+				bodyList.emplace_back(b);
 			}
 		}
-		queryCallback.foundBodies.clear();
 		return std::move(bodyList);
 	}
 private:
 	MyQuerySelector queryCallback;
+	b2AABB aabb;
 };

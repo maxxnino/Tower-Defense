@@ -20,12 +20,21 @@ public:
 	}
 	void DrawDebug(Graphics& gfx, const Camera& cam) const
 	{
-		gfx.DrawCircle(cam.GetDrawPosition(worldPos), int(radian * Camera::scalePixel), Colors::Magenta);
+		gfx.DrawCircle(cam.GetDrawPosition(worldPos), int(radian * Camera::scalePixel), c);
+	}
+	void OnClick()
+	{
+		c = Colors::Yellow;
+	}
+	void OnRelease()
+	{
+		c = Colors::Magenta;
 	}
 private:
 	const b2Vec2 worldPos;
 	const b2Vec2 dir;
 	const float radian;
+	Color c = Colors::Magenta;
 };
 
 class GuidingManager

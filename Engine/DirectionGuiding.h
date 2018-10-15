@@ -42,6 +42,10 @@ public:
 			g->DrawDebug(gfx, cam);
 		}
 	}
+	void MakeDirectionGuiding(b2World& box2DEngine, const b2Vec2& worldPos)
+	{
+		guiMgr.emplace_back(std::make_unique<DirectionGuiding>(box2DEngine, worldPos, 1.0f, b2Vec2(0.0f, -1.0f)));
+	}
 private:
 	std::vector<std::unique_ptr<DirectionGuiding>> guiMgr;
 };

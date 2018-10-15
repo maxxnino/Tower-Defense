@@ -9,7 +9,7 @@ enum MouseState
 	BuildTower,
 	SellTower,
 	SwapTower,
-	BuildEntity
+	BuildDirectionGuiding
 };
 class GuiGameDatabase
 {
@@ -120,8 +120,9 @@ public:
 	{
 		pos = newPos;
 	}
-	void UpdateHaveTower(const b2Vec2& worldTilePos, const VecI& trackingTile, int towerIndex);
-	bool UpdateNoTower(const b2Vec2& worldTilePos);
+	void UpdateHaveTower(const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex);
+	bool UpdateNoTower(const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos);
+	bool UpdateNoBuildTile(const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos);
 private:
 	Element* element = nullptr;
 	IMediator* mediator = nullptr;

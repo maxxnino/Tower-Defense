@@ -274,6 +274,8 @@ public:
 		return gold.GetGold() >= database.GetGold();
 	}
 	/**********************************/
+
+
 	/**********************************/
 	/*          Tower Control         */
 	int MakeTower(Element* element, Color c, const b2Vec2& worldPos) override
@@ -338,6 +340,14 @@ public:
 	}
 	/**********************************/
 
+
+	/**********************************/
+	/*   Direction Guiding Control    */
+	void MakeDirectionGuiding(const b2Vec2& worldPos)
+	{
+		guidingMgr.MakeDirectionGuiding(*box2DEngine, worldPos);
+	}
+	/**********************************/
 private:
 	static constexpr int32 velocityIterations = 8;
 	static constexpr int32 positionIterations = 3;

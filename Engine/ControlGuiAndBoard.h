@@ -83,6 +83,10 @@ public:
 		}
 		return false;
 	}
+	void MakeDirectionGuiding(const b2Vec2& worldPos) override
+	{
+		world.MakeDirectionGuiding(worldPos);
+	}
 	/**********************************/
 private:
 	MenuManager& menuMgr;

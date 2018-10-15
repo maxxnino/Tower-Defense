@@ -117,14 +117,14 @@ public:
 						auto tower = towerTiles.find(trackingTile);
 						if (tower != towerTiles.end())
 						{
-							mediator->GetDatabase()->UpdateHaveTower(worldTilePos, trackingTile, tower->second);
+							mediator->GetDatabase()->UpdateHaveTower(worldTilePos, trackingTile, mouseWorldPos, tower->second);
 						}
-						else if(mediator->GetDatabase()->UpdateNoTower(worldTilePos))
+						else if(mediator->GetDatabase()->UpdateNoTower(worldTilePos, mouseWorldPos))
 						{
 							controller.ProcessCommand(e);
 						}
 					}
-					else
+					else if(mediator->GetDatabase()->UpdateNoBuildTile(worldTilePos, mouseWorldPos))
 					{
 						controller.ProcessCommand(e);
 					}

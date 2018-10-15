@@ -36,7 +36,7 @@ void GuiGameDatabase::Draw(Graphics & gfx, const Camera & cam) const
 	}
 }
 
-void GuiGameDatabase::UpdateHaveTower(const b2Vec2& worldTilePos, const VecI& trackingTile, int towerIndex)
+void GuiGameDatabase::UpdateHaveTower(const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos,int towerIndex)
 {
 	switch (state)
 	{
@@ -67,10 +67,13 @@ void GuiGameDatabase::UpdateHaveTower(const b2Vec2& worldTilePos, const VecI& tr
 			}
 		}
 		break;
+	case BuildDirectionGuiding:
+		mediator->MakeDirectionGuiding(mouseWorldPos);
+		break;
 	}
 }
 
-bool GuiGameDatabase::UpdateNoTower(const b2Vec2& worldTilePos)
+bool GuiGameDatabase::UpdateNoTower(const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos)
 {
 	switch (state)
 	{
@@ -85,8 +88,20 @@ bool GuiGameDatabase::UpdateNoTower(const b2Vec2& worldTilePos)
 	case SwapTower:
 		mediator->ActiveWarningText(2);
 		return false;
-	case BuildEntity:
+	case BuildDirectionGuiding:
+		mediator->MakeDirectionGuiding(mouseWorldPos);
 		break;
+	}
+	return true;
+}
+
+bool GuiGameDatabase::UpdateNoBuildTile(const b2Vec2 & worldTilePos, const b2Vec2 & mouseWorldPos)
+{
+	switch (state)
+	{
+	case BuildDirectionGuiding:
+		mediator->MakeDirectionGuiding(mouseWorldPos);
+		return false;
 	}
 	return true;
 }

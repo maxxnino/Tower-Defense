@@ -19,12 +19,15 @@ public:
 		font(Codex<Surface>::Retrieve(L"Images\\GUI\\Fixedsys16x28.bmp")),
 		surf(Codex<Surface>::Retrieve(L"Images\\GUI\\menu_02.png")),
 		coinAnimation(0,0,40,40,25, Codex<Surface>::Retrieve(L"Images\\GUI\\pm_coin_40_40_25.png"), 0.04f, Colors::Black),
+		//main menu
 		mainMenu(*box2DGUI, { 0.0f, -12.0f }, 30.0f, 3.5f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
 		mainMenuBtn01(*box2DGUI, {  -10.0f , -12.0f }, 2.5f, 2.5f),
-		mainMenuBtn02(*box2DGUI, { -10.0f + 5.0f, -12.0f }, 2.5f, 2.5f),
-		mainMenuBtn03(*box2DGUI, { -10.0f + 10.0f, -12.0f }, 2.5f, 2.5f),
-		deleteTowerBtn04(*box2DGUI, { -10.0f + 15.0f, -12.0f }, 2.5f, 2.5f),
-		swapTowerBtn05(*box2DGUI, { -10.0f + 20.0f, -12.0f }, 2.5f, 2.5f),
+		mainMenuBtn02(*box2DGUI, { -10.0f + 4.0f, -12.0f }, 2.5f, 2.5f),
+		mainMenuBtn03(*box2DGUI, { -10.0f + 8.0f, -12.0f }, 2.5f, 2.5f),
+		deleteTowerBtn04(*box2DGUI, { -10.0f + 12.0f, -12.0f }, 2.5f, 2.5f),
+		swapTowerBtn05(*box2DGUI, { -10.0f + 16.0f, -12.0f }, 2.5f, 2.5f),
+		buildDGuidingBtn06(*box2DGUI, { -10.0f + 20.0f, -12.0f }, 2.5f, 2.5f),
+		//upgrade menu
 		upgradeMenu(*box2DGUI, { 0.0f, -12.0f }, 30.0f, 3.5f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
 		upgradeMenuBtn01(*box2DGUI, { -10.0f , -12.0f }, 2.5f, 2.5f),
 		upgradeMenuBtn02(*box2DGUI, { -10.0f + 10.0f, -12.0f }, 2.5f, 2.5f),
@@ -56,16 +59,24 @@ public:
 			mainMenu.DisableButton();
 			mediator->GetDatabase()->ChangeState(MouseState::SwapTower);
 		});
+		buildDGuidingBtn06.AddEventListener(Mouse::Event::Type::LPress, [this]() {
+			buildDGuidingBtn06.Disable(1.0f);
+			mainMenu.DisableButton();
+			mediator->GetDatabase()->ChangeState(MouseState::BuildDirectionGuiding);
+		});
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetDatabase()->Clear(); });
 		mainMenuBtn02.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetDatabase()->Clear(); });
 		mainMenuBtn03.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetDatabase()->Clear(); });
 		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
+		swapTowerBtn05.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
+		buildDGuidingBtn06.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
 
 		mainMenu.AddButton(&mainMenuBtn01);
 		mainMenu.AddButton(&mainMenuBtn02);
 		mainMenu.AddButton(&mainMenuBtn03);
 		mainMenu.AddButton(&deleteTowerBtn04);
 		mainMenu.AddButton(&swapTowerBtn05);
+		mainMenu.AddButton(&buildDGuidingBtn06);
 
 		//upgrademenu
 		upgradeMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
@@ -239,6 +250,7 @@ private:
 	Button mainMenuBtn03;
 	Button deleteTowerBtn04;
 	Button swapTowerBtn05;
+	Button buildDGuidingBtn06;
 	//Upgrade Menu
 	Menu upgradeMenu;
 	Button upgradeMenuBtn01;

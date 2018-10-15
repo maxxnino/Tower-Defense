@@ -50,25 +50,23 @@ void GuiGameDatabase::UpdateHaveTower(const b2Vec2& worldTilePos, const VecI& tr
 		mediator->DeleteTower(towerIndex);
 		break;
 	case SwapTower:
+		if (swapSlot01.second == -1)
 		{
-			if (swapSlot01.second == -1)
+			swapSlot01.first = trackingTile;
+			swapSlot01.second = towerIndex;
+		}
+		else
+		{
+			if (swapSlot01.second != towerIndex)
 			{
-				swapSlot01.first = trackingTile;
-				swapSlot01.second = towerIndex;
+				mediator->DoSwapTower(swapSlot01.first, swapSlot01.second, trackingTile, towerIndex);
 			}
 			else
 			{
-				if (swapSlot01.second != towerIndex)
-				{
-					mediator->DoSwapTower(swapSlot01.first, swapSlot01.second, trackingTile, towerIndex);
-				}
-				else
-				{
-					mediator->ActiveWarningText(2);
-				}
+				mediator->ActiveWarningText(2);
 			}
-			break;
 		}
+		break;
 	}
 }
 

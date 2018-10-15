@@ -32,13 +32,16 @@ class GuidingManager
 {
 public:
 	GuidingManager(b2World& box2DEngine)
-		:
-		guiding01(box2DEngine, {16.0f,9.0f}, 1.0f, { 0.0f,-1.0f })
-	{}
+	{
+		guiMgr.emplace_back(std::make_unique<DirectionGuiding>(box2DEngine, b2Vec2( 16.0f,9.0f ), 1.0f, b2Vec2( 0.0f,-1.0f )));
+	}
 	void DrawDebug(Graphics& gfx, const Camera& cam) const
 	{
-		guiding01.DrawDebug(gfx, cam);
+		for (const auto& g : guiMgr)
+		{
+			g->DrawDebug(gfx, cam);
+		}
 	}
 private:
-	DirectionGuiding guiding01;
+	std::vector<std::unique_ptr<DirectionGuiding>> guiMgr;
 };

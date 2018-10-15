@@ -100,8 +100,9 @@ public:
 		if (mouseTilePos.x >= 0 && mouseTilePos.x < gridWidth &&
 			mouseTilePos.y >= 0 && mouseTilePos.y < gridHeight)
 		{
+			// Todo: need to fix trackingTile go outside of vector tiles
 			trackingTile.x = (int)mouseTilePos.x / tileWorldSize;
-			trackingTile.y = std::max((int)mouseTilePos.y / tileWorldSize + 1, 0 );
+			trackingTile.y = std::min((int)mouseTilePos.y / tileWorldSize + 1, nHeight);
 			const auto worldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float(trackingTile.y * tileWorldSize)) + pos;
 			mediator->GetDatabase()->SetPos(worldTilePos);
 			while (!mouse.IsEmpty())
@@ -111,7 +112,7 @@ public:
 				{
 				case Mouse::Event::Type::LPress:
 				{
-					if (tiles[trackingTile.x + trackingTile.y * nWidth] > 0)
+					if (GetTileAt(trackingTile.x, trackingTile.y) > 0)
 					{
 						auto tower = towerTiles.find(trackingTile);
 						if (tower != towerTiles.end())

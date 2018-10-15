@@ -15,8 +15,7 @@ public:
 	}
 	b2Vec2 ScreenToWorldPos(const VecF& screenPos) const
 	{
-		const auto newPos = VecF(screenPos.x - coordinateOffsetX - pos.x, -screenPos.y + coordinateOffsetY - pos.y);
-		return b2Vec2(newPos.x / scalePixel, newPos.y / scalePixel);
+		return b2Vec2((screenPos.x - coordinateOffsetX - pos.x) / scalePixel, (-screenPos.y + coordinateOffsetY - pos.y) / scalePixel);
 	}
 	void MoveBy(const VecF& offset)
 	{

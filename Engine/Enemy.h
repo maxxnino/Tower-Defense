@@ -15,9 +15,9 @@ public:
 		id(id),
 		size(size),
 		offSet(int(size * Camera::scalePixel)),
-		att(GameSettings::Get().GetData("[Enemy Speed]"), GameSettings::Get().GetData("[Enemy Hp]"), GameSettings::Get().GetData("[Dame To Base]"),
-			10,10,10),
-		dir(1.0f,0.0f)
+		att(GameSettings::Get().GetData("[Enemy Speed]"), GameSettings::Get().GetData("[Enemy Hp]"), GameSettings::Get().GetData("[Dame To Base]"), 10, 10, 10),
+		dir(1.0f,0.0f),
+		newDirection(dir)
 	{
 		if ((id % 3) == 0)
 		{
@@ -55,6 +55,16 @@ public:
 	int GetGold() { return gold; }
 	void Update(float dt)
 	{
+		if (isChangeDir)
+		{
+			timerChangeDir += dt;
+			if (timerChangeDir >= timerStartChangeDir)
+			{
+				timerChangeDir = 0.0f;
+				isChangeDir = false;
+				dir = newDirection;
+			}
+		}
 		UpdateSpeed(dt);
 		if (isGetHit)
 		{
@@ -87,7 +97,8 @@ public:
 	void MarkReachBase() { isReachBase = true; }
 	void SetDir(const b2Vec2& newDir)
 	{
-		dir = newDir;
+		newDirection = newDir;
+		isChangeDir = true;
 	}
 	/**********************************/
 	/*Virtual function for PhysiObject*/
@@ -125,8 +136,11 @@ private:
 		
 	}
 private:
+	static constexpr float timerStartChangeDir = 0.4f;
+	float timerChangeDir = 0.0f;
 	bool isReachBase = false;
 	bool isGetHit = false;
+	bool isChangeDir = false;
 	Attribute att;
 	std::shared_ptr<Surface> surf;
 	int gold = (int)GameSettings::Get().GetData("[Gold When Killed]");
@@ -136,4 +150,5 @@ private:
 	float size;
 	std::vector<std::unique_ptr<ISpell>> spells;
 	b2Vec2 dir;
+	b2Vec2 newDirection;
 };

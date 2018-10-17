@@ -75,7 +75,12 @@ public:
 	}
 	void DrawRectDim(const b2Vec2& worldPos, const VecF& size, const Color& c);
 	void DrawRectDim(const b2Vec2& worldPos, float worldSize, const Color& c);
-	void DrawLine(VecI p0, VecI p1, Color c);
+	void DrawLine(VecI p1, VecI p2, Color c)
+	{
+		DrawLineClip((float)p1.x, (float)p1.y, (float)p2.x, (float)p2.y, c);
+	}
+	void DrawLineClip(float x0, float y0, float x1, float y1, Color c);
+	void DrawLine(float x1, float y1, float x2, float y2, Color c);
 	template<typename E>
 	void DrawSprite(int x, int y, const Surface& s, E effect, bool reversed = false)
 	{

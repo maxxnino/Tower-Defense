@@ -359,42 +359,153 @@ void Graphics::DrawRectDim(const b2Vec2& worldPos, float worldSize, const Color 
 	DrawRect(pos - expand, pos + expand, c);
 }
 
-void Graphics::DrawLine(VecI p0, VecI p1, Color c)
+void Graphics::DrawLineClip(float x0, float y0, float x1, float y1, Color c)
 {
-	const int dx = p0.x - p1.x;
-	const int dy = p0.y - p1.y;
-
-	if (abs(dy) > abs(dx))
+	auto ComputeOutCode = [this](float x, float y)
 	{
-		if (dy > 0)
+		int code = 0;          // initialised as being inside of [[clip window]]
+
+		if (x < 0)           // to the left of clip window
+			code |= 1;
+		else if (x >= ScreenWidth)      // to the right of clip window
+			code |= 2;
+		if (y < 0)           // below the clip window
+			code |= 4;
+		else if (y >= ScreenHeight)      // above the clip window
+			code |= 8;
+
+		return code;
+	};
+	// Cohen–Sutherland clipping algorithm clips a line from
+	// P0 = (x0, y0) to P1 = (x1, y1) against a rectangle with 
+	// diagonal from (xmin, ymin) to (xmax, ymax).
+	// compute outcodes for P0, P1, and whatever point lies outside the clip rectangle
+	int outcode0 = ComputeOutCode(x0, y0);
+	int outcode1 = ComputeOutCode(x1, y1);
+	bool accept = false;
+
+	while (true)
+	{
+		if (!(outcode0 | outcode1))
 		{
-			std::swap(p0.y, p1.y);
+			// bitwise OR is 0: both points inside window; trivially accept and exit loop
+			accept = true;
+			break;
 		}
-		p0.x = std::max(0, p0.x);
-		p0.x = std::min(Graphics::ScreenWidth - 1, p0.x);
-		p0.y = std::max(0, p0.y);
-		p1.y = std::min(Graphics::ScreenHeight - 1, p1.y);
-		for (int y = p0.y; y <= p1.y; y++)
+		else if (outcode0 & outcode1)
 		{
-			PutPixel(p0.x, y, c);
+			// bitwise AND is not 0: both points share an outside zone (LEFT, RIGHT, TOP,
+			// or BOTTOM), so both must be outside window; exit loop (accept is false)
+			break;
+		}
+		else
+		{
+			// failed both tests, so calculate the line segment to clip
+			// from an outside point to an intersection with clip edge
+			float x, y;
+
+			// At least one endpoint is outside the clip rectangle; pick it.
+			int outcodeOut = outcode0 ? outcode0 : outcode1;
+
+			// Now find the intersection point;
+			// use formulas:
+			//   slope = (y1 - y0) / (x1 - x0)
+			//   x = x0 + (1 / slope) * (ym - y0), where ym is ymin or ymax
+			//   y = y0 + slope * (xm - x0), where xm is xmin or xmax
+			// No need to worry about divide-by-zero because, in each case, the
+			// outcode bit being tested guarantees the denominator is non-zero
+			if (outcodeOut & 8) {           // point is above the clip window
+				x = x0 + (x1 - x0) * (ScreenHeight - y0) / (y1 - y0);
+				y = ScreenHeight - 1;
+			}
+			else if (outcodeOut & 4) { // point is below the clip window
+				x = x0 + (x1 - x0) * (0 - y0) / (y1 - y0);
+				y = 0;
+			}
+			else if (outcodeOut & 2) {  // point is to the right of clip window
+				y = y0 + (y1 - y0) * (ScreenWidth - x0) / (x1 - x0);
+				x = ScreenWidth - 1;
+			}
+			else if (outcodeOut & 1) {   // point is to the left of clip window
+				y = y0 + (y1 - y0) * (0 - x0) / (x1 - x0);
+				x = 0;
+			}
+
+			// Now we move outside point to intersection point to clip
+			// and get ready for next pass.
+			if (outcodeOut == outcode0) {
+				x0 = x;
+				y0 = y;
+				outcode0 = ComputeOutCode(x0, y0);
+			}
+			else {
+				x1 = x;
+				y1 = y;
+				outcode1 = ComputeOutCode(x1, y1);
+			}
+		}
+	}
+	if (accept)
+	{
+		// Following functions are left for implementation by user based on
+		// their platform (OpenGL/graphics.h etc.)
+		DrawLine(x0, y0, x1, y1, c);
+	}
+}
+
+void Graphics::DrawLine(float x1, float y1, float x2, float y2, Color c)
+{
+	const float dx = x2 - x1;
+	const float dy = y2 - y1;
+
+	if (dy == 0.0f && dx == 0.0f)
+	{
+		PutPixel(int(x1), int(y1), c);
+	}
+	else if (abs(dy) > abs(dx))
+	{
+		if (dy < 0.0f)
+		{
+			std::swap(x1, x2);
+			std::swap(y1, y2);
+		}
+
+		const float m = dx / dy;
+		float y = y1;
+		int lastIntY;
+		for (float x = x1; y < y2; y += 1.0f, x += m)
+		{
+			lastIntY = int(y);
+			PutPixel(int(x), lastIntY, c);
+		}
+		if (int(y2) > lastIntY)
+		{
+			PutPixel(int(x2), int(y2), c);
 		}
 	}
 	else
 	{
-		if (dx > 0)
+		if (dx < 0.0f)
 		{
-			std::swap(p0.x, p1.x);
+			std::swap(x1, x2);
+			std::swap(y1, y2);
 		}
-		p0.x = std::max(0, p0.x);
-		p0.y = std::max(0, p0.y);
-		p0.y = std::min(Graphics::ScreenHeight - 1, p0.y);
-		p1.x = std::min(Graphics::ScreenWidth - 1, p1.x);
-		for (int x = p0.x; x <= p1.x; x++)
+
+		const float m = dy / dx;
+		float x = x1;
+		int lastIntX;
+		for (float y = y1; x < x2; x += 1.0f, y += m)
 		{
-			PutPixel(x, p0.y, c);
+			lastIntX = int(x);
+			PutPixel(lastIntX, int(y), c);
+		}
+		if (int(x2) > lastIntX)
+		{
+			PutPixel(int(x2), int(y2), c);
 		}
 	}
 }
+
 
 
 //////////////////////////////////////////////////

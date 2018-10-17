@@ -96,7 +96,7 @@ public:
 	{
 		const auto mouseWorldPos = cam.ScreenToWorldPos((VecF)mouse.GetPos());
 		const auto mouseTilePos = mouseWorldPos - pos;
-		
+		mediator->SetMousePos(mouseWorldPos);
 		if (mouseTilePos.x >= 0 && mouseTilePos.x < gridWidth &&
 			mouseTilePos.y >= 0 && mouseTilePos.y < gridHeight)
 		{

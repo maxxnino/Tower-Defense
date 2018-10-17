@@ -233,6 +233,10 @@ public:
 		tower02->second->getBody().SetTransform(t01Pos, 0.0f);
 		return true;
 	}
+	void DeleteDirectionGuiding()
+	{
+		guidingMgr.DeleteDeadBody();
+	}
 	/**********************************/
 
 

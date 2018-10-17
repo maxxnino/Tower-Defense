@@ -54,6 +54,10 @@ void Game::UpdateModel()
 	{
 		mediatorGuiAndBrd.DeactivateSelectMode();
 	}
+	if (wnd.kbd.KeyIsPressed(VK_DELETE))
+	{
+		mediatorGuiAndBrd.DeleteIsPress();
+	}
 }
 
 void Game::ComposeFrame()

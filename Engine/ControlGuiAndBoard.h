@@ -64,6 +64,15 @@ public:
 	{
 		database.DeactivateSelectMode();
 	}
+	void DeleteIsPress()
+	{
+		if (!dirGuildingSelect.empty())
+		{
+			dirGuildingSelect[0]->MarkDead();
+			OnRightClickFromGUI();
+			world.DeleteDirectionGuiding();
+		}
+	}
 	/**********************************/
 
 
@@ -113,6 +122,27 @@ public:
 			return true;
 		}
 		return false;
+	}
+	void SetDirectionDG(const b2Vec2& worldPos) override
+	{
+		if (!dirGuildingSelect.empty())
+		{
+			if (dirGuildingSelect[0]->SetDirection(worldPos))
+			{
+				OnRightClickFromGUI();
+			}
+		}
+		else
+		{
+			OnRightClickFromGUI();
+		}
+	}
+	void SetMousePos(const b2Vec2& worldPos) override
+	{
+		if (!dirGuildingSelect.empty())
+		{
+			dirGuildingSelect[0]->SetMousePos(worldPos);
+		}
 	}
 	/**********************************/
 private:

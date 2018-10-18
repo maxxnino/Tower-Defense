@@ -8,37 +8,39 @@ void GuiGameDatabase::AddMediator(IMediator* mediator)
 void GuiGameDatabase::Draw(Graphics & gfx, const Camera & cam) const
 {
 	const auto drawPos = cam.GetDrawPosition(pos);
-	switch (state)
-	{
-	case None:
-		break;
-	case BuildTower:
-		//gfx.DrawSprite(pos.x, pos.y, *element->GetElementSurface(), SpriteEffect::Ghost(Colors::Magenta));
-		element->GetTowerAnimation()->DrawGhost(drawPos, gfx, 0);
-		break;
-	case SellTower:
-		gfx.DrawSprite(drawPos.x, drawPos.y, *sellTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
-		break;
-	case SwapTower:
-		if (swapSlot01.second != -1)
-		{
-			gfx.DrawSprite(drawPos.x, drawPos.y, *swapTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
-		}
-		else
-		{
-			gfx.DrawSprite(drawPos.x, drawPos.y, *swapTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
-		}
-		break;
-		/*case DropItem:
-			break;
-		default:
-			break;*/
-	}
+	stateMachine->Draw(this, gfx, drawPos);
+	//switch (state)
+	//{
+	//case None:
+	//	break;
+	//case BuildTower:
+	//	//gfx.DrawSprite(pos.x, pos.y, *element->GetElementSurface(), SpriteEffect::Ghost(Colors::Magenta));
+	//	element->GetTowerAnimation()->DrawGhost(drawPos, gfx, 0);
+	//	break;
+	//case SellTower:
+	//	gfx.DrawSprite(drawPos.x, drawPos.y, *sellTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
+	//	break;
+	//case SwapTower:
+	//	if (swapSlot01.second != -1)
+	//	{
+	//		gfx.DrawSprite(drawPos.x, drawPos.y, *swapTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
+	//	}
+	//	else
+	//	{
+	//		gfx.DrawSprite(drawPos.x, drawPos.y, *swapTowerSurf, SpriteEffect::AlphaBlendBakedAndGhost());
+	//	}
+	//	break;
+	//	/*case DropItem:
+	//		break;
+	//	default:
+	//		break;*/
+	//}
 }
 
 void GuiGameDatabase::UpdateHaveTower(const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos,int towerIndex)
 {
-	switch (state)
+	stateMachine->UpdateHaveTower(this, worldTilePos, trackingTile, mouseWorldPos, towerIndex);
+	/*switch (state)
 	{
 	case None:
 		mediator->OpenUpgradeMenu(towerIndex);
@@ -73,12 +75,13 @@ void GuiGameDatabase::UpdateHaveTower(const b2Vec2& worldTilePos, const VecI& tr
 	case OnHoldDirGuiding:
 		mediator->SetDirectionDG(mouseWorldPos);
 		break;
-	}
+	}*/
 }
 
 bool GuiGameDatabase::UpdateNoTower(const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos)
 {
-	switch (state)
+	return stateMachine->UpdateNoTower(this, worldTilePos, mouseWorldPos);
+	/*switch (state)
 	{
 	case BuildTower:
 		mediator->MakeTower(worldTilePos);
@@ -106,12 +109,13 @@ bool GuiGameDatabase::UpdateNoTower(const b2Vec2& worldTilePos, const b2Vec2& mo
 		mediator->SetDirectionDG(mouseWorldPos);
 		return false;
 	}
-	return true;
+	return true;*/
 }
 
 bool GuiGameDatabase::UpdateNoBuildTile(const b2Vec2 & worldTilePos, const b2Vec2 & mouseWorldPos)
 {
-	switch (state)
+	return stateMachine->UpdateNoBuildTile(this, worldTilePos, mouseWorldPos);
+	/*switch (state)
 	{
 	case BuildDirectionGuiding:
 		mediator->MakeDirectionGuiding(mouseWorldPos);
@@ -130,5 +134,10 @@ bool GuiGameDatabase::UpdateNoBuildTile(const b2Vec2 & worldTilePos, const b2Vec
 		mediator->SetDirectionDG(mouseWorldPos);
 		return false;
 	}
-	return true;
+	return true;*/
+}
+
+IMediator& GuiGameDatabase::GetMediator()
+{
+	return *mediator;
 }

@@ -2,17 +2,9 @@
 #include "Element.h"
 #include "GameSettings.h"
 #include "Codex.h"
+#include "IStateGameDatabase.h"
 class IMediator;
-enum MouseState
-{
-	None,
-	BuildTower,
-	SellTower,
-	SwapTower,
-	BuildDirectionGuiding,
-	SelectDirGuiding,
-	OnHoldDirGuiding
-};
+
 class GuiGameDatabase
 {
 public:
@@ -20,6 +12,7 @@ public:
 		:
 		animationSpeed(GameSettings::Get().GetData("[Animation Speed]"))
 	{
+		stateMachine = std::make_unique<IStateGameDatabase>();
 		fire.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_fire_50_50.png"));
 		water.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_water_50_50.png"));
 		nature.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_nature_50_50.png"));
@@ -42,6 +35,10 @@ public:
 	{
 		return element;
 	}
+	const Element* getElement() const
+	{
+		return element;
+	}
 	Element* MakeElement(Element* a, Element* b)
 	{
 		const int type = a->getType() + b->getType();
@@ -56,26 +53,25 @@ public:
 			return &def;
 		}
 	}
-	inline void Clear() noexcept
+	void Clear()
 	{
 		element = nullptr;
-		state = MouseState::None;
-		swapSlot01 = std::make_pair(VecI(-1, -1), -1);
+		stateMachine = std::make_unique<IStateGameDatabase>();
 	}
-	inline void ChangeToFire() noexcept
+	void ChangeToFire()
 	{
 		element = &fire;
-		state = MouseState::BuildTower;
+		stateMachine = std::make_unique<StateBuildTower>();
 	}
-	inline void ChangeToIce() noexcept
+	void ChangeToIce()
 	{
 		element = &water;
-		state = MouseState::BuildTower;
+		stateMachine = std::make_unique<StateBuildTower>();
 	}
-	inline void ChangeToLighting() noexcept
+	void ChangeToLighting()
 	{
 		element = &nature;
-		state = MouseState::BuildTower;
+		stateMachine = std::make_unique<StateBuildTower>();
 	}
 	const std::shared_ptr<Surface> GetFireSurface()
 	{
@@ -110,13 +106,21 @@ public:
 	{
 		return element == nullptr;
 	}
-	MouseState GetMouseState() const
+	void ChangeSellTower()
 	{
-		return state;
+		stateMachine = std::make_unique<StateSellTower>();
 	}
-	void ChangeState(MouseState newState)
+	void ChangeSwapTower()
 	{
-		state = newState;
+		stateMachine = std::make_unique<StateSwapTower>();
+	}
+	void ChangeBuildDirGui()
+	{
+		stateMachine = std::make_unique<StateBuildDirGui>();
+	}
+	void ChangeHoldDirGui()
+	{
+		stateMachine = std::make_unique<HoldDirGui>();
 	}
 	void SetPos(const b2Vec2& newPos)
 	{
@@ -127,24 +131,32 @@ public:
 	bool UpdateNoBuildTile(const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos);
 	void ActiveSelectMode()
 	{
-		if (state == MouseState::None)
+		if (stateMachine->IsSelectMode())
 		{
-			state = MouseState::SelectDirGuiding;
+			stateMachine = std::make_unique<StateSelectDirGui>();
 		}
 	}
 	void DeactivateSelectMode()
 	{
-		if (state == MouseState::SelectDirGuiding)
+		if (stateMachine->IsSelectMode())
 		{
-			state = MouseState::None;
+			stateMachine = std::make_unique<IStateGameDatabase>();
 		}
 	}
+	const std::shared_ptr<Surface> GetSellTowerSurf() const
+	{
+		return sellTowerSurf;
+	}
+	const std::shared_ptr<Surface> GetSwapTowerSurf() const
+	{
+		return sellTowerSurf;
+	}
+	IMediator& GetMediator();
 private:
 	Element* element = nullptr;
 	IMediator* mediator = nullptr;
+	std::unique_ptr<IStateGameDatabase> stateMachine;
 	b2Vec2 pos = { 0.0f,0.0f };
-	std::pair<VecI, int> swapSlot01 = std::make_pair(VecI(-1, -1), -1);
-	MouseState state = MouseState::None;
 	float animationSpeed;
 	std::unordered_map<int, Element*> factory;
 	std::shared_ptr<Surface> sellTowerSurf = Codex<Surface>::Retrieve(L"Images\\GUI\\pm_delete_button_40_40.png");

@@ -52,17 +52,17 @@ public:
 		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			swapTowerBtn05.Disable(1.0f);
 			mainMenu.DisableButton();
-			mediator->GetDatabase()->ChangeState(MouseState::SellTower);
+			mediator->GetDatabase()->ChangeSellTower();
 		});
 		swapTowerBtn05.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			swapTowerBtn05.Disable(1.0f);
 			mainMenu.DisableButton();
-			mediator->GetDatabase()->ChangeState(MouseState::SwapTower);
+			mediator->GetDatabase()->ChangeSwapTower();
 		});
 		buildDGuidingBtn06.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			buildDGuidingBtn06.Disable(1.0f);
 			mainMenu.DisableButton();
-			mediator->GetDatabase()->ChangeState(MouseState::BuildDirectionGuiding);
+			mediator->GetDatabase()->ChangeBuildDirGui();
 		});
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetDatabase()->Clear(); });
 		mainMenuBtn02.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetDatabase()->Clear(); });

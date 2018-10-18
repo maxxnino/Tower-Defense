@@ -52,15 +52,15 @@ public:
 	{
 		return c;
 	}
-	const SharedAnimationData* GetTowerAnimation()
+	const SharedAnimationData* GetTowerAnimation() const
 	{
 		return towerAnimation;
 	}
-	const std::shared_ptr<Surface> GetElementSurface()
+	const std::shared_ptr<Surface> GetElementSurface() const
 	{
 		return element;
 	}
-	const SharedAnimationData* GetProjectileAnimation()
+	const SharedAnimationData* GetProjectileAnimation() const
 	{
 		return projectileAnimation;
 	}

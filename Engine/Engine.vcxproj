@@ -154,6 +154,7 @@
     <ClInclude Include="GameSettings.h" />
     <ClInclude Include="GDIPlusManager.h" />
     <ClInclude Include="Gold.h" />
+    <ClInclude Include="IBuildStategy.h" />
     <ClInclude Include="ISpell.h" />
     <ClInclude Include="IStateGameDatabase.h" />
     <ClInclude Include="LineWall.h" />
@@ -220,6 +221,7 @@
       <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Default</BasicRuntimeChecks>
     </ClCompile>
     <ClCompile Include="GuiGameDatabase.cpp" />
+    <ClCompile Include="IBuildStategy.cpp" />
     <ClCompile Include="IStateGameDatabase.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Main.cpp" />

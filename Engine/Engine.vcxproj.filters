@@ -55,6 +55,12 @@
     <Filter Include="Header Files\Game\Pattern And Alg\Resource">
       <UniqueIdentifier>{e08c7718-b699-43fb-b8d1-12e7e9ac76a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI\Game Database">
+      <UniqueIdentifier>{b9889dcb-d6f6-4bbe-a271-b591c03d5614}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Database">
+      <UniqueIdentifier>{d1ab555e-27eb-4a9c-aba5-915edabc29d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h">
@@ -244,10 +250,13 @@
       <Filter>Header Files\Game\Physic</Filter>
     </ClInclude>
     <ClInclude Include="GuiGameDatabase.h">
-      <Filter>Header Files\GUI</Filter>
+      <Filter>Header Files\GUI\Game Database</Filter>
     </ClInclude>
     <ClInclude Include="IStateGameDatabase.h">
-      <Filter>Header Files\GUI</Filter>
+      <Filter>Header Files\GUI\Game Database</Filter>
+    </ClInclude>
+    <ClInclude Include="IBuildStategy.h">
+      <Filter>Header Files\GUI\Game Database</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -303,10 +312,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GuiGameDatabase.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game Database</Filter>
+    </ClCompile>
+    <ClCompile Include="IBuildStategy.cpp">
+      <Filter>Source Files\Game Database</Filter>
     </ClCompile>
     <ClCompile Include="IStateGameDatabase.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game Database</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

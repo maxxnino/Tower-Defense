@@ -61,17 +61,17 @@ public:
 	void ChangeToFire()
 	{
 		element = &fire;
-		stateMachine = &stateBuildTower;
+		ChangeBuildTower();
 	}
 	void ChangeToIce()
 	{
 		element = &water;
-		stateMachine = &stateBuildTower;
+		ChangeBuildTower();
 	}
 	void ChangeToLighting()
 	{
 		element = &nature;
-		stateMachine = &stateBuildTower;
+		ChangeBuildTower();
 	}
 	const std::shared_ptr<Surface> GetFireSurface()
 	{
@@ -117,7 +117,8 @@ public:
 	}
 	void ChangeBuildDirGui()
 	{
-		stateMachine = &stateBuildDirGui;
+		stateBuildMode.ChangeBuildType(&buildDirGuiStategy);
+		stateMachine = &stateBuildMode;
 	}
 	void ChangeHoldDirGui()
 	{
@@ -154,16 +155,28 @@ public:
 	}
 	IMediator& GetMediator();
 private:
+	void ChangeBuildTower()
+	{
+		stateBuildMode.ChangeBuildType(&buildTowerStategy);
+		stateMachine = &stateBuildMode;
+	}
+private:
 	Element* element = nullptr;
 	IMediator* mediator = nullptr;
+
+	//state for command
 	IStateGameDatabase* stateMachine;
 	IStateNormal stateNormal;
-	StateBuildTower stateBuildTower;
 	StateSellTower stateSellTower;
 	StateSwapTower stateSwapTower;
-	StateBuildDirGui stateBuildDirGui;
 	StateSelectDirGui stateSelectDirGui;
 	StateHoldDirGui stateHoldDirGui;
+	//state for build mode
+	StateBuildMode stateBuildMode;
+	//stategy for buid mode
+	BuildTowerStategy buildTowerStategy;
+	BuildDirGuiStategy buildDirGuiStategy;
+
 	b2Vec2 pos = { 0.0f,0.0f };
 	float animationSpeed;
 	std::unordered_map<int, Element*> factory;

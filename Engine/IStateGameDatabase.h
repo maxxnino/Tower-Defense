@@ -5,40 +5,52 @@ class GuiGameDatabase;
 class IStateGameDatabase
 {
 public:
-	virtual void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex);
+	virtual void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) {};
 	virtual bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) { return true; };
 	virtual bool UpdateNoBuildTile(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) { return true; };
 	virtual void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const {};
-	bool IsSelectMode()
+	virtual bool IsSelectMode()
 	{
-		return isSelectMode;
+		return false;
 	}
-protected:
-	bool isSelectMode = false;
 };
+class IStateNormal : public IStateGameDatabase
+{
+public:
+	void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
+	bool IsSelectMode() override
+	{
+		return true;
+	}
+};
+
 
 class StateBuildTower : public IStateGameDatabase
 {
 public:
-	virtual void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
-	virtual bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
-	virtual void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const override;
+	void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
+	bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
+	void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const override;
 };
 
 class StateSellTower : public IStateGameDatabase
 {
 public:
-	virtual void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
-	virtual bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
-	virtual void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const override;
+	void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
+	bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
+	void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const override;
 };
 
 class StateSwapTower : public IStateGameDatabase
 {
 public:
-	virtual void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
-	virtual bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
-	virtual void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const override;
+	void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
+	bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
+	void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const override;
+	void ResetSwapSlot()
+	{
+		swapSlot01 = std::make_pair(VecI(-1, -1), -1);
+	}
 private:
 	std::pair<VecI, int> swapSlot01 = std::make_pair(VecI(-1, -1), -1);
 };
@@ -46,26 +58,22 @@ private:
 class StateBuildDirGui : public IStateGameDatabase
 {
 public:
-	virtual void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
-	virtual bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
-	virtual bool UpdateNoBuildTile(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
+	void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
+	bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
+	bool UpdateNoBuildTile(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
 };
 
 class StateSelectDirGui : public IStateGameDatabase
 {
 public:
-	StateSelectDirGui()
-	{
-		IStateGameDatabase::isSelectMode = true;
-	}
-	virtual void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
-	virtual bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
-	virtual bool UpdateNoBuildTile(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
+	void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
+	bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
+	bool UpdateNoBuildTile(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
 };
-class HoldDirGui : public IStateGameDatabase
+class StateHoldDirGui : public IStateGameDatabase
 {
 public:
-	virtual void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
-	virtual bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
-	virtual bool UpdateNoBuildTile(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
+	void UpdateHaveTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex) override;
+	bool UpdateNoTower(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
+	bool UpdateNoBuildTile(GuiGameDatabase* database, const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos) override;
 };

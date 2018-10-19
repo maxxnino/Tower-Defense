@@ -12,7 +12,7 @@ public:
 		:
 		animationSpeed(GameSettings::Get().GetData("[Animation Speed]"))
 	{
-		stateMachine = std::make_unique<IStateGameDatabase>();
+		stateMachine = &stateNormal;
 		fire.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_fire_50_50.png"));
 		water.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_water_50_50.png"));
 		nature.SetElementSurface(Codex<Surface>::Retrieve(L"Images\\GUI\\pm_nature_50_50.png"));
@@ -56,22 +56,22 @@ public:
 	void Clear()
 	{
 		element = nullptr;
-		stateMachine = std::make_unique<IStateGameDatabase>();
+		stateMachine = &stateNormal;
 	}
 	void ChangeToFire()
 	{
 		element = &fire;
-		stateMachine = std::make_unique<StateBuildTower>();
+		stateMachine = &stateBuildTower;
 	}
 	void ChangeToIce()
 	{
 		element = &water;
-		stateMachine = std::make_unique<StateBuildTower>();
+		stateMachine = &stateBuildTower;
 	}
 	void ChangeToLighting()
 	{
 		element = &nature;
-		stateMachine = std::make_unique<StateBuildTower>();
+		stateMachine = &stateBuildTower;
 	}
 	const std::shared_ptr<Surface> GetFireSurface()
 	{
@@ -108,19 +108,20 @@ public:
 	}
 	void ChangeSellTower()
 	{
-		stateMachine = std::make_unique<StateSellTower>();
+		stateMachine = &stateSellTower;
 	}
 	void ChangeSwapTower()
 	{
-		stateMachine = std::make_unique<StateSwapTower>();
+		stateSwapTower.ResetSwapSlot();
+		stateMachine = &stateSwapTower;
 	}
 	void ChangeBuildDirGui()
 	{
-		stateMachine = std::make_unique<StateBuildDirGui>();
+		stateMachine = &stateBuildDirGui;
 	}
 	void ChangeHoldDirGui()
 	{
-		stateMachine = std::make_unique<HoldDirGui>();
+		stateMachine = &stateHoldDirGui;
 	}
 	void SetPos(const b2Vec2& newPos)
 	{
@@ -133,14 +134,14 @@ public:
 	{
 		if (stateMachine->IsSelectMode())
 		{
-			stateMachine = std::make_unique<StateSelectDirGui>();
+			stateMachine = &stateSelectDirGui;
 		}
 	}
 	void DeactivateSelectMode()
 	{
 		if (stateMachine->IsSelectMode())
 		{
-			stateMachine = std::make_unique<IStateGameDatabase>();
+			stateMachine = &stateNormal;
 		}
 	}
 	const std::shared_ptr<Surface> GetSellTowerSurf() const
@@ -155,7 +156,14 @@ public:
 private:
 	Element* element = nullptr;
 	IMediator* mediator = nullptr;
-	std::unique_ptr<IStateGameDatabase> stateMachine;
+	IStateGameDatabase* stateMachine;
+	IStateNormal stateNormal;
+	StateBuildTower stateBuildTower;
+	StateSellTower stateSellTower;
+	StateSwapTower stateSwapTower;
+	StateBuildDirGui stateBuildDirGui;
+	StateSelectDirGui stateSelectDirGui;
+	StateHoldDirGui stateHoldDirGui;
 	b2Vec2 pos = { 0.0f,0.0f };
 	float animationSpeed;
 	std::unordered_map<int, Element*> factory;

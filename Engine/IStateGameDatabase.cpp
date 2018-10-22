@@ -2,21 +2,12 @@
 #include "GuiGameDatabase.h"
 #include "IMediator.h"
 
-void IStateNormal::UpdateHaveTower(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, int towerIndex)
+void IStateNormal::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
 {
-	database->GetMediator().OpenUpgradeMenu(towerIndex);
-}
-
-
-void StateSellTower::UpdateHaveTower(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, int towerIndex)
-{
-	database->GetMediator().DeleteTower(towerIndex);
-}
-
-bool StateSellTower::UpdateNoTower(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const b2Vec2 & mouseWorldPos)
-{
-	database->GetMediator().ActiveWarningText(2);
-	return false;
+	if (tileType == TileType::HaveTower)
+	{
+		database->GetMediator().OpenUpgradeMenu();
+	}
 }
 
 void StateSellTower::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI& drawPos) const
@@ -24,105 +15,90 @@ void StateSellTower::Draw(const GuiGameDatabase * database, Graphics & gfx, cons
 	gfx.DrawSprite(drawPos.x, drawPos.y, *database->GetSellTowerSurf(), SpriteEffect::AlphaBlendBakedAndGhost());
 }
 
-void StateSwapTower::UpdateHaveTower(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, int towerIndex)
+void StateSellTower::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
 {
-	if (swapSlot01.second == -1)
+	switch (tileType)
 	{
-		swapSlot01.first = trackingTile;
-		swapSlot01.second = towerIndex;
+	case None:
+		database->GetMediator().ActiveWarningText(2);
+		break;
+	case Buildable:
+		database->GetMediator().ActiveWarningText(2);
+		break;
+	case HaveTower:
+		database->GetMediator().DeleteTower();
+		break;
 	}
-	else
-	{
-		if (swapSlot01.second != towerIndex)
-		{
-			database->GetMediator().DoSwapTower(swapSlot01.first, swapSlot01.second, trackingTile, towerIndex);
-		}
-		else
-		{
-			database->GetMediator().ActiveWarningText(2);
-		}
-	}
-}
-
-bool StateSwapTower::UpdateNoTower(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const b2Vec2 & mouseWorldPos)
-{
-	database->GetMediator().ActiveWarningText(2);
-	return false;
 }
 
 void StateSwapTower::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI& drawPos) const
 {
-	if (swapSlot01.second != -1)
+	/*if (swapSlot01.second != -1)
 	{
 		gfx.DrawSprite(drawPos.x, drawPos.y, *database->GetSwapTowerSurf(), SpriteEffect::AlphaBlendBakedAndGhost());
 	}
 	else
 	{
 		gfx.DrawSprite(drawPos.x, drawPos.y, *database->GetSwapTowerSurf(), SpriteEffect::AlphaBlendBakedAndGhost());
+	}*/
+}
+
+void StateSwapTower::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
+{
+	switch (tileType)
+	{
+	case None:
+		database->GetMediator().ActiveWarningText(2);
+		break;
+	case Buildable:
+		database->GetMediator().ActiveWarningText(2);
+		break;
+	case HaveTower:
+		database->GetMediator().SwapTower(trackingTile);
+		break;
 	}
 }
 
-void StateSelectDirGui::UpdateHaveTower(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, int towerIndex)
+void StateSelectDirGui::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
 {
 	if (database->GetMediator().SelectDirGuiding(mouseWorldPos))
 	{
 		database->ChangeHoldDirGui();
+		//return false;
 	}
+	//return true;
 }
 
-bool StateSelectDirGui::UpdateNoTower(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const b2Vec2 & mouseWorldPos)
+
+void StateHoldDirGui::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
 {
-	if (database->GetMediator().SelectDirGuiding(mouseWorldPos))
+	database->GetMediator().SetDirectionDG(mouseWorldPos);
+	//return false;
+}
+
+void StateBuildTower::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI & drawPos) const
+{
+	database->getElement()->GetTowerAnimation()->DrawGhost(drawPos, gfx, 0);
+}
+
+void StateBuildTower::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
+{
+	switch (tileType)
 	{
-		database->ChangeHoldDirGui();
-		return false;
+	case Buildable:
+		database->GetMediator().MakeTower(worldTilePos);
+		break;
+	case HaveTower:
+		database->GetMediator().ActiveWarningText(1);
+		break;
 	}
-	return true;
 }
 
-bool StateSelectDirGui::UpdateNoBuildTile(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const b2Vec2 & mouseWorldPos)
+void StateBuildGirGui::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI & drawPos) const
 {
-	if (database->GetMediator().SelectDirGuiding(mouseWorldPos))
-	{
-		database->ChangeHoldDirGui();
-		return false;
-	}
-	return true;
 }
 
-void StateHoldDirGui::UpdateHaveTower(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, int towerIndex)
+void StateBuildGirGui::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
 {
-	database->GetMediator().SetDirectionDG(mouseWorldPos);
-}
-
-bool StateHoldDirGui::UpdateNoTower(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const b2Vec2 & mouseWorldPos)
-{
-	database->GetMediator().SetDirectionDG(mouseWorldPos);
-	return false;
-}
-
-bool StateHoldDirGui::UpdateNoBuildTile(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const b2Vec2 & mouseWorldPos)
-{
-	database->GetMediator().SetDirectionDG(mouseWorldPos);
-	return false;
-}
-
-void StateBuildMode::UpdateHaveTower(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, int towerIndex)
-{
-	buildStategy->UpdateHaveTower(database, worldTilePos, trackingTile, mouseWorldPos, towerIndex);
-}
-
-bool StateBuildMode::UpdateNoTower(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const b2Vec2 & mouseWorldPos)
-{
-	return buildStategy->UpdateNoTower(database, worldTilePos, mouseWorldPos);
-}
-
-bool StateBuildMode::UpdateNoBuildTile(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const b2Vec2 & mouseWorldPos)
-{
-	return buildStategy->UpdateNoBuildTile(database, worldTilePos, mouseWorldPos);
-}
-
-void StateBuildMode::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI & drawPos) const
-{
-	buildStategy->Draw(database, gfx, drawPos);
+	database->GetMediator().MakeDirectionGuiding(mouseWorldPos);
 }

@@ -20,8 +20,9 @@ public:
 	}
 	/**********************************/
 	/*  Control Gui and Background    */
-	void OpenUpgradeMenu(int towerIndex) override
+	void OpenUpgradeMenu() override
 	{
+		auto towerIndex = bg.GetTowerIndex();
 		assert(towerIndex != -1);
 		if (!menuMgr.isUpgradeMenuOpen() && !world.IsTowerMaxLv(towerIndex))
 		{
@@ -39,21 +40,18 @@ public:
 	{
 		menuMgr.ActiveWarningText(newType);
 	}
-	void OnRightClickFromGUI() override
+	void Clear() override
 	{
 		database.Clear();
-		if (menuMgr.isUpgradeMenuOpen())
-		{
-			menuMgr.ChangeMainMenu();
-			towerIndexInWorld = -1;
-		}
-		else
-		{
-			menuMgr.EnableButton();
-		}
+		menuMgr.ChangeMainMenu();
+		towerIndexInWorld = -1;
 		for (size_t i = 0; i < dirGuildingSelect.size(); i++)
 		{
 			dirGuildingSelect[i]->OnRelease();
+		}
+		if (swapSlot.second != -1)
+		{
+			swapSlot = std::make_pair(VecI(-1, -1), -1);
 		}
 	}
 	void ActiveSelectMode()
@@ -69,7 +67,7 @@ public:
 		if (!dirGuildingSelect.empty())
 		{
 			dirGuildingSelect[0]->MarkDead();
-			OnRightClickFromGUI();
+			Clear();
 			world.DeleteDirectionGuiding();
 		}
 	}
@@ -90,24 +88,37 @@ public:
 	{
 		return world.CanAffordTower(GetDatabase());
 	}
-	void DeleteTower(int towerIndex) override
+	void DeleteTower() override
 	{
-		world.SellTower(towerIndex);
+		world.SellTower(bg.GetTowerIndex());
+		bg.DeleteTower();
 	}
-	bool DoSwapTower(const VecI& tilePos01, int index01, const VecI& tilePos02, int index02) override
+	void SwapTower(const VecI& trackingTile) override
 	{
-		if (world.DoSwapTower(index01, index02))
+		if(swapSlot.second == -1)
 		{
-			bg.SwapTower(tilePos01, index02, tilePos02, index01);
-			OnRightClickFromGUI();
-			return true;
+			swapSlot.first = trackingTile;
+			swapSlot.second = bg.GetTowerIndex();
 		}
-		return false;
+		else
+		{
+			const int index02 = bg.GetTowerIndex();
+			if (swapSlot.second != index02)
+			{
+				world.DoSwapTower(swapSlot.second, index02);
+				bg.SwapTower(swapSlot.first, index02, trackingTile, swapSlot.second);
+				Clear();
+			}
+			else
+			{
+				ActiveWarningText(3);
+			}
+		}
 	}
 	void MakeDirectionGuiding(const b2Vec2& worldPos) override
 	{
 		world.MakeDirectionGuiding(worldPos);
-		OnRightClickFromGUI();
+		Clear();
 	}
 	bool SelectDirGuiding(const b2Vec2& worldPos) override
 	{
@@ -129,12 +140,12 @@ public:
 		{
 			if (dirGuildingSelect[0]->SetDirection(worldPos))
 			{
-				OnRightClickFromGUI();
+				Clear();
 			}
 		}
 		else
 		{
-			OnRightClickFromGUI();
+			Clear();
 		}
 	}
 	void SetMousePos(const b2Vec2& worldPos) override
@@ -150,6 +161,7 @@ private:
 	World& world;
 	Background& bg;
 	int towerIndexInWorld = -1;
+	std::pair<VecI, int> swapSlot = std::make_pair(VecI(-1,-1 ), -1);
 	float mouseQuerySize = 0.1f;
 	std::vector<DirectionGuiding*> dirGuildingSelect;
 };

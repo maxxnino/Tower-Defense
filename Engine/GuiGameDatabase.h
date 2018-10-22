@@ -3,6 +3,7 @@
 #include "GameSettings.h"
 #include "Codex.h"
 #include "IStateGameDatabase.h"
+#include "TileType.h"
 class IMediator;
 
 class GuiGameDatabase
@@ -112,13 +113,11 @@ public:
 	}
 	void ChangeSwapTower()
 	{
-		stateSwapTower.ResetSwapSlot();
 		stateMachine = &stateSwapTower;
 	}
 	void ChangeBuildDirGui()
 	{
-		stateBuildMode.ChangeBuildType(&buildDirGuiStategy);
-		stateMachine = &stateBuildMode;
+		stateMachine = &stateBuildDirGui;
 	}
 	void ChangeHoldDirGui()
 	{
@@ -128,9 +127,6 @@ public:
 	{
 		pos = newPos;
 	}
-	void UpdateHaveTower(const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, int towerIndex);
-	bool UpdateNoTower(const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos);
-	bool UpdateNoBuildTile(const b2Vec2& worldTilePos, const b2Vec2& mouseWorldPos);
 	void ActiveSelectMode()
 	{
 		if (stateMachine->IsSelectMode())
@@ -153,12 +149,12 @@ public:
 	{
 		return sellTowerSurf;
 	}
+	void OnClick(const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, TileType tuleType);
 	IMediator& GetMediator();
 private:
 	void ChangeBuildTower()
 	{
-		stateBuildMode.ChangeBuildType(&buildTowerStategy);
-		stateMachine = &stateBuildMode;
+		stateMachine = &stateBuildTower;
 	}
 private:
 	Element* element = nullptr;
@@ -171,11 +167,8 @@ private:
 	StateSwapTower stateSwapTower;
 	StateSelectDirGui stateSelectDirGui;
 	StateHoldDirGui stateHoldDirGui;
-	//state for build mode
-	StateBuildMode stateBuildMode;
-	//stategy for buid mode
-	BuildTowerStategy buildTowerStategy;
-	BuildDirGuiStategy buildDirGuiStategy;
+	StateBuildTower stateBuildTower;
+	StateBuildGirGui stateBuildDirGui;
 
 	b2Vec2 pos = { 0.0f,0.0f };
 	float animationSpeed;

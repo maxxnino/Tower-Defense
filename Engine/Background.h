@@ -10,6 +10,7 @@
 #include "GameSettings.h"
 #include "Surface.h"
 #include "Codex.h"
+#include "TileType.h"
 namespace std
 {
 	template <>
@@ -57,13 +58,19 @@ public:
 		nWidth = gridWidth / tileWorldSize;
 		nHeight = gridHeight / tileWorldSize;
 		tiles.reserve(nWidth * nHeight);
-		// load tile grid from map string (B is 0, C is 1 A is -1 etc.)
+		for (int n = 0; n < nWidth * nHeight; n++)
 		{
-			//auto mi = map.cbegin();
-			for (int n = 0; n < nWidth * nHeight; n++)//, ++mi)
+			switch (type(rng))
 			{
-				//tiles.push_back(*mi - 'B');
-				tiles.push_back(type(rng));
+			case 0:
+				tiles.push_back(TileType::None);
+				break;
+			case 1:
+				tiles.push_back(TileType::Buildable);
+				break;
+			default:
+				tiles.push_back(TileType::None);
+				break;
 			}
 		}
 	}
@@ -94,7 +101,7 @@ public:
 	}
 	void Update(Mouse& mouse, const Camera& cam, MouseCameraController& controller)
 	{
-		const auto mouseWorldPos = cam.ScreenToWorldPos((VecF)mouse.GetPos());
+		const auto mouseWorldPos = cam.ScreenToWorldPos((VecF)mouse.GetPos()) + b2Vec2(0.0f, (float)tileWorldSize);
 		const auto mouseTilePos = mouseWorldPos - pos;
 		mediator->SetMousePos(mouseWorldPos);
 		if (mouseTilePos.x >= 0 && mouseTilePos.x < gridWidth &&
@@ -102,7 +109,7 @@ public:
 		{
 			// Todo: need to fix trackingTile go outside of vector tiles
 			trackingTile.x = (int)mouseTilePos.x / tileWorldSize;
-			trackingTile.y = std::min((int)mouseTilePos.y / tileWorldSize + 1, nHeight);
+			trackingTile.y = (int)mouseTilePos.y / tileWorldSize;
 			const auto worldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float(trackingTile.y * tileWorldSize)) + pos;
 			mediator->GetDatabase()->SetPos(worldTilePos);
 			while (!mouse.IsEmpty())
@@ -111,32 +118,10 @@ public:
 				switch (e)
 				{
 				case Mouse::Event::Type::LPress:
-				{
-					if (GetTileAt(trackingTile.x, trackingTile.y) > 0)
-					{
-						auto tower = towerTiles.find(trackingTile);
-						if (tower != towerTiles.end())
-						{
-							mediator->GetDatabase()->UpdateHaveTower(worldTilePos, trackingTile, mouseWorldPos, tower->second);
-						}
-						else if(mediator->GetDatabase()->UpdateNoTower(worldTilePos, mouseWorldPos))
-						{
-							controller.ProcessCommand(e);
-						}
-					}
-					else if(mediator->GetDatabase()->UpdateNoBuildTile(worldTilePos, mouseWorldPos))
-					{
-						controller.ProcessCommand(e);
-					}
+					mediator->GetDatabase()->OnClick(worldTilePos, trackingTile, mouseWorldPos, GetTileAt(trackingTile));
 					break;
 				}
-				case Mouse::Event::Type::RPress:
-					mediator->OnRightClickFromGUI();
-					break;
-				case Mouse::Event::Type::LRelease:
-					controller.ProcessCommand(e);
-					break;
-				}
+				controller.ProcessCommand(e);
 			}
 		}
 		else
@@ -155,18 +140,47 @@ public:
 		towerTiles.find(tilePos01)->second = newIndex01;
 		towerTiles.find(tilePos02)->second = newIndex02;
 	}
+	void DeleteTower()
+	{
+		assert(GetTileAt(trackingTile) == TileType::HaveTower);
+		GetTileRefAt(trackingTile) = TileType::Buildable;
+		towerTiles.erase(trackingTile);
+	}
 	void AddMediator(IMediator* mediator) override
 	{
 		this->mediator = mediator;
 	}
 	void AddTower(int towerIndex)
 	{
+		assert(GetTileAt(trackingTile) == TileType::Buildable);
 		towerTiles.emplace(trackingTile, towerIndex);
+		GetTileRefAt(trackingTile) = TileType::HaveTower;
+	}
+	int GetTowerIndex() const
+	{
+		auto tower = towerTiles.find(trackingTile);
+		if (tower != towerTiles.end())
+		{
+			return tower->second;
+		}
+		else
+		{
+			assert(false);
+			return -1;
+		}
 	}
 private:
-	inline int GetTileAt(int x, int y) const
+	TileType GetTileAt(int x, int y) const
 	{
 		return tiles[y * nWidth + x];
+	}
+	TileType GetTileAt(const VecI& trackingTile) const
+	{
+		return tiles[trackingTile.y * nWidth + trackingTile.x];
+	}
+	TileType& GetTileRefAt(const VecI& trackingTile)
+	{
+		return tiles[trackingTile.y * nWidth + trackingTile.x];
 	}
 private:
 	b2Vec2 pos;
@@ -180,7 +194,7 @@ private:
 	// vector of surface
 	std::vector<std::shared_ptr<Surface>> surfs;
 	// grid of tiles (indices into the surfs vector)
-	std::vector<int> tiles;
+	std::vector<TileType> tiles;
 	//tower tile VecI pos, tower index in world
 	std::unordered_map<VecI, int> towerTiles;
 	IMediator* mediator = nullptr;

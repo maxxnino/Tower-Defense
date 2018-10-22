@@ -14,11 +14,11 @@ public:
 	{
 		switch (mouseEvent)
 		{
-		case Mouse::Event::Type::LPress:
+		case Mouse::Event::Type::RPress:
 			engaged = true;
 			lastPos = (VecF)mouse.GetPos();
 			break;
-		case Mouse::Event::Type::LRelease:
+		case Mouse::Event::Type::RRelease:
 			engaged = false;
 			break;
 		}

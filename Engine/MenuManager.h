@@ -31,7 +31,10 @@ public:
 		upgradeMenu(*box2DGUI, { 0.0f, -12.0f }, 30.0f, 3.5f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
 		upgradeMenuBtn01(*box2DGUI, { -10.0f , -12.0f }, 2.5f, 2.5f),
 		upgradeMenuBtn02(*box2DGUI, { -10.0f + 10.0f, -12.0f }, 2.5f, 2.5f),
-		upgradeMenuBtn03(*box2DGUI, { -10.0f + 20.0f, -12.0f }, 2.5f, 2.5f)
+		upgradeMenuBtn03(*box2DGUI, { -10.0f + 20.0f, -12.0f }, 2.5f, 2.5f),
+		//cancle menu
+		cancleMenu(*box2DGUI, { 0.0f, -12.0f }, 30.0f, 3.5f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
+		cancleBtn01(*box2DGUI, { -10.0f + 10.0f, -12.0f }, 2.5f, 2.5f)
 		
 	{
 		box2DGUI->SetContactListener(&listenerGUI);
@@ -40,36 +43,33 @@ public:
 		mainMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetDatabase()->ChangeToFire();
 			mainMenuBtn01.Disable(1.0f);
+			ChangeCancleMenu();
 		});
 		mainMenuBtn02.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetDatabase()->ChangeToIce();
 			mainMenuBtn02.Disable(1.0f);
+			ChangeCancleMenu();
 		});
 		mainMenuBtn03.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetDatabase()->ChangeToLighting();
 			mainMenuBtn03.Disable(1.0f);
+			ChangeCancleMenu();
 		});
 		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			swapTowerBtn05.Disable(1.0f);
-			mainMenu.DisableButton();
+			ChangeCancleMenu();
 			mediator->GetDatabase()->ChangeSellTower();
 		});
 		swapTowerBtn05.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			swapTowerBtn05.Disable(1.0f);
-			mainMenu.DisableButton();
+			ChangeCancleMenu();
 			mediator->GetDatabase()->ChangeSwapTower();
 		});
 		buildDGuidingBtn06.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			buildDGuidingBtn06.Disable(1.0f);
-			mainMenu.DisableButton();
+			ChangeCancleMenu();
 			mediator->GetDatabase()->ChangeBuildDirGui();
 		});
-		mainMenuBtn01.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetDatabase()->Clear(); });
-		mainMenuBtn02.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetDatabase()->Clear(); });
-		mainMenuBtn03.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->GetDatabase()->Clear(); });
-		deleteTowerBtn04.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
-		swapTowerBtn05.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
-		buildDGuidingBtn06.AddEventListener(Mouse::Event::Type::RPress, [this]() {mediator->OnRightClickFromGUI(); });
 
 		mainMenu.AddButton(&mainMenuBtn01);
 		mainMenu.AddButton(&mainMenuBtn02);
@@ -99,6 +99,14 @@ public:
 		upgradeMenu.AddButton(&upgradeMenuBtn02);
 		upgradeMenu.AddButton(&upgradeMenuBtn03);
 		upgradeMenu.RemoveCollision();
+
+		//cancle menu
+		cancleBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
+			mediator->Clear();
+			ChangeMainMenu();
+		});
+		cancleMenu.AddButton(&cancleBtn01);
+		cancleMenu.RemoveCollision();
 	}
 
 	// Remember update color for button after add mediator
@@ -175,11 +183,6 @@ public:
 			activeMenu = &upgradeMenu;
 		}
 	}
-	void EnableButton()
-	{
-		assert(activeMenu == &mainMenu);
-		mainMenu.EnableButoon();
-	}
 	void ActiveWarningText(int newType)
 	{
 		isWarning = true;
@@ -187,6 +190,15 @@ public:
 		timer = 0.0f;
 	}
 private:
+	void ChangeCancleMenu()
+	{
+		if (activeMenu == & mainMenu)
+		{
+			mainMenu.RemoveCollision();
+			cancleMenu.EnableCollision();
+			activeMenu = &cancleMenu;
+		}
+	}
 	void DrawWaringText(Graphics& gfx) const
 	{
 		if (isWarning)
@@ -201,29 +213,14 @@ private:
 				break;
 			case 2:
 				font.DrawText(warningCantSwapTower, { 80,50 }, Colors::Blue, gfx);
+				break;
+			case 3:
+				font.DrawText(warningCantSwapSelf, { 80,50 }, Colors::Blue, gfx);
+				break;
 			default:
 				break;
 			}
 		}
-	}
-	void ProcessCommand(Mouse& mouse)
-	{
-		/*if (activeMenu->GetRect().isContaint(mouse.GetPos()))
-		{
-			activeMenu->ProcessCommand(mouse);
-			while (!mouse.IsEmpty())
-			{
-				auto e = mouse.Read().GetType();
-				if (e == Mouse::Event::Type::RPress)
-				{
-					mediator->OnRightClickFromGUI();
-				}
-			}
-		}
-		else
-		{
-			activeMenu->MouseLeave();
-		}*/
 	}
 private:
 	static constexpr int32 velocityIterations = 1;
@@ -239,9 +236,10 @@ private:
 	bool isWarning = false;
 	//0 draw
 	int type = 0;
-	std::string warningGoldText = "Yo!!! You poor as fuck !!!";
-	std::string warningCantBuildText = "This tile already have a tower bitch !!!";
-	std::string warningCantSwapTower = "You can't see ? There is no tower to swap";
+	const std::string warningGoldText = "Yo!!! You poor as fuck !!!";
+	const std::string warningCantBuildText = "This tile already have a tower bitch !!!";
+	const std::string warningCantSwapTower = "You can't see ? There is no tower to swap";
+	const std::string warningCantSwapSelf = "You can't swap with yourselft";
 	float timer = 0.0f;
 	//Make main menu and button
 	Menu mainMenu;
@@ -256,4 +254,7 @@ private:
 	Button upgradeMenuBtn01;
 	Button upgradeMenuBtn02;
 	Button upgradeMenuBtn03;
+	//cancle menu
+	Menu cancleMenu;
+	Button cancleBtn01;
 };

@@ -255,8 +255,8 @@
     <ClInclude Include="IStateGameDatabase.h">
       <Filter>Header Files\GUI\Game Database</Filter>
     </ClInclude>
-    <ClInclude Include="IBuildStategy.h">
-      <Filter>Header Files\GUI\Game Database</Filter>
+    <ClInclude Include="TileType.h">
+      <Filter>Header Files\Game\Board and Tile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -312,9 +312,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GuiGameDatabase.cpp">
-      <Filter>Source Files\Game Database</Filter>
-    </ClCompile>
-    <ClCompile Include="IBuildStategy.cpp">
       <Filter>Source Files\Game Database</Filter>
     </ClCompile>
     <ClCompile Include="IStateGameDatabase.cpp">

@@ -85,7 +85,7 @@ public:
 	}
 	/**********************************/
 	/*          World Control         */
-	void AddMediator(IMediator* mediator) override
+	void AddMediator(IMediator* mediator) final
 	{
 		guiAndBoardMediator = mediator;
 	}
@@ -242,7 +242,7 @@ public:
 
 	/**********************************/
 	/*          Bullet Control        */
-	void MakeBullet(int curTarget, Element* element, Color c, const b2Vec2& worldPos) override
+	void MakeBullet(int curTarget, Element* element, Color c, const b2Vec2& worldPos) final
 	{
 		auto e = enemyMgr.find(curTarget);
 		if (e != enemyMgr.end())
@@ -282,7 +282,7 @@ public:
 
 	/**********************************/
 	/*          Tower Control         */
-	int MakeTower(Element* element, Color c, const b2Vec2& worldPos) override
+	int MakeTower(Element* element, Color c, const b2Vec2& worldPos) final
 	{
 		gold.RemoveGold(element->GetGold());
 		auto tower = std::make_unique<Tower>(*box2DEngine, indexTower, element, c, worldPos);
@@ -312,7 +312,7 @@ public:
 			return true;
 		}
 	}
-	void UpgradeTower(Element* element, int towerIndex) override
+	void UpgradeTower(Element* element, int towerIndex) final
 	{
 		auto t = towerMgr.find(towerIndex);
 		assert(t != towerMgr.end());

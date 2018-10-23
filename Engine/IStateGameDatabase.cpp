@@ -64,16 +64,13 @@ void StateSelectDirGui::Update(GuiGameDatabase * database, const b2Vec2 & worldT
 	if (database->GetMediator().SelectDirGuiding(mouseWorldPos))
 	{
 		database->ChangeHoldDirGui();
-		//return false;
 	}
-	//return true;
 }
 
 
 void StateHoldDirGui::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
 {
 	database->GetMediator().SetDirectionDG(mouseWorldPos);
-	//return false;
 }
 
 void StateBuildTower::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI & drawPos) const
@@ -96,9 +93,15 @@ void StateBuildTower::Update(GuiGameDatabase * database, const b2Vec2 & worldTil
 
 void StateBuildGirGui::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI & drawPos) const
 {
+	gfx.DrawCircle(drawPos + VecI(20,20), 20, Colors::Magenta);
 }
 
 void StateBuildGirGui::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
 {
-	database->GetMediator().MakeDirectionGuiding(mouseWorldPos);
+	database->GetMediator().MakeDirectionGuiding(worldTilePos + b2Vec2(1.0f, -1.0f));
+}
+
+void StateBuildBorder::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
+{
+
 }

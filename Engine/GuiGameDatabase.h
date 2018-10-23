@@ -129,14 +129,14 @@ public:
 	}
 	void ActiveSelectMode()
 	{
-		if (stateMachine->IsSelectMode())
+		if (stateMachine->CanOpenSelectMode())
 		{
 			stateMachine = &stateSelectDirGui;
 		}
 	}
 	void DeactivateSelectMode()
 	{
-		if (stateMachine->IsSelectMode())
+		if (stateMachine->CanOpenSelectMode())
 		{
 			stateMachine = &stateNormal;
 		}

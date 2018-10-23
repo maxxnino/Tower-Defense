@@ -46,17 +46,31 @@ void Game::UpdateModel()
 	gui.Update(dt, wnd.mouse);
 	bg.Update(wnd.mouse, cam, controler);
 	world.Update(dt);
-	if (wnd.kbd.KeyIsPressed(VK_CONTROL))
+	while (!wnd.kbd.KeyIsEmpty())
 	{
-		mediatorGuiAndBrd.ActiveSelectMode();
-	}
-	else
-	{
-		mediatorGuiAndBrd.DeactivateSelectMode();
-	}
-	if (wnd.kbd.KeyIsPressed(VK_DELETE))
-	{
-		mediatorGuiAndBrd.DeleteIsPress();
+		const Keyboard::Event e = wnd.kbd.ReadKey();
+		if (e.IsPress())
+		{
+			switch (e.GetCode())
+			{
+			case VK_CONTROL:
+				mediatorGuiAndBrd.ActiveSelectMode();
+				break;
+			case VK_DELETE:
+				mediatorGuiAndBrd.DeleteIsPress();
+				break;
+			}
+		}
+		if (e.IsRelease())
+		{
+			switch (e.GetCode())
+			{
+			case VK_CONTROL:
+				mediatorGuiAndBrd.DeactivateSelectMode();
+				break;
+			}
+			
+		}
 	}
 }
 

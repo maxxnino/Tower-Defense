@@ -20,7 +20,7 @@ public:
 	}
 	/**********************************/
 	/*  Control Gui and Background    */
-	void OpenUpgradeMenu() override
+	void OpenUpgradeMenu() final
 	{
 		auto towerIndex = bg.GetTowerIndex();
 		assert(towerIndex != -1);
@@ -30,17 +30,17 @@ public:
 			menuMgr.ChangeUpgradeMenu();
 		}
 	}
-	void UpgradeTower() override
+	void UpgradeTower() final
 	{
 		world.UpgradeTower(database.getElement(), towerIndexInWorld);
 		towerIndexInWorld = -1;
 		database.Clear();
 	}
-	void ActiveWarningText(int newType) override
+	void ActiveWarningText(int newType) final
 	{
 		menuMgr.ActiveWarningText(newType);
 	}
-	void Clear() override
+	void Clear() final
 	{
 		database.Clear();
 		menuMgr.ChangeMainMenu();
@@ -76,24 +76,24 @@ public:
 
 	/**********************************/
 	/*      Control World Object      */
-	void MakeTower(const b2Vec2& worldPos) override
+	void MakeTower(const b2Vec2& worldPos) final
 	{
 		bg.AddTower(world.MakeTower(database.getElement(), database.getElement()->getColor(), worldPos));
 	}
-	int GetGold() const override
+	int GetGold() const final
 	{
 		return world.GetGold();
 	}
-	bool CanAffordTower() const override
+	bool CanAffordTower() const final
 	{
 		return world.CanAffordTower(GetDatabase());
 	}
-	void DeleteTower() override
+	void DeleteTower() final
 	{
 		world.SellTower(bg.GetTowerIndex());
 		bg.DeleteTower();
 	}
-	void SwapTower(const VecI& trackingTile) override
+	void SwapTower(const VecI& trackingTile) final
 	{
 		if(swapSlot.second == -1)
 		{
@@ -115,12 +115,12 @@ public:
 			}
 		}
 	}
-	void MakeDirectionGuiding(const b2Vec2& worldPos) override
+	void MakeDirectionGuiding(const b2Vec2& worldPos) final
 	{
 		world.MakeDirectionGuiding(worldPos);
 		Clear();
 	}
-	bool SelectDirGuiding(const b2Vec2& worldPos) override
+	bool SelectDirGuiding(const b2Vec2& worldPos) final
 	{
 		dirGuildingSelect.clear();
 		dirGuildingSelect = world.GetBodyList<DirectionGuiding>(worldPos);
@@ -134,7 +134,7 @@ public:
 		}
 		return false;
 	}
-	void SetDirectionDG(const b2Vec2& worldPos) override
+	void SetDirectionDG(const b2Vec2& worldPos) final
 	{
 		if (!dirGuildingSelect.empty())
 		{
@@ -148,7 +148,7 @@ public:
 			Clear();
 		}
 	}
-	void SetMousePos(const b2Vec2& worldPos) override
+	void SetMousePos(const b2Vec2& worldPos) final
 	{
 		if (!dirGuildingSelect.empty())
 		{

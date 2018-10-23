@@ -86,7 +86,7 @@ public:
 			for (int x = left; x < right; x++)
 			{
 				const int index = GetTileAt(x, y);
-				const auto drawPos = cam.GetDrawPosition(b2Vec2(float32(x * tileWorldSize), float32(y * tileWorldSize)) + pos);
+				const auto drawPos = cam.GetDrawPosition(b2Vec2(float32(x * tileWorldSize), float32((y + 1) * tileWorldSize)) + pos);
 				if (x == trackingTile.x && y == trackingTile.y)
 				{
 					gfx.DrawSprite(drawPos.x, drawPos.y, *surfs[index + 3], SpriteEffect::Copy{});
@@ -101,7 +101,7 @@ public:
 	}
 	void Update(Mouse& mouse, const Camera& cam, MouseCameraController& controller)
 	{
-		const auto mouseWorldPos = cam.ScreenToWorldPos((VecF)mouse.GetPos()) + b2Vec2(0.0f, (float)tileWorldSize);
+		const auto mouseWorldPos = cam.ScreenToWorldPos((VecF)mouse.GetPos());
 		const auto mouseTilePos = mouseWorldPos - pos;
 		mediator->SetMousePos(mouseWorldPos);
 		if (mouseTilePos.x >= 0 && mouseTilePos.x < gridWidth &&
@@ -110,7 +110,7 @@ public:
 			// Todo: need to fix trackingTile go outside of vector tiles
 			trackingTile.x = (int)mouseTilePos.x / tileWorldSize;
 			trackingTile.y = (int)mouseTilePos.y / tileWorldSize;
-			const auto worldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float(trackingTile.y * tileWorldSize)) + pos;
+			const auto worldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float((trackingTile.y + 1) * tileWorldSize)) + pos;
 			mediator->GetDatabase()->SetPos(worldTilePos);
 			while (!mouse.IsEmpty())
 			{

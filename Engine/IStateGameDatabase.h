@@ -6,7 +6,7 @@ class IStateGameDatabase
 {
 public:
 	virtual void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const {};
-	virtual bool IsSelectMode()
+	virtual bool CanOpenSelectMode()
 	{
 		return false;
 	}
@@ -15,7 +15,7 @@ public:
 class IStateNormal : public IStateGameDatabase
 {
 public:
-	bool IsSelectMode() final
+	bool CanOpenSelectMode() final
 	{
 		return true;
 	}
@@ -50,13 +50,20 @@ public:
 class StateBuildTower : public IStateGameDatabase
 {
 public:
-	void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const override;
+	void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const final;
 	void Update(GuiGameDatabase* database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType) final;
 };
 
-class StateBuildGirGui: public IStateGameDatabase
+class StateBuildGirGui : public IStateGameDatabase
 {
 public:
-	void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const override;
+	void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const final;
+	void Update(GuiGameDatabase* database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType) final;
+};
+
+class StateBuildBorder : public IStateGameDatabase
+{
+public:
+	void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const final;
 	void Update(GuiGameDatabase* database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType) final;
 };

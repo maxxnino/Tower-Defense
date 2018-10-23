@@ -123,6 +123,10 @@ public:
 	{
 		stateMachine = &stateHoldDirGui;
 	}
+	void ChangeBuildBorder()
+	{
+		stateMachine = &stateBuildBorder;
+	}
 	void SetPos(const b2Vec2& newPos)
 	{
 		pos = newPos;
@@ -169,7 +173,7 @@ private:
 	StateHoldDirGui stateHoldDirGui;
 	StateBuildTower stateBuildTower;
 	StateBuildGirGui stateBuildDirGui;
-
+	StateBuildBorder stateBuildBorder;
 	b2Vec2 pos = { 0.0f,0.0f };
 	float animationSpeed;
 	std::unordered_map<int, Element*> factory;

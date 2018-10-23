@@ -110,7 +110,7 @@ public:
 			// Todo: need to fix trackingTile go outside of vector tiles
 			trackingTile.x = (int)mouseTilePos.x / tileWorldSize;
 			trackingTile.y = (int)mouseTilePos.y / tileWorldSize;
-			const auto worldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float((trackingTile.y + 1) * tileWorldSize)) + pos;
+			worldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float((trackingTile.y + 1) * tileWorldSize)) + pos;
 			mediator->GetDatabase()->SetPos(worldTilePos);
 			while (!mouse.IsEmpty())
 			{
@@ -169,6 +169,35 @@ public:
 			return -1;
 		}
 	}
+	b2Vec2 GetCornerPoint(const b2Vec2& worldPos) const
+	{
+		b2Vec2 point;
+		b2Vec2 trueWorldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float((trackingTile.y) * tileWorldSize)) + pos;
+		const RectF rect = { trueWorldTilePos.x - tileWorldSize,trueWorldTilePos.y + tileWorldSize, trueWorldTilePos.x + tileWorldSize,trueWorldTilePos.y - tileWorldSize };
+		float lendSq = std::numeric_limits<float>::max();
+		const auto left = worldPos.x - rect.left;
+		const auto right = rect.right - worldPos.x;
+		const auto bottom = worldPos.y - rect.bottom;
+		const auto top = rect.top - worldPos.y;
+		if (left < right)
+		{
+			point.x = rect.left;
+		}
+		else
+		{
+			point.x = rect.right;
+		}
+
+		if (top < bottom)
+		{
+			point.y = rect.top;
+		}
+		else
+		{
+			point.y = rect.bottom;
+		}
+		return point;
+	}
 private:
 	TileType GetTileAt(int x, int y) const
 	{
@@ -191,6 +220,7 @@ private:
 	int nWidth;
 	int nHeight;
 	VecI trackingTile;
+	b2Vec2 worldTilePos;
 	// vector of surface
 	std::vector<std::shared_ptr<Surface>> surfs;
 	// grid of tiles (indices into the surfs vector)

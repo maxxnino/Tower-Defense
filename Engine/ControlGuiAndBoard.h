@@ -71,6 +71,10 @@ public:
 			world.DeleteDirectionGuiding();
 		}
 	}
+	b2Vec2 GetCornerPoint(const b2Vec2& worldPos) const final
+	{
+		return bg.GetCornerPoint(worldPos);
+	}
 	/**********************************/
 
 
@@ -154,6 +158,11 @@ public:
 		{
 			dirGuildingSelect[0]->SetMousePos(worldPos);
 		}
+	}
+	void MakeBorder(const b2Vec2& p1, const b2Vec2& mouseWorldPos) final
+	{
+		world.MakeBorder(p1, bg.GetCornerPoint(mouseWorldPos));
+		Clear();
 	}
 	/**********************************/
 private:

@@ -66,4 +66,8 @@ class StateBuildBorder : public IStateGameDatabase
 public:
 	void Draw(const GuiGameDatabase* database, Graphics& gfx, const VecI& drawPos) const final;
 	void Update(GuiGameDatabase* database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType) final;
+private:
+	bool isBegin = true;
+	b2Vec2 p1 = { 0.0f,0.0f };
+	b2Vec2 p2 = { 0.0f,0.0f };
 };

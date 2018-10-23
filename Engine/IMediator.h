@@ -18,6 +18,7 @@ public:
 	{
 		return database;
 	}
+	virtual b2Vec2 GetCornerPoint(const b2Vec2& worldPos) const = 0;
 	/**********************************/
 
 
@@ -32,6 +33,7 @@ public:
 	virtual bool SelectDirGuiding(const b2Vec2& worldPos) = 0;
 	virtual void SetDirectionDG(const b2Vec2& worldPos) = 0;
 	virtual void SetMousePos(const b2Vec2& worldPos) = 0;
+	virtual void MakeBorder(const b2Vec2& p1, const b2Vec2& mouseWorldPos) = 0;
 	/**********************************/
 protected:
 	GuiGameDatabase database;

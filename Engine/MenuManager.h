@@ -21,12 +21,13 @@ public:
 		coinAnimation(0,0,40,40,25, Codex<Surface>::Retrieve(L"Images\\GUI\\pm_coin_40_40_25.png"), 0.04f, Colors::Black),
 		//main menu
 		mainMenu(*box2DGUI, { 0.0f, -12.0f }, 30.0f, 3.5f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
-		mainMenuBtn01(*box2DGUI, {  -10.0f , -12.0f }, 2.5f, 2.5f),
-		mainMenuBtn02(*box2DGUI, { -10.0f + 4.0f, -12.0f }, 2.5f, 2.5f),
-		mainMenuBtn03(*box2DGUI, { -10.0f + 8.0f, -12.0f }, 2.5f, 2.5f),
-		deleteTowerBtn04(*box2DGUI, { -10.0f + 12.0f, -12.0f }, 2.5f, 2.5f),
-		swapTowerBtn05(*box2DGUI, { -10.0f + 16.0f, -12.0f }, 2.5f, 2.5f),
-		buildDGuidingBtn06(*box2DGUI, { -10.0f + 20.0f, -12.0f }, 2.5f, 2.5f),
+		mainMenuBtn01(*box2DGUI, {  -12.0f , -12.0f }, 2.5f, 2.5f),
+		mainMenuBtn02(*box2DGUI, { -12.0f + 4.0f, -12.0f }, 2.5f, 2.5f),
+		mainMenuBtn03(*box2DGUI, { -12.0f + 8.0f, -12.0f }, 2.5f, 2.5f),
+		deleteTowerBtn04(*box2DGUI, { -12.0f + 12.0f, -12.0f }, 2.5f, 2.5f),
+		swapTowerBtn05(*box2DGUI, { -12.0f + 16.0f, -12.0f }, 2.5f, 2.5f),
+		buildDGuidingBtn06(*box2DGUI, { -12.0f + 20.0f, -12.0f }, 2.5f, 2.5f),
+		buildBorderBtn07(*box2DGUI, { -12.0f + 24.0f, -12.0f }, 2.5f, 2.5f),
 		//upgrade menu
 		upgradeMenu(*box2DGUI, { 0.0f, -12.0f }, 30.0f, 3.5f, Codex<Surface>::Retrieve(L"Images\\GUI\\menu_01.png")),
 		upgradeMenuBtn01(*box2DGUI, { -10.0f , -12.0f }, 2.5f, 2.5f),
@@ -70,14 +71,18 @@ public:
 			ChangeCancleMenu();
 			mediator->GetDatabase()->ChangeBuildDirGui();
 		});
-
+		buildBorderBtn07.AddEventListener(Mouse::Event::Type::LPress, [this]() {
+			buildDGuidingBtn06.Disable(1.0f);
+			ChangeCancleMenu();
+			mediator->GetDatabase()->ChangeBuildBorder();
+		});
 		mainMenu.AddButton(&mainMenuBtn01);
 		mainMenu.AddButton(&mainMenuBtn02);
 		mainMenu.AddButton(&mainMenuBtn03);
 		mainMenu.AddButton(&deleteTowerBtn04);
 		mainMenu.AddButton(&swapTowerBtn05);
 		mainMenu.AddButton(&buildDGuidingBtn06);
-
+		mainMenu.AddButton(&buildBorderBtn07);
 		//upgrademenu
 		upgradeMenuBtn01.AddEventListener(Mouse::Event::Type::LPress, [this]() {
 			mediator->GetDatabase()->ChangeToFire();
@@ -249,6 +254,7 @@ private:
 	Button deleteTowerBtn04;
 	Button swapTowerBtn05;
 	Button buildDGuidingBtn06;
+	Button buildBorderBtn07;
 	//Upgrade Menu
 	Menu upgradeMenu;
 	Button upgradeMenuBtn01;

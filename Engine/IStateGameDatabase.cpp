@@ -101,7 +101,23 @@ void StateBuildGirGui::Update(GuiGameDatabase * database, const b2Vec2 & worldTi
 	database->GetMediator().MakeDirectionGuiding(worldTilePos + b2Vec2(1.0f, -1.0f));
 }
 
+void StateBuildBorder::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI & drawPos) const
+{
+	
+}
+
 void StateBuildBorder::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
 {
-
+	if (isBegin)
+	{
+		p1 = database->GetMediator().GetCornerPoint(mouseWorldPos);
+		isBegin = false;
+	}
+	else
+	{
+		database->GetMediator().MakeBorder(p1, mouseWorldPos);
+		isBegin = true;
+		p1 = { 0.0f,0.0f };
+		p2 = { 0.0f,0.0f };
+	}
 }

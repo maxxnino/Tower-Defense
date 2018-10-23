@@ -237,6 +237,10 @@ public:
 	{
 		guidingMgr.DeleteDeadBody();
 	}
+	void MakeBorder(const b2Vec2& p1, const b2Vec2& p2)
+	{
+		border.MakeBorder(*box2DEngine, p1, p2);
+	}
 	/**********************************/
 
 
@@ -299,7 +303,7 @@ public:
 		gold.AddGold(int((float)(t->GetGold()) * sellRate + 0.5f));
 		t->MarkDead();
 	}
-	bool IsTowerMaxLv(int towerIndex) override
+	bool IsTowerMaxLv(int towerIndex) final
 	{
 		auto t = towerMgr.find(towerIndex);
 		if (t != towerMgr.end())

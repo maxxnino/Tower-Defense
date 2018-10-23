@@ -33,17 +33,27 @@ public:
 		right(box2DEngine, { 19.0f, 12.0f }, { 19.0f, -15.0f }),
 		bottom(box2DEngine, { -20.0f, 7.0f }, { 13.0f, 7.0f }),
 		left(box2DEngine, { 13.0f, 7.0f }, { 13.0f, -15.0f })
-	{}
+	{
+		lines.emplace_back(std::make_unique<LineWall>(box2DEngine, b2Vec2(-20.0f, 12.0f), b2Vec2(19.0f, 12.0f)));
+		lines.emplace_back(std::make_unique<LineWall>(box2DEngine, b2Vec2(19.0f, 12.0f), b2Vec2(19.0f, -15.0f)));
+		lines.emplace_back(std::make_unique<LineWall>(box2DEngine, b2Vec2(-20.0f, 7.0f), b2Vec2(13.0f, 7.0f)));
+		lines.emplace_back(std::make_unique<LineWall>(box2DEngine, b2Vec2(13.0f, 7.0f), b2Vec2(13.0f, -15.0f)));
+	}
 	void DrawDebug(Graphics& gfx, const Camera& cam) const
 	{
-		top.DrawDebug(gfx, cam);
-		right.DrawDebug(gfx, cam);
-		bottom.DrawDebug(gfx, cam);
-		left.DrawDebug(gfx, cam);
+		for (const auto& l : lines)
+		{
+			l->DrawDebug(gfx, cam);
+		}
+	}
+	void MakeBorder(b2World& box2DEngine, const b2Vec2& p1, const b2Vec2& p2)
+	{
+		lines.emplace_back(std::make_unique<LineWall>(box2DEngine, p1, p2));
 	}
 private:
 	LineWall top;
 	LineWall right;
 	LineWall bottom;
 	LineWall left;
+	std::vector<std::unique_ptr<LineWall>> lines;
 };

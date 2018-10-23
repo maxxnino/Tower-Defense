@@ -2,7 +2,7 @@
 #include "GuiGameDatabase.h"
 #include "IMediator.h"
 
-void IStateNormal::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
+void IStateNormal::OnClick(GuiGameDatabase * database)
 {
 	if (tileType == TileType::HaveTower)
 	{
@@ -10,12 +10,13 @@ void IStateNormal::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePo
 	}
 }
 
-void StateSellTower::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI& drawPos) const
+void StateSellTower::Draw(const GuiGameDatabase * database, Graphics & gfx, const Camera& cam) const
 {
+	const auto drawPos = cam.GetDrawPosition(worldTilePos);
 	gfx.DrawSprite(drawPos.x, drawPos.y, *database->GetSellTowerSurf(), SpriteEffect::AlphaBlendBakedAndGhost());
 }
 
-void StateSellTower::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
+void StateSellTower::OnClick(GuiGameDatabase * database)
 {
 	switch (tileType)
 	{
@@ -31,7 +32,7 @@ void StateSellTower::Update(GuiGameDatabase * database, const b2Vec2 & worldTile
 	}
 }
 
-void StateSwapTower::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI& drawPos) const
+void StateSwapTower::Draw(const GuiGameDatabase * database, Graphics & gfx, const Camera& cam) const
 {
 	/*if (swapSlot01.second != -1)
 	{
@@ -43,7 +44,7 @@ void StateSwapTower::Draw(const GuiGameDatabase * database, Graphics & gfx, cons
 	}*/
 }
 
-void StateSwapTower::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
+void StateSwapTower::OnClick(GuiGameDatabase * database)
 {
 	switch (tileType)
 	{
@@ -59,7 +60,7 @@ void StateSwapTower::Update(GuiGameDatabase * database, const b2Vec2 & worldTile
 	}
 }
 
-void StateSelectDirGui::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
+void StateSelectDirGui::OnClick(GuiGameDatabase * database)
 {
 	if (database->GetMediator().SelectDirGuiding(mouseWorldPos))
 	{
@@ -68,17 +69,17 @@ void StateSelectDirGui::Update(GuiGameDatabase * database, const b2Vec2 & worldT
 }
 
 
-void StateHoldDirGui::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
+void StateHoldDirGui::OnClick(GuiGameDatabase * database)
 {
 	database->GetMediator().SetDirectionDG(mouseWorldPos);
 }
 
-void StateBuildTower::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI & drawPos) const
+void StateBuildTower::Draw(const GuiGameDatabase * database, Graphics & gfx, const Camera& cam) const
 {
-	database->getElement()->GetTowerAnimation()->DrawGhost(drawPos, gfx, 0);
+	database->getElement()->GetTowerAnimation()->DrawGhost(cam.GetDrawPosition(worldTilePos), gfx, 0);
 }
 
-void StateBuildTower::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
+void StateBuildTower::OnClick(GuiGameDatabase * database)
 {
 	switch (tileType)
 	{
@@ -91,22 +92,58 @@ void StateBuildTower::Update(GuiGameDatabase * database, const b2Vec2 & worldTil
 	}
 }
 
-void StateBuildGirGui::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI & drawPos) const
+void StateBuildGirGui::Draw(const GuiGameDatabase * database, Graphics & gfx, const Camera& cam) const
 {
-	gfx.DrawCircle(drawPos + VecI(20,20), 20, Colors::Magenta);
+	if (isBegin)
+	{
+		gfx.DrawCircle(cam.GetDrawPosition(mouseWorldPos), 20, Colors::Magenta);
+	}
+	else
+	{
+		const auto drawPos1 = cam.GetDrawPosition(pos);
+		const auto drawPos2 = cam.GetDrawPosition(mouseWorldPos);
+		gfx.DrawCircle(drawPos1, 20, Colors::Magenta);
+		gfx.DrawLine(drawPos1, drawPos2, Colors::Blue);
+	}
 }
 
-void StateBuildGirGui::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
+void StateBuildGirGui::OnClick(GuiGameDatabase * database)
 {
-	database->GetMediator().MakeDirectionGuiding(worldTilePos + b2Vec2(1.0f, -1.0f));
-}
-
-void StateBuildBorder::Draw(const GuiGameDatabase * database, Graphics & gfx, const VecI & drawPos) const
-{
+	if (isBegin)
+	{
+		pos = mouseWorldPos;
+		isBegin = false;
+	}
+	else
+	{
+		database->GetMediator().MakeDirectionGuiding(pos, mouseWorldPos);
+		isBegin = true;
+	}
 	
 }
 
-void StateBuildBorder::Update(GuiGameDatabase * database, const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
+void StateBuildBorder::Draw(const GuiGameDatabase * database, Graphics & gfx, const Camera& cam) const
+{
+	if (isBegin)
+	{
+		const auto drawPos = cam.GetDrawPosition(database->GetMediator().GetCornerPoint(mouseWorldPos));
+		gfx.DrawCircle(drawPos, 6, Colors::Blue);
+	}
+	else
+	{
+		const auto drawPos01 = cam.GetDrawPosition(p1);
+		const auto drawPos02 = cam.GetDrawPosition(database->GetMediator().GetCornerPoint(mouseWorldPos));
+		//draw line
+		gfx.DrawLine(drawPos01, drawPos02, Colors::Blue);
+		//draw point 1
+		gfx.DrawCircle(drawPos01, 6, Colors::Blue);
+
+		//draw point 2
+		gfx.DrawCircle(drawPos02, 6, Colors::Blue);
+	}
+}
+
+void StateBuildBorder::OnClick(GuiGameDatabase * database)
 {
 	if (isBegin)
 	{
@@ -117,7 +154,5 @@ void StateBuildBorder::Update(GuiGameDatabase * database, const b2Vec2 & worldTi
 	{
 		database->GetMediator().MakeBorder(p1, mouseWorldPos);
 		isBegin = true;
-		p1 = { 0.0f,0.0f };
-		p2 = { 0.0f,0.0f };
 	}
 }

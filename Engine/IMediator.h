@@ -29,7 +29,7 @@ public:
 	virtual bool CanAffordTower() const = 0;
 	virtual void DeleteTower() = 0;
 	virtual void SwapTower(const VecI& trackingTile) = 0;
-	virtual void MakeDirectionGuiding(const b2Vec2& worldPos) = 0;
+	virtual void MakeDirectionGuiding(const b2Vec2& worldPos, const b2Vec2& dir) = 0;
 	virtual bool SelectDirGuiding(const b2Vec2& worldPos) = 0;
 	virtual void SetDirectionDG(const b2Vec2& worldPos) = 0;
 	virtual void SetMousePos(const b2Vec2& worldPos) = 0;

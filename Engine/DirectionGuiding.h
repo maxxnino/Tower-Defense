@@ -5,7 +5,7 @@
 class DirectionGuiding : public PhysicObject
 {
 public:
-	DirectionGuiding(b2World& box2DEngine, const b2Vec2& worldPos, float radian, const b2Vec2& dir)
+	DirectionGuiding(b2World& box2DEngine, const b2Vec2& worldPos, float radian, const b2Vec2& dir = { 0.0f, -1.0f })
 		:
 		worldPos(worldPos),
 		mousePos(worldPos),
@@ -79,9 +79,11 @@ public:
 			g->DrawDebug(gfx, cam);
 		}
 	}
-	void MakeDirectionGuiding(b2World& box2DEngine, const b2Vec2& worldPos)
+	void MakeDirectionGuiding(b2World& box2DEngine, const b2Vec2& worldPos, const b2Vec2& dir)
 	{
-		guiMgr.emplace_back(std::make_unique<DirectionGuiding>(box2DEngine, worldPos, 1.0f, b2Vec2(0.0f, -1.0f)));
+		auto gui = std::make_unique<DirectionGuiding>(box2DEngine, worldPos, 1.0f);
+		gui->SetDirection(dir);
+		guiMgr.emplace_back(std::move(gui));
 	}
 	void DeleteDeadBody()
 	{

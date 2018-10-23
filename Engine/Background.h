@@ -104,6 +104,7 @@ public:
 		const auto mouseWorldPos = cam.ScreenToWorldPos((VecF)mouse.GetPos());
 		const auto mouseTilePos = mouseWorldPos - pos;
 		mediator->SetMousePos(mouseWorldPos);
+		mediator->GetDatabase()->UpdateOutsideBoard(mouseWorldPos);
 		if (mouseTilePos.x >= 0 && mouseTilePos.x < gridWidth &&
 			mouseTilePos.y >= 0 && mouseTilePos.y < gridHeight)
 		{
@@ -111,15 +112,13 @@ public:
 			trackingTile.x = (int)mouseTilePos.x / tileWorldSize;
 			trackingTile.y = (int)mouseTilePos.y / tileWorldSize;
 			worldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float((trackingTile.y + 1) * tileWorldSize)) + pos;
-			mediator->GetDatabase()->SetPos(worldTilePos);
+			mediator->GetDatabase()->UpdateInsideBoard(worldTilePos, trackingTile, GetTileAt(trackingTile));
 			while (!mouse.IsEmpty())
 			{
 				const auto e = mouse.Read().GetType();
-				switch (e)
+				if (e == Mouse::Event::Type::LPress)
 				{
-				case Mouse::Event::Type::LPress:
-					mediator->GetDatabase()->OnClick(worldTilePos, trackingTile, mouseWorldPos, GetTileAt(trackingTile));
-					break;
+					mediator->GetDatabase()->OnClick();
 				}
 				controller.ProcessCommand(e);
 			}
@@ -171,9 +170,8 @@ public:
 	}
 	b2Vec2 GetCornerPoint(const b2Vec2& worldPos) const
 	{
-		b2Vec2 point;
-		b2Vec2 trueWorldTilePos = b2Vec2(float(trackingTile.x * tileWorldSize), float((trackingTile.y) * tileWorldSize)) + pos;
-		const RectF rect = { trueWorldTilePos.x - tileWorldSize,trueWorldTilePos.y + tileWorldSize, trueWorldTilePos.x + tileWorldSize,trueWorldTilePos.y - tileWorldSize };
+		/*b2Vec2 point;
+		const RectF rect = { worldTilePos.x - tileWorldSize,worldTilePos.y + tileWorldSize, worldTilePos.x + tileWorldSize,worldTilePos.y - tileWorldSize };
 		float lendSq = std::numeric_limits<float>::max();
 		const auto left = worldPos.x - rect.left;
 		const auto right = rect.right - worldPos.x;
@@ -195,8 +193,8 @@ public:
 		else
 		{
 			point.y = rect.bottom;
-		}
-		return point;
+		}*/
+		return worldPos;
 	}
 private:
 	TileType GetTileAt(int x, int y) const

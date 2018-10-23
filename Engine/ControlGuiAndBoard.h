@@ -49,6 +49,7 @@ public:
 		{
 			dirGuildingSelect[i]->OnRelease();
 		}
+		dirGuildingSelect.clear();
 		if (swapSlot.second != -1)
 		{
 			swapSlot = std::make_pair(VecI(-1, -1), -1);
@@ -119,10 +120,9 @@ public:
 			}
 		}
 	}
-	void MakeDirectionGuiding(const b2Vec2& worldPos) final
+	void MakeDirectionGuiding(const b2Vec2& worldPos, const b2Vec2& dir) final
 	{
-		world.MakeDirectionGuiding(worldPos);
-		Clear();
+		world.MakeDirectionGuiding(worldPos, dir);
 	}
 	bool SelectDirGuiding(const b2Vec2& worldPos) final
 	{
@@ -162,7 +162,6 @@ public:
 	void MakeBorder(const b2Vec2& p1, const b2Vec2& mouseWorldPos) final
 	{
 		world.MakeBorder(p1, bg.GetCornerPoint(mouseWorldPos));
-		Clear();
 	}
 	/**********************************/
 private:

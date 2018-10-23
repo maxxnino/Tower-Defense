@@ -58,6 +58,7 @@ public:
 	{
 		element = nullptr;
 		stateMachine = &stateNormal;
+		stateMachine->Reset();
 	}
 	void ChangeToFire()
 	{
@@ -110,32 +111,34 @@ public:
 	void ChangeSellTower()
 	{
 		stateMachine = &stateSellTower;
+		stateMachine->Reset();
 	}
 	void ChangeSwapTower()
 	{
 		stateMachine = &stateSwapTower;
+		stateMachine->Reset();
 	}
 	void ChangeBuildDirGui()
 	{
 		stateMachine = &stateBuildDirGui;
+		stateMachine->Reset();
 	}
 	void ChangeHoldDirGui()
 	{
 		stateMachine = &stateHoldDirGui;
+		stateMachine->Reset();
 	}
 	void ChangeBuildBorder()
 	{
 		stateMachine = &stateBuildBorder;
-	}
-	void SetPos(const b2Vec2& newPos)
-	{
-		pos = newPos;
+		stateMachine->Reset();
 	}
 	void ActiveSelectMode()
 	{
 		if (stateMachine->CanOpenSelectMode())
 		{
 			stateMachine = &stateSelectDirGui;
+			stateMachine->Reset();
 		}
 	}
 	void DeactivateSelectMode()
@@ -143,6 +146,7 @@ public:
 		if (stateMachine->CanOpenSelectMode())
 		{
 			stateMachine = &stateNormal;
+			stateMachine->Reset();
 		}
 	}
 	const std::shared_ptr<Surface> GetSellTowerSurf() const
@@ -153,12 +157,16 @@ public:
 	{
 		return sellTowerSurf;
 	}
-	void OnClick(const b2Vec2& worldTilePos, const VecI& trackingTile, const b2Vec2& mouseWorldPos, TileType tuleType);
+	void OnClick();
+	void UpdateOutsideBoard(const b2Vec2& mouseWorldPos);
+	void UpdateInsideBoard(const b2Vec2 & worldTilePos, const VecI & trackingTile, TileType tileType);
 	IMediator& GetMediator();
+	const IMediator& GetMediator() const;
 private:
 	void ChangeBuildTower()
 	{
 		stateMachine = &stateBuildTower;
+		stateMachine->Reset();
 	}
 private:
 	Element* element = nullptr;
@@ -174,7 +182,7 @@ private:
 	StateBuildTower stateBuildTower;
 	StateBuildGirGui stateBuildDirGui;
 	StateBuildBorder stateBuildBorder;
-	b2Vec2 pos = { 0.0f,0.0f };
+
 	float animationSpeed;
 	std::unordered_map<int, Element*> factory;
 	std::shared_ptr<Surface> sellTowerSurf = Codex<Surface>::Retrieve(L"Images\\GUI\\pm_delete_button_40_40.png");

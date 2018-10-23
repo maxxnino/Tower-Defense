@@ -7,16 +7,31 @@ void GuiGameDatabase::AddMediator(IMediator* mediator)
 
 void GuiGameDatabase::Draw(Graphics & gfx, const Camera & cam) const
 {
-	const auto drawPos = cam.GetDrawPosition(pos);
-	stateMachine->Draw(this, gfx, drawPos);
+	stateMachine->Draw(this, gfx, cam);
 }
 
-void GuiGameDatabase::OnClick(const b2Vec2 & worldTilePos, const VecI & trackingTile, const b2Vec2 & mouseWorldPos, TileType tileType)
+void GuiGameDatabase::OnClick()
 {
-	stateMachine->Update(this, worldTilePos, trackingTile, mouseWorldPos, tileType);
+	stateMachine->OnClick(this);
+}
+
+void GuiGameDatabase::UpdateOutsideBoard(const b2Vec2 & mouseWorldPos)
+{
+	stateMachine->UpdateOutsideBoard(mouseWorldPos);
+}
+
+void GuiGameDatabase::UpdateInsideBoard(const b2Vec2 & worldTilePos, const VecI & trackingTile, TileType tileType)
+{
+	stateMachine->UpdateInsideBoard(worldTilePos, trackingTile, tileType);
 }
 
 IMediator& GuiGameDatabase::GetMediator()
 {
 	return *mediator;
 }
+
+const IMediator& GuiGameDatabase::GetMediator() const
+{
+	return *mediator;
+}
+

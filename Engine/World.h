@@ -351,9 +351,9 @@ public:
 
 	/**********************************/
 	/*   Direction Guiding Control    */
-	void MakeDirectionGuiding(const b2Vec2& worldPos)
+	void MakeDirectionGuiding(const b2Vec2& worldPos, const b2Vec2& dir)
 	{
-		guidingMgr.MakeDirectionGuiding(*box2DEngine, worldPos);
+		guidingMgr.MakeDirectionGuiding(*box2DEngine, worldPos, dir);
 	}
 	/**********************************/
 private:
